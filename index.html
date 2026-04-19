@@ -26,9 +26,6 @@
         </div>
     </div>
 
-    <!-- Переключатель темы -->
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Сменить тему">☀</button>
-
     <!-- Навигация -->
     <nav class="navbar" id="navbar">
         <div class="container">
@@ -54,7 +51,10 @@
             <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="Открыть меню">
                 <span></span><span></span><span></span>
             </button>
-            <button class="login-btn" onclick="openLoginModal()">Личный кабинет</button>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Сменить тему">☀</button>
+                <button class="login-btn" onclick="openLoginModal()">Личный кабинет</button>
+            </div>
         </div>
     </nav>
     <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
@@ -74,15 +74,6 @@
                 <span>Онлайн и лично</span>
                 <span>Ответ в день обращения</span>
             </div>
-        </div>
-        <div class="hero-tarot" aria-hidden="true">
-            <div class="tarot-card card-back"></div>
-            <div class="tarot-card card-mid">XIII</div>
-            <div class="tarot-card card-front">II</div>
-        </div>
-        <div class="hero-candles" aria-hidden="true">
-            <div class="hero-candle hero-candle-left"><span class="flame"></span></div>
-            <div class="hero-candle hero-candle-right"><span class="flame"></span></div>
         </div>
         <div class="scroll-indicator">
             <span>Прокрутите</span>
@@ -443,55 +434,6 @@
         </div>
     </section>
 
-    <!-- Тест совместимости -->
-    <section id="compatibility" class="compatibility">
-        <div class="container">
-            <span class="section-label">Для вас</span>
-            <h2 class="section-title">Какая услуга вам подходит?</h2>
-            <p class="section-subtitle">Пройдите короткий тест и получите персональную рекомендацию</p>
-
-            <div class="compatibility-quiz">
-                <div class="quiz-question">
-                    <h3>Вопрос 1: Что вас больше всего беспокоит?</h3>
-                    <div class="quiz-options">
-                        <label class="quiz-option"><input type="radio" name="q1" value="decisions"> Принятие важных решений</label>
-                        <label class="quiz-option"><input type="radio" name="q1" value="loved"> Контакт с ушедшими близкими</label>
-                        <label class="quiz-option"><input type="radio" name="q1" value="health"> Здоровье и благополучие</label>
-                        <label class="quiz-option"><input type="radio" name="q1" value="future"> Будущее и судьба</label>
-                    </div>
-                </div>
-
-                <div class="quiz-question">
-                    <h3>Вопрос 2: Как вы относитесь к духовной энергии?</h3>
-                    <div class="quiz-options">
-                        <label class="quiz-option"><input type="radio" name="q2" value="believe"> Полностью верю</label>
-                        <label class="quiz-option"><input type="radio" name="q2" value="skeptic"> Скептичен, но любопытен</label>
-                        <label class="quiz-option"><input type="radio" name="q2" value="experience"> Полагаюсь на опыт</label>
-                        <label class="quiz-option"><input type="radio" name="q2" value="explore"> Хочу исследовать</label>
-                    </div>
-                </div>
-
-                <div class="quiz-question">
-                    <h3>Вопрос 3: Как часто хотите получать помощь?</h3>
-                    <div class="quiz-options">
-                        <label class="quiz-option"><input type="radio" name="q3" value="once"> Один раз для пробы</label>
-                        <label class="quiz-option"><input type="radio" name="q3" value="monthly"> Раз в месяц</label>
-                        <label class="quiz-option"><input type="radio" name="q3" value="regular"> Еженедельно</label>
-                        <label class="quiz-option"><input type="radio" name="q3" value="constant"> Постоянно (подписка)</label>
-                    </div>
-                </div>
-
-                <button type="button" class="submit-btn quiz-btn" onclick="runCompatibilityTest()">Узнать рекомендацию</button>
-            </div>
-
-            <div id="quizResult" class="quiz-result hidden">
-                <h3>Ваша рекомендация:</h3>
-                <div id="resultContent"></div>
-                <button class="btn-primary" onclick="scrollToSection('#booking')" style="margin-top:20px">Записаться на сеанс</button>
-            </div>
-        </div>
-    </section>
-
     <!-- Экспресс-план сеанса -->
     <section id="session-planner" class="session-planner">
         <div class="container">
@@ -699,38 +641,6 @@
                 </form>
 
                 <div class="guest-reviews-list" id="guestReviewsList"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Гадания -->
-    <section id="interactive" class="interactive">
-        <div class="container">
-            <span class="section-label">Онлайн практики</span>
-            <h2 class="section-title">Попробуйте Гадание</h2>
-            <p class="section-subtitle">Мини-практики для вдохновения и осмысления</p>
-
-            <div class="interactive-grid">
-                <div class="interactive-card slide-in">
-                    <h3>Карта Дня</h3>
-                    <p>Какая карта Таро встречает вас сегодня?</p>
-                    <button class="btn-primary" onclick="drawTarotCard()">Вытащить карту</button>
-                    <div id="cardResult" class="card-result hidden"></div>
-                </div>
-
-                <div class="interactive-card slide-in">
-                    <h3>Число Удачи</h3>
-                    <p>Откройте своё число удачи на сегодня</p>
-                    <button class="btn-primary" onclick="getLuckyNumber()">Узнать число</button>
-                    <div id="numberResult" class="number-result hidden"></div>
-                </div>
-
-                <div class="interactive-card slide-in">
-                    <h3>Совет Дня</h3>
-                    <p>Получите мудрое наставление на день</p>
-                    <button class="btn-primary" onclick="getDailyAdvice()">Получить совет</button>
-                    <div id="adviceResult" class="advice-result hidden"></div>
-                </div>
             </div>
         </div>
     </section>

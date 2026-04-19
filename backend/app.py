@@ -121,6 +121,25 @@ def init_db():
         )
         conn.execute(
             """
+            CREATE TABLE IF NOT EXISTS purchases (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                kind TEXT NOT NULL,
+                title TEXT NOT NULL,
+                unit_price INTEGER NOT NULL DEFAULT 0,
+                quantity INTEGER NOT NULL DEFAULT 1,
+                amount INTEGER NOT NULL,
+                currency TEXT NOT NULL,
+                customer_name TEXT NOT NULL,
+                customer_email TEXT NOT NULL,
+                customer_phone TEXT,
+                payment_id TEXT NOT NULL UNIQUE,
+                status TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+            """
+        )
+        conn.execute(
+            """
             CREATE TABLE IF NOT EXISTS content_items (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 kind TEXT NOT NULL,
@@ -148,6 +167,8 @@ def init_db():
         ensure_column(conn, "bookings", "reminder_2h_sent", "INTEGER NOT NULL DEFAULT 0")
         ensure_column(conn, "bookings", "reminder_24h_sent_at", "TEXT")
         ensure_column(conn, "bookings", "reminder_2h_sent_at", "TEXT")
+        ensure_column(conn, "purchases", "unit_price", "INTEGER NOT NULL DEFAULT 0")
+        ensure_column(conn, "purchases", "quantity", "INTEGER NOT NULL DEFAULT 1")
         conn.commit()
 
 
@@ -803,8 +824,8 @@ def verify_payment():
     cvv = (payload.get("cvv") or "").strip()
     holder = (payload.get("holder") or "").strip()
 
-    if amount != TRAINING_PRICE_KZT or currency != "KZT":
-        return jsonify({"ok": False, "message": "Сумма или валюта платежа не совпадает"}), 400
+    if amount <= 0 or currency != "KZT":
+        return jsonify({"ok": False, "message": "Укажите корректную сумму и валюту платежа"}), 400
 
     mode = os.getenv("PAYMENT_VERIFY_MODE", "mock").strip().lower()
     if mode not in {"mock", "strict"}:
@@ -834,6 +855,78 @@ def verify_payment():
         conn.commit()
 
     return jsonify({"ok": True, "paymentId": payment_id, "status": "paid"})
+
+
+@app.route("/api/purchases/confirm", methods=["POST"])
+@limiter.limit("15 per minute")
+def confirm_purchase():
+    payload = request.get_json(silent=True) or {}
+    kind = (payload.get("kind") or "").strip().lower()
+    title = (payload.get("title") or "").strip()
+    unit_price = int(payload.get("unitPrice") or 0)
+    quantity = int(payload.get("quantity") or 1)
+    amount = int(payload.get("amount") or 0)
+    currency = (payload.get("currency") or "KZT").strip().upper()
+    name = (payload.get("name") or "").strip()
+    email = (payload.get("email") or "").strip()
+    phone = (payload.get("phone") or "").strip()
+    payment_id = (payload.get("paymentId") or "").strip()
+
+    if kind not in {"product", "consultation"}:
+        return jsonify({"ok": False, "message": "Неизвестный тип покупки"}), 400
+    if not all([title, name, email, payment_id]) or amount <= 0:
+        return jsonify({"ok": False, "message": "Для оплаты нужно заполнить данные и подтвердить платеж"}), 400
+    if quantity < 1 or quantity > 9 or unit_price <= 0:
+        return jsonify({"ok": False, "message": "Некорректное количество или цена товара"}), 400
+    if unit_price * quantity != amount:
+        return jsonify({"ok": False, "message": "Сумма не совпадает с количеством товара"}), 400
+    if currency != "KZT":
+        return jsonify({"ok": False, "message": "Поддерживается только валюта KZT"}), 400
+    if not validate_email(email):
+        return jsonify({"ok": False, "message": "Некорректный email"}), 400
+    if not validate_phone(phone):
+        return jsonify({"ok": False, "message": "Некорректный номер телефона"}), 400
+
+    with closing(get_conn()) as conn:
+        payment = conn.execute(
+            "SELECT payment_id, amount, currency, status, consumed, card_last4 FROM payments WHERE payment_id=?",
+            (payment_id,),
+        ).fetchone()
+        if not payment or payment["status"] != "paid":
+            return jsonify({"ok": False, "message": "Платеж не подтвержден"}), 409
+        if int(payment["consumed"]) == 1:
+            return jsonify({"ok": False, "message": "Этот платеж уже использован"}), 409
+        if int(payment["amount"]) != amount or payment["currency"] != currency:
+            return jsonify({"ok": False, "message": "Сумма платежа не совпадает с товаром или консультацией"}), 409
+
+        conn.execute(
+            """
+            INSERT INTO purchases (kind, title, unit_price, quantity, amount, currency, customer_name, customer_email, customer_phone, payment_id, status, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'paid', ?)
+            """,
+            (kind, title, unit_price, quantity, amount, currency, name, email, phone, payment_id, datetime.now().isoformat()),
+        )
+        conn.execute("UPDATE payments SET consumed=1 WHERE payment_id=?", (payment_id,))
+        purchase_id = conn.execute("SELECT last_insert_rowid() AS id").fetchone()["id"]
+        conn.commit()
+
+    label = "консультация" if kind == "consultation" else "товар"
+    text = (
+        f"Новая оплаченная покупка: {label} «{title}», {quantity} шт., {amount} {currency}, "
+        f"клиент {name}, {email}, карта ****{payment['card_last4']}, paymentId={payment_id}"
+    )
+    notify = send_all_notifications("Новая оплата в кабинете", text)
+
+    return jsonify(
+        {
+            "ok": True,
+            "purchaseId": purchase_id,
+            "status": "paid",
+            "kind": kind,
+            "title": title,
+            "notifications": notify,
+        }
+    )
 
 
 @app.route("/api/bookings/slots", methods=["GET"])

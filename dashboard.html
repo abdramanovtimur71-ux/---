@@ -8,6 +8,9 @@
 </head>
 <body>
 
+<!-- Оверлей для закрытия сайдбара на мобильном -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
 <!-- ─── БОКОВОЕ МЕНЮ ─────────────────────────────── -->
 <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
@@ -25,33 +28,33 @@
 
     <nav class="sidebar-nav">
         <div class="sidebar-section-label">Главное</div>
-        <a href="#" class="sidebar-link active" onclick="showPage('overview', this)">
+        <a href="#" class="sidebar-link active" onclick="showPage('overview', this); closeSidebar()">
             <span class="sidebar-icon">⬡</span> Обзор
         </a>
-        <a href="#" class="sidebar-link" onclick="showPage('profile', this)">
+        <a href="#" class="sidebar-link" onclick="showPage('profile', this); closeSidebar()">
             <span class="sidebar-icon">✦</span> Мой профиль
         </a>
 
         <div class="sidebar-section-label">Сеансы</div>
-        <a href="#" class="sidebar-link" onclick="showPage('sessions', this)">
+        <a href="#" class="sidebar-link" onclick="showPage('sessions', this); closeSidebar()">
             <span class="sidebar-icon">☽</span> Мои сеансы
             <span class="sidebar-badge">2</span>
         </a>
-        <a href="#" class="sidebar-link" onclick="showPage('booking', this)">
+        <a href="#" class="sidebar-link" onclick="showPage('booking', this); closeSidebar()">
             <span class="sidebar-icon">◈</span> Новая запись
         </a>
 
         <div class="sidebar-section-label">Аккаунт</div>
-        <a href="#" class="sidebar-link" onclick="showPage('subscription', this)">
+        <a href="#" class="sidebar-link" onclick="showPage('subscription', this); closeSidebar()">
             <span class="sidebar-icon">◇</span> Обучение
         </a>
-        <a href="#" class="sidebar-link" onclick="showPage('divinations', this)">
-            <span class="sidebar-icon">✧</span> Гадания
+        <a href="#" class="sidebar-link" onclick="showPage('shop', this); closeSidebar()">
+            <span class="sidebar-icon">✺</span> Магазин
         </a>
-        <a href="#" class="sidebar-link" onclick="showPage('messages', this)">
+        <a href="#" class="sidebar-link" onclick="showPage('messages', this); closeSidebar()">
             <span class="sidebar-icon">✉</span> Сообщения
         </a>
-        <a href="#" class="sidebar-link" onclick="showPage('settings', this)">
+        <a href="#" class="sidebar-link" onclick="showPage('settings', this); closeSidebar()">
             <span class="sidebar-icon">⚙</span> Настройки
         </a>
     </nav>
@@ -72,7 +75,7 @@
     <!-- Верхняя панель -->
     <header class="topbar">
         <div style="display:flex;align-items:center;gap:14px;">
-            <button class="dash-hamburger" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Меню">
+            <button class="dash-hamburger" onclick="toggleSidebar()" aria-label="Меню">
                 <span></span><span></span><span></span>
             </button>
             <div>
@@ -252,6 +255,136 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить изменения</button>
                 </form>
+            </div>
+
+            <div class="card profile-services-card-shell">
+                <div class="profile-services-stage">
+                    <div class="profile-services-heading">
+                        <span class="profile-services-kicker">Закрытые консультации</span>
+                        <h2>Консультации</h2>
+                        <div class="profile-services-ribbon">Личный разбор, диагностика и сопровождение по вашему запросу</div>
+                    </div>
+
+                    <div class="profile-services-grid">
+                        <article class="profile-service-sheet">
+                            <div class="profile-service-ornament">Личная встреча</div>
+                            <ul class="profile-service-list">
+                                <li>Глубокий разбор любви, отношений, семьи, денег и внутреннего состояния.</li>
+                                <li>Индивидуальная диагностика ситуации с рекомендациями под ваш запрос.</li>
+                                <li>Просмотр энергетического фона, причин тревоги и точек напряжения.</li>
+                                <li>Продолжительность: 60-90 минут.</li>
+                            </ul>
+                            <div class="profile-service-price">50 000 ₸</div>
+                            <button class="profile-service-cta" type="button" onclick="startServicePayment('Личная встреча', 50000)">Оплатить консультацию</button>
+                        </article>
+
+                        <article class="profile-service-sheet">
+                            <div class="profile-service-ornament">Онлайн встреча</div>
+                            <ul class="profile-service-list">
+                                <li>Экспресс-разбор волнующих вопросов: любовь, карьера, семья, дети, личный путь.</li>
+                                <li>Диагностика состояния и просмотр скрытых факторов, которые мешают двигаться дальше.</li>
+                                <li>Подходит для срочного ответа и дистанционной консультации из любого города.</li>
+                                <li>Продолжительность: 40-50 минут.</li>
+                            </ul>
+                            <div class="profile-service-price">35 000 ₸</div>
+                            <button class="profile-service-cta" type="button" onclick="startServicePayment('Онлайн встреча', 35000)">Оплатить консультацию</button>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ─── СТРАНИЦА: МАГАЗИН ────────────────── -->
+        <div id="page-shop" class="page">
+            <span class="page-label">Артефакты и наборы</span>
+            <div class="page-header">
+                <h1>Магазин</h1>
+                <p>Подборка ритуальных предметов и личных артефактов для заказа в кабинете</p>
+            </div>
+
+            <div class="card profile-services-card-shell">
+                <div class="profile-services-stage profile-shop-stage">
+                    <div class="profile-services-heading profile-shop-heading">
+                        <span class="profile-services-kicker">Личные артефакты</span>
+                        <h2>Магазин</h2>
+                        <div class="profile-services-ribbon">Защитные предметы, ритуальные наборы и личные талисманы для заказа</div>
+                    </div>
+
+                    <div class="profile-shop-grid">
+                    <article class="profile-shop-card">
+                        <img src="images/shop-ritual.jpg" alt="Кукла-оберег ручной работы" class="profile-shop-image">
+                        <div class="profile-shop-body">
+                            <h3>Кукла-оберег</h3>
+                            <p>Защитный артефакт для дома и личного пространства, собранный вручную под намерение владельца.</p>
+                            <div class="profile-shop-meta">
+                                <span>Ручная работа</span>
+                                <span>Индивидуальная настройка</span>
+                            </div>
+                            <div class="profile-shop-controls">
+                                <span class="profile-shop-controls-label">Количество</span>
+                                <div class="profile-shop-qty" aria-label="Выбор количества">
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
+                                    <span class="profile-shop-qty-value" data-qty-value>1</span>
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="profile-shop-bottom">
+                                <strong>15 000 ₸</strong>
+                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Кукла-оберег', 15000)">Оплатить</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="profile-shop-card">
+                        <img src="images/privorot.jpg" alt="Ритуальный набор" class="profile-shop-image">
+                        <div class="profile-shop-body">
+                            <h3>Ритуальный набор</h3>
+                            <p>Набор для практик очищения, концентрации и усиления намерения с подробными рекомендациями по использованию.</p>
+                            <div class="profile-shop-meta">
+                                <span>Свечи и атрибуты</span>
+                                <span>Инструкция внутри</span>
+                            </div>
+                            <div class="profile-shop-controls">
+                                <span class="profile-shop-controls-label">Количество</span>
+                                <div class="profile-shop-qty" aria-label="Выбор количества">
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
+                                    <span class="profile-shop-qty-value" data-qty-value>1</span>
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="profile-shop-bottom">
+                                <strong>12 000 ₸</strong>
+                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Ритуальный набор', 12000)">Оплатить</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="profile-shop-card">
+                        <img src="images/shop-ritual.jpg" alt="Амулет силы" class="profile-shop-image">
+                        <div class="profile-shop-body">
+                            <h3>Амулет силы</h3>
+                            <p>Талисман на внутреннюю устойчивость, фокус и спокойствие в период перемен и эмоциональной нагрузки.</p>
+                            <div class="profile-shop-meta">
+                                <span>Для личного ношения</span>
+                                <span>Освящённая настройка</span>
+                            </div>
+                            <div class="profile-shop-controls">
+                                <span class="profile-shop-controls-label">Количество</span>
+                                <div class="profile-shop-qty" aria-label="Выбор количества">
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
+                                    <span class="profile-shop-qty-value" data-qty-value>1</span>
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="profile-shop-bottom">
+                                <strong>9 000 ₸</strong>
+                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Амулет силы', 9000)">Оплатить</button>
+                            </div>
+                        </div>
+                    </article>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -476,38 +609,6 @@
             </div>
         </div>
 
-        <!-- ─── СТРАНИЦА: ГАДАНИЯ ─────────────────── -->
-        <div id="page-divinations" class="page">
-            <span class="page-label">Онлайн практики</span>
-            <div class="page-header">
-                <h1>Гадания</h1>
-                <p>Мини-практики для вдохновения и осмысления дня</p>
-            </div>
-            <div class="grid-3">
-                <div class="card" style="text-align:center;margin-bottom:0">
-                    <div style="font-size:36px;margin-bottom:14px;opacity:0.8">🔮</div>
-                    <h3 style="font-family:'Cinzel',serif;font-size:18px;margin-bottom:10px">Карта Дня</h3>
-                    <p style="font-size:14px;color:var(--t3);margin-bottom:20px">Какая карта Таро ждёт вас сегодня?</p>
-                    <button class="btn btn-primary btn-sm" onclick="dashDrawTarot()">Вытащить карту</button>
-                    <div id="dashCardResult" style="margin-top:16px;padding:14px;background:var(--bg3);border:1px solid var(--br-g);border-radius:10px;font-size:13.5px;color:var(--gold-l);display:none;text-align:left;line-height:1.6"></div>
-                </div>
-                <div class="card" style="text-align:center;margin-bottom:0">
-                    <div style="font-size:36px;margin-bottom:14px;opacity:0.8">☽</div>
-                    <h3 style="font-family:'Cinzel',serif;font-size:18px;margin-bottom:10px">Число Удачи</h3>
-                    <p style="font-size:14px;color:var(--t3);margin-bottom:20px">Ваше счастливое число на сегодня</p>
-                    <button class="btn btn-primary btn-sm" onclick="dashGetNumber()">Узнать число</button>
-                    <div id="dashNumberResult" style="margin-top:16px;padding:14px;background:var(--bg3);border:1px solid var(--br-g);border-radius:10px;font-size:13.5px;color:var(--gold-l);display:none;text-align:left"></div>
-                </div>
-                <div class="card" style="text-align:center;margin-bottom:0">
-                    <div style="font-size:36px;margin-bottom:14px;opacity:0.8">✦</div>
-                    <h3 style="font-family:'Cinzel',serif;font-size:18px;margin-bottom:10px">Совет Дня</h3>
-                    <p style="font-size:14px;color:var(--t3);margin-bottom:20px">Наставление от высших сил</p>
-                    <button class="btn btn-primary btn-sm" onclick="dashGetAdvice()">Получить совет</button>
-                    <div id="dashAdviceResult" style="margin-top:16px;padding:14px;background:var(--bg3);border:1px solid var(--br-g);border-radius:10px;font-size:13.5px;color:var(--gold-l);display:none;text-align:left;line-height:1.6"></div>
-                </div>
-            </div>
-        </div>
-
         <!-- ─── СТРАНИЦА: СООБЩЕНИЯ ──────────────── -->
         <div id="page-messages" class="page">
             <span class="page-label">Связь с админом</span>
@@ -621,9 +722,9 @@
 <div class="payment-overlay" id="paymentOverlay">
     <div class="payment-modal">
         <button class="payment-close" onclick="closePaymentModal()">×</button>
-        <h3>Оплата обучения</h3>
+        <h3 id="paymentTitle">Оплата</h3>
         <p id="paymentPlanInfo">Программа и сумма</p>
-        <form id="paymentForm" onsubmit="confirmTrainingPayment(event)">
+        <form id="paymentForm" onsubmit="confirmPayment(event)">
             <div class="form-group">
                 <label>Номер карты</label>
                 <input type="text" id="payCard" placeholder="0000 0000 0000 0000" minlength="16" maxlength="19" required>
@@ -642,7 +743,7 @@
                 <label>Имя владельца</label>
                 <input type="text" id="payHolder" placeholder="AIGERIM K." required>
             </div>
-            <button type="submit" class="btn btn-gold" style="width:100%">Оплатить и активировать</button>
+            <button type="submit" class="btn btn-gold" id="paymentSubmitButton" style="width:100%">Оплатить</button>
         </form>
     </div>
 </div>
@@ -660,7 +761,7 @@ const API_BASE = (() => {
     return (localStorage.getItem('apiBaseUrl') || 'http://127.0.0.1:5000').trim().replace(/\/$/, '');
 })();
 const trainingPrice = '75 000';
-let trainingPaymentPending = false;
+let paymentContext = null;
 
 function getStorageArray(key) {
     try {
@@ -672,6 +773,15 @@ function getStorageArray(key) {
 
 function setStorageArray(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
+}
+
+function updateShopQuantity(button, delta) {
+    const card = button.closest('.profile-shop-card');
+    const valueEl = card ? card.querySelector('[data-qty-value]') : null;
+    if (!valueEl) return;
+    const current = Number(valueEl.textContent) || 1;
+    const next = Math.min(9, Math.max(1, current + delta));
+    valueEl.textContent = String(next);
 }
 
 function addAdminRecord(key, payload) {
@@ -723,6 +833,24 @@ async function loadTrainingStatus() {
     }
 }
 
+// Управление сайдбаром на мобильном
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const isOpen = sidebar.classList.contains('open');
+    if (isOpen) {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+    } else {
+        sidebar.classList.add('open');
+        overlay.classList.add('active');
+    }
+}
+function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
 // Навигация между страницами
 function showPage(pageId, linkEl) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -735,10 +863,10 @@ function showPage(pageId, linkEl) {
     const titles = {
         overview: ['Обзор', 'Сводная информация по вашему кабинету'],
         profile: ['Мой профиль', 'Личные данные и контакты'],
+        shop: ['Магазин', 'Артефакты и ритуальные наборы в кабинете'],
         sessions: ['Мои сеансы', 'Предстоящие встречи и история'],
         booking: ['Новая запись', 'Запишитесь на прием'],
         subscription: ['Обучение', 'Оплата, лимит мест, лист ожидания'],
-        divinations: ['Гадания', 'Онлайн практики для вдохновения'],
         messages: ['Сообщения', 'Диалог клиента с администратором'],
         settings: ['Настройки', 'Параметры аккаунта и уведомлений']
     };
@@ -863,21 +991,61 @@ function changePassword(e) {
     e.target.reset();
 }
 
-function startTrainingPayment() {
-    trainingPaymentPending = true;
-    document.getElementById('paymentPlanInfo').textContent = 'Программа «Практик Роза Оглы» · ' + trainingPrice + ' ₸';
+function openPaymentModal(config) {
+    paymentContext = config;
+    document.getElementById('paymentTitle').textContent = config.title;
+    document.getElementById('paymentPlanInfo').textContent = config.description;
+    document.getElementById('paymentSubmitButton').textContent = config.buttonLabel;
     document.getElementById('paymentOverlay').classList.add('active');
+}
+
+function startTrainingPayment() {
+    openPaymentModal({
+        kind: 'training',
+        title: 'Оплата обучения',
+        description: 'Программа «Практик Роза Оглы» · ' + trainingPrice + ' ₸',
+        amount: 75000,
+        buttonLabel: 'Оплатить и активировать'
+    });
+}
+
+function startServicePayment(title, amount) {
+    openPaymentModal({
+        kind: 'consultation',
+        title: 'Оплата консультации',
+        description: title + ' · ' + amount.toLocaleString('ru-RU') + ' ₸',
+        itemTitle: title,
+        amount,
+        buttonLabel: 'Оплатить консультацию'
+    });
+}
+
+function startProductPayment(button, title, amount) {
+    const card = button.closest('.profile-shop-card');
+    const qtyEl = card ? card.querySelector('[data-qty-value]') : null;
+    const quantity = Math.min(9, Math.max(1, Number(qtyEl ? qtyEl.textContent : 1) || 1));
+    const totalAmount = amount * quantity;
+    openPaymentModal({
+        kind: 'product',
+        title: 'Оплата товара',
+        description: title + ' · ' + quantity + ' шт. · ' + totalAmount.toLocaleString('ru-RU') + ' ₸',
+        itemTitle: title,
+        unitPrice: amount,
+        quantity,
+        amount: totalAmount,
+        buttonLabel: 'Оплатить товар'
+    });
 }
 
 function closePaymentModal() {
     document.getElementById('paymentOverlay').classList.remove('active');
     document.getElementById('paymentForm').reset();
-    trainingPaymentPending = false;
+    paymentContext = null;
 }
 
-async function confirmTrainingPayment(e) {
+async function confirmPayment(e) {
     e.preventDefault();
-    if (!trainingPaymentPending) {
+    if (!paymentContext) {
         showNotify('Платеж не инициализирован', 'error');
         return;
     }
@@ -915,7 +1083,7 @@ async function confirmTrainingPayment(e) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                amount: 75000,
+                amount: paymentContext.amount,
                 currency: 'KZT',
                 card,
                 exp,
@@ -931,33 +1099,84 @@ async function confirmTrainingPayment(e) {
 
         const paymentId = verifyData.paymentId;
 
-        const response = await fetch(API_BASE + '/api/training/enroll', {
+        if (paymentContext.kind === 'training') {
+            const response = await fetch(API_BASE + '/api/training/enroll', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, phone, paymentId })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                showNotify(data.message || 'Не удалось подтвердить оплату', 'error');
+                return;
+            }
+
+            localStorage.setItem('trainingState', data.status || 'accepted');
+            loadUser();
+            await loadTrainingStatus();
+
+            addAdminRecord('payments', {
+                purpose: 'training',
+                amount: trainingPrice + ' ₸',
+                status: 'paid',
+                paymentId,
+                maskedCard: '**** **** **** ' + card.slice(-4)
+            });
+
+            if (data.status === 'waitlist') {
+                showNotify('Оплата принята. Места заняты, вы в листе ожидания.', 'success');
+            } else {
+                showNotify('Оплата подтверждена. Вы зачислены в обучение!', 'success');
+            }
+            closePaymentModal();
+            return;
+        }
+
+        const response = await fetch(API_BASE + '/api/purchases/confirm', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, phone, paymentId })
+            body: JSON.stringify({
+                kind: paymentContext.kind,
+                title: paymentContext.itemTitle,
+                unitPrice: paymentContext.unitPrice || paymentContext.amount,
+                quantity: paymentContext.quantity || 1,
+                amount: paymentContext.amount,
+                currency: 'KZT',
+                name,
+                email,
+                phone,
+                paymentId
+            })
         });
         const data = await response.json();
-        if (!response.ok) {
+        if (!response.ok || !data.ok) {
             showNotify(data.message || 'Не удалось подтвердить оплату', 'error');
             return;
         }
 
-        localStorage.setItem('trainingState', data.status || 'accepted');
-        loadUser();
-        await loadTrainingStatus();
-
         addAdminRecord('payments', {
-            purpose: 'training',
-            amount: trainingPrice + ' ₸',
+            purpose: paymentContext.kind,
+            title: paymentContext.itemTitle,
+            quantity: paymentContext.quantity || 1,
+            amount: paymentContext.amount.toLocaleString('ru-RU') + ' ₸',
             status: 'paid',
             paymentId,
             maskedCard: '**** **** **** ' + card.slice(-4)
         });
 
-        if (data.status === 'waitlist') {
-            showNotify('Оплата принята. Места заняты, вы в листе ожидания.', 'success');
+        addAdminRecord('orders', {
+            kind: paymentContext.kind,
+            title: paymentContext.itemTitle,
+            quantity: paymentContext.quantity || 1,
+            amount: paymentContext.amount,
+            paymentId,
+            email
+        });
+
+        if (paymentContext.kind === 'consultation') {
+            showNotify('Оплата консультации принята. Администратор свяжется для согласования времени.', 'success');
         } else {
-            showNotify('Оплата подтверждена. Вы зачислены в обучение!', 'success');
+            showNotify('Оплата товара принята. Количество: ' + (paymentContext.quantity || 1) + '.', 'success');
         }
         closePaymentModal();
     } catch (error) {
@@ -978,49 +1197,6 @@ function dashLogout() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userName');
     window.location.href = 'index.html';
-}
-
-// Гадания на дашборде
-const tarotCards = [
-    { name: 'Маг', meaning: 'Время действовать. Ваши способности и воля — ваши лучшие инструменты сегодня.' },
-    { name: 'Жрица', meaning: 'Прислушайтесь к своей интуиции. Ответы уже внутри вас, нужно лишь тишина.' },
-    { name: 'Звезда', meaning: 'Надежда и обновление. После долгой ночи всегда приходит свет.' },
-    { name: 'Луна', meaning: 'Мир иллюзий и скрытых страхов. Будьте внимательны к тому, что видите.' },
-    { name: 'Солнце', meaning: 'Радость, успех и ясность. Сегодня благоприятный день для всех начинаний.' },
-    { name: 'Смерть', meaning: 'Трансформация и перемены. Старое уходит, освобождая место новому.' },
-    { name: 'Сила', meaning: 'Внутренняя мощь и терпение. Действуйте с мягкостью, но уверенностью.' },
-    { name: 'Отшельник', meaning: 'Время для уединения и глубокого размышления. Ответ найдёте в тишине.' },
-    { name: 'Колесо Фортуны', meaning: 'Удача поворачивается в вашу сторону. Обратите внимание на знаки судьбы.' },
-    { name: 'Башня', meaning: 'Неожиданные перемены разрушат старое. Это путь к свободе и обновлению.' }
-];
-const advices = [
-    'Сегодня — день для благодарности. Найдите три вещи, за которые вы искренне благодарны.',
-    'Освободитесь от того, что вас тяготит. Это могут быть мысли, вещи или отношения.',
-    'Уделите время медитации. Даже 10 минут тишины способны изменить весь день.',
-    'Позвольте себе ошибаться. Каждая ошибка — это урок, а не приговор.',
-    'Посмотрите на ситуацию глазами стороннего наблюдателя. Что бы вы сказали другу?',
-    'Ваша интуиция сегодня особенно сильна. Доверьтесь первому ощущению.',
-    'Один маленький шаг лучше, чем бесконечные размышления. Начните сейчас.',
-    'Любовь начинается с принятия себя. Будьте к себе так же добры, как к близким.'
-];
-
-function dashDrawTarot() {
-    const card = tarotCards[Math.floor(Math.random() * tarotCards.length)];
-    const el = document.getElementById('dashCardResult');
-    el.innerHTML = '<strong style="color:var(--purple-l);display:block;margin-bottom:6px">✦ ' + card.name + '</strong>' + card.meaning;
-    el.style.display = 'block';
-}
-function dashGetNumber() {
-    const num = Math.floor(Math.random() * 9) + 1;
-    const msgs = ['символизирует новые начинания','несёт энергию баланса и гармонии','указывает на творческий потенциал','означает стабильность и надёжность','говорит о переменах и свободе','несёт вибрацию любви и заботы','символизирует мудрость и духовный поиск','означает изобилие и достижение целей','указывает на завершение цикла'];
-    const el = document.getElementById('dashNumberResult');
-    el.innerHTML = '<strong style="font-family:Cinzel,serif;font-size:24px;color:var(--gold-l);display:block;margin-bottom:6px">' + num + '</strong>' + 'Это число ' + msgs[num-1] + '.';
-    el.style.display = 'block';
-}
-function dashGetAdvice() {
-    const el = document.getElementById('dashAdviceResult');
-    el.innerHTML = '« ' + advices[Math.floor(Math.random() * advices.length)] + ' »';
-    el.style.display = 'block';
 }
 
 async function loadClientMessages() {

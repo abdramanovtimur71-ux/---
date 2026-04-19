@@ -1020,63 +1020,6 @@ const dailyAdvices = [
     "Энергия дня поддерживает финансовые начинания. Рассмотрите возможности."
 ];
 
-// Тест совместимости
-function runCompatibilityTest() {
-    const q1 = document.querySelector('input[name="q1"]:checked');
-    const q2 = document.querySelector('input[name="q2"]:checked');
-    const q3 = document.querySelector('input[name="q3"]:checked');
-    
-    if (!q1 || !q2 || !q3) {
-        showError('Пожалуйста, ответьте на все вопросы!');
-        return;
-    }
-    
-    const recommendations = {
-        'decisions-believe-once': {
-            service: '🎴 Таро Чтение',
-            description: 'Вам подойдет классическое таро чтение для получения ясности в принятии решений.'
-        },
-        'loved-believe-once': {
-            service: '👻 Контакт с Духами',
-            description: 'Вам рекомендуется сеанс контакта с духами для общения с близкими.'
-        },
-        'health-believe-once': {
-            service: '💎 Рейки Исцеление',
-            description: 'Энергетическое исцеление Рейки поможет вам восстановить здоровье.'
-        },
-        'future-believe-constant': {
-            service: '🌙 Астрологическая Консультация',
-            description: 'Анализ вашей натальной карты раскроет планы судьбы на долгие годы.'
-        },
-        'decisions-experience-regular': {
-            service: '🎯 Духовное Наставничество',
-            description: 'Регулярное наставничество поможет вам развить свои способности.'
-        },
-        'default': {
-            service: '🔮 Комплексное Исцеление',
-            description: 'Рекомендуется комбинированный подход с несколькими услугами для максимального эффекта.'
-        }
-    };
-    
-    const key = q1.value + '-' + q2.value + '-' + q3.value;
-    const recommendation = recommendations[key] || recommendations['default'];
-    
-    const resultDiv = document.getElementById('quizResult');
-    const resultContent = document.getElementById('resultContent');
-    
-    resultContent.innerHTML = `
-        <h4 style="color: var(--primary); margin-bottom: 10px; font-size: 20px;">
-            ${recommendation.service}
-        </h4>
-        <p style="margin: 0; line-height: 1.6;">
-            ${recommendation.description}
-        </p>
-    `;
-    
-    resultDiv.classList.remove('hidden');
-    resultDiv.scrollIntoView({ behavior: 'smooth' });
-}
-
 // Гадание с картами таро
 function drawTarotCard() {
     const cardResult = document.getElementById('cardResult');
@@ -1136,45 +1079,66 @@ document.addEventListener('DOMContentLoaded', setupProfileMenuInteractions);
    ============================================ */
 
 // Переключение между светлой и темной темой
+const THEMES = ['dark', 'light', 'ritual', 'oracle'];
+
+function applyTheme(theme) {
+    const html = document.documentElement;
+    const safeTheme = THEMES.includes(theme) ? theme : 'ritual';
+
+    html.setAttribute('data-theme', safeTheme);
+    localStorage.setItem('theme', safeTheme);
+    updateThemeIcon(safeTheme);
+}
+
 function toggleTheme() {
     const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    
-    // Обновляем иконку
-    updateThemeIcon(newTheme);
+    const currentTheme = html.getAttribute('data-theme') || 'ritual';
+    const currentIndex = THEMES.indexOf(currentTheme);
+    const newTheme = THEMES[(currentIndex + 1) % THEMES.length];
+
+    applyTheme(newTheme);
 }
 
 // Обновление иконки переключателя
 function updateThemeIcon(theme) {
     const toggle = document.getElementById('themeToggle');
     if (toggle) {
-        toggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+        const themeState = {
+            dark: {
+                icon: '🩸',
+                title: 'Следующая тема: Crimson Luxe'
+            },
+            light: {
+                icon: '✦',
+                title: 'Следующая тема: Ritual Night'
+            },
+            ritual: {
+                icon: '☾',
+                title: 'Следующая тема: Mystic Veil'
+            },
+            oracle: {
+                icon: '🔮',
+                title: 'Следующая тема: Classic Dark'
+            }
+        };
+
+        const current = themeState[theme] || themeState.ritual;
+        toggle.textContent = current.icon;
+        toggle.title = current.title;
+        toggle.setAttribute('aria-label', current.title);
     }
 }
 
 // Инициализация темы при загрузке
 function initializeTheme() {
-    const html = document.documentElement;
     const savedTheme = localStorage.getItem('theme');
-    
-    // Проверяем предпочтение в localStorage
-    if (savedTheme) {
-        html.setAttribute('data-theme', savedTheme);
-        updateThemeIcon(savedTheme);
-    } else {
-        // Проверяем системные предпочтения
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            html.setAttribute('data-theme', 'light');
-            updateThemeIcon('light');
-        } else {
-            html.setAttribute('data-theme', 'dark');
-            updateThemeIcon('dark');
-        }
+
+    if (savedTheme && THEMES.includes(savedTheme)) {
+        applyTheme(savedTheme);
+        return;
     }
+
+    applyTheme('ritual');
 }
 
 // Инициализация темы при загрузке страницы
@@ -1186,9 +1150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 if (window.matchMedia) {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         if (!localStorage.getItem('theme')) {
-            const newTheme = e.matches ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            updateThemeIcon(newTheme);
+            applyTheme(e.matches ? 'dark' : 'ritual');
         }
     });
 }
