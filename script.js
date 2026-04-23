@@ -1298,3 +1298,22 @@ window.addEventListener('load', () => {
     }
 });
 
+/* ============================================
+   SECTION TITLE UNDERLINE — IN-VIEW TRIGGER
+   ============================================ */
+document.addEventListener('DOMContentLoaded', () => {
+    const titles = document.querySelectorAll('.section-title');
+    if (!titles.length) return;
+
+    const titleObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                titleObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    titles.forEach(t => titleObserver.observe(t));
+});
+
