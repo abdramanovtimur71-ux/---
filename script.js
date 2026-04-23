@@ -1317,3 +1317,33 @@ document.addEventListener('DOMContentLoaded', () => {
     titles.forEach(t => titleObserver.observe(t));
 });
 
+/* ============================================
+   STAGGER CARD ANIMATIONS — SLIDE-IN ON SCROLL
+   ============================================ */
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.slide-in');
+    if (!cards.length) return;
+
+    const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                cardObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    cards.forEach(c => cardObserver.observe(c));
+});
+
+/* ============================================
+   SCROLL-TO-TOP BUTTON VISIBILITY
+   ============================================ */
+window.addEventListener('scroll', () => {
+    const btn = document.getElementById('scrollTopBtn');
+    if (!btn) return;
+    if (window.scrollY > 400) btn.classList.add('visible');
+    else btn.classList.remove('visible');
+}, { passive: true });
+
+
