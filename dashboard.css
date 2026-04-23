@@ -1215,6 +1215,64 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
 .settings-section { margin-bottom: 32px; }
 .settings-section h3 { font-family: 'Cinzel', serif; font-size: 17px; color: var(--t1); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--br); }
 
+/* ─── THEME PICKER ───────────────────────────────── */
+.theme-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+@media (max-width: 500px) {
+    .theme-picker { grid-template-columns: 1fr; }
+}
+.theme-card {
+    border: 2px solid var(--br);
+    border-radius: var(--r2);
+    padding: 14px;
+    cursor: pointer;
+    transition: var(--tr);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--card);
+}
+.theme-card:hover { border-color: var(--br-h); transform: translateY(-2px); }
+.theme-card.active { border-color: var(--gold); box-shadow: 0 0 22px rgba(202,161,96,0.22), 0 8px 28px rgba(0,0,0,0.35); }
+.theme-card-preview {
+    height: 80px;
+    border-radius: var(--r);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ritual-prev {
+    background: linear-gradient(145deg, #020305, #050810, #080c1a);
+    box-shadow: inset 0 0 40px rgba(90,110,220,0.28), inset 0 0 80px rgba(70,30,170,0.18);
+}
+.oracle-prev {
+    background: linear-gradient(145deg, #010304, #041012, #07181e);
+    box-shadow: inset 0 0 40px rgba(80,180,220,0.28), inset 0 0 80px rgba(50,150,180,0.18);
+}
+.tcp-icon { font-size: 28px; filter: drop-shadow(0 0 12px rgba(255,255,255,0.4)); }
+.theme-card-body { flex: 1; }
+.theme-card-name { font-family: 'Cinzel', serif; font-size: 13.5px; font-weight: 600; color: var(--t1); margin-bottom: 4px; }
+.theme-card-desc { font-size: 11.5px; color: var(--t3); line-height: 1.5; }
+.theme-card-check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--br);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: transparent;
+    align-self: flex-end;
+    transition: var(--tr);
+}
+.theme-card.active .theme-card-check {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #020305;
+}
+
 .toggle-row {
     display: flex; align-items: center; justify-content: space-between;
     padding: 16px 0; border-bottom: 1px solid var(--br); flex-wrap: wrap; gap: 12px;

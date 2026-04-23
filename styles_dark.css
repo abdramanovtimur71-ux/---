@@ -295,7 +295,9 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     display: flex; align-items: center; justify-content: center;
     position: relative; overflow: hidden;
     background:
-        radial-gradient(ellipse 120% 80% at 50% 50%, rgba(138,109,192,0.10) 0%, transparent 70%),
+        radial-gradient(ellipse 100% 80% at 60% 40%, rgba(138,109,192,0.18) 0%, transparent 62%),
+        radial-gradient(ellipse 55% 60% at 15% 65%, rgba(80,50,160,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 35% at 50% 100%, rgba(196,162,74,0.10) 0%, transparent 50%),
         var(--bg);
 }
 
@@ -1244,10 +1246,11 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 
 :root[data-theme="ritual"] body {
     background:
-        radial-gradient(ellipse 72% 48% at 50% -12%, rgba(123, 147, 214, 0.16) 0%, transparent 60%),
-        radial-gradient(ellipse 38% 28% at 14% 18%, rgba(255,255,255,0.05) 0%, transparent 52%),
-        radial-gradient(ellipse 44% 36% at 82% 80%, rgba(60, 88, 150, 0.16) 0%, transparent 58%),
-        linear-gradient(180deg, #020305 0%, #060912 46%, #090d18 100%);
+        radial-gradient(ellipse 90% 60% at 50% -5%, rgba(100, 130, 240, 0.30) 0%, transparent 52%),
+        radial-gradient(ellipse 55% 42% at 8%  20%, rgba(160, 50, 210, 0.20) 0%, transparent 50%),
+        radial-gradient(ellipse 48% 38% at 92% 78%, rgba(60, 88, 200, 0.24) 0%, transparent 55%),
+        radial-gradient(ellipse 65% 48% at 50% 108%, rgba(202, 161, 96, 0.14) 0%, transparent 50%),
+        linear-gradient(180deg, #020305 0%, #050810 46%, #080c1a 100%);
     background-attachment: fixed;
 }
 
@@ -1268,6 +1271,16 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
         0 0 26px rgba(109, 130, 191, 0.16),
         inset 0 1px 0 rgba(255,255,255,0.14),
         inset 0 -12px 24px rgba(16, 31, 68, 0.34);
+}
+
+/* Ritual: атмосферный фон для hero-секции */
+:root[data-theme="ritual"] .hero {
+    background:
+        radial-gradient(ellipse 85% 80% at 68% 38%, rgba(90, 110, 220, 0.26) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 65% at 14% 60%, rgba(70, 30, 170, 0.20) 0%, transparent 52%),
+        radial-gradient(ellipse 80% 38% at 50% 98%, rgba(202, 161, 96, 0.16) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 50% 50%, rgba(20, 15, 50, 0.40) 0%, transparent 65%),
+        var(--bg);
 }
 
 /* ─── MYSTIC VEIL ТЕМА ──────────────────────────── */
@@ -1296,11 +1309,11 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 
 :root[data-theme="oracle"] body {
     background:
-        radial-gradient(ellipse 56% 36% at 50% 2%, rgba(195, 255, 246, 0.10) 0%, transparent 58%),
-        radial-gradient(ellipse 28% 20% at 18% 22%, rgba(120, 240, 224, 0.10) 0%, transparent 60%),
-        radial-gradient(ellipse 34% 24% at 82% 20%, rgba(170, 116, 255, 0.08) 0%, transparent 62%),
-        radial-gradient(ellipse 48% 34% at 50% 88%, rgba(57, 120, 121, 0.18) 0%, transparent 58%),
-        linear-gradient(180deg, #010304 0%, #041012 40%, #07181b 100%);
+        radial-gradient(ellipse 82% 56% at 50% -4%, rgba(120, 200, 255, 0.24) 0%, transparent 55%),
+        radial-gradient(ellipse 42% 32% at 10% 22%, rgba(80, 200, 220, 0.18) 0%, transparent 54%),
+        radial-gradient(ellipse 48% 38% at 88% 78%, rgba(50, 120, 200, 0.22) 0%, transparent 56%),
+        radial-gradient(ellipse 58% 44% at 50% 108%, rgba(50, 130, 150, 0.22) 0%, transparent 52%),
+        linear-gradient(180deg, #010304 0%, #041012 40%, #07181e 100%);
     background-attachment: fixed;
 }
 
@@ -1321,6 +1334,16 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
         0 0 28px rgba(121, 211, 202, 0.18),
         inset 0 1px 0 rgba(255,255,255,0.14),
         inset 0 -12px 24px rgba(18, 64, 70, 0.34);
+}
+
+/* Oracle: лунная атмосфера для hero-секции */
+:root[data-theme="oracle"] .hero {
+    background:
+        radial-gradient(ellipse 80% 75% at 65% 35%, rgba(80, 180, 220, 0.24) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 60% at 16% 62%, rgba(50, 150, 180, 0.18) 0%, transparent 52%),
+        radial-gradient(ellipse 75% 38% at 50% 98%, rgba(198, 168, 112, 0.14) 0%, transparent 50%),
+        radial-gradient(ellipse 55% 40% at 50% 50%, rgba(10, 25, 40, 0.42) 0%, transparent 65%),
+        var(--bg);
 }
 
 /* ─── АДАПТИВНОСТЬ ───────────────────────────────── */
