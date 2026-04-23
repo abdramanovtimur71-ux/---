@@ -2267,12 +2267,13 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 /* ─── UPGRADED FAB BUTTONS ──────────────────────── */
 .fab-group {
     position: fixed;
-    bottom: 92px;
-    right: 22px;
+    bottom: 24px;
+    right: 16px;
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    flex-direction: row;
+    gap: 10px;
     z-index: 600;
+    align-items: center;
 }
 .fab-btn {
     display: flex;
@@ -2315,6 +2316,9 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 .fab-whatsapp {
     background: linear-gradient(135deg, #25D366, #1aab52);
     box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    position: relative !important; /* отменяем старый position:fixed */
+    bottom: auto !important;
+    right: auto !important;
 }
 .fab-whatsapp:hover { box-shadow: 0 8px 30px rgba(37,211,102,0.6); }
 .fab-telegram {
