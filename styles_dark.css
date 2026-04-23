@@ -2118,3 +2118,377 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 .preloader-crystal {
     animation: preloaderSpin 2s linear infinite, preloaderCrystalPulse 2s ease-in-out infinite !important;
 }
+
+/* ═══════════════════════════════════════════════════
+   DESIGN POLISH v4 — КОМПЛЕКСНЫЕ УЛУЧШЕНИЯ
+   ═══════════════════════════════════════════════════ */
+
+/* ─── ЗВЁЗДЫ В ГЕРОЕ ────────────────────────────── */
+.hero-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+.hstar {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold-l);
+    opacity: 0;
+    animation: starTwinkle var(--sd, 4s) ease-in-out infinite var(--delay, 0s);
+}
+.hstar:nth-child(1)  { width:2px;height:2px; top:12%; left:8%;  --sd:3.8s; --delay:0s; }
+.hstar:nth-child(2)  { width:3px;height:3px; top:22%; left:25%; --sd:4.2s; --delay:0.7s; }
+.hstar:nth-child(3)  { width:2px;height:2px; top:8%;  left:52%; --sd:3.5s; --delay:1.3s; }
+.hstar:nth-child(4)  { width:2px;height:2px; top:35%; left:72%; --sd:5.0s; --delay:0.4s; }
+.hstar:nth-child(5)  { width:3px;height:3px; top:18%; left:88%; --sd:3.9s; --delay:1.8s; }
+.hstar:nth-child(6)  { width:2px;height:2px; top:55%; left:15%; --sd:4.5s; --delay:2.2s; }
+.hstar:nth-child(7)  { width:2px;height:2px; top:70%; left:35%; --sd:3.7s; --delay:0.9s; }
+.hstar:nth-child(8)  { width:3px;height:3px; top:60%; left:60%; --sd:4.8s; --delay:1.5s; }
+.hstar:nth-child(9)  { width:2px;height:2px; top:80%; left:80%; --sd:3.6s; --delay:2.7s; }
+.hstar:nth-child(10) { width:2px;height:2px; top:42%; left:45%; --sd:4.1s; --delay:0.2s; }
+.hstar:nth-child(11) { width:2px;height:2px; top:88%; left:55%; --sd:5.2s; --delay:1.1s; }
+.hstar:nth-child(12) { width:3px;height:3px; top:30%; left:92%; --sd:4.3s; --delay:3.0s; }
+@keyframes starTwinkle {
+    0%,100%  { opacity:0;   transform:scale(0.8); }
+    40%,60%  { opacity:0.75; transform:scale(1.2); }
+}
+/* Золотой крест-вспышка на больших звёздах */
+.hstar:nth-child(2)::after,
+.hstar:nth-child(5)::after,
+.hstar:nth-child(8)::after {
+    content: '✦';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 10px;
+    color: var(--gold-l);
+    pointer-events: none;
+}
+
+/* ─── СЕКЦИЯ «КАК ЭТО РАБОТАЕТ» ────────────────── */
+.process {
+    background: var(--bg2);
+    padding: 100px 0;
+}
+.process-steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-top: 56px;
+    position: relative;
+}
+.process-step {
+    flex: 1;
+    text-align: center;
+    padding: 36px 24px;
+    background: var(--card);
+    border: 1px solid var(--br);
+    border-radius: var(--r2);
+    position: relative;
+    transition: border-color 0.32s var(--ease), box-shadow 0.32s var(--ease), transform 0.32s var(--ease);
+}
+.process-step:hover {
+    border-color: var(--br-h);
+    box-shadow: var(--glow-p);
+    transform: translateY(-6px);
+}
+.process-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 18px;
+    opacity: 0.45;
+    flex-shrink: 0;
+    width: 40px;
+    padding-top: 80px;
+    animation: connectorPulse 3s ease-in-out infinite;
+}
+@keyframes connectorPulse {
+    0%,100% { opacity: 0.3; transform: scale(1); }
+    50%      { opacity: 0.7; transform: scale(1.3); }
+}
+.step-num {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--gold);
+    opacity: 0.55;
+    margin-bottom: 16px;
+}
+.step-icon {
+    font-size: 34px;
+    line-height: 1;
+    margin-bottom: 18px;
+    display: block;
+    transition: transform 0.35s var(--ease), filter 0.35s var(--ease);
+}
+.process-step:hover .step-icon {
+    transform: translateY(-5px) scale(1.12);
+    filter: drop-shadow(0 0 10px rgba(212,174,92,0.5));
+}
+.process-step h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--t1);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+.process-step p {
+    font-size: 13.5px;
+    color: var(--t2);
+    line-height: 1.7;
+}
+/* Пронумерованная декоративная линия слева */
+.process-step::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    border-radius: var(--r2) var(--r2) 0 0;
+    opacity: 0;
+    transition: opacity 0.32s var(--ease);
+}
+.process-step:hover::before { opacity: 1; }
+
+/* ─── UPGRADED FAB BUTTONS ──────────────────────── */
+.fab-group {
+    position: fixed;
+    bottom: 92px;
+    right: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 600;
+}
+.fab-btn {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow: hidden;
+    height: 52px;
+    width: 52px;
+    border-radius: 26px;
+    padding: 0 15px;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    transition: width 0.35s var(--ease), box-shadow 0.35s var(--ease), transform 0.28s var(--ease);
+    position: relative;
+    white-space: nowrap;
+}
+.fab-btn:hover {
+    width: 148px;
+    transform: translateY(-2px);
+}
+.fab-icon {
+    flex-shrink: 0;
+    margin-right: 0;
+    transition: margin-right 0.35s var(--ease);
+}
+.fab-btn:hover .fab-icon { margin-right: 8px; }
+.fab-label {
+    opacity: 0;
+    max-width: 0;
+    transition: opacity 0.25s 0.1s var(--ease), max-width 0.35s var(--ease);
+    overflow: hidden;
+}
+.fab-btn:hover .fab-label {
+    opacity: 1;
+    max-width: 96px;
+}
+.fab-whatsapp {
+    background: linear-gradient(135deg, #25D366, #1aab52);
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+}
+.fab-whatsapp:hover { box-shadow: 0 8px 30px rgba(37,211,102,0.6); }
+.fab-telegram {
+    background: linear-gradient(135deg, #2CA5E0, #1a8fc0);
+    box-shadow: 0 4px 20px rgba(44,165,224,0.4);
+}
+.fab-telegram:hover { box-shadow: 0 8px 30px rgba(44,165,224,0.6); }
+/* Пульсирующая точка «онлайн» */
+.fab-dot {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 8px; height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    animation: fabDotPulse 2.2s ease-in-out infinite;
+}
+@keyframes fabDotPulse {
+    0%,100% { opacity: 0.9; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.7); }
+}
+/* Upgraded scroll-top */
+.fab-scroll-top {
+    position: fixed;
+    bottom: 28px; right: 22px;
+    width: 52px; height: 52px;
+    background: var(--card2);
+    border: 1px solid var(--br-g);
+    color: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 600;
+    opacity: 0; pointer-events: none;
+    transition: var(--tr);
+    box-shadow: var(--glow-g);
+}
+.fab-scroll-top.visible { opacity: 1; pointer-events: all; }
+.fab-scroll-top:hover { background: var(--card); transform: translateY(-4px) scale(1.08); box-shadow: 0 0 28px rgba(212,174,92,0.4); }
+
+/* ─── STAGGER CARD ENTRANCE ─────────────────────── */
+.mediumship-card.slide-in,
+.credential-card.slide-in,
+.blog-card.slide-in,
+.planner-form-card.slide-in,
+.planner-result-card.slide-in,
+.process-step.slide-in {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+}
+.mediumship-card.slide-in.visible,
+.credential-card.slide-in.visible,
+.blog-card.slide-in.visible,
+.planner-form-card.slide-in.visible,
+.planner-result-card.slide-in.visible,
+.process-step.slide-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Задержка для последовательного появления */
+.mediumship-card:nth-child(1), .credential-card:nth-child(1), .blog-card:nth-child(1), .process-step:nth-child(1) { transition-delay: 0.05s; }
+.mediumship-card:nth-child(2), .credential-card:nth-child(2), .blog-card:nth-child(2), .process-step:nth-child(3) { transition-delay: 0.15s; }
+.mediumship-card:nth-child(3), .credential-card:nth-child(3), .blog-card:nth-child(3), .process-step:nth-child(5) { transition-delay: 0.25s; }
+.mediumship-card:nth-child(4), .credential-card:nth-child(4), .process-step:nth-child(7) { transition-delay: 0.35s; }
+.mediumship-card:nth-child(5) { transition-delay: 0.45s; }
+.mediumship-card:nth-child(6) { transition-delay: 0.55s; }
+
+/* ─── MOBILE IMPROVEMENTS ───────────────────────── */
+@media (max-width: 768px) {
+    .process-steps {
+        flex-direction: column;
+        gap: 16px;
+    }
+    .process-connector {
+        width: 100%;
+        padding: 0;
+        justify-content: center;
+        height: 24px;
+        transform: rotate(90deg);
+    }
+    .process-step { padding: 28px 20px; }
+    .fab-group { bottom: 80px; right: 16px; }
+    .fab-scroll-top { bottom: 20px; right: 16px; }
+    .hero-eyebrow { font-size: 11px; }
+    .hero-title { font-size: clamp(28px, 8vw, 42px); }
+    .hero-subtitle { font-size: 14px; }
+    .hero-actions { flex-direction: column; gap: 12px; }
+    .hero-actions .btn-primary,
+    .hero-actions .btn-secondary { width: 100%; justify-content: center; }
+    .section-title { font-size: clamp(20px, 5vw, 32px); }
+    .testimonials-slider { grid-template-columns: 1fr; }
+    .credentials-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+}
+@media (max-width: 480px) {
+    .credentials-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+    .fab-btn:hover { width: 52px; }
+    .fab-btn:hover .fab-label { opacity: 0; max-width: 0; }
+    .fab-btn:hover .fab-icon { margin-right: 0; }
+}
+
+/* ─── HERO EYEBROW BADGE ────────────────────────── */
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(212,174,92,0.1);
+    border: 1px solid rgba(212,174,92,0.28);
+    border-radius: 20px;
+    transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.hero-eyebrow::before {
+    content: '✦';
+    color: var(--gold);
+    font-size: 10px;
+    animation: starTwinkle 2.5s ease-in-out infinite;
+}
+.hero:hover .hero-eyebrow {
+    background: rgba(212,174,92,0.16);
+    border-color: rgba(212,174,92,0.5);
+}
+
+/* ─── BLOG CARD IMPROVED ────────────────────────── */
+.blog-card {
+    transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), transform 0.3s var(--ease) !important;
+}
+.blog-card:hover {
+    border-color: var(--br-h) !important;
+    box-shadow: var(--glow-p) !important;
+    transform: translateY(-5px) !important;
+}
+.blog-card h3 {
+    transition: color 0.25s var(--ease);
+}
+.blog-card:hover h3 { color: var(--gold-l); }
+
+/* ─── FOOTER SOCIAL LINKS ───────────────────────── */
+.social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.social-link {
+    padding: 6px 16px;
+    border: 1px solid var(--br);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--t2);
+    text-decoration: none;
+    transition: var(--tr);
+}
+.social-link:hover {
+    border-color: var(--br-g);
+    color: var(--gold-l);
+    background: rgba(212,174,92,0.07);
+}
+
+/* ─── SCROLL PROGRESS ───────────────────────────── */
+.scroll-progress {
+    background: linear-gradient(90deg, var(--gold), var(--purple-l), var(--gold)) !important;
+    background-size: 200% 100% !important;
+    animation: shimmerBar 3s linear infinite;
+}
+@keyframes shimmerBar {
+    0%   { background-position: 0% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* ─── HOVER GLOW ON NAV LINKS ───────────────────── */
+.nav-link {
+    transition: color 0.25s var(--ease) !important;
+}
+.nav-link:hover {
+    text-shadow: 0 0 14px rgba(212,174,92,0.4);
+}
+
+/* ─── SECTION FADE-IN ON SCROLL ─────────────────── */
+section {
+    opacity: 1;
+}
+.section-visible {
+    animation: sectionReveal 0.6s var(--ease) both;
+}
+
