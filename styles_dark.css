@@ -2762,3 +2762,78 @@ section {
     .hero-tarot, .hero-candles { display: none; }
 }
 
+/* ═══════════════════════════════════════════════════
+   НИЖНЕЕ МОБИЛЬНОЕ МЕНЮ (Bottom Navigation)
+   ═══════════════════════════════════════════════════ */
+.mobile-bottom-nav {
+    display: none; /* только на мобильном */
+}
+
+@media (max-width: 768px) {
+    /* Показываем нижнее меню */
+    .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        height: 64px;
+        background: linear-gradient(180deg, rgba(7,9,15,0.97) 0%, rgba(4,6,12,0.99) 100%);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(212,174,92,0.20);
+        z-index: 800;
+        justify-content: space-around;
+        align-items: stretch;
+        box-shadow: 0 -8px 32px rgba(0,0,0,0.50);
+        padding-bottom: env(safe-area-inset-bottom, 0px); /* для iPhone X+ */
+    }
+
+    .mbn-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        text-decoration: none;
+        color: var(--t3);
+        font-family: 'Inter', sans-serif;
+        font-size: 9px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        transition: color 0.25s ease, transform 0.25s ease;
+        padding: 8px 4px 6px;
+        position: relative;
+    }
+
+    .mbn-item svg {
+        flex-shrink: 0;
+        transition: stroke 0.25s ease;
+        stroke: currentColor;
+    }
+
+    .mbn-item.active,
+    .mbn-item:active {
+        color: var(--gold);
+        transform: translateY(-2px);
+    }
+
+    .mbn-item.active svg { stroke: var(--gold); }
+
+    /* Золотая точка под активным пунктом */
+    .mbn-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: 5px;
+        left: 50%; transform: translateX(-50%);
+        width: 4px; height: 4px;
+        background: var(--gold);
+        border-radius: 50%;
+    }
+
+    /* Добавляем отступ снизу к контенту чтобы меню не перекрывало */
+    body { padding-bottom: 64px; }
+
+    /* FAB кнопки поднять над нижним меню */
+    .fab-group { bottom: 76px; }
+    .fab-scroll-top { bottom: 76px !important; }
+}
