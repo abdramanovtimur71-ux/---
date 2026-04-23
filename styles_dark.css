@@ -1374,7 +1374,7 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     }
     .hero-content {
         width: 100%;
-        max-width: 520px;
+        max-width: 470px;
         margin-left: 0;
         margin-right: auto;
         margin-left: auto;
@@ -1461,6 +1461,11 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     }
     .hero-actions { justify-content: center; }
     .hero-trust-strip { justify-content: center; }
+    .hero-trust-strip {
+        max-width: 320px;
+        margin-right: auto;
+        margin-left: auto;
+    }
     .theme-toggle {
         width: 42px;
         height: 42px;
@@ -1534,28 +1539,33 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
         background:
             linear-gradient(90deg, rgba(5,6,15,0.97) 0%, rgba(5,6,15,0.92) 56%, rgba(5,6,15,0.72) 78%, rgba(5,6,15,0.40) 100%),
             radial-gradient(ellipse 100% 80% at 50% 50%, rgba(138,109,192,0.08) 0%, transparent 70%),
-            url("images/main-bg.png") 70% 18% / cover no-repeat;
+            url("images/main-bg.png") 78% 18% / cover no-repeat;
         margin-top: 66px;
         padding: 84px 0 34px;
     }
     .hero-content {
+        max-width: 430px;
         padding: 22px 12px 18px;
     }
     .hero-content::before {
-        inset: 0;
+        inset: 0 4px;
         border-radius: 28px;
     }
     .hero-title {
-        font-size: clamp(28px, 11.2vw, 40px);
+        font-size: clamp(29px, 11vw, 40px);
         line-height: 1.05;
+        margin-bottom: 16px;
     }
     .hero-subtitle {
-        font-size: 14px;
-        line-height: 1.65;
-        max-width: 26ch;
+        font-size: 13.5px;
+        line-height: 1.62;
+        max-width: 25ch;
     }
     .hero-actions { gap: 12px; }
-    .hero-trust-strip { gap: 10px; }
+    .hero-trust-strip {
+        gap: 10px;
+        max-width: 290px;
+    }
     .hero-trust-strip span {
         font-size: 10px;
         padding: 8px 12px;
@@ -1563,13 +1573,40 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     .booking-insight-meta { flex-direction: column; }
     .stats .container { grid-template-columns: 1fr; gap: 18px; }
     .hero-actions { flex-direction: column; align-items: center; }
-    .btn-primary, .btn-secondary { width: 100%; max-width: 300px; text-align: center; }
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        max-width: 270px;
+        text-align: center;
+    }
     .user-profile {
         top: 78px;
         right: 12px;
     }
     .fab-whatsapp { bottom: 82px; right: 14px; }
     .fab-scroll-top { bottom: 28px; right: 14px; }
+}
+
+@media (max-width: 390px) {
+    .hero {
+        background:
+            linear-gradient(90deg, rgba(5,6,15,0.98) 0%, rgba(5,6,15,0.93) 58%, rgba(5,6,15,0.74) 80%, rgba(5,6,15,0.42) 100%),
+            radial-gradient(ellipse 100% 80% at 50% 50%, rgba(138,109,192,0.08) 0%, transparent 70%),
+            url("images/main-bg.png") 82% 18% / cover no-repeat;
+        padding: 80px 0 30px;
+    }
+    .hero-content {
+        max-width: 400px;
+        padding: 20px 10px 18px;
+    }
+    .hero-title {
+        font-size: clamp(27px, 10.7vw, 36px);
+    }
+    .hero-subtitle {
+        max-width: 24ch;
+    }
+    .hero-trust-strip {
+        max-width: 250px;
+    }
 }
 
 
