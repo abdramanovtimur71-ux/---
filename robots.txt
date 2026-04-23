@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://abdramanovtimur71-ux.github.io/roza-ogly/sitemap.xml

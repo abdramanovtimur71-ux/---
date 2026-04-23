@@ -1,0 +1,18 @@
+{
+  "name": "Роза Оглы — Экстрасенс и Медиум",
+  "short_name": "Роза Оглы",
+  "description": "Таро, медиумство, рейки и энергетическое очищение. Более 15 лет практики.",
+  "start_url": "/roza-ogly/",
+  "display": "standalone",
+  "background_color": "#07090f",
+  "theme_color": "#07090f",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

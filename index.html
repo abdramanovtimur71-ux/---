@@ -7,15 +7,68 @@
     <meta name="description" content="Роза Оглы — профессиональный экстрасенс и медиум. Таро, контакт с духами, энергетическое очищение, рейки, астрология. Запись онлайн. Увалиханова 58.">
     <meta name="keywords" content="экстрасенс, медиум, таро, рейки, астрология, энергетическое очищение, гадание, духовная консультация">
     <meta name="author" content="Роза Оглы">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://abdramanovtimur71-ux.github.io/roza-ogly/">
+
+    <!-- Open Graph -->
     <meta property="og:title" content="Роза Оглы — Экстрасенс &amp; Медиум">
     <meta property="og:description" content="Таро, медиумство, рейки и энергетическое очищение. Более 15 лет практики. Запишитесь на сеанс онлайн.">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://abdramanovtimur71-ux.github.io/roza-ogly/">
+    <meta property="og:image" content="https://abdramanovtimur71-ux.github.io/roza-ogly/images/main-bg.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:locale" content="ru_RU">
-    <meta name="theme-color" content="#05060F">
+    <meta property="og:site_name" content="Роза Оглы">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Роза Оглы — Экстрасенс &amp; Медиум">
+    <meta name="twitter:description" content="Таро, медиумство, рейки и энергетическое очищение. Более 15 лет практики.">
+    <meta name="twitter:image" content="https://abdramanovtimur71-ux.github.io/roza-ogly/images/main-bg.png">
+
+    <meta name="theme-color" content="#07090f">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Preconnect for fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Роза Оглы — Экстрасенс и Медиум",
+      "description": "Профессиональный экстрасенс и медиум. Таро, контакт с духами, энергетическое очищение, рейки, астрология.",
+      "url": "https://abdramanovtimur71-ux.github.io/roza-ogly/",
+      "image": "https://abdramanovtimur71-ux.github.io/roza-ogly/images/main-bg.png",
+      "telephone": "+77072867777",
+      "email": "roza19.91@icloud.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Увалиханова 58"
+      },
+      "openingHours": "Mo-Sa 10:00-20:00",
+      "priceRange": "₸₸",
+      "sameAs": [
+        "https://www.instagram.com/reel/DVdmq37CunU/"
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="styles_dark.css?v=20260423b">
 </head>
 <body>
+
+    <!-- Пропустить навигацию (доступность) -->
+    <a href="#home" class="skip-to-main">Перейти к основному контенту</a>
 
     <!-- Прелоадер -->
     <div class="preloader" id="preloader">
@@ -33,7 +86,7 @@
                 <span class="logo-text" onclick="openAdminAccess()" title="Вход для администратора">Роза Оглы</span>
                 <span class="logo-subtitle">Экстрасенс · Медиум</span>
             </div>
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks" role="list">
                 <li><a href="#home" class="nav-link">Главная</a></li>
                 <li><a href="#about" class="nav-link">О мастере</a></li>
                 <li><a href="#mediumship" class="nav-link">Услуги</a></li>
@@ -48,7 +101,7 @@
                 <span class="nav-card">II</span>
                 <span class="nav-candle"></span>
             </div>
-            <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="Открыть меню">
+            <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks">
                 <span></span><span></span><span></span>
             </button>
             <div class="nav-actions">

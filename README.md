@@ -153,6 +153,18 @@
 - Адаптивного дизайна
 - Современных веб-практик
 
+
+
+## What is new in v2
+
+- **SEO**: Added canonical URL, og:url, og:image, og:site_name, full Twitter Card tags, robots meta, JSON-LD LocalBusiness structured data
+- **PWA**: Added manifest.json (web app manifest), favicon.svg (SVG icon), apple-touch-icon
+- **Robots & Sitemap**: Added robots.txt and sitemap.xml to root
+- **Accessibility (a11y)**: Added skip-to-main-content link, aria-expanded / aria-controls on hamburger button, aria-label updates on menu open/close, focus-visible keyboard outline styles
+- **Prefers-reduced-motion**: All CSS animations/transitions disabled for users who prefer reduced motion
+- **Preconnect**: Added preconnect to fonts.gstatic.com for faster font loading
+- **Code quality**: Script.js now correctly manages aria-expanded state for mobile nav
+
 ## 📄 Лицензия
 
 Свободно используйте и модифицируйте для своих нужд!
