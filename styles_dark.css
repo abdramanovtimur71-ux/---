@@ -1341,9 +1341,6 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     body {
         background-attachment: scroll;
     }
-    html, body {
-        overflow-x: hidden;
-    }
     .hero {
         min-height: auto;
         background:
@@ -1351,41 +1348,20 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
             radial-gradient(ellipse 100% 80% at 50% 50%, rgba(138,109,192,0.08) 0%, transparent 70%),
             url("images/main-bg.png") 72% 18% / cover no-repeat;
         align-items: flex-end;
-        margin-top: 70px;
-        padding: 96px 0 42px;
+        padding: 110px 0 48px;
     }
     .hero-content {
         width: 100%;
-        max-width: 520px;
+        max-width: none;
         margin-left: 0;
-        margin-right: auto;
-        margin-left: auto;
-        padding: 24px 18px 20px;
+        padding: 26px 20px 22px;
         text-align: center;
     }
     .hero-content::before {
-        inset: 0 8px;
-        border-radius: 30px;
+        inset: 0 12px;
     }
     .hero-content::after {
         display: none;
-    }
-    .hero-title {
-        font-size: clamp(34px, 10vw, 54px);
-        line-height: 1.04;
-        margin-bottom: 18px;
-    }
-    .hero-eyebrow {
-        display: block;
-        font-size: 11px;
-        letter-spacing: 5px;
-        margin-bottom: 20px;
-    }
-    .hero-subtitle {
-        max-width: 34ch;
-        margin: 0 auto 28px;
-        font-size: 16px;
-        line-height: 1.75;
     }
     .hero-altar { display: none; }
     .hero-tarot {
@@ -1413,36 +1389,9 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     .hero-candle-right { height: 44px; margin-top: 8px; }
     .hero-candle .flame { width: 8px; height: 12px; top: -10px; }
     .scroll-indicator { display: none; }
-    .mediumship-content,
-    .credentials-grid,
-    .blog-grid,
-    .public-content-grid,
-    .faq-list,
-    .booking-info {
-        grid-template-columns: 1fr;
-    }
     .guest-reviews-layout { grid-template-columns: 1fr; }
     section { padding: 80px 0; }
-    .navbar .container {
-        padding: 12px 16px;
-        min-height: 70px;
-        gap: 12px;
-    }
-    .navbar {
-        min-height: 70px;
-    }
-    .scroll-progress {
-        top: 70px;
-    }
-    .logo {
-        min-width: 0;
-        flex: 1 1 auto;
-    }
-    .logo-text {
-        font-size: 19px;
-        letter-spacing: 1.2px;
-        white-space: nowrap;
-    }
+    .navbar .container { padding: 14px 20px; }
     .logo-subtitle { display: none; }
     .booking-form { padding: 28px 22px; }
     .form-row { grid-template-columns: 1fr; }
@@ -1450,9 +1399,9 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     .stats .container { grid-template-columns: repeat(2, 1fr); gap: 30px; }
     .nav-actions {
         margin-left: auto;
-        gap: 8px;
-        flex-shrink: 0;
+        gap: 10px;
     }
+    .hero-subtitle { margin: 0 auto 40px; }
     .hero-actions { justify-content: center; }
     .hero-trust-strip { justify-content: center; }
     .theme-toggle {
@@ -1461,37 +1410,23 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
         border-radius: 14px;
         flex-shrink: 0;
     }
-    .login-btn {
-        display: none;
-    }
-    .user-profile {
-        top: 82px;
-        right: 14px;
-        padding: 6px;
-        min-width: 52px;
-    }
-    .profile-avatar {
-        width: 38px;
-        height: 38px;
-        font-size: 15px;
-    }
+    .user-profile { top: 76px; right: 66px; }
     /* Мобильное меню */
     .nav-hamburger { display: flex; }
     .nav-links {
-        position: fixed; top: 70px; left: 0; right: 0;
-        max-height: calc(100vh - 70px);
+        position: fixed; top: 58px; left: 0; right: 0;
+        max-height: calc(100vh - 58px);
         overflow-y: auto;
         background: rgba(5,6,15,0.98);
         backdrop-filter: blur(22px);
         flex-direction: column;
-        padding: 12px 18px 22px;
+        padding: 16px 24px 24px;
         gap: 4px;
         border-bottom: 1px solid var(--br);
         transform: translateY(-110%);
         transition: transform 0.36s var(--ease);
         z-index: 999;
         display: flex;
-        box-shadow: 0 18px 40px rgba(0,0,0,0.42);
     }
     .nav-links.mobile-open { transform: translateY(0); }
     .nav-link { font-size: 15px; padding: 12px 0; border-bottom: 1px solid rgba(130,100,205,0.08); }
@@ -1503,25 +1438,15 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     .container { padding: 0 16px; }
     .navbar .container {
         gap: 10px;
-        padding: 10px 14px;
-        min-height: 66px;
+        padding: 12px 16px;
     }
-    .navbar { min-height: 66px; }
-    .scroll-progress { top: 66px; }
     .logo-text {
-        font-size: 17px;
-        letter-spacing: 1px;
+        font-size: 18px;
+        letter-spacing: 1.2px;
     }
     .nav-actions {
-        gap: 6px;
+        gap: 8px;
         margin-left: 0;
-    }
-    .theme-toggle {
-        width: 40px;
-        height: 40px;
-    }
-    .nav-hamburger {
-        padding: 4px;
     }
     .login-btn {
         padding: 8px 14px;
@@ -1533,99 +1458,18 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
             linear-gradient(90deg, rgba(5,6,15,0.97) 0%, rgba(5,6,15,0.92) 56%, rgba(5,6,15,0.72) 78%, rgba(5,6,15,0.40) 100%),
             radial-gradient(ellipse 100% 80% at 50% 50%, rgba(138,109,192,0.08) 0%, transparent 70%),
             url("images/main-bg.png") 70% 18% / cover no-repeat;
-        margin-top: 66px;
-        padding: 84px 0 34px;
+        padding: 104px 0 40px;
     }
-    .hero-content {
-        padding: 22px 12px 18px;
-    }
-    .hero-content::before {
-        inset: 0;
-        border-radius: 28px;
-    }
-    .hero-title {
-        font-size: clamp(28px, 11.2vw, 40px);
-        line-height: 1.05;
-    }
+    .hero-title { font-size: clamp(30px, 11vw, 42px); }
     .hero-subtitle {
-        font-size: 14px;
-        line-height: 1.65;
-        max-width: 26ch;
+        font-size: 15px;
+        line-height: 1.7;
     }
-    .hero-actions {
-        gap: 12px;
-    }
-    .hero-trust-strip {
-        gap: 10px;
-    }
-    .hero-trust-strip span {
-        font-size: 10px;
-        padding: 8px 12px;
-    }
-    .section-label {
-        letter-spacing: 3px;
-        font-size: 10px;
-    }
-    .section-title {
-        font-size: 28px;
-    }
-    .section-subtitle {
-        font-size: 14px;
-    }
-    .mediumship-card,
-    .credential-card,
-    .blog-card,
-    .planner-form-card,
-    .planner-result-card,
-    .contact-form-wrap,
-    .contact-details,
-    .guest-review-form,
-    .guest-reviews-list,
-    .booking-form {
-        padding-left: 18px;
-        padding-right: 18px;
-    }
+    .hero-trust-strip span { font-size: 10px; }
     .booking-insight-meta { flex-direction: column; }
     .stats .container { grid-template-columns: 1fr; gap: 18px; }
     .hero-actions { flex-direction: column; align-items: center; }
     .btn-primary, .btn-secondary { width: 100%; max-width: 300px; text-align: center; }
-    .user-profile {
-        top: 78px;
-        right: 12px;
-    }
-    .fab-whatsapp {
-        right: 14px;
-        bottom: 82px;
-    }
-    .fab-scroll-top {
-        right: 14px;
-        bottom: 28px;
-    }
-}
-
-@media (max-width: 390px) {
-    .hero {
-        padding: 80px 0 28px;
-    }
-    .hero-title {
-        font-size: clamp(26px, 10.6vw, 36px);
-    }
-    .hero-subtitle {
-        font-size: 13.5px;
-    }
-    .btn-primary,
-    .btn-secondary {
-        max-width: 100%;
-        padding: 16px 18px;
-    }
-    .hero-trust-strip {
-        flex-direction: column;
-        align-items: center;
-    }
-    .hero-trust-strip span {
-        width: 100%;
-        max-width: 240px;
-    }
 }
 
 
