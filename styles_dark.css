@@ -2699,31 +2699,42 @@ section {
         text-align: center;
         gap: 28px;
         justify-items: center;
-        padding: 60px 0 40px;
+        padding: 60px 0 50px;
     }
-    /* На планшете: сначала текст, потом фото */
-    .hero-portrait-wrap { order: 2; }
-    .hero-content { order: 1; text-align: center; padding: 24px 18px; max-width: 100%; }
+    /* На планшете/телефоне: сначала фото, потом текст */
+    .hero-portrait-wrap { order: 1; }
+    .hero-content { order: 2; text-align: center; padding: 0 18px 24px; max-width: 100%; }
     .hero-content::after { display: none; }
-    .hero-portrait-frame { width: 260px; }
-    .hero-portrait-img { height: 340px; }
+    .hero-portrait-frame { width: 280px; }
+    .hero-portrait-img {
+        height: 370px;
+        object-position: center 15%; /* показываем лицо */
+        border: 3px solid rgba(212,174,92,0.60); /* ярче золотая рамка */
+        box-shadow:
+            0 20px 50px rgba(0,0,0,0.70),
+            0 0 30px rgba(138,109,192,0.35),
+            0 0 0 1px rgba(212,174,92,0.20);
+    }
     .hero-actions { justify-content: center; flex-direction: row; flex-wrap: wrap; }
     .hero-trust-strip { justify-content: center; }
     .about-layout-3col { grid-template-columns: 1fr; }
     .about-photo-col { display: flex; justify-content: center; order: 0; }
     .about-photo-frame { width: 260px; }
-    .about-photo-img { height: 300px; }
+    .about-photo-img { height: 300px; object-position: center 15%; }
 }
 @media (max-width: 560px) {
-    .hero-inner { gap: 20px; padding: 48px 0 32px; }
-    /* На телефоне: только маленькое фото снизу */
-    .hero-portrait-frame { width: 200px; }
-    .hero-portrait-img { height: 260px; }
+    .hero-inner { gap: 20px; padding: 44px 0 36px; }
+    .hero-portrait-frame { width: 240px; }
+    .hero-portrait-img {
+        height: 300px;
+        object-position: center 15%;
+        border: 3px solid rgba(212,174,92,0.55);
+    }
     .hpf-badge { font-size: 9px; padding: 6px 14px; }
-    .hpf-ring1, .hpf-ring2 { display: none; } /* убираем кольца на маленьком экране */
-    .about-photo-frame { width: 180px; }
-    .about-photo-img { height: 220px; }
-    /* Герой — текст полностью виден */
+    .hpf-ring1, .hpf-ring2 { display: none; }
+    .about-photo-frame { width: 200px; }
+    .about-photo-img { height: 240px; object-position: center 15%; }
+    /* Герой — текст */
     .hero-title { font-size: clamp(26px, 8vw, 38px); }
     .hero-subtitle { font-size: 13.5px; }
     .hero-eyebrow { font-size: 10px; letter-spacing: 3px; }
