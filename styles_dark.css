@@ -2754,12 +2754,52 @@ section {
     .hero {
         min-height: auto;
         padding: 0;
-        align-items: center;
+        align-items: flex-start;
         margin-top: 58px;
+        overflow: visible !important; /* убираем обрезку контента */
     }
     .hero-content { margin-left: 0 !important; margin-right: 0 !important; }
     /* Скрываем декоративные элементы чтобы не мешали */
     .hero-tarot, .hero-candles { display: none; }
+    /* Принудительно показываем фото */
+    .hero-portrait-wrap {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        order: 1;
+        width: 100%;
+        display: flex !important;
+        justify-content: center;
+    }
+    .hero-portrait-frame {
+        width: 220px !important;
+        display: block !important;
+        visibility: visible !important;
+    }
+    .hero-portrait-img {
+        display: block !important;
+        visibility: visible !important;
+        width: 100% !important;
+        height: 280px !important;
+        object-fit: cover !important;
+        object-position: center 20% !important;
+        border-radius: 18px !important;
+        border: 2px solid rgba(212,174,92,0.55) !important;
+        opacity: 1 !important;
+    }
+    .hero-inner {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding: 32px 16px 40px !important;
+        gap: 24px !important;
+        width: 100% !important;
+    }
+    .hero-content {
+        order: 2;
+        text-align: center;
+        width: 100%;
+    }
 }
 
 /* ═══════════════════════════════════════════════════
