@@ -1344,6 +1344,20 @@ window.addEventListener('scroll', () => {
     if (!btn) return;
     if (window.scrollY > 400) btn.classList.add('visible');
     else btn.classList.remove('visible');
-}, { passive: true });
 
+    /* Обновляем активный пункт в нижнем мобильном меню */
+    const mbnItems = document.querySelectorAll('.mbn-item');
+    if (mbnItems.length) {
+        const sections = ['home','about','mediumship','testimonials','contact'];
+        let current = 'home';
+        sections.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && window.scrollY >= el.offsetTop - 100) current = id;
+        });
+        mbnItems.forEach(item => {
+            const href = item.getAttribute('href');
+            item.classList.toggle('active', href === '#' + current);
+        });
+    }
+}, { passive: true });
 
