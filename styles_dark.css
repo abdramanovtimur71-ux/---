@@ -1847,3 +1847,7 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     transition: top 0.2s;
 }
 .skip-to-main:focus { top: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+    .skip-to-main { transition: none; }
+}
