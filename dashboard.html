@@ -677,13 +677,29 @@
                 </div>
 
                 <div class="settings-section">
-                    <h3>Тема интерфейса</h3>
-                    <div class="toggle-row">
-                        <div class="toggle-label">
-                            <h4>Тёмная тема</h4>
-                            <p>Мистическое оформление — рекомендуется</p>
+                    <h3>Тема оформления</h3>
+                    <p style="font-size:13px;color:var(--t3);margin-bottom:20px">Выберите визуальный стиль для всего сайта</p>
+                    <div class="theme-picker">
+                        <div class="theme-card" id="theme-card-ritual" onclick="selectDashboardTheme('ritual')">
+                            <div class="theme-card-preview ritual-prev">
+                                <span class="tcp-icon">☾</span>
+                            </div>
+                            <div class="theme-card-body">
+                                <div class="theme-card-name">Ritual Night</div>
+                                <div class="theme-card-desc">Мистическая ночь — пурпур и золото</div>
+                            </div>
+                            <div class="theme-card-check" id="check-ritual">✓</div>
                         </div>
-                        <div class="toggle on" id="toggle-darktheme" onclick="toggleSetting(this)"></div>
+                        <div class="theme-card" id="theme-card-oracle" onclick="selectDashboardTheme('oracle')">
+                            <div class="theme-card-preview oracle-prev">
+                                <span class="tcp-icon">🔮</span>
+                            </div>
+                            <div class="theme-card-body">
+                                <div class="theme-card-name">Crystal Oracle</div>
+                                <div class="theme-card-desc">Лунная ночь — бирюза и серебро</div>
+                            </div>
+                            <div class="theme-card-check" id="check-oracle">✓</div>
+                        </div>
                     </div>
                 </div>
 
@@ -1296,6 +1312,27 @@ function showNotify(msg, type) {
     setTimeout(() => n.remove(), 4000);
 }
 
+// Выбор темы в настройках кабинета
+function selectDashboardTheme(theme) {
+    const themes = ['ritual', 'oracle'];
+    if (!themes.includes(theme)) theme = 'ritual';
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+    document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+    const card = document.getElementById('theme-card-' + theme);
+    if (card) card.classList.add('active');
+    showNotify(theme === 'ritual' ? 'Тема: Ritual Night' : 'Тема: Crystal Oracle', 'success');
+}
+
+function initDashboardThemeCards() {
+    const saved = localStorage.getItem('theme') || 'ritual';
+    const validThemes = ['ritual', 'oracle'];
+    const theme = validThemes.includes(saved) ? saved : 'ritual';
+    document.documentElement.setAttribute('data-theme', theme);
+    const card = document.getElementById('theme-card-' + theme);
+    if (card) card.classList.add('active');
+}
+
 // Проверка авторизации
 function checkAuth() {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -1309,6 +1346,7 @@ window.addEventListener('DOMContentLoaded', () => {
     checkAuth();
     loadUser();
     loadTrainingStatus();
+    initDashboardThemeCards();
 
     const dateEl = document.getElementById('bkDate');
     const timeEl = document.getElementById('bkTime');

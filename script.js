@@ -1079,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', setupProfileMenuInteractions);
    ============================================ */
 
 // Переключение между светлой и темной темой
-const THEMES = ['dark', 'light', 'ritual', 'oracle'];
+const THEMES = ['ritual', 'oracle'];
 
 function applyTheme(theme) {
     const html = document.documentElement;
@@ -1104,21 +1104,13 @@ function updateThemeIcon(theme) {
     const toggle = document.getElementById('themeToggle');
     if (toggle) {
         const themeState = {
-            dark: {
-                icon: '🩸',
-                title: 'Следующая тема: Crimson Luxe'
-            },
-            light: {
-                icon: '✦',
-                title: 'Следующая тема: Ritual Night'
-            },
             ritual: {
                 icon: '☾',
-                title: 'Следующая тема: Mystic Veil'
+                title: 'Переключить тему: Crystal Oracle'
             },
             oracle: {
                 icon: '🔮',
-                title: 'Следующая тема: Classic Dark'
+                title: 'Переключить тему: Ritual Night'
             }
         };
 
