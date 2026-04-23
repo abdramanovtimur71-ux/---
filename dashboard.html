@@ -37,6 +37,9 @@
         </a>
 
         <div class="sidebar-section-label">Сеансы</div>
+        <a href="#" class="sidebar-link" onclick="showPage('consultations', this); closeSidebar()">
+            <span class="sidebar-icon">🔮</span> Консультации
+        </a>
         <a href="#" class="sidebar-link" onclick="showPage('sessions', this); closeSidebar()">
             <span class="sidebar-icon">☽</span> Мои сеансы
             <span class="sidebar-badge">2</span>
@@ -256,6 +259,16 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить изменения</button>
                 </form>
+            </div>
+
+        </div>
+
+        <!-- ─── СТРАНИЦА: КОНСУЛЬТАЦИИ ───────────── -->
+        <div id="page-consultations" class="page">
+            <span class="page-label">Закрытые консультации</span>
+            <div class="page-header">
+                <h1>Консультации</h1>
+                <p>Личный разбор, диагностика и сопровождение по вашему запросу</p>
             </div>
 
             <div class="card profile-services-card-shell">
