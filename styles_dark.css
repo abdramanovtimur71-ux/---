@@ -2989,3 +2989,240 @@ section {
     .fab-group { bottom: 76px; }
     .fab-scroll-top { bottom: 76px !important; }
 }
+
+/* ═══════════════════════════════════════════════════
+   МИСТИЧЕСКАЯ АТМОСФЕРА — ТЁМНАЯ ТЕМА
+   ═══════════════════════════════════════════════════ */
+
+/* ─── ВИНЬЕТКА — затемнение углов ────────────────── */
+.mystic-vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    background: radial-gradient(
+        ellipse 90% 85% at 50% 50%,
+        transparent 48%,
+        rgba(0,0,0,0.20) 68%,
+        rgba(0,0,0,0.52) 88%,
+        rgba(0,0,0,0.72) 100%
+    );
+}
+
+/* ─── ТУМ АН — дрейфующий ореол ──────────────────── */
+.mystic-fog {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+.mystic-fog-a,
+.mystic-fog-b {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+.mystic-fog-a {
+    width: 75vw; height: 55vw;
+    top: -20%; left: -15%;
+    background: radial-gradient(circle, rgba(138,109,192,0.11) 0%, transparent 70%);
+    filter: blur(60px);
+    animation: fogDrift 28s ease-in-out infinite;
+}
+.mystic-fog-b {
+    width: 65vw; height: 45vw;
+    bottom: -15%; right: -10%;
+    background: radial-gradient(circle, rgba(196,162,74,0.08) 0%, transparent 70%);
+    filter: blur(70px);
+    animation: fogDrift 34s ease-in-out infinite reverse;
+    animation-delay: -16s;
+}
+@keyframes fogDrift {
+    0%,100% { transform: translate(0,0) scale(1); }
+    30%     { transform: translate(6vw, 4vh) scale(1.08); }
+    65%     { transform: translate(-4vw,-3vh) scale(0.94); }
+}
+
+/* ─── ПЛАВАЮЩИЕ МИСТИЧЕСКИЕ ЧАСТИЦЫ ─────────────── */
+.mystic-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    animation: mysticFloat var(--dur,14s) ease-in-out infinite var(--delay,0s);
+}
+@keyframes mysticFloat {
+    0%   { transform: translate(0, 0) scale(0.6);    opacity: 0; }
+    8%   { opacity: var(--op, 0.45); }
+    45%  { transform: translate(var(--dx,25px), var(--dy,-70px)) scale(1.2);
+           opacity: var(--op, 0.45); }
+    92%  { opacity: var(--op, 0.45); }
+    100% { transform: translate(var(--dx2,-15px), var(--dy2,-140px)) scale(0.4);
+           opacity: 0; }
+}
+
+/* ─── ФОНОВЫЙ ГРАДИЕНТ — медленное смещение ──────── */
+@keyframes cosmicBodyShift {
+    0%,100% {
+        background-position: 50% 0%, 80% 80%;
+    }
+    50% {
+        background-position: 52% 4%, 76% 76%;
+    }
+}
+body {
+    animation: cosmicBodyShift 25s ease-in-out infinite;
+    background-size: 100% 100%, 100% 100%;
+}
+
+/* ─── ПУЛЬС НИЖНЕЙ РАМКИ НАВБАРА ─────────────────── */
+@keyframes navBorderBreath {
+    0%,100% { border-bottom-color: var(--br); }
+    50%     { border-bottom-color: rgba(138,109,192,0.42); box-shadow: 0 1px 18px rgba(138,109,192,0.12); }
+}
+.navbar {
+    animation: navBorderBreath 7s ease-in-out infinite;
+}
+
+/* ─── АУРЫ СЕКЦИЙ — плавный переход ──────────────── */
+.about::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 100px;
+    background: linear-gradient(to top, var(--bg), transparent);
+    pointer-events: none;
+    z-index: 0;
+}
+.mediumship::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 100px;
+    background: linear-gradient(to top, var(--bg), transparent);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ─── ПУЛЬС ЗАГОЛОВКОВ СЕКЦИЙ ────────────────────── */
+@keyframes sectionTitleGlow {
+    0%,100% { text-shadow: 0 0 0 transparent; }
+    50%     { text-shadow: 0 0 28px rgba(212,174,92,0.22), 0 0 60px rgba(138,109,192,0.14); }
+}
+.section-title {
+    animation: sectionTitleGlow 6s ease-in-out infinite;
+}
+
+/* ─── АУРА КУРСОРА НА КАРТОЧКАХ ──────────────────── */
+.mediumship-card,
+.service-item,
+.about-feat-card {
+    --card-mx: 50%;
+    --card-my: 50%;
+}
+.mediumship-card::after,
+.service-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        circle 180px at var(--card-mx) var(--card-my),
+        rgba(138,109,192,0.16) 0%,
+        transparent 65%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+.mediumship-card:hover::after,
+.service-item:hover::after {
+    opacity: 1;
+}
+
+/* ─── ПУЛЬСИРУЮЩЕЕ СВЕЧЕНИЕ ПОРТРЕТА ─────────────── */
+@keyframes portraitAura {
+    0%,100% {
+        box-shadow:
+            0 30px 70px rgba(0,0,0,0.65),
+            0 0 40px rgba(138,109,192,0.20);
+    }
+    50% {
+        box-shadow:
+            0 30px 70px rgba(0,0,0,0.70),
+            0 0 70px rgba(138,109,192,0.38),
+            0 0 100px rgba(196,162,74,0.12);
+    }
+}
+.hero-portrait-img {
+    animation: portraitAura 5s ease-in-out infinite;
+}
+
+/* ─── ПЛАМЯ СВЕЧИ — БОЛЕЕ ИНТЕНСИВНОЕ ───────────── */
+.nav-candle::before {
+    animation: flameFlicker 1.4s ease-in-out infinite,
+               flameGlow   3.2s ease-in-out infinite;
+}
+@keyframes flameGlow {
+    0%,100% { box-shadow: 0 0 10px rgba(255,191,97,0.65); }
+    50%     { box-shadow: 0 0 22px rgba(255,140,40,0.90), 0 0 40px rgba(255,100,20,0.35); }
+}
+
+/* ─── ДЕКОРАТИВНЫЕ РУНЫ / СИМВОЛЫ НА ГЕРОЕ ───────── */
+.hero-rune {
+    position: absolute;
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+    animation: runeAppear var(--rdur,8s) ease-in-out infinite var(--rdelay,0s);
+    z-index: 1;
+    font-size: var(--rfont,14px);
+    filter: blur(0.5px);
+}
+@keyframes runeAppear {
+    0%,15%,85%,100% { opacity: 0; transform: translateY(0) rotate(var(--rrot,0deg)) scale(0.8); }
+    30%,70%         { opacity: var(--rop,0.18); transform: translateY(var(--ry,-8px)) rotate(var(--rrot,0deg)) scale(1); }
+}
+
+/* ─── ТЁМНЫЙ СИГИЛ В ЦЕНТРЕ HERO ─────────────────── */
+.hero-sigil {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 420px;
+    height: 420px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    border: 1px solid rgba(138,109,192,0.07);
+    animation: sigilSpin 60s linear infinite;
+}
+.hero-sigil::before {
+    content: '';
+    position: absolute;
+    inset: 18px;
+    border-radius: 50%;
+    border: 1px dashed rgba(212,174,92,0.09);
+    animation: sigilSpin 40s linear infinite reverse;
+}
+.hero-sigil::after {
+    content: '';
+    position: absolute;
+    inset: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(138,109,192,0.06);
+    animation: sigilSpin 25s linear infinite;
+}
+@keyframes sigilSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+@media (max-width: 720px) {
+    .hero-sigil { width: 260px; height: 260px; }
+}

@@ -229,6 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
         navbarScroll();
         serviceCardHover();
         lazyLoad();
+        initMysticParticles();
+        initCardAura();
         
         // Добавляем активный класс к первой ссылке навигации
         const firstNavLink = document.querySelector('.nav-link');
@@ -337,8 +339,66 @@ if ('requestIdleCallback' in window) {
 }
 
 /* ============================================
-   АУТЕНТИФИКАЦИЯ И МОДАЛЬНЫЕ ОКНА
+   МИСТИЧЕСКИЕ ЭФФЕКТЫ — АТМОСФЕРА
    ============================================ */
+
+// Плавающие мистические частицы-орбы
+function initMysticParticles() {
+    const configs = [
+        { size: 6,  color: 'rgba(138,109,192,VAR)', op: 0.50, dur: 12, delay: 0    },
+        { size: 4,  color: 'rgba(212,174,92,VAR)',  op: 0.40, dur: 16, delay: 3.5  },
+        { size: 8,  color: 'rgba(138,109,192,VAR)', op: 0.35, dur: 10, delay: 1.8  },
+        { size: 3,  color: 'rgba(255,255,255,VAR)', op: 0.30, dur: 18, delay: 6    },
+        { size: 5,  color: 'rgba(196,162,74,VAR)',  op: 0.38, dur: 14, delay: 2.2  },
+        { size: 4,  color: 'rgba(138,109,192,VAR)', op: 0.45, dur: 9,  delay: 4.7  },
+        { size: 3,  color: 'rgba(212,174,92,VAR)',  op: 0.32, dur: 20, delay: 8    },
+        { size: 6,  color: 'rgba(170,142,222,VAR)', op: 0.42, dur: 11, delay: 0.9  },
+        { size: 5,  color: 'rgba(138,109,192,VAR)', op: 0.28, dur: 15, delay: 5.3  },
+        { size: 4,  color: 'rgba(196,162,74,VAR)',  op: 0.36, dur: 13, delay: 7.1  },
+    ];
+
+    configs.forEach((cfg, i) => {
+        const el = document.createElement('div');
+        el.className = 'mystic-particle';
+        const x = 5 + Math.random() * 90;
+        const y = 10 + Math.random() * 80;
+        const dx  = (Math.random() - 0.5) * 60;
+        const dy  = -(30 + Math.random() * 80);
+        const dx2 = (Math.random() - 0.5) * 50;
+        const dy2 = -(100 + Math.random() * 100);
+        const color = cfg.color.replace('VAR', '1');
+        Object.assign(el.style, {
+            width:  cfg.size + 'px',
+            height: cfg.size + 'px',
+            left:   x + 'vw',
+            top:    y + 'vh',
+            background: `radial-gradient(circle, ${color} 0%, transparent 100%)`,
+            boxShadow: `0 0 ${cfg.size * 3}px ${color}`,
+            '--op':    cfg.op,
+            '--dur':   cfg.dur + 's',
+            '--delay': cfg.delay + 's',
+            '--dx':    dx + 'px',
+            '--dy':    dy + 'px',
+            '--dx2':   dx2 + 'px',
+            '--dy2':   dy2 + 'px',
+        });
+        document.body.appendChild(el);
+    });
+}
+
+// Аура курсора внутри карточек
+function initCardAura() {
+    const cards = document.querySelectorAll('.mediumship-card, .service-item');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width  * 100).toFixed(1) + '%';
+            const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1) + '%';
+            card.style.setProperty('--card-mx', x);
+            card.style.setProperty('--card-my', y);
+        });
+    });
+}
 
 const ADMIN_ACCESS_CODE = '0000';
 const API_BASE = (() => {
