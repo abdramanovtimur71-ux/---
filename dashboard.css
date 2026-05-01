@@ -1498,3 +1498,315 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
         font-size: clamp(24px, 6vw, 32px);
     }
 }
+
+/* ═══════════════════════════════════════════════════
+   МАТРИЦА СУДЬБЫ
+   ═══════════════════════════════════════════════════ */
+
+/* NEW badge в сайдбаре */
+.new-badge {
+    background: linear-gradient(135deg, rgba(212,174,92,0.30), rgba(212,174,92,0.15));
+    border: 1px solid rgba(212,174,92,0.45);
+    color: var(--gold-l);
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Cinzel', serif;
+}
+
+/* ── Форма ввода ── */
+.matrix-input-card {
+    border: 1px solid rgba(212,174,92,0.20);
+    background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,174,92,0.06) 0%, transparent 65%),
+        var(--card);
+}
+.matrix-input-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+.matrix-input-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    border: 1px solid rgba(212,174,92,0.28);
+    background: linear-gradient(135deg, rgba(212,174,92,0.14), rgba(138,109,192,0.10));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+    box-shadow: 0 0 24px rgba(212,174,92,0.12);
+}
+.matrix-input-header h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    color: var(--t1);
+    margin-bottom: 4px;
+}
+.matrix-input-header p {
+    font-size: 13px;
+    color: var(--t3);
+}
+.matrix-form { display: flex; flex-direction: column; gap: 20px; }
+.matrix-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+.matrix-date-input {
+    color-scheme: dark;
+}
+.matrix-calc-btn {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    font-size: 14px;
+}
+.matrix-btn-icon { font-size: 16px; }
+
+/* ── Результат ── */
+.matrix-result { margin-top: 28px; }
+.matrix-result-header {
+    margin-bottom: 28px;
+}
+.matrix-result-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    color: var(--t1);
+    background: linear-gradient(135deg, var(--t1), var(--gold-l));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+}
+.matrix-result-header p {
+    font-size: 13px;
+    color: var(--t3);
+    letter-spacing: 0.5px;
+}
+
+/* ── Визуальная матрица ── */
+.matrix-grid-wrap {
+    background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(138,109,192,0.08) 0%, transparent 70%),
+        var(--card);
+    border: 1px solid var(--br);
+    border-radius: var(--r2);
+    padding: 32px 24px 24px;
+    margin-bottom: 28px;
+}
+.matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, auto);
+    gap: 8px;
+    max-width: 520px;
+    margin: 0 auto 28px;
+}
+
+/* Ячейки матрицы */
+.matrix-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    padding: 14px 8px;
+    text-align: center;
+    border: 1px solid var(--br);
+    background: var(--card2);
+    position: relative;
+    min-height: 80px;
+    transition: var(--tr);
+}
+.matrix-cell:hover {
+    border-color: var(--br-h);
+    box-shadow: 0 0 22px rgba(138,109,192,0.16);
+}
+.mc-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--t3);
+    margin-bottom: 6px;
+}
+.mc-value {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold-l);
+    text-shadow: 0 0 18px rgba(212,174,92,0.40);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+.mc-hint {
+    font-size: 9px;
+    color: var(--t3);
+    letter-spacing: 0.5px;
+}
+
+/* Специальные ячейки */
+.matrix-cell.center {
+    background:
+        radial-gradient(ellipse 80% 70% at 50% 50%, rgba(212,174,92,0.12) 0%, transparent 70%),
+        var(--card2);
+    border-color: rgba(212,174,92,0.38);
+    box-shadow: 0 0 36px rgba(212,174,92,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+    min-height: 96px;
+}
+.matrix-cell.center .mc-value { font-size: 36px; }
+.matrix-cell.sky,
+.matrix-cell.earth {
+    background:
+        radial-gradient(ellipse at 50% 50%, rgba(138,109,192,0.12) 0%, transparent 70%),
+        var(--card2);
+    border-color: rgba(138,109,192,0.28);
+}
+.matrix-cell.left,
+.matrix-cell.right {
+    background:
+        radial-gradient(ellipse at 50% 50%, rgba(138,109,192,0.08) 0%, transparent 70%),
+        var(--card2);
+    border-color: rgba(138,109,192,0.22);
+}
+.matrix-cell.corner {
+    background: rgba(20,18,28,0.60);
+    border-color: rgba(130,100,205,0.12);
+}
+.matrix-cell.corner .mc-value { font-size: 22px; color: var(--t2); text-shadow: none; }
+
+/* Соединительные линии */
+.mg-line {
+    background: linear-gradient(90deg, transparent, rgba(212,174,92,0.28), transparent);
+    border-radius: 2px;
+    align-self: center;
+}
+.mg-line.h-left,
+.mg-line.h-right { height: 2px; width: 100%; }
+.mg-line.v-top,
+.mg-line.v-bot {
+    background: linear-gradient(180deg, transparent, rgba(212,174,92,0.28), transparent);
+    width: 2px;
+    height: 100%;
+    justify-self: center;
+}
+.mg-empty { /* пустая ячейка */ }
+
+/* Полоса арканов снизу */
+.matrix-arcana-strip {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--br);
+}
+.arcana-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 16px;
+    background: var(--bg3);
+    border: 1px solid var(--br);
+    border-radius: 8px;
+    min-width: 100px;
+}
+.arc-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--t3);
+}
+.arc-val {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--gold-l);
+    text-align: center;
+}
+
+/* ── Карточки интерпретации ── */
+.matrix-interp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+}
+.interp-card {
+    background: var(--card);
+    border: 1px solid var(--br);
+    border-radius: var(--r);
+    padding: 18px;
+    transition: var(--tr);
+}
+.interp-card:hover {
+    border-color: var(--br-h);
+    background: var(--card2);
+}
+.interp-card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.interp-icon {
+    font-size: 18px;
+    color: var(--gold);
+    width: 28px;
+    text-align: center;
+}
+.interp-arcana {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold-l);
+}
+.interp-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t1);
+    margin-bottom: 8px;
+    font-family: 'Cinzel', serif;
+}
+.interp-card p {
+    font-size: 12px;
+    color: var(--t3);
+    line-height: 1.7;
+}
+
+/* Кнопки внизу */
+.matrix-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+/* ── Мобильная версия матрицы ── */
+@media (max-width: 900px) {
+    .matrix-form-row { grid-template-columns: 1fr; }
+    .matrix-interp-grid { grid-template-columns: 1fr 1fr; }
+    .matrix-grid { gap: 5px; }
+    .mc-value { font-size: 22px; }
+    .matrix-cell.center .mc-value { font-size: 28px; }
+    .matrix-cell { min-height: 66px; padding: 10px 4px; }
+    .mc-hint { display: none; }
+    .matrix-calc-btn { align-self: stretch; justify-content: center; }
+    .arcana-item { min-width: 80px; padding: 8px 10px; }
+}
+@media (max-width: 600px) {
+    .matrix-grid-wrap { padding: 18px 10px 16px; }
+    .matrix-interp-grid { grid-template-columns: 1fr; }
+    .matrix-grid { max-width: 100%; gap: 4px; }
+    .mc-value { font-size: 18px; }
+    .matrix-cell.center .mc-value { font-size: 22px; }
+    .matrix-cell { min-height: 56px; border-radius: 8px; }
+    .mc-label { font-size: 8px; }
+    .matrix-arcana-strip { gap: 6px; }
+    .arcana-item { min-width: 70px; padding: 6px 8px; }
+    .arc-val { font-size: 10px; }
+    .matrix-actions { flex-direction: column; }
+    .matrix-actions .btn { width: 100%; text-align: center; }
+}
