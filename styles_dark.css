@@ -201,7 +201,7 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     z-index: 1;
     margin-top: 22px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
 }
@@ -340,21 +340,22 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 
 .hero-inner {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
     align-items: center;
-    gap: 64px;
+    gap: 0;
     width: 100%;
     z-index: 2;
     position: relative;
-    padding: 60px 0;
+    padding: 80px 0 60px;
+    justify-items: center;
 }
 
 .hero-content {
-    text-align: left;
+    text-align: center;
     position: relative;
     z-index: 2;
-    max-width: 580px;
-    padding: 36px 34px 30px 8px;
+    max-width: 720px;
+    padding: 40px 40px 34px;
 }
 .hero-content::before {
     content: '';
@@ -371,15 +372,7 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     pointer-events: none;
 }
 .hero-content::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 34px;
-    bottom: 34px;
-    width: 1px;
-    background: linear-gradient(180deg, transparent, rgba(212,174,92,0.65), rgba(138,109,192,0.40), transparent);
-    opacity: 0.85;
-    pointer-events: none;
+    display: none;
 }
 
 .hero-tarot {
@@ -559,7 +552,7 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     opacity: 0; animation: fadeUp 0.8s var(--ease) 0.6s forwards;
 }
 
-.hero-actions { display: flex; gap: 16px; justify-content: flex-start; flex-wrap: wrap;
+.hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
     position: relative;
     z-index: 1;
     opacity: 0; animation: fadeUp 0.8s var(--ease) 0.8s forwards; }
@@ -2752,7 +2745,7 @@ section {
 /* ─── ABOUT SECTION — 3-COLUMN LAYOUT ──────────── */
 .about-layout-3col {
     display: grid;
-    grid-template-columns: 360px 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 48px;
     align-items: start;
 }
