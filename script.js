@@ -1214,11 +1214,13 @@ if (window.matchMedia) {
 function toggleMobileMenu() {
     const links = document.querySelector('.nav-links');
     const btn = document.getElementById('navHamburger');
+    const overlay = document.getElementById('drawerOverlay');
     if (!links || !btn) return;
     const isOpen = links.classList.toggle('mobile-open');
     btn.classList.toggle('open', isOpen);
     btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     btn.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+    if (overlay) overlay.classList.toggle('active', isOpen);
     document.body.style.overflow = isOpen ? 'hidden' : '';
 }
 
@@ -1227,12 +1229,14 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', () => {
             const links = document.querySelector('.nav-links');
             const btn = document.getElementById('navHamburger');
+            const overlay = document.getElementById('drawerOverlay');
             if (links) links.classList.remove('mobile-open');
             if (btn) {
                 btn.classList.remove('open');
                 btn.setAttribute('aria-expanded', 'false');
                 btn.setAttribute('aria-label', 'Открыть меню');
             }
+            if (overlay) overlay.classList.remove('active');
             document.body.style.overflow = '';
         });
     });
