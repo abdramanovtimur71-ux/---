@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Личный кабинет — Роза Оглы | Матрица Судьбы</title>
+    <title>Личный кабинет — Матрица Судьбы</title>
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
 <!-- ─── БОКОВОЕ МЕНЮ ─────────────────────────────── -->
 <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
-        <span class="sidebar-logo-text">Роза Оглы</span>
+        <span class="sidebar-logo-text">Матрица Судьбы</span>
         <span class="sidebar-logo-sub">Матрица Судьбы · Медиум</span>
     </a>
 
@@ -578,7 +578,7 @@
             <div class="plan-current">
                 <div class="plan-header-row">
                     <div class="plan-title-area">
-                        <h2 id="currentPlanName">Программа «Практик Роза Оглы»</h2>
+                        <h2 id="currentPlanName">Программа «Практик Матрицы»</h2>
                         <p>Оплата по факту, после подтверждения вы сразу попадаете в список обучающихся</p>
                     </div>
                     <div class="plan-price-display">
@@ -973,7 +973,7 @@ function loadUser() {
     document.getElementById('profileDisplayName').textContent = name;
     document.getElementById('overviewPlan').textContent = trainingLabel;
     document.getElementById('overviewPlanCard').textContent = 'Статус: ' + trainingLabel;
-    document.getElementById('currentPlanName').textContent = 'Программа «Практик Роза Оглы»';
+    document.getElementById('currentPlanName').textContent = 'Программа «Практик Матрицы»';
     document.getElementById('currentPlanPrice').textContent = trainingPrice;
 }
 
@@ -1171,7 +1171,7 @@ function startTrainingPayment() {
     openPaymentModal({
         kind: 'training',
         title: 'Оплата обучения',
-        description: 'Программа «Практик Роза Оглы» · ' + trainingPrice + ' ₸',
+        description: 'Программа «Практик Матрицы» · ' + trainingPrice + ' ₸',
         amount: 75000,
         buttonLabel: 'Оплатить и активировать'
     });
