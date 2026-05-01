@@ -63,7 +63,7 @@
     }
     </script>
 
-    <link rel="stylesheet" href="styles_dark.css?v=20260501a">
+    <link rel="stylesheet" href="styles_dark.css?v=20260501b">
 </head>
 <body>
 
@@ -117,7 +117,44 @@
             </div>
         </div>
     </nav>
+
+    <!-- Мобильный drawer-оверлей -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()" aria-hidden="true"></div>
+
+    <!-- Мобильный drawer -->
+    <aside class="mobile-drawer" id="mobileDrawer" aria-label="Мобильное меню" aria-hidden="true">
+        <div class="drawer-header">
+            <div class="drawer-logo">
+                <span class="drawer-logo-text">Роза Оглы</span>
+                <span class="drawer-logo-sub">Экстрасенс · Медиум</span>
+            </div>
+            <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Закрыть меню">✕</button>
+        </div>
+        <nav class="drawer-nav" role="navigation">
+            <a href="#home"            class="drawer-link" onclick="toggleMobileMenu()"><span class="dl-icon">⟡</span>Главная</a>
+            <a href="#about"           class="drawer-link" onclick="toggleMobileMenu()"><span class="dl-icon">✦</span>О мастере</a>
+            <a href="#mediumship"      class="drawer-link" onclick="toggleMobileMenu()"><span class="dl-icon">◈</span>Услуги</a>
+            <a href="#session-planner" class="drawer-link" onclick="toggleMobileMenu()"><span class="dl-icon">⬡</span>Диагностика</a>
+            <a href="#testimonials"    class="drawer-link" onclick="toggleMobileMenu()"><span class="dl-icon">✧</span>Отзывы</a>
+            <a href="#blog"            class="drawer-link" onclick="toggleMobileMenu()"><span class="dl-icon">◉</span>Блог</a>
+            <a href="#contact"         class="drawer-link" onclick="toggleMobileMenu()"><span class="dl-icon">☽</span>Контакты</a>
+        </nav>
+        <button class="drawer-cta" onclick="scrollToSection('#booking'); toggleMobileMenu()">Записаться на сеанс</button>
+        <!-- Декоративные свечи внизу drawer -->
+        <div class="drawer-candles" aria-hidden="true">
+            <div class="drawer-candle">
+                <div class="dc-flame"><div class="dc-flame-inner"></div></div>
+                <div class="dc-wax-drop"></div>
+            </div>
+            <div class="drawer-rune">✦ Тайны открываются избранным ✦</div>
+            <div class="drawer-candle">
+                <div class="dc-flame"><div class="dc-flame-inner"></div></div>
+                <div class="dc-wax-drop"></div>
+            </div>
+        </div>
+    </aside>
     <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMobileMenu()" aria-hidden="true"></div>
 
     <!-- Герой -->
     <section id="home" class="hero">
@@ -129,6 +166,66 @@
         <span class="hero-rune" style="--rdelay:1.2s;--rdur:8s;--rfont:16px;--rop:0.18;--ry:-12px;--rrot:5deg;top:25%;right:10%">◈</span>
         <span class="hero-rune" style="--rdelay:4s;--rdur:12s;--rfont:11px;--rop:0.14;--ry:-6px;--rrot:-8deg;top:68%;right:14%">✧</span>
         <span class="hero-rune" style="--rdelay:3s;--rdur:10s;--rfont:20px;--rop:0.12;--ry:-9px;--rrot:0deg;top:45%;left:4%">⟡</span>
+        <!-- Реалистичные свечи -->
+        <div class="hero-candles" aria-hidden="true">
+            <div class="mystic-candle candle-l">
+                <div class="candle-flame"></div>
+                <div class="candle-body">
+                    <div class="candle-drip"></div>
+                </div>
+            </div>
+            <div class="mystic-candle candle-r">
+                <div class="candle-flame"></div>
+                <div class="candle-body">
+                    <div class="candle-drip"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Карты Таро -->
+        <div class="hero-tarot-scene" aria-hidden="true">
+            <div class="tarot-scene-card tsc-1">
+                <div class="tsc-back"></div>
+                <div class="tsc-front">
+                    <span class="tsc-num">XVIII</span>
+                    <span class="tsc-icon">☽</span>
+                    <span class="tsc-name">La Lune</span>
+                </div>
+            </div>
+            <div class="tarot-scene-card tsc-2">
+                <div class="tsc-back"></div>
+                <div class="tsc-front">
+                    <span class="tsc-num">XIII</span>
+                    <span class="tsc-icon">✝</span>
+                    <span class="tsc-name">La Morte</span>
+                </div>
+            </div>
+            <div class="tarot-scene-card tsc-3">
+                <div class="tsc-back"></div>
+                <div class="tsc-front">
+                    <span class="tsc-num">XIX</span>
+                    <span class="tsc-icon">☀</span>
+                    <span class="tsc-name">Le Soleil</span>
+                </div>
+            </div>
+        </div>
+        <!-- Карты Таро (левая сторона) -->
+        <div class="hero-tarot" aria-hidden="true">
+            <div class="tarot-card card-back"><span>☽</span></div>
+            <div class="tarot-card card-mid"><span>✦</span></div>
+            <div class="tarot-card card-front"><span>⟡</span></div>
+        </div>
+        <!-- Реалистичные свечи (левый угол) -->
+        <div class="hero-candles" aria-hidden="true">
+            <div class="hero-candle hero-candle-left">
+                <div class="flame"></div>
+                <div class="candle-drip candle-drip1"></div>
+                <div class="candle-drip candle-drip2"></div>
+            </div>
+            <div class="hero-candle hero-candle-right">
+                <div class="flame"></div>
+                <div class="candle-drip candle-drip3"></div>
+            </div>
+        </div>
         <div class="hero-stars" aria-hidden="true">
             <span class="hstar"></span><span class="hstar"></span><span class="hstar"></span>
             <span class="hstar"></span><span class="hstar"></span><span class="hstar"></span>
@@ -830,6 +927,19 @@
 
     <!-- Футер -->
     <footer class="footer">
+        <div class="footer-candles" aria-hidden="true">
+            <div class="footer-candle">
+                <div class="dc-flame"><div class="dc-flame-inner"></div></div>
+                <div class="dc-wax-drop"></div>
+            </div>
+            <div class="footer-candle footer-candle-tall">
+                <div class="dc-flame"><div class="dc-flame-inner"></div></div>
+            </div>
+            <div class="footer-candle">
+                <div class="dc-flame"><div class="dc-flame-inner"></div></div>
+                <div class="dc-wax-drop"></div>
+            </div>
+        </div>
         <div class="container">
             <div class="footer-brand">
                 <span class="logo-text" onclick="openAdminAccess()" title="Вход для администратора">Роза Оглы</span>
@@ -976,6 +1086,6 @@
         </a>
     </nav>
 
-    <script src="script.js?v=20260423e"></script>
+    <script src="script.js?v=20260501f"></script>
 </body>
 </html>
