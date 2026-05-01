@@ -1587,52 +1587,7 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     }
     /* ─── Мобильный drawer (шторка справа) ─── */
     .nav-hamburger { display: flex; }
-    .nav-links {
-        position: fixed; top: 0; right: 0; bottom: 0;
-        width: min(300px, 84vw);
-        height: 100vh;
-        max-height: none;
-        overflow-y: auto;
-        background: linear-gradient(160deg,
-            rgba(4,5,14,0.99) 0%,
-            rgba(8,6,18,0.99) 50%,
-            rgba(12,10,24,0.99) 100%);
-        backdrop-filter: blur(28px);
-        -webkit-backdrop-filter: blur(28px);
-        flex-direction: column;
-        padding: 86px 32px 60px;
-        gap: 2px;
-        border-left: 1px solid rgba(138,109,192,0.22);
-        border-bottom: none;
-        transform: translateX(102%);
-        transition: transform 0.40s cubic-bezier(0.4,0,0.2,1);
-        z-index: 999;
-        display: flex;
-        box-shadow: -8px 0 50px rgba(0,0,0,0.65), -1px 0 20px rgba(138,109,192,0.08);
-    }
-    .nav-links::before {
-        content: 'НАВИГАЦИЯ';
-        position: absolute;
-        top: 30px; left: 32px;
-        font-family: 'Cinzel', serif;
-        font-size: 10px; letter-spacing: 5px;
-        color: var(--gold); opacity: 0.6;
-    }
-    .nav-links::after {
-        content: '✦  РОЗА ОГЛЫ  ✦';
-        position: absolute;
-        bottom: 20px; left: 0; right: 0;
-        text-align: center;
-        font-family: 'Cinzel', serif;
-        font-size: 9px; letter-spacing: 4px;
-        color: var(--gold); opacity: 0.30;
-    }
-    .nav-links.mobile-open { transform: translateX(0); }
-    .nav-link {
-        font-size: 14.5px; padding: 14px 0;
-        border-bottom: 1px solid rgba(138,109,192,0.10);
-        letter-spacing: 1px;
-    }
+    .nav-links { display: none !important; }
     .nav-link::after { display: none; }
     .fab-whatsapp { bottom: 88px; right: 16px; width: 46px; height: 46px; font-size: 18px; }
     .fab-scroll-top { bottom: 32px; right: 16px; width: 46px; height: 46px; font-size: 16px; }

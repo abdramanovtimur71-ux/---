@@ -1212,33 +1212,29 @@ if (window.matchMedia) {
    ============================================ */
 
 function toggleMobileMenu() {
-    const links = document.querySelector('.nav-links');
-    const btn = document.getElementById('navHamburger');
+    const drawer  = document.getElementById('mobileDrawer');
     const overlay = document.getElementById('drawerOverlay');
-    if (!links || !btn) return;
-    const isOpen = links.classList.toggle('mobile-open');
-    btn.classList.toggle('open', isOpen);
-    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    btn.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+    const btn     = document.getElementById('navHamburger');
+    if (!drawer) return;
+
+    const isOpen = drawer.classList.toggle('active');
     if (overlay) overlay.classList.toggle('active', isOpen);
+    if (btn) {
+        btn.classList.toggle('open', isOpen);
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        btn.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+    }
+    drawer.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
     document.body.style.overflow = isOpen ? 'hidden' : '';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            const links = document.querySelector('.nav-links');
-            const btn = document.getElementById('navHamburger');
-            const overlay = document.getElementById('drawerOverlay');
-            if (links) links.classList.remove('mobile-open');
-            if (btn) {
-                btn.classList.remove('open');
-                btn.setAttribute('aria-expanded', 'false');
-                btn.setAttribute('aria-label', 'Открыть меню');
-            }
-            if (overlay) overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
+    // Escape закрывает drawer
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const drawer = document.getElementById('mobileDrawer');
+            if (drawer && drawer.classList.contains('active')) toggleMobileMenu();
+        }
     });
 });
 
