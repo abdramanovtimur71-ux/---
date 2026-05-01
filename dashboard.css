@@ -1590,13 +1590,28 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
 
 /* ── Визуальная матрица ── */
 .matrix-grid-wrap {
-    background:
-        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(138,109,192,0.08) 0%, transparent 70%),
-        var(--card);
+    position: relative;
+    overflow: hidden;
+    background: var(--card);
     border: 1px solid var(--br);
     border-radius: var(--r2);
     padding: 32px 24px 24px;
     margin-bottom: 28px;
+}
+.matrix-grid-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        url('images/matrix-person.jpg') center 20% / cover no-repeat;
+    opacity: 0.13;
+    filter: saturate(0.6) hue-rotate(200deg);
+    pointer-events: none;
+    z-index: 0;
+}
+.matrix-grid-wrap > * {
+    position: relative;
+    z-index: 1;
 }
 .matrix-grid {
     display: grid;
