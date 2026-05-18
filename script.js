@@ -48,24 +48,46 @@ const animateCountUp = () => {
     statNumbers.forEach(number => observer.observe(number));
 };
 
-// Появление элементов при прокрутке
+// Ленивая загрузка анимаций при видимости
 const observeElements = () => {
     const elements = document.querySelectorAll('.fade-in, .slide-in, .about-card, .service-item');
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
-                entry.target.style.animation = entry.target.classList.contains('fade-in') 
-                    ? 'fadeIn 0.8s ease-out forwards' 
+                entry.target.style.animation = entry.target.classList.contains('fade-in')
+                    ? 'fadeIn 0.8s ease-out forwards'
                     : 'slideUp 0.8s ease-out forwards';
                 observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.1 });
-    
+
     elements.forEach(el => observer.observe(el));
 };
+
+// Ленивая загрузка частиц только при необходимости
+let particlesInitialized = false;
+const lazyInitParticles = () => {
+    if (particlesInitialized) return;
+    particlesInitialized = true;
+    initMysticParticles();
+};
+
+// Инициализировать частицы при видимости hero секции
+document.addEventListener('DOMContentLoaded', () => {
+    const heroSection = document.querySelector('.hero');
+    if (heroSection) {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                lazyInitParticles();
+                observer.unobserve(heroSection);
+            }
+        }, { threshold: 0.1 });
+        observer.observe(heroSection);
+    }
+});
 
 // Активная навигация при прокрутке
 const updateActiveNav = () => {
@@ -160,39 +182,9 @@ const serviceCardHover = () => {
     });
 };
 
-// Волновая анимация текста в заголовке
-const waveAnimation = () => {
-    const words = document.querySelectorAll('.hero-title .word');
-    
-    words.forEach((word, index) => {
-        const letters = word.textContent.split('');
-        word.textContent = '';
-        
-        letters.forEach((letter, letterIndex) => {
-            const span = document.createElement('span');
-            span.textContent = letter;
-            span.style.display = 'inline-block';
-            span.style.animation = `wave 0.5s ease-in-out ${letterIndex * 0.05}s`;
-            word.appendChild(span);
-        });
-    });
-};
-
-// Добавления стиля для волны
-const addWaveStyle = () => {
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes wave {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-    `;
-    document.head.appendChild(style);
-};
+// Волновая анимация удалена для оптимизации производительности
+const waveAnimation = () => {};
+const addWaveStyle = () => {};
 
 // Прогрессивная загрузка изображений
 const lazyLoad = () => {
@@ -217,32 +209,44 @@ const lazyLoad = () => {
 
 // Инициализация всех функций при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
-    // Небольшая задержка для плавной инициализации
     requestAnimationFrame(() => {
+        // Анимации и эффекты
         waveAnimation();
         addWaveStyle();
         observeElements();
         animateCountUp();
-        updateActiveNav();
-        handleFormSubmit();
         mouseParallax();
-        navbarScroll();
-        serviceCardHover();
         lazyLoad();
         initMysticParticles();
         initCardAura();
-        
-        // Добавляем активный класс к первой ссылке навигации
+
+        // Навигация и скролл
+        updateActiveNav();
+        navbarScroll();
+        updateScrollProgress();
+
+        // Интерактивность форм
+        handleFormSubmit();
+        formGlowEffect();
+        formProtection();
+        serviceCardHover();
+
+        // Авторизация и профиль
+        checkLoginStatus();
+        setupProfileMenuInteractions();
+
+        // Темы и UI
+        initializeTheme();
+
+        // Первая навигационная ссылка активна
         const firstNavLink = document.querySelector('.nav-link');
         if (firstNavLink) {
             firstNavLink.classList.add('active');
         }
-
-        updateScrollProgress();
     });
 });
 
-window.addEventListener('scroll', updateScrollProgress);
+window.addEventListener('scroll', updateScrollProgress, { passive: true });
 window.addEventListener('resize', updateScrollProgress);
 
 // Обработка клавиатуры для навигации
@@ -265,17 +269,25 @@ window.addEventListener('load', () => {
     });
 });
 
-// Защита от потери данных в форме
+// Защита от потери данных в форме + эффект свечения при фокусе
 const formProtection = () => {
     const formInputs = document.querySelectorAll('.contact-form input, .contact-form textarea');
     let hasChanges = false;
-    
+
     formInputs.forEach(input => {
         input.addEventListener('change', () => {
             hasChanges = true;
         });
+
+        input.addEventListener('focus', function() {
+            this.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.1), 0 0 15px rgba(102, 126, 234, 0.3)';
+        });
+
+        input.addEventListener('blur', function() {
+            this.style.boxShadow = 'none';
+        });
     });
-    
+
     window.addEventListener('beforeunload', (e) => {
         if (hasChanges) {
             e.preventDefault();
@@ -284,29 +296,67 @@ const formProtection = () => {
     });
 };
 
-// Инициализация защиты формы
-document.addEventListener('DOMContentLoaded', formProtection);
-
-// Эффект свечения при фокусе на форме
-const formGlowEffect = () => {
-    const formInputs = document.querySelectorAll('.contact-form input, .contact-form textarea');
-    
-    formInputs.forEach(input => {
-        input.addEventListener('focus', function() {
-            this.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.1), 0 0 15px rgba(102, 126, 234, 0.3)';
-        });
-        
-        input.addEventListener('blur', function() {
-            this.style.boxShadow = 'none';
-        });
-    });
-};
-
-document.addEventListener('DOMContentLoaded', formGlowEffect);
+const formGlowEffect = () => formProtection();
 
 /* ============================================
-   ОПТИМИЗАЦИЯ И ПРОИЗВОДИТЕЛЬНОСТЬ
+   ВАЛИДАЦИЯ И ИНДИКАТОРЫ ЗАГРУЗКИ
    ============================================ */
+
+const FormValidator = {
+    email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+    phone: (value) => /^[\d\s\-\+\(\)]{6,}$/.test(value),
+    name: (value) => value.trim().length >= 2,
+    text: (value) => value.trim().length >= 3,
+    password: (value) => value.length >= 6,
+    strongPassword: (value) => value.length >= 8 && /[a-z]/.test(value) && /[0-9]/.test(value)
+};
+
+function showLoadingIndicator(element) {
+    const btn = element.closest('form')?.querySelector('.submit-btn') || element;
+    const originalText = btn.textContent;
+    const originalDisabled = btn.disabled;
+
+    btn.disabled = true;
+    btn.innerHTML = '<span style="display:inline-block;margin-right:8px;">⟳</span>Загрузка...';
+    btn.style.opacity = '0.7';
+
+    return () => {
+        btn.textContent = originalText;
+        btn.disabled = originalDisabled;
+        btn.style.opacity = '1';
+    };
+}
+
+function validateField(input, validator) {
+    const isValid = validator(input.value);
+    const errorSpan = input.parentElement?.querySelector('.form-error');
+
+    if (!isValid) {
+        input.style.borderColor = '#E74C3C';
+        if (errorSpan) {
+            errorSpan.textContent = `Некорректное значение`;
+            errorSpan.style.display = 'block';
+        }
+    } else {
+        input.style.borderColor = '';
+        if (errorSpan) {
+            errorSpan.style.display = 'none';
+        }
+    }
+
+    return isValid;
+}
+
+function validateForm(form, rules) {
+    let isValid = true;
+    Object.entries(rules).forEach(([selector, validator]) => {
+        const input = form.querySelector(selector);
+        if (input && !validateField(input, validator)) {
+            isValid = false;
+        }
+    });
+    return isValid;
+}
 
 // Дебаунс функция для управления событиями
 function debounce(func, wait) {
@@ -321,11 +371,11 @@ function debounce(func, wait) {
     };
 }
 
-// Оптимизированная обработка скролла
+// Оптимизированная обработка скролла с debounce
 window.addEventListener('scroll', debounce(() => {
     updateActiveNav();
     navbarScroll();
-}, 100));
+}, 100), { passive: true });
 
 // Указание браузеру на предварительную загрузку ресурсов
 if ('requestIdleCallback' in window) {
@@ -430,37 +480,93 @@ function addAdminRecord(key, payload) {
 }
 
 async function openAdminAccess() {
-    const code = window.prompt('Введите пароль спецвхода');
-    if (!code) {
-        return;
-    }
-    const normalized = code.trim().toLowerCase();
-    const password = ['роза оглы', 'матрицы судьбы', 'матрицы судбы'].includes(normalized)
-        ? ADMIN_ACCESS_CODE
-        : code.trim();
-    if (password !== ADMIN_ACCESS_CODE) {
-        showError('Неверный код администратора');
-        return;
-    }
-    try {
-        const response = await fetch(API_BASE + '/api/admin/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password })
-        });
-        const data = await response.json();
-        if (!response.ok || !data.ok) {
-            showError(data.message || 'Ошибка спецвхода');
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="close-modal" onclick="this.closest('.modal').remove()">×</button>
+            <div class="modal-header">
+                <h2>Вход администратора</h2>
+                <p>Введите пароль доступа</p>
+            </div>
+            <form class="admin-login-form">
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <div class="password-field">
+                        <input type="password" id="adminPassword" placeholder="Пароль" required>
+                        <button type="button" class="show-password" onclick="this.parentElement.querySelector('input').type = this.parentElement.querySelector('input').type === 'password' ? 'text' : 'password'; this.textContent = this.parentElement.querySelector('input').type === 'password' ? '👁️' : '🙈'">👁️</button>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn" style="width:100%">Войти</button>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+
+    modal.querySelector('form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const code = document.getElementById('adminPassword').value.trim();
+
+        if (!code) {
+            showError('Введите пароль');
             return;
         }
-        localStorage.setItem('isAdminLoggedIn', 'true');
-        localStorage.setItem('adminToken', data.token);
-        localStorage.removeItem('adminOfflineAccess');
-        window.location.href = 'admin.html';
-    } catch (error) {
-        localStorage.setItem('adminOfflineAccess', 'true');
-        window.location.href = 'admin.html?setup=1';
-    }
+
+        const resetBtn = showLoadingIndicator(modal.querySelector('.submit-btn'));
+
+        const normalized = code.toLowerCase();
+        const password = ['роза оглы', 'матрицы судьбы', 'матрицы судбы'].includes(normalized)
+            ? ADMIN_ACCESS_CODE
+            : code;
+
+        if (password !== ADMIN_ACCESS_CODE) {
+            showError('Неверный пароль');
+            resetBtn();
+            return;
+        }
+
+        try {
+            const response = await fetch(API_BASE + '/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password })
+            });
+            const data = await response.json();
+            if (!response.ok || !data.ok) {
+                showError(data.message || 'Ошибка входа');
+                resetBtn();
+                return;
+            }
+            localStorage.setItem('isAdminLoggedIn', 'true');
+            localStorage.setItem('adminToken', data.token);
+            localStorage.removeItem('adminOfflineAccess');
+            showSuccess('✓ Вы вошли в админ-панель');
+            setTimeout(() => {
+                window.location.href = 'admin.html';
+            }, 500);
+        } catch (error) {
+            localStorage.setItem('adminOfflineAccess', 'true');
+            showSuccess('⚠ Работа без интернета');
+            setTimeout(() => {
+                window.location.href = 'admin.html?setup=1';
+            }, 500);
+        }
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.parentElement) {
+            modal.remove();
+            document.body.style.overflow = 'auto';
+        }
+    });
 }
 
 // Функции для работы с модальными окнами входа
@@ -838,10 +944,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bookingForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+
         const nameField = bookingForm.querySelector('input[type="text"]');
         const phoneField = bookingForm.querySelector('input[type="tel"]');
         const emailField = bookingForm.querySelector('input[type="email"]');
         const noteField = bookingForm.querySelector('textarea');
+
+        // Валидация
+        if (!validateField(nameField, FormValidator.name) ||
+            !validateField(phoneField, FormValidator.phone) ||
+            !validateField(emailField, FormValidator.email)) {
+            showError('Пожалуйста, заполните все поля корректно');
+            return;
+        }
+
+        const resetBtn = showLoadingIndicator(bookingForm.querySelector('.submit-btn'));
 
         const payload = {
             name: nameField ? nameField.value.trim() : '',
@@ -868,9 +985,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         timeField.value = data.suggestedTime;
                     }
                     await loadSlotHints();
+                    resetBtn();
                     return;
                 }
                 showError(data.message || 'Не удалось записаться');
+                resetBtn();
                 return;
             }
 
@@ -885,9 +1004,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             bookingForm.reset();
             if (slotRoot) slotRoot.innerHTML = '';
-            showSuccess('Вы успешно записаны. Уведомления отправлены автоматически.');
+            showSuccess('✓ Вы успешно записаны. Уведомления отправлены автоматически.');
+            resetBtn();
         } catch (error) {
-            showError('Сервер записи недоступен. Проверьте backend и повторите попытку.');
+            showError('Сервер записи недоступен. Проверьте соединение и повторите попытку.');
+            resetBtn();
         }
     });
 });
@@ -938,10 +1059,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const rating = Number(document.getElementById('guestRating').value || 5);
         const text = document.getElementById('guestText').value.trim();
 
+        // Валидация
+        if (!validateField(form.querySelector('#guestName'), FormValidator.name) ||
+            !validateField(form.querySelector('#guestText'), FormValidator.text)) {
+            showError('Заполните имя и текст отзыва корректно');
+            return;
+        }
+
         if (!name || !text) {
             showError('Заполните имя и текст отзыва');
             return;
         }
+
+        const resetBtn = showLoadingIndicator(form.querySelector('.submit-btn'));
 
         const items = getStorageArray('guestReviews');
         items.unshift({ name, rating, text, createdAt: new Date().toISOString() });
@@ -950,7 +1080,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         form.reset();
         renderGuestReviews();
-        showSuccess('Спасибо! Ваш отзыв опубликован.');
+        showSuccess('✓ Спасибо! Ваш отзыв опубликован.');
+        resetBtn();
     });
 });
 
@@ -960,11 +1091,17 @@ async function renderPublicContent() {
         return;
     }
 
+    root.innerHTML = '<div class="public-item"><p>⟳ Загрузка...</p></div>';
+
     try {
-        const response = await fetch(API_BASE + '/api/content');
+        const response = await fetch(API_BASE + '/api/content', {
+            signal: AbortSignal.timeout(5000)
+        });
+
         const data = await response.json();
+
         if (!response.ok || !data.ok) {
-            root.innerHTML = '<div class="public-item"><p>Материалы скоро появятся.</p></div>';
+            root.innerHTML = '<div class="public-item"><p>⚠ Материалы скоро появятся.</p></div>';
             return;
         }
 
@@ -983,7 +1120,7 @@ async function renderPublicContent() {
 
         root.innerHTML = items.map((item) => {
             const kind = names[item.kind] || item.kind;
-            const link = item.media_url ? '<a href="' + item.media_url + '" target="_blank" rel="noopener noreferrer">Открыть</a>' : '';
+            const link = item.media_url ? '<a href="' + item.media_url + '" target="_blank" rel="noopener noreferrer">Открыть →</a>' : '';
             const body = item.body ? item.body : 'Без описания';
             return '<article class="public-item">'
                 + '<div class="kind">' + kind + '</div>'
@@ -993,7 +1130,11 @@ async function renderPublicContent() {
                 + '</article>';
         }).join('');
     } catch (error) {
-        root.innerHTML = '<div class="public-item"><p>Не удалось загрузить публикации.</p></div>';
+        if (error.name === 'AbortError') {
+            root.innerHTML = '<div class="public-item"><p>⚠ Загрузка заняла слишком много времени.</p></div>';
+        } else {
+            root.innerHTML = '<div class="public-item"><p>⚠ Не удалось загрузить публикации.</p></div>';
+        }
     }
 }
 

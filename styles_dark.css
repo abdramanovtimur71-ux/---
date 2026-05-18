@@ -599,15 +599,38 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 
 /* ─── ЗАГОЛОВКИ СЕКЦИЙ ───────────────────────────── */
 .section-label {
-    display: block; text-align: center;
-    font-size: 10.5px; letter-spacing: 4px; text-transform: uppercase;
-    color: var(--gold); font-weight: 500; margin-bottom: 14px;
+    display: inline-block;
+    padding: 8px 18px;
+    background: linear-gradient(135deg, rgba(212,174,92,0.15), rgba(138,109,192,0.1));
+    border: 1px solid rgba(212,174,92,0.3);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gold-l);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    transition: var(--tr);
+}
+
+.section-label:hover {
+    border-color: var(--gold-l);
+    background: linear-gradient(135deg, rgba(212,174,92,0.25), rgba(138,109,192,0.15));
+    box-shadow: 0 0 16px rgba(212,174,92,0.2);
 }
 .section-title {
     font-family: 'Cinzel', serif;
     font-size: clamp(28px, 4vw, 42px);
-    font-weight: 600; text-align: center;
-    color: var(--t1); margin-bottom: 16px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--t1);
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, var(--t1) 0%, var(--gold-l) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
     position: relative;
 }
 .section-title::after {
@@ -639,7 +662,30 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 }
 
 /* ─── ОБО МНЕ ────────────────────────────────────── */
-.about { background: var(--bg2); position: relative; }
+.about {
+    background: var(--bg2);
+    position: relative;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(138,109,192,0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(212,174,92,0.05) 0%, transparent 35%);
+}
+
+.about-text h2 {
+    font-size: clamp(28px, 3.5vw, 40px);
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, var(--t1) 0%, var(--gold-l) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.about-text p {
+    font-size: 15px;
+    line-height: 1.95;
+    margin-bottom: 18px;
+    color: var(--t2);
+    letter-spacing: 0.3px;
+}
 .about::before {
     content: '';
     position: absolute;
@@ -656,12 +702,73 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 .about-text h2 { font-size: clamp(28px,3.5vw,40px); margin-bottom: 20px; }
 .about-text p { font-size: 15px; line-height: 1.9; margin-bottom: 16px; color: var(--t2); }
 .about-tag {
-    display: inline-block; padding: 6px 16px; margin: 4px 4px 0 0;
-    background: rgba(138,109,192,0.1); border: 1px solid var(--br);
-    border-radius: 30px; font-size: 12px; color: var(--purple-l); letter-spacing: 0.5px;
+    display: inline-block;
+    padding: 8px 18px;
+    margin: 6px 6px 0 0;
+    background: linear-gradient(135deg, rgba(138,109,192,0.15), rgba(212,174,92,0.1));
+    border: 1.5px solid var(--br-h);
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gold-l);
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    transition: var(--tr);
+    cursor: pointer;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 12px rgba(138,109,192,0.12);
 }
-.about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
-.about-stat { text-align: center; padding: 24px 16px; background: var(--card); border-radius: var(--r2); border: 1px solid var(--br); }
+
+.about-tag:hover {
+    border-color: var(--gold-l);
+    background: linear-gradient(135deg, rgba(138,109,192,0.25), rgba(212,174,92,0.18));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 0 20px rgba(212,174,92,0.24);
+    transform: translateY(-2px);
+}
+.about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 48px;
+    padding: 32px;
+    background: linear-gradient(135deg, rgba(138,109,192,0.08), rgba(212,174,92,0.05));
+    border: 1px solid var(--br);
+    border-radius: var(--r2);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.about-stat {
+    text-align: center;
+    padding: 32px 24px;
+    background: linear-gradient(160deg, rgba(14,16,40,0.8), rgba(17,16,29,0.6));
+    border: 1px solid rgba(138,109,192,0.2);
+    border-radius: var(--r2);
+    transition: var(--tr);
+    position: relative;
+    overflow: hidden;
+}
+
+.about-stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-l), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.about-stat:hover {
+    border-color: var(--br-h);
+    box-shadow: 0 0 20px rgba(138,109,192,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+    transform: translateY(-4px);
+    background: linear-gradient(160deg, rgba(14,16,40,1), rgba(17,16,29,0.8));
+}
+
+.about-stat:hover::before {
+    opacity: 1;
+}
 .about-stat-num {
     font-family: 'Cinzel', serif; font-size: 32px; font-weight: 700;
     background: linear-gradient(135deg, var(--gold-l), var(--gold));
@@ -669,19 +776,73 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     background-clip: text;
 }
 .about-stat p { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--t3); margin-top: 6px; }
-.about-card-stack { display: flex; flex-direction: column; gap: 16px; }
+.about-card-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .about-feat-card {
-    padding: 26px 28px; background: var(--card); border: 1px solid var(--br);
-    border-radius: var(--r2); display: flex; gap: 20px; align-items: flex-start;
+    padding: 28px 32px;
+    background: linear-gradient(160deg, rgba(14,16,40,0.9), rgba(17,16,29,0.7));
+    border: 1.5px solid var(--br);
+    border-radius: var(--r2);
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
     transition: var(--tr);
+    position: relative;
+    overflow: hidden;
 }
-.about-feat-card:hover { border-color: var(--br-h); box-shadow: var(--glow-p); transform: translateX(6px); }
+
+.about-feat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--purple-l), var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.about-feat-card:hover {
+    border-color: var(--br-h);
+    box-shadow: 0 8px 32px rgba(138,109,192,0.22), inset 0 1px 0 rgba(255,255,255,0.08);
+    transform: translateX(8px) translateY(-2px);
+    background: linear-gradient(160deg, rgba(14,16,40,1), rgba(17,16,29,0.9));
+}
+
+.about-feat-card:hover::before {
+    opacity: 1;
+}
+
 .feat-num {
-    font-family: 'Cinzel', serif; font-size: 28px; font-weight: 700;
-    color: var(--purple); min-width: 48px; opacity: 0.6;
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-l), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    min-width: 50px;
 }
-.feat-body h4 { font-family: 'Cinzel', serif; font-size: 15px; margin-bottom: 6px; color: var(--t1); }
-.feat-body p { font-size: 13px; color: var(--t2); line-height: 1.6; }
+
+.feat-body h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--t1);
+}
+
+.feat-body p {
+    font-size: 14px;
+    color: var(--t2);
+    line-height: 1.7;
+    letter-spacing: 0.3px;
+}
 
 /* ─── УСЛУГИ (МЕДИУМСТВО) ────────────────────────── */
 .services { background: var(--bg); }
@@ -3961,6 +4122,47 @@ body {
     0%,100% { transform: rotate(-7deg) translateY(0); }
     50%     { transform: rotate(-5deg) translateY(-6px); }
 }
+
+/* About section animations */
+@keyframes statPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(212,174,92,0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(212,174,92,0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(212,174,92,0);
+    }
+}
+
+@keyframes cardSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.about-stat {
+    animation: cardSlideUp 0.6s ease-out forwards;
+}
+
+.about-stat:nth-child(1) { animation-delay: 0.1s; }
+.about-stat:nth-child(2) { animation-delay: 0.2s; }
+.about-stat:nth-child(3) { animation-delay: 0.3s; }
+
+.about-feat-card {
+    animation: cardSlideUp 0.6s ease-out forwards;
+}
+
+.about-feat-card:nth-child(1) { animation-delay: 0.1s; }
+.about-feat-card:nth-child(2) { animation-delay: 0.2s; }
+.about-feat-card:nth-child(3) { animation-delay: 0.3s; }
+.about-feat-card:nth-child(4) { animation-delay: 0.4s; }
 
 /* Подпись снизу каждой карты */
 .tarot-card::before {
