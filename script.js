@@ -435,7 +435,9 @@ async function openAdminAccess() {
         return;
     }
     const normalized = code.trim().toLowerCase();
-    const password = normalized === 'роза оглы' ? ADMIN_ACCESS_CODE : code.trim();
+    const password = ['роза оглы', 'матрицы судьбы', 'матрицы судбы'].includes(normalized)
+        ? ADMIN_ACCESS_CODE
+        : code.trim();
     if (password !== ADMIN_ACCESS_CODE) {
         showError('Неверный код администратора');
         return;
