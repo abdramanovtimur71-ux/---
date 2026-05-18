@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Админ кабинет — Роза Оглы</title>
+    <title>Админ кабинет — Матрицы Судьбы</title>
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
@@ -303,7 +303,9 @@
 
             const code = prompt('Введите пароль спецвхода');
             const normalized = (code || '').trim().toLowerCase();
-            const password = normalized === 'роза оглы' ? ADMIN_ACCESS_CODE : (code || '').trim();
+            const password = ['роза оглы', 'матрицы судьбы', 'матрицы судбы'].includes(normalized)
+                ? ADMIN_ACCESS_CODE
+                : (code || '').trim();
             if (!password || password !== ADMIN_ACCESS_CODE) {
                 alert('Доступ запрещен');
                 window.location.href = 'index.html';
