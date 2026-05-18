@@ -89,10 +89,10 @@ firebase deploy
 ### 4. SEO Оптимизация
 Добавьте мета-теги в `<head>`:
 ```html
-<meta name="description" content="Роза Оглы - профессиональная визитка">
-<meta name="keywords" content="роза оглы, услуги, консультация">
-<meta name="author" content="Роза Оглы">
-<meta property="og:title" content="Роза Оглы">
+<meta name="description" content="Матрицы Судьбы - профессиональная визитка">
+<meta name="keywords" content="матрицы судьбы, услуги, консультация">
+<meta name="author" content="Матрицы Судьбы">
+<meta property="og:title" content="Матрицы Судьбы">
 <meta property="og:description" content="Профессиональная визитка">
 <meta property="og:type" content="website">
 ```

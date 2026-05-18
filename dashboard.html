@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Личный кабинет — Матрица Судьбы</title>
+    <title>Личный кабинет — Матрицы Судьбы</title>
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
@@ -15,8 +15,8 @@
 <!-- ─── БОКОВОЕ МЕНЮ ─────────────────────────────── -->
 <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
-        <span class="sidebar-logo-text">Матрица Судьбы</span>
-        <span class="sidebar-logo-sub">Матрица Судьбы · Медиум</span>
+        <span class="sidebar-logo-text">Матрицы Судьбы</span>
+        <span class="sidebar-logo-sub">Матрицы Судьбы · Медиум</span>
     </a>
 
     <div class="sidebar-user">
@@ -38,7 +38,7 @@
 
         <div class="sidebar-section-label">Сеансы</div>
         <a href="#" class="sidebar-link" onclick="showPage('matrix', this); closeSidebar()">
-            <span class="sidebar-icon">✺</span> Матрица Судьбы
+            <span class="sidebar-icon">✺</span> Матрицы Судьбы
             <span class="sidebar-badge new-badge">NEW</span>
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('consultations', this); closeSidebar()">
@@ -750,11 +750,11 @@
             </div>
         </div>
 
-        <!-- ─── СТРАНИЦА: МАТРИЦА СУДЬБЫ ─────────── -->
+        <!-- ─── СТРАНИЦА: МАТРИЦЫ СУДЬБЫ ─────────── -->
         <div id="page-matrix" class="page">
             <span class="page-label">Нумерология судьбы</span>
             <div class="page-header">
-                <h1>Матрица Судьбы</h1>
+                <h1>Матрицы Судьбы</h1>
                 <p>Введите дату рождения — получите персональную карту энергий и предназначения</p>
             </div>
 
@@ -789,7 +789,7 @@
 
                 <!-- Заголовок результата -->
                 <div class="matrix-result-header">
-                    <h2 id="matrixResultTitle">Матрица судьбы</h2>
+                    <h2 id="matrixResultTitle">Матрицы судьбы</h2>
                     <p id="matrixResultDate"></p>
                 </div>
 
@@ -1513,7 +1513,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ═══════════════════════════════════════════════════
-   МАТРИЦА СУДЬБЫ — калькулятор
+    МАТРИЦЫ СУДЬБЫ — калькулятор
    ═══════════════════════════════════════════════════ */
 
 // Аркан (сводим к числу 1-22)
@@ -1604,7 +1604,7 @@ function calcMatrix() {
 
     // Заголовок
     const dateFormatted = dStr + '.' + mStr + '.' + yStr;
-    document.getElementById('matrixResultTitle').textContent = name + ' — Матрица Судьбы';
+    document.getElementById('matrixResultTitle').textContent = name + ' — Матрицы Судьбы';
     document.getElementById('matrixResultDate').textContent  = 'Дата рождения: ' + dateFormatted + ' · Личный аркан: ' + arcSum + ' (' + ARCANA_NAMES[arcSum] + ')';
 
     // Карточки интерпретации

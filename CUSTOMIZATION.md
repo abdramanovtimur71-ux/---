@@ -73,12 +73,12 @@
 ```html
 <!-- Было -->
 <div class="logo">
-    <span class="logo-text">Роза Оглы</span>
+    <span class="logo-text">Матрицы Судьбы</span>
 </div>
 
 <!-- Стало -->
 <div class="logo">
-    <img src="logo.png" alt="Роза Оглы" style="height: 40px;">
+    <img src="logo.png" alt="Матрицы Судьбы" style="height: 40px;">
 </div>
 ```
 
