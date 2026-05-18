@@ -135,27 +135,8 @@
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
                 <div class="card" style="margin-bottom:0">
                     <div class="card-title">Предстоящие сеансы <span>Ближайшие</span></div>
-                    <div class="session-list">
-                        <div class="session-item">
-                            <div class="session-left">
-                                <div class="session-icon">🔮</div>
-                                <div>
-                                    <div class="session-name">Таро Чтение</div>
-                                    <div class="session-date">10 апр 2026 · 14:00</div>
-                                </div>
-                            </div>
-                            <span class="session-status status-upcoming">Предстоит</span>
-                        </div>
-                        <div class="session-item">
-                            <div class="session-left">
-                                <div class="session-icon">☽</div>
-                                <div>
-                                    <div class="session-name">Астро-консультация</div>
-                                    <div class="session-date">18 апр 2026 · 16:00</div>
-                                </div>
-                            </div>
-                            <span class="session-status status-upcoming">Предстоит</span>
-                        </div>
+                    <div class="session-list" id="overviewUpcomingList">
+                        <div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Загрузка...</div>
                     </div>
                 </div>
 
@@ -173,40 +154,8 @@
 
             <div class="card">
                 <div class="card-title">История сеансов <span>Последние 3</span></div>
-                <div class="session-list">
-                    <div class="session-item">
-                        <div class="session-left">
-                            <div class="session-icon">◈</div>
-                            <div>
-                                <div class="session-name">Энергетическое Очищение</div>
-                                <div class="session-date">28 мар 2026 · 11:00</div>
-                            </div>
-                        </div>
-                        <span class="session-price">7 500 ₸</span>
-                        <span class="session-status status-done">Завершён</span>
-                    </div>
-                    <div class="session-item">
-                        <div class="session-left">
-                            <div class="session-icon">🔮</div>
-                            <div>
-                                <div class="session-name">Таро Чтение</div>
-                                <div class="session-date">15 мар 2026 · 15:00</div>
-                            </div>
-                        </div>
-                        <span class="session-price">5 000 ₸</span>
-                        <span class="session-status status-done">Завершён</span>
-                    </div>
-                    <div class="session-item">
-                        <div class="session-left">
-                            <div class="session-icon">✦</div>
-                            <div>
-                                <div class="session-name">Рейки Исцеление</div>
-                                <div class="session-date">3 мар 2026 · 13:00</div>
-                            </div>
-                        </div>
-                        <span class="session-price">6 000 ₸</span>
-                        <span class="session-status status-done">Завершён</span>
-                    </div>
+                <div class="session-list" id="overviewPastList">
+                    <div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Загрузка...</div>
                 </div>
             </div>
         </div>
@@ -412,91 +361,25 @@
                 <p>Ближайшие встречи и архив прошедших сеансов</p>
             </div>
 
-            <div class="dash-notify warn">
+            <div class="dash-notify warn" id="sessionsNotify" style="display:none">
                 <div class="dash-notify-icon">◈</div>
                 <div class="dash-notify-text">
-                    <h4>Предстоит 2 сеанса</h4>
-                    <p>Ближайший — 10 апреля 2026 в 14:00 (Таро Чтение)</p>
+                    <h4 id="sessionsNotifyTitle">Загрузка...</h4>
+                    <p id="sessionsNotifyText"></p>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-title">Предстоящие сеансы <span onclick="showPage('booking', document.querySelector('[onclick*=booking]'))" style="cursor:pointer;color:var(--purple-l)">+ Записаться</span></div>
-                <div class="session-list">
-                    <div class="session-item">
-                        <div class="session-left">
-                            <div class="session-icon">🔮</div>
-                            <div>
-                                <div class="session-name">Таро Чтение</div>
-                                <div class="session-date">10 апреля 2026 · 14:00 · Онлайн</div>
-                            </div>
-                        </div>
-                        <span class="session-price">5 000 ₸</span>
-                        <span class="session-status status-upcoming">Предстоит</span>
-                        <button class="btn btn-outline btn-sm">Перенести</button>
-                    </div>
-                    <div class="session-item">
-                        <div class="session-left">
-                            <div class="session-icon">☽</div>
-                            <div>
-                                <div class="session-name">Астро-консультация</div>
-                                <div class="session-date">18 апреля 2026 · 16:00 · Онлайн</div>
-                            </div>
-                        </div>
-                        <span class="session-price">9 000 ₸</span>
-                        <span class="session-status status-upcoming">Предстоит</span>
-                        <button class="btn btn-outline btn-sm">Перенести</button>
-                    </div>
+                <div class="session-list" id="sessionsUpcomingList">
+                    <div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Загрузка...</div>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-title">Прошедшие сеансы <span>Архив</span></div>
-                <div class="session-list">
-                    <div class="session-item">
-                        <div class="session-left">
-                            <div class="session-icon">◈</div>
-                            <div>
-                                <div class="session-name">Энергетическое Очищение</div>
-                                <div class="session-date">28 марта 2026 · 11:00 · Лично</div>
-                            </div>
-                        </div>
-                        <span class="session-price">7 500 ₸</span>
-                        <span class="session-status status-done">Завершён</span>
-                    </div>
-                    <div class="session-item">
-                        <div class="session-left">
-                            <div class="session-icon">🔮</div>
-                            <div>
-                                <div class="session-name">Таро Чтение</div>
-                                <div class="session-date">15 марта 2026 · 15:00 · Онлайн</div>
-                            </div>
-                        </div>
-                        <span class="session-price">5 000 ₸</span>
-                        <span class="session-status status-done">Завершён</span>
-                    </div>
-                    <div class="session-item">
-                        <div class="session-left">
-                            <div class="session-icon">✦</div>
-                            <div>
-                                <div class="session-name">Рейки Исцеление</div>
-                                <div class="session-date">3 марта 2026 · 13:00 · Лично</div>
-                            </div>
-                        </div>
-                        <span class="session-price">6 000 ₸</span>
-                        <span class="session-status status-done">Завершён</span>
-                    </div>
-                    <div class="session-item">
-                        <div class="session-left">
-                            <div class="session-icon">⬡</div>
-                            <div>
-                                <div class="session-name">Духовное Наставничество</div>
-                                <div class="session-date">14 февраля 2026 · 12:00</div>
-                            </div>
-                        </div>
-                        <span class="session-price" style="color:var(--t3);text-decoration:line-through">12 500 ₸</span>
-                        <span class="session-status status-cancelled">Отменён</span>
-                    </div>
+                <div class="session-list" id="sessionsPastList">
+                    <div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Загрузка...</div>
                 </div>
             </div>
         </div>
@@ -1043,6 +926,12 @@ function showPage(pageId, linkEl) {
     if (pageId === 'messages') {
         loadClientMessages();
     }
+    if (pageId === 'sessions') {
+        loadSessions();
+    }
+    if (pageId === 'overview') {
+        loadOverviewSessions();
+    }
     window.scrollTo(0, 0);
 }
 
@@ -1365,6 +1254,130 @@ function dashLogout() {
     window.location.href = 'index.html';
 }
 
+/* ── Сеансы: реальные данные с API ─────────────── */
+const SESSION_ICONS = {
+    'таро': '🔮', 'астро': '☽', 'рейки': '✦', 'энерг': '◈',
+    'духовн': '⬡', 'контакт': '✺', 'матриц': '✺'
+};
+function sessionIcon(service) {
+    const s = (service || '').toLowerCase();
+    for (const [key, ico] of Object.entries(SESSION_ICONS)) {
+        if (s.includes(key)) return ico;
+    }
+    return '◇';
+}
+
+function renderSessionItem(item, showStatus) {
+    const fmt = item.format ? ' · ' + item.format : '';
+    const status = showStatus
+        ? '<span class="session-status status-upcoming">Предстоит</span>'
+        : '<span class="session-status status-done">Завершён</span>';
+    return `<div class="session-item">
+        <div class="session-left">
+            <div class="session-icon">${sessionIcon(item.service)}</div>
+            <div>
+                <div class="session-name">${item.service}</div>
+                <div class="session-date">${item.booking_at}${fmt}</div>
+            </div>
+        </div>
+        ${status}
+    </div>`;
+}
+
+async function loadSessions() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+
+    const upcomingEl = document.getElementById('sessionsUpcomingList');
+    const pastEl     = document.getElementById('sessionsPastList');
+    const notifyEl   = document.getElementById('sessionsNotify');
+    const notifyTitle = document.getElementById('sessionsNotifyTitle');
+    const notifyText  = document.getElementById('sessionsNotifyText');
+
+    if (!email) {
+        const msg = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Добавьте email в профиле для отображения сеансов</div>';
+        if (upcomingEl) upcomingEl.innerHTML = msg;
+        if (pastEl)     pastEl.innerHTML     = msg;
+        return;
+    }
+
+    try {
+        const res  = await fetch(API_BASE + '/api/bookings?email=' + encodeURIComponent(email));
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+            const err = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Не удалось загрузить данные</div>';
+            if (upcomingEl) upcomingEl.innerHTML = err;
+            if (pastEl)     pastEl.innerHTML     = err;
+            return;
+        }
+
+        // Предстоящие
+        if (upcomingEl) {
+            upcomingEl.innerHTML = data.upcoming.length
+                ? data.upcoming.map(i => renderSessionItem(i, true)).join('')
+                : '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Нет предстоящих сеансов</div>';
+        }
+
+        // Прошедшие
+        if (pastEl) {
+            pastEl.innerHTML = data.past.length
+                ? data.past.map(i => renderSessionItem(i, false)).join('')
+                : '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">История пуста</div>';
+        }
+
+        // Уведомление сверху
+        if (notifyEl) {
+            if (data.upcoming.length > 0) {
+                const next = data.upcoming[0];
+                notifyTitle.textContent = `Предстоит ${data.upcoming.length} сеанс${data.upcoming.length > 1 ? 'а' : ''}`;
+                notifyText.textContent  = `Ближайший — ${next.booking_at} · ${next.service}`;
+                notifyEl.style.display  = 'flex';
+            } else {
+                notifyEl.style.display  = 'none';
+            }
+        }
+    } catch {
+        const err = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Сервер недоступен</div>';
+        if (upcomingEl) upcomingEl.innerHTML = err;
+        if (pastEl)     pastEl.innerHTML     = err;
+    }
+}
+
+async function loadOverviewSessions() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+    const upEl  = document.getElementById('overviewUpcomingList');
+    const pastEl = document.getElementById('overviewPastList');
+
+    if (!email) {
+        const msg = '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Добавьте email в профиле</div>';
+        if (upEl)   upEl.innerHTML   = msg;
+        if (pastEl) pastEl.innerHTML = msg;
+        return;
+    }
+
+    try {
+        const res  = await fetch(API_BASE + '/api/bookings?email=' + encodeURIComponent(email));
+        const data = await res.json();
+        if (!res.ok || !data.ok) return;
+
+        if (upEl) {
+            upEl.innerHTML = data.upcoming.length
+                ? data.upcoming.slice(0, 3).map(i => renderSessionItem(i, true)).join('')
+                : '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Нет предстоящих сеансов</div>';
+        }
+        if (pastEl) {
+            pastEl.innerHTML = data.past.length
+                ? data.past.slice(0, 3).map(i => renderSessionItem(i, false)).join('')
+                : '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">История пуста</div>';
+        }
+
+        // KPI "Всего сеансов"
+        const kpiEl = document.querySelector('.kpi-value.purple');
+        if (kpiEl) kpiEl.textContent = data.upcoming.length + data.past.length;
+    } catch { /* тихо */ }
+}
+
 async function loadClientMessages() {
     const root = document.getElementById('clientMessagesList');
     if (!root) {
@@ -1495,6 +1508,7 @@ window.addEventListener('DOMContentLoaded', () => {
     checkAuth();
     loadUser();
     loadTrainingStatus();
+    loadOverviewSessions();
     initDashboardThemeCards();
 
     const dateEl = document.getElementById('bkDate');

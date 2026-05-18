@@ -929,6 +929,50 @@ def confirm_purchase():
     )
 
 
+@app.route("/api/bookings", methods=["GET"])
+@limiter.limit("60 per minute")
+def get_user_bookings():
+    """Возвращает предстоящие и прошедшие записи пользователя по email."""
+    email = (request.args.get("email") or "").strip().lower()
+    if not email or not validate_email(email):
+        return jsonify({"ok": False, "message": "Укажите корректный email"}), 400
+
+    now = datetime.now()
+    with closing(get_conn()) as conn:
+        rows = conn.execute(
+            """
+            SELECT id, name, service, format, booking_at, created_at
+            FROM bookings
+            WHERE LOWER(email) = ?
+            ORDER BY booking_at DESC
+            LIMIT 50
+            """,
+            (email,),
+        ).fetchall()
+
+    upcoming = []
+    past = []
+    for row in rows:
+        booking_at = parse_iso(row["booking_at"])
+        if not booking_at:
+            continue
+        item = {
+            "id": row["id"],
+            "service": row["service"],
+            "format": row["format"] or "",
+            "booking_at": booking_at.strftime("%d.%m.%Y %H:%M"),
+            "booking_iso": row["booking_at"],
+        }
+        if booking_at >= now:
+            upcoming.append(item)
+        else:
+            past.append(item)
+
+    # upcoming по возрастанию (ближайший первый)
+    upcoming.sort(key=lambda x: x["booking_iso"])
+    return jsonify({"ok": True, "upcoming": upcoming, "past": past})
+
+
 @app.route("/api/bookings/slots", methods=["GET"])
 def booking_slots():
     date = (request.args.get("date") or "").strip()
