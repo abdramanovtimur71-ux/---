@@ -1581,22 +1581,45 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
 
 /* ── Визуальная матрица ── */
 .matrix-grid-wrap {
+    --mx-neon: #7d94ff;
+    --mx-neon-soft: rgba(125,148,255,0.30);
+    --mx-gold: #f1d38a;
+    --mx-panel: rgba(8, 11, 22, 0.80);
+    --mx-line: rgba(126, 147, 255, 0.42);
     position: relative;
     overflow: hidden;
-    background: var(--card);
-    border: 1px solid var(--br);
-    border-radius: var(--r2);
-    padding: 32px 24px 24px;
+    isolation: isolate;
+    background:
+        radial-gradient(circle at 50% 54%, rgba(125,148,255,0.16) 0%, rgba(10,12,22,0.04) 42%, rgba(7,8,14,0) 66%),
+        linear-gradient(180deg, rgba(17,19,31,0.96) 0%, rgba(8,10,19,0.98) 100%);
+    border: 1px solid rgba(137, 157, 255, 0.20);
+    border-radius: 20px;
+    padding: 28px 24px 22px;
     margin-bottom: 28px;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        0 28px 40px rgba(3,4,8,0.52);
 }
 .matrix-grid-wrap::before {
     content: '';
     position: absolute;
     inset: 0;
     background:
-        url('images/matrix-person.jpg') center 20% / cover no-repeat;
-    opacity: 0.13;
-    filter: saturate(0.6) hue-rotate(200deg);
+        radial-gradient(circle at 50% 52%, rgba(72,94,208,0.14) 0%, transparent 44%),
+        url('images/matrix-person.jpg') center 26% / cover no-repeat;
+    opacity: 0.22;
+    filter: saturate(0.68) hue-rotate(228deg) contrast(1.1);
+    pointer-events: none;
+    z-index: 0;
+}
+.matrix-grid-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 50% 56%, rgba(131,153,255,0.10) 0%, transparent 34%),
+        linear-gradient(180deg, rgba(6,9,18,0) 66%, rgba(6,8,16,0.58) 100%);
+    opacity: 0.92;
     pointer-events: none;
     z-index: 0;
 }
@@ -1605,133 +1628,224 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
     z-index: 1;
 }
 .matrix-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, auto);
-    gap: 8px;
-    max-width: 520px;
-    margin: 0 auto 28px;
+    position: relative;
+    width: min(760px, 100%);
+    aspect-ratio: 1 / 1;
+    margin: 0 auto 20px;
+}
+
+.matrix-orbit {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(138,160,255,0.20);
+    box-shadow: inset 0 0 26px rgba(91,113,214,0.16);
+    animation: matrixOrbitPulse 6.4s ease-in-out infinite;
+}
+.matrix-orbit.orbit-outer { inset: 5%; }
+.matrix-orbit.orbit-mid {
+    inset: 20%;
+    animation-delay: .9s;
+}
+.matrix-orbit.orbit-core {
+    inset: 34%;
+    animation-delay: 1.8s;
+}
+
+.matrix-axis,
+.matrix-link {
+    position: absolute;
+    background: linear-gradient(180deg, transparent, var(--mx-line), transparent);
+    filter: drop-shadow(0 0 8px rgba(127,148,255,0.44));
+}
+.matrix-axis.axis-v {
+    width: 2px;
+    height: 76%;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.matrix-axis.axis-h {
+    width: 76%;
+    height: 2px;
+    top: 50%;
+    left: 12%;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, transparent, var(--mx-line), transparent);
+}
+.matrix-link {
+    width: 2px;
+    height: 31%;
+    top: 34%;
+    left: 50%;
+    transform-origin: top center;
+}
+.matrix-link.link-tl { transform: rotate(56deg); }
+.matrix-link.link-tr { transform: rotate(-56deg); }
+.matrix-link.link-bl { transform: rotate(124deg); }
+.matrix-link.link-br { transform: rotate(-124deg); }
+
+.matrix-cell.sky { top: 10%; left: 50%; }
+.matrix-cell.tl { top: 26%; left: 27%; }
+.matrix-cell.tr { top: 26%; left: 73%; }
+.matrix-cell.left { top: 50%; left: 11%; }
+.matrix-cell.center { top: 50%; left: 50%; }
+.matrix-cell.right { top: 50%; left: 89%; }
+.matrix-cell.bl { top: 74%; left: 27%; }
+.matrix-cell.br { top: 74%; left: 73%; }
+.matrix-cell.earth { top: 90%; left: 50%; }
+
+.matrix-cell.corner .mc-hint,
+.matrix-cell.left .mc-hint,
+.matrix-cell.right .mc-hint {
+    display: none;
 }
 
 /* Ячейки матрицы */
 .matrix-cell {
+    position: absolute;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
-    padding: 14px 8px;
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    padding: 14px 10px;
     text-align: center;
-    border: 1px solid var(--br);
-    background: var(--card2);
-    position: relative;
-    min-height: 80px;
-    transition: var(--tr);
+    border: 1px solid rgba(137, 157, 255, 0.28);
+    background:
+        radial-gradient(circle at 50% 33%, rgba(131,153,255,0.20) 0%, rgba(131,153,255,0.03) 52%, rgba(131,153,255,0) 74%),
+        var(--mx-panel);
+    backdrop-filter: blur(4px);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.07),
+        0 0 24px rgba(104,125,226,0.16);
 }
 .matrix-cell:hover {
-    border-color: var(--br-h);
-    box-shadow: 0 0 22px rgba(138,109,192,0.16);
+    border-color: rgba(158,177,255,0.58);
+    box-shadow: 0 0 26px rgba(134,157,255,0.26);
+    transform: translate(-50%, -50%) scale(1.03);
 }
 .mc-label {
-    font-size: 9px;
-    letter-spacing: 1.5px;
+    font-size: 10px;
+    letter-spacing: 1.8px;
     text-transform: uppercase;
-    color: var(--t3);
-    margin-bottom: 6px;
+    color: rgba(188, 202, 255, 0.66);
+    margin-bottom: 7px;
 }
 .mc-value {
     font-family: 'Cinzel', serif;
-    font-size: 28px;
+    font-size: 46px;
     font-weight: 700;
-    color: var(--gold-l);
-    text-shadow: 0 0 18px rgba(212,174,92,0.40);
+    color: var(--mx-gold);
+    text-shadow: 0 0 20px rgba(243,216,141,0.44);
     line-height: 1;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 }
 .mc-hint {
     font-size: 9px;
-    color: var(--t3);
-    letter-spacing: 0.5px;
+    color: rgba(183,196,247,0.70);
+    letter-spacing: 0.6px;
 }
 
 /* Специальные ячейки */
 .matrix-cell.center {
+    width: 154px;
+    height: 154px;
     background:
-        radial-gradient(ellipse 80% 70% at 50% 50%, rgba(212,174,92,0.12) 0%, transparent 70%),
-        var(--card2);
-    border-color: rgba(212,174,92,0.38);
-    box-shadow: 0 0 36px rgba(212,174,92,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
-    min-height: 96px;
+        radial-gradient(circle at 50% 45%, rgba(243,216,141,0.30) 0%, rgba(243,216,141,0.02) 56%, rgba(243,216,141,0) 73%),
+        linear-gradient(180deg, rgba(19,21,34,0.95), rgba(9,11,20,0.95));
+    border-color: rgba(243,216,141,0.56);
+    box-shadow:
+        0 0 34px rgba(243,216,141,0.27),
+        0 0 0 1px rgba(255,238,187,0.13) inset;
+    animation: matrixCorePulse 3.8s ease-in-out infinite;
 }
-.matrix-cell.center .mc-value { font-size: 36px; }
+.matrix-cell.center .mc-value { font-size: 62px; }
 .matrix-cell.sky,
 .matrix-cell.earth {
     background:
-        radial-gradient(ellipse at 50% 50%, rgba(138,109,192,0.12) 0%, transparent 70%),
-        var(--card2);
-    border-color: rgba(138,109,192,0.28);
+        radial-gradient(circle at 50% 40%, rgba(131,153,255,0.28) 0%, transparent 67%),
+        var(--mx-panel);
+    border-color: rgba(144,165,255,0.38);
 }
 .matrix-cell.left,
 .matrix-cell.right {
     background:
-        radial-gradient(ellipse at 50% 50%, rgba(138,109,192,0.08) 0%, transparent 70%),
-        var(--card2);
-    border-color: rgba(138,109,192,0.22);
+        radial-gradient(circle at 50% 40%, rgba(131,153,255,0.22) 0%, transparent 68%),
+        var(--mx-panel);
+    border-color: rgba(140,161,255,0.34);
 }
 .matrix-cell.corner {
-    background: rgba(20,18,28,0.60);
-    border-color: rgba(130,100,205,0.12);
+    width: 108px;
+    height: 108px;
+    background: rgba(9,12,22,0.82);
+    border-color: rgba(138,160,255,0.30);
 }
-.matrix-cell.corner .mc-value { font-size: 22px; color: var(--t2); text-shadow: none; }
-
-/* Соединительные линии */
-.mg-line {
-    background: linear-gradient(90deg, transparent, rgba(212,174,92,0.28), transparent);
-    border-radius: 2px;
-    align-self: center;
+.matrix-cell.corner .mc-value {
+    font-size: 40px;
+    color: rgba(177, 194, 255, 0.94);
+    text-shadow: 0 0 16px rgba(129,156,255,0.33);
 }
-.mg-line.h-left,
-.mg-line.h-right { height: 2px; width: 100%; }
-.mg-line.v-top,
-.mg-line.v-bot {
-    background: linear-gradient(180deg, transparent, rgba(212,174,92,0.28), transparent);
-    width: 2px;
-    height: 100%;
-    justify-self: center;
-}
-.mg-empty { /* пустая ячейка */ }
 
 /* Полоса арканов снизу */
 .matrix-arcana-strip {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(105px, 1fr));
     gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding-top: 20px;
-    border-top: 1px solid var(--br);
+    padding-top: 16px;
+    border-top: 1px solid rgba(131,153,255,0.20);
 }
 .arcana-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    padding: 10px 16px;
-    background: var(--bg3);
-    border: 1px solid var(--br);
-    border-radius: 8px;
+    padding: 11px 10px;
+    background: rgba(7, 10, 19, 0.90);
+    border: 1px solid rgba(131,153,255,0.24);
+    border-radius: 12px;
     min-width: 100px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
 }
 .arc-label {
     font-size: 9px;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.6px;
     text-transform: uppercase;
-    color: var(--t3);
+    color: rgba(188, 202, 255, 0.68);
 }
 .arc-val {
     font-family: 'Cinzel', serif;
-    font-size: 12px;
-    color: var(--gold-l);
+    font-size: 20px;
+    color: var(--mx-gold);
     text-align: center;
+    line-height: 1.18;
+}
+
+@keyframes matrixOrbitPulse {
+    0%, 100% {
+        opacity: 0.72;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.012);
+    }
+}
+
+@keyframes matrixCorePulse {
+    0%, 100% {
+        box-shadow:
+            0 0 28px rgba(243,216,141,0.22),
+            0 0 0 1px rgba(255,238,187,0.12) inset;
+    }
+    50% {
+        box-shadow:
+            0 0 40px rgba(243,216,141,0.30),
+            0 0 0 1px rgba(255,238,187,0.18) inset;
+    }
 }
 
 /* ── Карточки интерпретации ── */
@@ -1794,25 +1908,45 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
 @media (max-width: 900px) {
     .matrix-form-row { grid-template-columns: 1fr; }
     .matrix-interp-grid { grid-template-columns: 1fr 1fr; }
-    .matrix-grid { gap: 5px; }
-    .mc-value { font-size: 22px; }
-    .matrix-cell.center .mc-value { font-size: 28px; }
-    .matrix-cell { min-height: 66px; padding: 10px 4px; }
+    .matrix-grid { width: min(620px, 100%); }
+    .matrix-cell { width: 106px; height: 106px; }
+    .matrix-cell.corner { width: 90px; height: 90px; }
+    .matrix-cell.center { width: 126px; height: 126px; }
+    .mc-value { font-size: 36px; }
+    .matrix-cell.center .mc-value { font-size: 48px; }
+    .matrix-cell.corner .mc-value { font-size: 30px; }
+    .mc-label { font-size: 9px; }
     .mc-hint { display: none; }
     .matrix-calc-btn { align-self: stretch; justify-content: center; }
+    .matrix-arcana-strip { grid-template-columns: repeat(3, minmax(90px, 1fr)); }
     .arcana-item { min-width: 80px; padding: 8px 10px; }
+    .arc-val { font-size: 16px; }
 }
 @media (max-width: 600px) {
-    .matrix-grid-wrap { padding: 18px 10px 16px; }
+    .matrix-grid-wrap {
+        padding: 16px 8px 14px;
+        border-radius: 14px;
+    }
+    .matrix-grid { width: 100%; }
+    .matrix-grid-wrap::after { opacity: 0.78; }
     .matrix-interp-grid { grid-template-columns: 1fr; }
-    .matrix-grid { max-width: 100%; gap: 4px; }
-    .mc-value { font-size: 18px; }
-    .matrix-cell.center .mc-value { font-size: 22px; }
-    .matrix-cell { min-height: 56px; border-radius: 8px; }
+    .matrix-cell { width: 74px; height: 74px; }
+    .matrix-cell.corner { width: 62px; height: 62px; }
+    .matrix-cell.center { width: 90px; height: 90px; }
+    .mc-value { font-size: 22px; }
+    .matrix-cell.center .mc-value { font-size: 31px; }
+    .matrix-cell.corner .mc-value { font-size: 20px; }
     .mc-label { font-size: 8px; }
-    .matrix-arcana-strip { gap: 6px; }
-    .arcana-item { min-width: 70px; padding: 6px 8px; }
-    .arc-val { font-size: 10px; }
+    .matrix-cell.tl { top: 27%; left: 26%; }
+    .matrix-cell.tr { top: 27%; left: 74%; }
+    .matrix-cell.bl { top: 73%; left: 26%; }
+    .matrix-cell.br { top: 73%; left: 74%; }
+    .matrix-arcana-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+    }
+    .arcana-item { min-width: 0; padding: 6px 8px; }
+    .arc-val { font-size: 14px; }
     .matrix-actions { flex-direction: column; }
     .matrix-actions .btn { width: 100%; text-align: center; }
 }
