@@ -1586,7 +1586,7 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
     background: var(--card);
     border: 1px solid var(--br);
     border-radius: var(--r2);
-    padding: 32px 24px 24px;
+    padding: 40px 30px 28px;
     margin-bottom: 28px;
 }
 .matrix-grid-wrap::before {
@@ -1608,8 +1608,8 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, auto);
-    gap: 8px;
-    max-width: 520px;
+    gap: 10px;
+    max-width: min(100%, 640px);
     margin: 0 auto 28px;
 }
 
@@ -1620,12 +1620,12 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    padding: 14px 8px;
+    padding: 16px 10px;
     text-align: center;
     border: 1px solid var(--br);
     background: var(--card2);
     position: relative;
-    min-height: 80px;
+    min-height: 96px;
     transition: var(--tr);
 }
 .matrix-cell:hover {
@@ -1633,7 +1633,7 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
     box-shadow: 0 0 22px rgba(138,109,192,0.16);
 }
 .mc-label {
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--t3);
@@ -1641,7 +1641,7 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
 }
 .mc-value {
     font-family: 'Cinzel', serif;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
     color: var(--gold-l);
     text-shadow: 0 0 18px rgba(212,174,92,0.40);
@@ -1649,7 +1649,7 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
     margin-bottom: 4px;
 }
 .mc-hint {
-    font-size: 9px;
+    font-size: 10px;
     color: var(--t3);
     letter-spacing: 0.5px;
 }
@@ -1661,9 +1661,9 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
         var(--card2);
     border-color: rgba(212,174,92,0.38);
     box-shadow: 0 0 36px rgba(212,174,92,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
-    min-height: 96px;
+    min-height: 118px;
 }
-.matrix-cell.center .mc-value { font-size: 36px; }
+.matrix-cell.center .mc-value { font-size: 42px; }
 .matrix-cell.sky,
 .matrix-cell.earth {
     background:
@@ -1682,7 +1682,7 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
     background: rgba(20,18,28,0.60);
     border-color: rgba(130,100,205,0.12);
 }
-.matrix-cell.corner .mc-value { font-size: 22px; color: var(--t2); text-shadow: none; }
+.matrix-cell.corner .mc-value { font-size: 24px; color: var(--t2); text-shadow: none; }
 
 /* Соединительные линии */
 .mg-line {
@@ -1794,21 +1794,21 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
 @media (max-width: 900px) {
     .matrix-form-row { grid-template-columns: 1fr; }
     .matrix-interp-grid { grid-template-columns: 1fr 1fr; }
-    .matrix-grid { gap: 5px; }
-    .mc-value { font-size: 22px; }
-    .matrix-cell.center .mc-value { font-size: 28px; }
-    .matrix-cell { min-height: 66px; padding: 10px 4px; }
+    .matrix-grid { gap: 7px; }
+    .mc-value { font-size: 24px; }
+    .matrix-cell.center .mc-value { font-size: 32px; }
+    .matrix-cell { min-height: 78px; padding: 12px 6px; }
     .mc-hint { display: none; }
     .matrix-calc-btn { align-self: stretch; justify-content: center; }
     .arcana-item { min-width: 80px; padding: 8px 10px; }
 }
 @media (max-width: 600px) {
-    .matrix-grid-wrap { padding: 18px 10px 16px; }
+    .matrix-grid-wrap { padding: 24px 14px 18px; }
     .matrix-interp-grid { grid-template-columns: 1fr; }
     .matrix-grid { max-width: 100%; gap: 4px; }
-    .mc-value { font-size: 18px; }
-    .matrix-cell.center .mc-value { font-size: 22px; }
-    .matrix-cell { min-height: 56px; border-radius: 8px; }
+    .mc-value { font-size: 19px; }
+    .matrix-cell.center .mc-value { font-size: 24px; }
+    .matrix-cell { min-height: 62px; border-radius: 8px; }
     .mc-label { font-size: 8px; }
     .matrix-arcana-strip { gap: 6px; }
     .arcana-item { min-width: 70px; padding: 6px 8px; }
