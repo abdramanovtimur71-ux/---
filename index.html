@@ -1164,17 +1164,17 @@
     </div>
 
     <style>
-    #aiChatWidget { position:fixed; bottom:24px; right:24px; z-index:9900; font-family:Inter,sans-serif; }
+    #aiChatWidget { position:fixed; bottom:24px; right:20px; z-index:9900; font-family:Inter,sans-serif; }
     #aiChatToggle {
-        width:58px; height:58px; border-radius:50%; border:none; cursor:pointer;
+        width:44px; height:44px; border-radius:50%; border:none; cursor:pointer;
         background:linear-gradient(135deg,#7b4fc9,#c8a840);
-        box-shadow:0 6px 24px rgba(123,79,201,0.5);
-        font-size:26px; display:flex; align-items:center; justify-content:center;
-        position:relative; transition:transform .2s;
+        box-shadow:0 4px 16px rgba(123,79,201,0.4);
+        font-size:20px; display:flex; align-items:center; justify-content:center;
+        position:relative; transition:transform .2s; opacity:0.85;
     }
-    #aiChatToggle:hover { transform:scale(1.08); }
+    #aiChatToggle:hover { transform:scale(1.1); opacity:1; }
     .ai-chat-pulse {
-        position:absolute; top:-3px; right:-3px; width:14px; height:14px;
+        position:absolute; top:-2px; right:-2px; width:10px; height:10px;
         background:#4fc36a; border-radius:50%; border:2px solid #07090f;
         animation:aiPulse 2s infinite;
     }
@@ -1241,8 +1241,9 @@
     }
     #aiChatSendBtn:disabled { opacity:.4; cursor:default; }
     @media(max-width:480px) {
-        #aiChatWidget { bottom:80px; right:12px; }
-        #aiChatBox { width:calc(100vw - 24px); right:0; }
+        #aiChatWidget { bottom:88px; right:10px; }
+        #aiChatBox { width:calc(100vw - 24px); right:0; bottom:56px; }
+        #aiChatToggle { width:40px; height:40px; font-size:18px; }
     }
     </style>
 
