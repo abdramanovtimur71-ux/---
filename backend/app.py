@@ -177,6 +177,9 @@ def init_db():
         ensure_column(conn, "purchases", "unit_price", "INTEGER NOT NULL DEFAULT 0")
         ensure_column(conn, "purchases", "quantity", "INTEGER NOT NULL DEFAULT 1")
         conn.commit()
+        ensure_column(conn, "bookings", "status", "TEXT NOT NULL DEFAULT 'confirmed'")
+        ensure_column(conn, "bookings", "cancelled_at", "TEXT")
+        conn.commit()
 
 
 def cleanup_admin_sessions():
@@ -387,6 +390,52 @@ def add_security_headers(resp):
 def handle_preflight():
     if request.method == "OPTIONS":
         return ("", 204)
+
+
+@app.route("/api/bookings/<int:booking_id>/cancel", methods=["POST"])
+@limiter.limit("20 per hour")
+def cancel_booking(booking_id):
+    payload   = request.get_json(silent=True) or {}
+    email     = (payload.get("email") or "").strip().lower()
+    now       = datetime.now().isoformat()
+
+    with closing(get_conn()) as conn:
+        row = conn.execute(
+            "SELECT id, email, booking_at, service FROM bookings WHERE id = ?", (booking_id,)
+        ).fetchone()
+        if not row:
+            return jsonify({"ok": False, "message": "Запись не найдена"}), 404
+        if email and row["email"].lower() != email:
+            return jsonify({"ok": False, "message": "Нет доступа"}), 403
+        conn.execute(
+            "UPDATE bookings SET status = 'cancelled', cancelled_at = ? WHERE id = ?",
+            (now, booking_id)
+        )
+        conn.commit()
+
+    send_all_notifications(
+        f"Отмена записи #{booking_id}",
+        f"Клиент отменил запись:\n{row['service']} / {row['booking_at']}\nEmail: {row['email']}"
+    )
+    return jsonify({"ok": True, "message": "Запись отменена"})
+
+
+@app.route("/api/contact", methods=["POST"])
+@limiter.limit("10 per hour")
+def contact_form():
+    payload = request.get_json(silent=True) or {}
+    name    = (payload.get("name") or "").strip()
+    email   = (payload.get("email") or "").strip()
+    message = (payload.get("message") or "").strip()
+
+    if not email or not message:
+        return jsonify({"ok": False, "message": "Укажите email и сообщение"}), 400
+
+    subject = f"Сообщение с сайта от {name or email}"
+    text    = f"Имя: {name}\nEmail: {email}\n\nСообщение:\n{message}"
+
+    send_all_notifications(subject, text)
+    return jsonify({"ok": True, "message": "Сообщение получено"})
 
 
 @app.route("/api/health", methods=["GET"])

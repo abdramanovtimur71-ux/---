@@ -61,6 +61,7 @@
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('messages', this); closeSidebar()">
             <span class="sidebar-icon">✉</span> Сообщения
+            <span class="sidebar-badge unread-badge" id="unreadBadge" style="display:none">0</span>
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('settings', this); closeSidebar()">
             <span class="sidebar-icon">⚙</span> Настройки
@@ -282,7 +283,7 @@
 
                     <div class="profile-shop-grid">
                     <article class="profile-shop-card">
-                        <img src="images/shop-ritual.jpg" alt="Кукла-оберег ручной работы" class="profile-shop-image">
+                        <img src="images/shop-ritual.jpg" alt="Кукла-оберег ручной работы" class="profile-shop-image" loading="lazy">
                         <div class="profile-shop-body">
                             <h3>Кукла-оберег</h3>
                             <p>Защитный артефакт для дома и личного пространства, собранный вручную под намерение владельца.</p>
@@ -306,7 +307,7 @@
                     </article>
 
                     <article class="profile-shop-card">
-                        <img src="images/privorot.jpg" alt="Программные свечи" class="profile-shop-image">
+                        <img src="images/privorot.jpg" alt="Программные свечи" class="profile-shop-image" loading="lazy">
                         <div class="profile-shop-body">
                             <h3>Программные свечи</h3>
                             <p>Свечи с программированием намерения для очищения, привлечения и усиления энергетики пространства.</p>
@@ -330,7 +331,7 @@
                     </article>
 
                     <article class="profile-shop-card">
-                        <img src="images/privorot.jpg" alt="Чистка" class="profile-shop-image">
+                        <img src="images/privorot.jpg" alt="Чистка" class="profile-shop-image" loading="lazy">
                         <div class="profile-shop-body">
                             <h3>Чистка</h3>
                             <p>Энергетическое очищение пространства или человека от негативных программ, сглазов и блоков.</p>
@@ -354,7 +355,7 @@
                     </article>
 
                     <article class="profile-shop-card">
-                        <img src="images/shop-ritual.jpg" alt="Амулет силы" class="profile-shop-image">
+                        <img src="images/shop-ritual.jpg" alt="Амулет силы" class="profile-shop-image" loading="lazy">
                         <div class="profile-shop-body">
                             <h3>Амулет силы</h3>
                             <p>Талисман на внутреннюю устойчивость, фокус и спокойствие в период перемен и эмоциональной нагрузки.</p>
@@ -825,6 +826,30 @@
     </div>
 </div>
 
+<!-- ─── МОБИЛЬНАЯ НИЖНЯЯ НАВИГАЦИЯ ─────────────── -->
+<nav class="mobile-bottom-nav" id="mobileBottomNav">
+    <a class="mob-nav-item active" onclick="showPage('overview', null); setMobNav(this)" href="#">
+        <span class="mob-nav-icon">⬡</span>
+        <span class="mob-nav-label">Обзор</span>
+    </a>
+    <a class="mob-nav-item" onclick="showPage('booking', null); setMobNav(this)" href="#">
+        <span class="mob-nav-icon">◈</span>
+        <span class="mob-nav-label">Запись</span>
+    </a>
+    <a class="mob-nav-item" onclick="showPage('sessions', null); setMobNav(this)" href="#">
+        <span class="mob-nav-icon">☽</span>
+        <span class="mob-nav-label">Сеансы</span>
+    </a>
+    <a class="mob-nav-item" onclick="showPage('shop', null); setMobNav(this)" href="#">
+        <span class="mob-nav-icon">✺</span>
+        <span class="mob-nav-label">Магазин</span>
+    </a>
+    <a class="mob-nav-item" onclick="showPage('messages', null); setMobNav(this)" href="#">
+        <span class="mob-nav-icon">✉</span>
+        <span class="mob-nav-label">Чат</span>
+    </a>
+</nav>
+
 <script>
 /* ─── DASHBOARD JS ──────────────────────────────── */
 
@@ -923,10 +948,33 @@ function toggleSidebar() {
         overlay.classList.add('active');
     }
 }
+function setMobNav(el) {
+    document.querySelectorAll('.mob-nav-item').forEach(i => i.classList.remove('active'));
+    if (el) el.classList.add('active');
+}
 function closeSidebar() {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('sidebarOverlay').classList.remove('active');
 }
+
+// Swipe влево чтобы закрыть сайдбар
+(function () {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    document.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    document.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+        if (dx < -60 && dy < 50) closeSidebar();
+        if (dx > 60 && dy < 50 && touchStartX < 30) {
+            document.getElementById('sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('active');
+        }
+    }, { passive: true });
+})();
 
 // Навигация между страницами
 function showPage(pageId, linkEl) {
@@ -934,7 +982,12 @@ function showPage(pageId, linkEl) {
     document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
 
     const page = document.getElementById('page-' + pageId);
-    if (page) page.classList.add('active');
+    if (page) {
+        page.classList.add('active');
+        page.classList.remove('page-enter');
+        void page.offsetWidth; // reflow
+        page.classList.add('page-enter');
+    }
     if (linkEl) linkEl.classList.add('active');
 
     localStorage.setItem('dashboard_page', pageId);
@@ -1299,10 +1352,13 @@ function sessionIcon(service) {
 
 function renderSessionItem(item, showStatus) {
     const fmt = item.format ? ' · ' + item.format : '';
+    const cancelBtn = showStatus && item.id
+        ? `<button class="btn-cancel-session" onclick="cancelBooking(${item.id}, this)" title="Отменить запись">✕ Отменить</button>`
+        : '';
     const status = showStatus
         ? '<span class="session-status status-upcoming">Предстоит</span>'
         : '<span class="session-status status-done">Завершён</span>';
-    return `<div class="session-item">
+    return `<div class="session-item" data-booking-id="${item.id || ''}">
         <div class="session-left">
             <div class="session-icon">${sessionIcon(item.service)}</div>
             <div>
@@ -1310,8 +1366,45 @@ function renderSessionItem(item, showStatus) {
                 <div class="session-date">${item.booking_at}${fmt}</div>
             </div>
         </div>
-        ${status}
+        <div style="display:flex;align-items:center;gap:10px">
+            ${status}
+            ${cancelBtn}
+        </div>
     </div>`;
+}
+
+async function cancelBooking(bookingId, btn) {
+    if (!confirm('Отменить эту запись?')) return;
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '...';
+    try {
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        const email = (userData.email || localStorage.getItem('userEmail') || '').trim();
+        const res = await fetch(API_BASE + '/api/bookings/' + bookingId + '/cancel', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+            const item = btn.closest('.session-item');
+            if (item) {
+                item.style.transition = 'opacity 0.3s';
+                item.style.opacity = '0';
+                setTimeout(() => item.remove(), 300);
+            }
+            showNotify('✅ Запись отменена', 'success');
+        } else {
+            showNotify(data.message || 'Не удалось отменить', 'error');
+            btn.disabled = false;
+            btn.textContent = orig;
+        }
+    } catch {
+        showNotify('Сервер недоступен', 'error');
+        btn.disabled = false;
+        btn.textContent = orig;
+    }
 }
 
 async function loadSessions() {
@@ -1453,6 +1546,32 @@ async function loadClientMessages() {
     } catch (error) {
         root.innerHTML = '<div class="empty">Сервер недоступен</div>';
     }
+    // Обновить счётчик непрочитанных
+    updateUnreadBadge();
+}
+
+function updateUnreadBadge() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+    if (!email) return;
+
+    fetch(API_BASE + '/api/messages?email=' + encodeURIComponent(email))
+        .then(r => r.json())
+        .then(data => {
+            if (!data.ok) return;
+            const unread = (data.messages || []).filter(m => m.sender_role === 'admin' && !m.read_at).length;
+            const badge = document.getElementById('unreadBadge');
+            const mobBadge = document.getElementById('mobUnreadBadge');
+            if (badge) {
+                badge.textContent = unread;
+                badge.style.display = unread > 0 ? '' : 'none';
+            }
+            if (mobBadge) {
+                mobBadge.textContent = unread;
+                mobBadge.style.display = unread > 0 ? '' : 'none';
+            }
+        })
+        .catch(() => {});
 }
 
 async function sendClientReply(e) {
@@ -1634,6 +1753,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const timeEl = document.getElementById('bkTime');
     if (dateEl) dateEl.addEventListener('change', loadDashboardSlotHints);
     if (timeEl) timeEl.addEventListener('change', loadDashboardSlotHints);
+
+    updateUnreadBadge();
+    setInterval(updateUnreadBadge, 60000); // проверять каждую минуту
 
     // Восстановление страницы после обновления: хэш → localStorage → 'overview'
     const hash = window.location.hash.replace('#', '');

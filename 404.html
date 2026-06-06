@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Страница не найдена · Матрицы Судьбы</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles_dark.css">
+    <style>
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .error-number {
+            font-size: clamp(80px, 20vw, 160px);
+            font-family: 'Cinzel', 'Georgia', serif;
+            background: linear-gradient(135deg, #D4AE5C, #8B6914);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+        .error-symbol {
+            font-size: 48px;
+            margin-bottom: 24px;
+            opacity: 0.7;
+        }
+        .error-title {
+            font-size: clamp(20px, 4vw, 32px);
+            font-family: 'Cinzel', serif;
+            color: #EDE8FF;
+            margin-bottom: 16px;
+        }
+        .error-text {
+            color: #8892B8;
+            font-size: 16px;
+            max-width: 420px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+        .error-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn-home {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #D4AE5C, #8B6914);
+            color: #07090f;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: Inter, sans-serif;
+        }
+        .btn-back {
+            padding: 14px 32px;
+            background: transparent;
+            color: #EDE8FF;
+            border: 1px solid rgba(130,100,205,0.4);
+            border-radius: 50px;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: Inter, sans-serif;
+        }
+        .btn-back:hover { border-color: rgba(130,100,205,0.8); }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="error-page">
+        <div class="error-number">404</div>
+        <div class="error-symbol">✦ ✧ ✦</div>
+        <h1 class="error-title">Страница не найдена</h1>
+        <p class="error-text">
+            Эта страница ушла в другое измерение.<br>
+            Звёзды не могут её найти — вернитесь на главную.
+        </p>
+        <div class="error-actions">
+            <a href="index.html" class="btn-home">На главную</a>
+            <a href="javascript:history.back()" class="btn-back">← Назад</a>
+        </div>
+    </div>
+</body>
+</html>

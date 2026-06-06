@@ -137,6 +137,9 @@
 
         <section class="panel">
             <h2>Участники и записи</h2>
+            <div class="admin-search-bar">
+                <input type="search" id="adminSearchInput" class="admin-search-input" placeholder="🔍 Поиск по имени, email, услуге..." oninput="filterAdminTable(this.value)">
+            </div>
             <div class="double-grid">
                 <div>
                     <h3>Участники обучения</h3>
@@ -639,6 +642,14 @@
                 alert('Ошибка загрузки админ данных: ' + error.message);
             }
         });
+
+        function filterAdminTable(query) {
+            const q = query.toLowerCase().trim();
+            document.querySelectorAll('.admin-table tbody tr, .admin-participants-table tbody tr, .table tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = !q || text.includes(q) ? '' : 'none';
+            });
+        }
     </script>
 </body>
 </html>
