@@ -1114,6 +1114,49 @@ body {
     color: var(--primary);
 }
 
+/* ── Кнопки соцсетей в секции контактов ── */
+.contact-socials {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+}
+
+.contact-social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform .18s, box-shadow .18s, opacity .18s;
+    color: #fff;
+    letter-spacing: .3px;
+}
+.contact-social-btn:hover {
+    transform: translateY(-2px);
+    opacity: .9;
+}
+.contact-social-btn.wa {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    box-shadow: 0 6px 20px rgba(37,211,102,.3);
+}
+.contact-social-btn.tg {
+    background: linear-gradient(135deg, #2aabee, #1a6fa8);
+    box-shadow: 0 6px 20px rgba(42,171,238,.3);
+}
+.contact-social-btn.ig {
+    background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4);
+    box-shadow: 0 6px 20px rgba(221,42,123,.3);
+}
+
+@media (max-width: 480px) {
+    .contact-socials { gap: 8px; }
+    .contact-social-btn { padding: 10px 14px; font-size: 13px; }
+}
+
 /* ============================================
    АНИМАЦИИ
    ============================================ */
