@@ -648,3 +648,143 @@ h1 {
     border-color: rgba(212,174,92,0.5);
 }
 .admin-search-input::placeholder { color: rgba(136,146,184,0.5); }
+
+/* ── Sticky header ── */
+.top {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg, #020204);
+    border-bottom: 1px solid rgba(212,174,92,0.15);
+    backdrop-filter: blur(12px);
+    padding: 14px 28px;
+}
+
+/* ── Кнопки навигации в хедере ── */
+.btn-nav {
+    background: rgba(212,174,92,0.08);
+    border: 1px solid rgba(212,174,92,0.2);
+    color: var(--gold, #c8a840);
+    font-size: 12px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.btn-nav:hover {
+    background: rgba(212,174,92,0.15);
+    border-color: rgba(212,174,92,0.4);
+}
+.btn-danger-outline {
+    background: transparent;
+    border: 1px solid rgba(220,53,69,0.4);
+    color: #e05555;
+    border-radius: 8px;
+    padding: 7px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: Inter, sans-serif;
+    transition: all 0.2s;
+}
+.btn-danger-outline:hover {
+    background: rgba(220,53,69,0.1);
+    border-color: rgba(220,53,69,0.7);
+}
+
+/* ── Сортируемые заголовки таблиц ── */
+.sortable-th:hover {
+    background: rgba(212,174,92,0.08);
+}
+
+/* ── Кнопка удаления в таблице ── */
+.btn-del {
+    background: none;
+    border: 1px solid rgba(220,53,69,0.3);
+    border-radius: 6px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+    color: #e05555;
+}
+.btn-del:hover {
+    background: rgba(220,53,69,0.12);
+    border-color: rgba(220,53,69,0.6);
+}
+
+/* ── Loading KPI ── */
+.loading-val {
+    animation: kpiPulse 1.2s ease-in-out infinite;
+    color: rgba(200,168,64,0.4) !important;
+}
+@keyframes kpiPulse {
+    0%,100% { opacity: 0.4; }
+    50% { opacity: 0.9; }
+}
+
+/* ── Таблицы как карточки на мобильном ── */
+@media (max-width: 640px) {
+    .table thead { display: none; }
+    .table tr {
+        display: block;
+        border: 1px solid rgba(212,174,92,0.15);
+        border-radius: 10px;
+        margin-bottom: 10px;
+        padding: 12px;
+        background: var(--card, #1a1520);
+    }
+    .table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 6px 0;
+        border: none;
+        font-size: 13px;
+    }
+    .table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--gold, #c8a840);
+        font-size: 11px;
+        letter-spacing: 0.4px;
+        min-width: 100px;
+        margin-right: 8px;
+    }
+    .top { flex-direction: column; gap: 12px; padding: 12px 16px; }
+    .top nav { flex-wrap: wrap; gap: 6px; }
+    .btn-nav { font-size: 11px; padding: 6px 10px; }
+    .kpis { grid-template-columns: 1fr 1fr; }
+    .analytics-cards { grid-template-columns: 1fr 1fr; }
+    .double-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Touch-friendly кнопки ── */
+@media (max-width: 768px) {
+    .btn, .btn-main {
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    textarea { min-height: 100px; }
+    .wrap { padding: 0 12px 40px; }
+}
+
+/* ── Скролл-хинт для таблиц ── */
+.table-wrap::after {
+    content: '';
+    display: none;
+}
+@media (max-width: 768px) {
+    .table-wrap {
+        position: relative;
+    }
+}
+
+/* ── Форм ошибки ── */
+.form-field-error {
+    border-color: rgba(220,53,69,0.6) !important;
+    box-shadow: 0 0 0 2px rgba(220,53,69,0.15) !important;
+}

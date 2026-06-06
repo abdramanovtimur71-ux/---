@@ -9,15 +9,22 @@
 </head>
 <body>
     <div class="wrap">
-        <header class="top">
-            <div>
-                <h1>Админ кабинет</h1>
-                <div class="sub">Спецвход: управление сайтом, публикациями, участниками и сообщениями</div>
+        <header class="top" id="adminHeader">
+            <div style="display:flex;align-items:center;gap:14px">
+                <span style="font-size:24px">⚙️</span>
+                <div>
+                    <h1>Админ кабинет</h1>
+                    <div class="sub">Матрицы Судьбы · Управление сайтом</div>
+                </div>
             </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-                <a class="btn" href="index.html">На сайт</a>
-                <button class="btn" onclick="clearAdminSession()">Выйти из админки</button>
-            </div>
+            <nav style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                <a class="btn btn-nav" href="#analytics-section">📊 Аналитика</a>
+                <a class="btn btn-nav" href="#content-section">📝 Контент</a>
+                <a class="btn btn-nav" href="#participants-section">👥 Участники</a>
+                <a class="btn btn-nav" href="#messages-section">💬 Сообщения</a>
+                <a class="btn" href="index.html">← Сайт</a>
+                <button class="btn btn-danger-outline" onclick="clearAdminSession()">Выйти</button>
+            </nav>
         </header>
 
         <section class="panel">
@@ -40,14 +47,14 @@
         </section>
 
         <section class="kpis">
-            <article class="kpi"><div class="label">Участники обучения</div><div class="val" id="kpiLearners">0</div></article>
-            <article class="kpi"><div class="label">Лист ожидания</div><div class="val" id="kpiWaitlist">0</div></article>
-            <article class="kpi"><div class="label">Записи на прием</div><div class="val" id="kpiBookings">0</div></article>
-            <article class="kpi"><div class="label">Публикации</div><div class="val" id="kpiContent">0</div></article>
-            <article class="kpi"><div class="label">Сообщения</div><div class="val" id="kpiMessages">0</div></article>
+            <article class="kpi"><div class="label">Участники обучения</div><div class="val loading-val" id="kpiLearners">—</div></article>
+            <article class="kpi"><div class="label">Лист ожидания</div><div class="val loading-val" id="kpiWaitlist">—</div></article>
+            <article class="kpi"><div class="label">Записи на прием</div><div class="val loading-val" id="kpiBookings">—</div></article>
+            <article class="kpi"><div class="label">Публикации</div><div class="val loading-val" id="kpiContent">—</div></article>
+            <article class="kpi"><div class="label">Сообщения</div><div class="val loading-val" id="kpiMessages">—</div></article>
         </section>
 
-        <section class="panel analytics-shell">
+        <section class="panel analytics-shell" id="analytics-section">
             <div class="panel-head">
                 <h2>Аналитика клиентов и дохода</h2>
                 <div class="analytics-actions">
@@ -104,7 +111,7 @@
             </div>
         </section>
 
-        <section class="panel">
+        <section class="panel" id="content-section">
             <h2>Добавить новую публикацию</h2>
             <form class="admin-form" id="contentForm" onsubmit="createContent(event)">
                 <div class="form-grid">
@@ -126,7 +133,10 @@
                 <textarea id="contentBody" rows="4" placeholder="Текст истории, документации или описания"></textarea>
                 <label>Ссылка на медиа (для фото/видео/документа)</label>
                 <input id="contentMediaUrl" type="url" placeholder="https://...">
-                <button class="btn btn-main" type="submit">Добавить публикацию</button>
+                <div id="contentFormError" style="color:#e05555;font-size:12.5px;margin-bottom:8px;min-height:16px"></div>
+                <button class="btn btn-main" type="submit" id="contentSubmitBtn">
+                    <span>➕ Добавить публикацию</span>
+                </button>
             </form>
         </section>
 
@@ -135,10 +145,10 @@
             <div id="tblContent" class="table-wrap"></div>
         </section>
 
-        <section class="panel">
+        <section class="panel" id="participants-section">
             <h2>Участники и записи</h2>
             <div class="admin-search-bar">
-                <input type="search" id="adminSearchInput" class="admin-search-input" placeholder="🔍 Поиск по имени, email, услуге..." oninput="filterAdminTable(this.value)">
+                <input type="search" id="adminSearchInput" class="admin-search-input" placeholder="🔍 Поиск по имени, email, услуге..." oninput="_debouncedFilter(this.value)">
             </div>
             <div class="double-grid">
                 <div>
@@ -152,7 +162,7 @@
             </div>
         </section>
 
-        <section class="panel">
+        <section class="panel" id="messages-section">
             <h2>Отправить сообщение клиенту</h2>
             <form class="admin-form" id="messageForm" onsubmit="sendMessage(event)">
                 <div class="form-grid">
@@ -167,7 +177,10 @@
                 </div>
                 <label>Текст</label>
                 <textarea id="msgText" rows="4" placeholder="Сообщение клиенту" required></textarea>
-                <button class="btn btn-main" type="submit">Отправить клиенту</button>
+                <div id="messageFormError" style="color:#e05555;font-size:12.5px;margin-bottom:8px;min-height:16px"></div>
+                <button class="btn btn-main" type="submit" id="msgSubmitBtn">
+                    <span>✉️ Отправить клиенту</span>
+                </button>
             </form>
         </section>
 
@@ -178,6 +191,36 @@
     </div>
 
     <script>
+        // ── Toast уведомления для админки ──
+        function adminToast(msg, type = 'success') {
+            const icons = { success: '✅', error: '❌', warn: '⚠️', info: 'ℹ️' };
+            const colors = {
+                success: { bg: 'rgba(46,160,87,0.15)', border: 'rgba(46,160,87,0.4)', color: '#4fc36a' },
+                error:   { bg: 'rgba(220,53,69,0.15)', border: 'rgba(220,53,69,0.4)', color: '#e05555' },
+                warn:    { bg: 'rgba(255,193,7,0.15)',  border: 'rgba(255,193,7,0.4)',  color: '#f0b429' },
+                info:    { bg: 'rgba(13,202,240,0.12)', border: 'rgba(13,202,240,0.35)', color: '#5bc8e2' }
+            };
+            const c = colors[type] || colors.info;
+            let wrap = document.getElementById('_adminToasts');
+            if (!wrap) {
+                wrap = document.createElement('div');
+                wrap.id = '_adminToasts';
+                wrap.style.cssText = 'position:fixed;top:20px;right:20px;z-index:99990;display:flex;flex-direction:column;gap:8px;pointer-events:none';
+                document.body.appendChild(wrap);
+            }
+            const t = document.createElement('div');
+            t.style.cssText = `pointer-events:all;display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;font-size:13.5px;font-family:Inter,sans-serif;max-width:340px;box-shadow:0 8px 24px rgba(0,0,0,0.5);animation:_adminToastIn .25s ease;background:${c.bg};border:1px solid ${c.border};color:${c.color};position:relative;overflow:hidden`;
+            t.innerHTML = `<span style="font-size:16px">${icons[type]||'ℹ️'}</span><span style="flex:1">${msg}</span><button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:inherit;opacity:.6;font-size:14px;padding:0;margin-left:4px">✕</button><div style="position:absolute;bottom:0;left:0;height:2px;background:${c.border};animation:_adminToastBar 4s linear forwards"></div>`;
+            if (!document.getElementById('_adminToastStyle')) {
+                const s = document.createElement('style');
+                s.id = '_adminToastStyle';
+                s.textContent = '@keyframes _adminToastIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}@keyframes _adminToastBar{from{width:100%}to{width:0}}';
+                document.head.appendChild(s);
+            }
+            wrap.appendChild(t);
+            setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity .2s'; setTimeout(()=>t.remove(),220); }, 4000);
+        }
+
         const API_BASE = (() => {
             const params = new URLSearchParams(window.location.search);
             const fromQuery = (params.get('api') || '').trim().replace(/\/$/, '');
@@ -217,19 +260,18 @@
             }
             const value = (input.value || '').trim().replace(/\/$/, '');
             if (!/^https?:\/\//i.test(value)) {
-                alert('Укажите корректный URL, например https://example.onrender.com');
-                return;
+                adminToast('Укажите корректный URL', 'error'); return;
             }
             localStorage.setItem('apiBaseUrl', value);
             updateApiStatus('Текущий API: ' + value);
-            alert('API сохранен');
+            adminToast('API сохранён ✓', 'success');
         }
 
         async function testApiBase() {
             const input = document.getElementById('apiBaseInput');
             const value = ((input && input.value) || currentApiBase()).trim().replace(/\/$/, '');
             if (!/^https?:\/\//i.test(value)) {
-                alert('Сначала укажите корректный URL API');
+                adminToast('Укажите URL API', 'warn');
                 return;
             }
             try {
@@ -237,14 +279,14 @@
                 const data = await response.json();
                 if (response.ok && data.ok) {
                     updateApiStatus('API доступен: ' + value);
-                    alert('Проверка успешна');
+                    adminToast('API доступен ✓', 'success');
                 } else {
                     updateApiStatus('API ответил с ошибкой: ' + value);
-                    alert('API ответил с ошибкой');
+                    adminToast('API ответил с ошибкой', 'error');
                 }
             } catch {
                 updateApiStatus('API недоступен: ' + value);
-                alert('Не удалось подключиться к API');
+                adminToast('Нет соединения с API', 'error');
             }
         }
 
@@ -262,12 +304,12 @@
                 if (status) {
                     status.textContent = 'Готово: 24ч=' + (data.sent24h || 0) + ', 2ч=' + (data.sent2h || 0);
                 }
-                alert('Проверка напоминаний выполнена');
+                adminToast('Напоминания отправлены ✓', 'success');
             } catch (error) {
                 if (status) {
                     status.textContent = 'Ошибка: ' + error.message;
                 }
-                alert('Ошибка запуска напоминаний: ' + error.message);
+                adminToast('Ошибка: ' + error.message, 'error');
             }
         }
 
@@ -275,7 +317,7 @@
             const input = document.getElementById('apiBaseInput');
             const value = ((input && input.value) || currentApiBase()).trim().replace(/\/$/, '');
             if (!/^https?:\/\//i.test(value)) {
-                alert('Сначала укажите корректный URL API');
+                adminToast('Укажите URL API', 'warn');
                 return;
             }
             localStorage.setItem('apiBaseUrl', value);
@@ -303,55 +345,121 @@
                 localStorage.removeItem('adminOfflineAccess');
                 return true;
             }
+            return await showAdminLoginModal();
+        }
 
-            const code = prompt('Введите пароль спецвхода');
-            const normalized = (code || '').trim().toLowerCase();
-            const password = ['роза оглы', 'матрицы судьбы', 'матрицы судбы'].includes(normalized)
-                ? ADMIN_ACCESS_CODE
-                : (code || '').trim();
-            if (!password || password !== ADMIN_ACCESS_CODE) {
-                alert('Доступ запрещен');
-                window.location.href = 'index.html';
-                return false;
+        function showAdminLoginModal() {
+            return new Promise((resolve) => {
+                const modal = document.createElement('div');
+                modal.id = 'adminLoginModal';
+                modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:99999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)';
+                modal.innerHTML = `
+                    <div style="background:var(--card,#1a1520);border:1px solid rgba(212,174,92,0.3);border-radius:16px;padding:40px;width:360px;max-width:95vw;box-shadow:0 24px 60px rgba(0,0,0,0.7)">
+                        <div style="text-align:center;margin-bottom:28px">
+                            <div style="font-size:32px;margin-bottom:12px">🔐</div>
+                            <h2 style="font-family:Cinzel,serif;color:#e8d090;font-size:20px;margin:0 0 6px">Вход в админ-панель</h2>
+                            <p style="color:#888;font-size:13px;margin:0">Матрицы Судьбы · Спецвход</p>
+                        </div>
+                        <div style="margin-bottom:16px">
+                            <label style="display:block;color:#aaa;font-size:12px;margin-bottom:6px;letter-spacing:0.5px">ПАРОЛЬ</label>
+                            <input id="adminLoginInput" type="password" placeholder="Введите пароль" autofocus
+                                style="width:100%;padding:12px 14px;background:#0d0b14;border:1px solid rgba(212,174,92,0.2);border-radius:8px;color:#eee;font-size:15px;outline:none;box-sizing:border-box"
+                                onkeydown="if(event.key==='Enter')submitAdminLogin()">
+                        </div>
+                        <div id="adminLoginError" style="color:#e05555;font-size:12px;margin-bottom:12px;min-height:16px"></div>
+                        <button onclick="submitAdminLogin()" id="adminLoginBtn"
+                            style="width:100%;padding:13px;background:linear-gradient(135deg,#c8a840,#8a6520);border:none;border-radius:8px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">
+                            Войти
+                        </button>
+                        <a href="index.html" style="display:block;text-align:center;margin-top:16px;color:#666;font-size:12px;text-decoration:none">← Вернуться на сайт</a>
+                    </div>`;
+                document.body.appendChild(modal);
+                setTimeout(() => document.getElementById('adminLoginInput')?.focus(), 100);
+
+                window._adminLoginResolve = resolve;
+            });
+        }
+
+        async function submitAdminLogin() {
+            const input = document.getElementById('adminLoginInput');
+            const errEl = document.getElementById('adminLoginError');
+            const btn = document.getElementById('adminLoginBtn');
+            const code = (input?.value || '').trim();
+
+            if (!code) {
+                if (errEl) errEl.textContent = 'Введите пароль';
+                return;
             }
+
+            if (btn) { btn.disabled = true; btn.textContent = 'Проверка...'; }
+            if (errEl) errEl.textContent = '';
 
             try {
                 const response = await fetch(API_BASE + '/api/admin/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password })
+                    body: JSON.stringify({ password: code })
                 });
                 const data = await response.json();
                 if (!response.ok || !data.ok) {
-                    alert(data.message || 'Ошибка спецвхода');
-                    window.location.href = 'index.html';
-                    return false;
+                    if (errEl) errEl.textContent = data.message || 'Неверный пароль';
+                    if (btn) { btn.disabled = false; btn.textContent = 'Войти'; }
+                    return;
                 }
                 localStorage.setItem('adminToken', data.token);
                 localStorage.removeItem('adminOfflineAccess');
-                return true;
+                document.getElementById('adminLoginModal')?.remove();
+                if (window._adminLoginResolve) window._adminLoginResolve(true);
             } catch {
                 localStorage.setItem('adminOfflineAccess', 'true');
-                updateApiStatus('Сервер входа недоступен. Укажите правильный URL API и нажмите «Проверить API».');
-                alert('Сервер спецвхода недоступен. Открыт режим настройки API.');
-                return false;
+                document.getElementById('adminLoginModal')?.remove();
+                if (window._adminLoginResolve) window._adminLoginResolve(false);
+                adminToast('Сервер недоступен. Открыт режим настройки.', 'warn');
             }
         }
 
-        function renderTable(targetId, columns, rows) {
+        let _sortState = {};
+        window._tableRefreshMap = {};
+
+        function renderTable(targetId, columns, rows, opts = {}) {
             const root = document.getElementById(targetId);
-            if (!rows.length) {
-                root.innerHTML = '<div class="empty">Пока нет данных</div>';
+            if (!root) return;
+            if (!rows || !rows.length) {
+                root.innerHTML = '<div class="empty" style="padding:32px;text-align:center;color:#666"><span style="font-size:32px;display:block;margin-bottom:8px">📭</span>Нет данных</div>';
                 return;
             }
 
-            const thead = columns.map((c) => '<th>' + c.label + '</th>').join('');
-            const tbody = rows.map((r) => {
-                const cells = columns.map((c) => '<td>' + (r[c.key] || '—') + '</td>').join('');
-                return '<tr>' + cells + '</tr>';
+            const sortKey = _sortState[targetId]?.key;
+            const sortDir = _sortState[targetId]?.dir || 'asc';
+
+            if (sortKey) {
+                rows = [...rows].sort((a, b) => {
+                    const av = a[sortKey] || '', bv = b[sortKey] || '';
+                    return sortDir === 'asc' ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+                });
+            }
+
+            const thead = columns.map(c => {
+                const isSort = c.key === sortKey;
+                const arrow = isSort ? (sortDir === 'asc' ? ' ↑' : ' ↓') : '';
+                return `<th class="sortable-th" onclick="toggleSort('${targetId}', '${c.key}')" style="cursor:pointer;user-select:none">${c.label}${arrow}</th>`;
+            }).join('') + (opts.deletable ? '<th style="width:60px"></th>' : '');
+
+            const tbody = rows.map((r, i) => {
+                const cells = columns.map(c => `<td data-label="${c.label}">${c.render ? c.render(r) : (r[c.key] || '—')}</td>`).join('');
+                const delBtn = opts.deletable ? `<td><button class="btn-del" onclick="${opts.deletable}(${r.id || i})" title="Удалить">🗑</button></td>` : '';
+                return `<tr>${cells}${delBtn}</tr>`;
             }).join('');
 
-            root.innerHTML = '<table class="table"><thead><tr>' + thead + '</tr></thead><tbody>' + tbody + '</tbody></table>';
+            root.innerHTML = `<div style="overflow-x:auto"><table class="table"><thead><tr>${thead}</tr></thead><tbody>${tbody}</tbody></table></div>`;
+        }
+
+        function toggleSort(targetId, key) {
+            const prev = _sortState[targetId];
+            _sortState[targetId] = { key, dir: prev?.key === key && prev?.dir === 'asc' ? 'desc' : 'asc' };
+            if (typeof window._tableRefreshMap === 'object' && window._tableRefreshMap[targetId]) {
+                window._tableRefreshMap[targetId]();
+            }
         }
 
         function fmtDate(value) {
@@ -470,9 +578,9 @@
         async function refreshAnalytics() {
             try {
                 await loadAnalytics();
-                alert('Аналитика обновлена');
+                adminToast('Аналитика обновлена ✓', 'success');
             } catch (error) {
-                alert('Ошибка обновления аналитики: ' + error.message);
+                adminToast('Ошибка: ' + error.message, 'error');
             }
         }
 
@@ -501,7 +609,7 @@
                 a.remove();
                 URL.revokeObjectURL(url);
             } catch (error) {
-                alert('Ошибка экспорта: ' + error.message);
+                adminToast('Ошибка экспорта: ' + error.message, 'error');
             }
         }
 
@@ -588,12 +696,12 @@
             });
             const data = await response.json();
             if (!response.ok || !data.ok) {
-                alert(data.message || 'Не удалось добавить публикацию');
+                adminToast(data.message || 'Ошибка сохранения', 'error');
                 return;
             }
             e.target.reset();
             await loadContent();
-            alert('Публикация добавлена');
+            adminToast(data.message || 'Публикация добавлена ✓', 'success');
         }
 
         async function sendMessage(e) {
@@ -609,12 +717,12 @@
             });
             const data = await response.json();
             if (!response.ok || !data.ok) {
-                alert(data.message || 'Не удалось отправить сообщение');
+                adminToast(data.message || 'Ошибка отправки', 'error');
                 return;
             }
             e.target.reset();
             await loadMessages();
-            alert('Сообщение отправлено');
+            adminToast(data.message || 'Сообщение отправлено ✓', 'success');
         }
 
         async function loadAdminData() {
@@ -639,9 +747,14 @@
             try {
                 await loadAdminData();
             } catch (error) {
-                alert('Ошибка загрузки админ данных: ' + error.message);
+                adminToast('Ошибка: ' + error.message, 'error');
             }
         });
+
+        function _debounce(fn, ms) {
+            let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+        }
+        const _debouncedFilter = _debounce((q) => filterAdminTable(q), 280);
 
         function filterAdminTable(query) {
             const q = query.toLowerCase().trim();
