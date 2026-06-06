@@ -933,6 +933,8 @@ function showPage(pageId, linkEl) {
     if (page) page.classList.add('active');
     if (linkEl) linkEl.classList.add('active');
 
+    localStorage.setItem('dashboard_page', pageId);
+
     const titles = {
         overview: ['Обзор', 'Сводная информация по вашему кабинету'],
         profile: ['Мой профиль', 'Личные данные и контакты'],
@@ -1540,12 +1542,13 @@ window.addEventListener('DOMContentLoaded', () => {
     if (dateEl) dateEl.addEventListener('change', loadDashboardSlotHints);
     if (timeEl) timeEl.addEventListener('change', loadDashboardSlotHints);
 
-    // Хэш-навигация (#profile, #sessions и т.д.)
+    // Восстановление страницы после обновления: хэш → localStorage → 'overview'
     const hash = window.location.hash.replace('#', '');
-    if (hash && document.getElementById('page-' + hash)) {
-        const link = document.querySelector('[onclick*="' + hash + '"]');
-        showPage(hash, link);
-    }
+    const savedPage = hash && document.getElementById('page-' + hash)
+        ? hash
+        : (localStorage.getItem('dashboard_page') || 'overview');
+    const link = document.querySelector('[onclick*="' + savedPage + '"]');
+    showPage(savedPage, link);
 });
 
 /* ═══════════════════════════════════════════════════
