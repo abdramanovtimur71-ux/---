@@ -1056,7 +1056,7 @@ async function submitBooking(e) {
         }
 
         addAdminRecord('bookings', { name, email, service, date, time, format, source: 'dashboard-booking-api' });
-        showNotify('Запись создана. Уведомления отправлены автоматически.', 'success');
+        showNotify('🗓 Запись создана! Уведомление отправлено на почту.', 'success');
         e.target.reset();
         const slotRoot = document.getElementById('dashboardBookingSlots');
         if (slotRoot) slotRoot.innerHTML = '';
@@ -1255,9 +1255,9 @@ async function confirmPayment(e) {
         });
 
         if (paymentContext.kind === 'consultation') {
-            showNotify('Оплата консультации принята. Администратор свяжется для согласования времени.', 'success');
+            showNotify('💬 Оплата консультации принята! Администратор свяжется для согласования времени.', 'success');
         } else {
-            showNotify('Оплата товара принята. Количество: ' + (paymentContext.quantity || 1) + '.', 'success');
+            showNotify('🛒 Оплата принята! Товар: ' + paymentContext.itemTitle + ' × ' + (paymentContext.quantity || 1) + '.', 'success');
         }
         closePaymentModal();
     } catch (error) {
@@ -1486,18 +1486,69 @@ async function sendClientReply(e) {
 }
 
 // Уведомление
-function showNotify(msg, type) {
-    const n = document.createElement('div');
-    n.style.cssText = 'position:fixed;bottom:24px;right:24px;padding:14px 22px;border-radius:10px;font-size:13.5px;z-index:9999;animation:slideInR .3s ease;font-family:Inter,sans-serif;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.5)';
-    n.style.background = type === 'success' ? 'rgba(90,191,138,.12)' : 'rgba(208,96,96,.12)';
-    n.style.border = type === 'success' ? '1px solid rgba(90,191,138,.3)' : '1px solid rgba(208,96,96,.3)';
-    n.style.color = type === 'success' ? '#5ABF8A' : '#D06060';
-    n.textContent = msg;
-    document.body.appendChild(n);
-    const style = document.createElement('style');
-    style.textContent = '@keyframes slideInR{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}';
-    document.head.appendChild(style);
-    setTimeout(() => n.remove(), 4000);
+/* ── Toast-уведомления ── */
+(function () {
+    if (document.getElementById('_toastStyles')) return;
+    const s = document.createElement('style');
+    s.id = '_toastStyles';
+    s.textContent = `
+    #_toastContainer{position:fixed;bottom:24px;right:24px;z-index:99999;display:flex;flex-direction:column-reverse;gap:10px;pointer-events:none}
+    @media(max-width:600px){#_toastContainer{right:10px;left:10px;bottom:14px}}
+    .toast{pointer-events:all;display:flex;align-items:flex-start;gap:10px;padding:13px 16px 13px 14px;border-radius:12px;font-size:13.5px;font-family:Inter,sans-serif;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,.55);animation:_toastIn .28s cubic-bezier(.34,1.56,.64,1) both;position:relative;overflow:hidden}
+    @media(max-width:600px){.toast{max-width:100%;width:100%}}
+    .toast.success{background:rgba(90,191,138,.13);border:1px solid rgba(90,191,138,.35);color:#5ABF8A}
+    .toast.error{background:rgba(208,96,96,.13);border:1px solid rgba(208,96,96,.35);color:#D06060}
+    .toast.info{background:rgba(100,140,220,.13);border:1px solid rgba(100,140,220,.35);color:#7aaaf5}
+    .toast-icon{font-size:17px;line-height:1;flex-shrink:0;margin-top:1px}
+    .toast-msg{flex:1;line-height:1.5}
+    .toast-close{background:none;border:none;cursor:pointer;opacity:.55;font-size:16px;padding:0 0 0 6px;color:inherit;line-height:1;flex-shrink:0;margin-top:1px}
+    .toast-close:hover{opacity:1}
+    .toast-bar{position:absolute;bottom:0;left:0;height:3px;border-radius:0 0 12px 12px;animation:_toastBar 4s linear forwards}
+    .toast.success .toast-bar{background:rgba(90,191,138,.55)}
+    .toast.error   .toast-bar{background:rgba(208,96,96,.55)}
+    .toast.info    .toast-bar{background:rgba(100,140,220,.55)}
+    .toast.hide{animation:_toastOut .22s ease forwards}
+    @keyframes _toastIn{from{opacity:0;transform:translateX(22px) scale(.95)}to{opacity:1;transform:none}}
+    @keyframes _toastOut{to{opacity:0;transform:translateX(22px) scale(.95)}}
+    @keyframes _toastBar{from{width:100%}to{width:0}}
+    `;
+    document.head.appendChild(s);
+
+    let container = document.getElementById('_toastContainer');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = '_toastContainer';
+        document.body.appendChild(container);
+    }
+})();
+
+function showNotify(msg, type = 'success') {
+    const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+    let container = document.getElementById('_toastContainer');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = '_toastContainer';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <span class="toast-icon">${icons[type] || icons.info}</span>
+        <span class="toast-msg">${msg}</span>
+        <button class="toast-close" aria-label="Закрыть">✕</button>
+        <div class="toast-bar"></div>
+    `;
+
+    const close = toast.querySelector('.toast-close');
+    const dismiss = () => {
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 230);
+    };
+    close.addEventListener('click', dismiss);
+
+    container.appendChild(toast);
+    setTimeout(dismiss, 4000);
 }
 
 // Выбор темы в настройках кабинета
