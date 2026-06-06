@@ -10,11 +10,10 @@ services:
     envVars:
       - key: APP_SECRET_KEY
         generateValue: true
-      - key: ADMIN_PASSWORD
-        value: "0000"
       - key: PAYMENT_VERIFY_MODE
         value: mock
       - key: TRAINING_PRICE_KZT
         value: "75000"
       - key: OPENAI_MODEL
-        value: gpt-4o-mini
+        value: gpt-4o
+      - fromGroup: матрица судьбы
