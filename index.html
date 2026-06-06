@@ -1133,7 +1133,7 @@
 
     <!-- ── ИИ Чат-виджет ── -->
     <div id="aiChatWidget">
-        <button id="aiChatToggle" onclick="aiChatOpen()" aria-label="Открыть ИИ-консультант" title="Спросить ИИ-консультанта">
+        <button id="aiChatToggle" aria-label="Открыть ИИ-консультант" title="Спросить ИИ-консультанта">
             <span id="aiChatIcon">🔮</span>
             <span class="ai-chat-pulse"></span>
         </button>
@@ -1251,6 +1251,50 @@
     (function(){
         const API = (window.API_BASE || 'https://roza-ogly-api.onrender.com');
         const SID = (sessionStorage.getItem('aiSid') || (()=>{ const s=Math.random().toString(36).slice(2); sessionStorage.setItem('aiSid',s); return s; })());
+
+        // ── Drag & Drop для виджета ──
+        const widget = document.getElementById('aiChatWidget');
+        const toggle = document.getElementById('aiChatToggle');
+        let isDragging = false, dragMoved = false;
+        let startX, startY, origRight, origBottom;
+
+        function startDrag(cx, cy) {
+            const rect = widget.getBoundingClientRect();
+            isDragging = true; dragMoved = false;
+            startX = cx; startY = cy;
+            origRight = window.innerWidth - rect.right;
+            origBottom = window.innerHeight - rect.bottom;
+            widget.style.transition = 'none';
+            toggle.style.cursor = 'grabbing';
+        }
+        function moveDrag(cx, cy) {
+            if (!isDragging) return;
+            const dx = cx - startX, dy = cy - startY;
+            if (Math.abs(dx) > 4 || Math.abs(dy) > 4) dragMoved = true;
+            let newRight = origRight - dx;
+            let newBottom = origBottom - dy;
+            newRight = Math.max(8, Math.min(window.innerWidth - 60, newRight));
+            newBottom = Math.max(8, Math.min(window.innerHeight - 60, newBottom));
+            widget.style.right = newRight + 'px';
+            widget.style.bottom = newBottom + 'px';
+        }
+        function endDrag() {
+            if (!isDragging) return;
+            isDragging = false;
+            toggle.style.cursor = 'pointer';
+            widget.style.transition = '';
+        }
+
+        toggle.addEventListener('mousedown', e => { e.preventDefault(); startDrag(e.clientX, e.clientY); });
+        document.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
+        document.addEventListener('mouseup', endDrag);
+
+        toggle.addEventListener('touchstart', e => { const t = e.touches[0]; startDrag(t.clientX, t.clientY); }, { passive: true });
+        document.addEventListener('touchmove', e => { if(isDragging){ const t=e.touches[0]; moveDrag(t.clientX,t.clientY); } }, { passive: true });
+        document.addEventListener('touchend', endDrag);
+
+        // Открывать чат только если не перетаскивали
+        toggle.addEventListener('click', () => { if (!dragMoved) window.aiChatOpen(); });
 
         window.aiChatOpen = function() {
             document.getElementById('aiChatBox').classList.add('open');
