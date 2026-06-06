@@ -1450,7 +1450,7 @@ function calculateSessionPlan() {
             price: 'от 7 500 ₸'
         },
         contact: {
-            title: 'Медиумический контакт',
+            title: 'Контакт с тонким миром',
             description: 'Деликатный сеанс связи с ушедшим близким с бережным сопровождением.',
             duration: '60-90 мин',
             price: 'от 10 000 ₸'
