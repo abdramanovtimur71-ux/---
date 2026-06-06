@@ -2,6 +2,7 @@ import os
 import re
 import secrets
 import sqlite3
+import logging
 from collections import Counter, defaultdict
 from contextlib import closing
 from io import StringIO
@@ -18,6 +19,11 @@ from flask import Flask, Response, jsonify, request
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
+try:
+    from openai import OpenAI as _OpenAIClient
+except ImportError:
+    _OpenAIClient = None  # type: ignore
+
 load_dotenv()
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "site.db")
@@ -32,6 +38,14 @@ SLOT_STEP_MINUTES = int(os.getenv("SLOT_STEP_MINUTES", "60"))
 REMINDER_JOB_ENABLED = os.getenv("REMINDER_JOB_ENABLED", "true").lower() == "true"
 REMINDER_JOB_INTERVAL_SECONDS = int(os.getenv("REMINDER_JOB_INTERVAL_SECONDS", "60"))
 TASK_SECRET = os.getenv("TASK_SECRET", "")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+
+_openai_client = None
+_CHAT_SESSIONS: dict = {}  # session_id → {ts, messages}
+_CHAT_SESSION_TTL = 1800  # 30 минут
+
+log = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("APP_SECRET_KEY", "dev-secret")
@@ -418,6 +432,62 @@ def cancel_booking(booking_id):
         f"Клиент отменил запись:\n{row['service']} / {row['booking_at']}\nEmail: {row['email']}"
     )
     return jsonify({"ok": True, "message": "Запись отменена"})
+
+
+_AI_SYSTEM_PROMPT = (
+    "Ты — Роза Оглы, духовный консультант с 15-летним опытом в нумерологии, матрицах судьбы и медиумстве. "
+    "Ты работаешь на сайте «Матрицы Судьбы» и помогаешь клиентам. "
+    "Услуги: Расчёт матрицы судьбы (5 000 ₸), Нумерология (3 500 ₸), Сеанс медиумства (8 000 ₸), "
+    "Чистка энергетики (6 000 ₸), Таро-расклад (4 000 ₸). "
+    "Правила: отвечай по-русски тепло и заботливо, кратко (2-4 предложения), "
+    "для записи направляй на форму на сайте, используй мягкий мистический тон, "
+    "при вопросе о нумерологии просить дату рождения."
+)
+
+
+@app.route("/api/chat", methods=["POST"])
+@limiter.limit("30 per hour")
+def chat_ai():
+    global _openai_client
+    if not OPENAI_API_KEY:
+        return jsonify({"ok": False, "message": "ИИ-консультант временно недоступен"}), 503
+
+    if _OpenAIClient and _openai_client is None:
+        _openai_client = _OpenAIClient(api_key=OPENAI_API_KEY)
+
+    payload = request.get_json(silent=True) or {}
+    user_msg = (payload.get("message") or "").strip()
+    session_id = (payload.get("session_id") or "anon").strip()[:64]
+
+    if not user_msg:
+        return jsonify({"ok": False, "message": "Введите сообщение"}), 400
+    if len(user_msg) > 1000:
+        return jsonify({"ok": False, "message": "Сообщение слишком длинное"}), 400
+
+    now = time.time()
+    if session_id not in _CHAT_SESSIONS or now - _CHAT_SESSIONS[session_id]["ts"] > _CHAT_SESSION_TTL:
+        _CHAT_SESSIONS[session_id] = {"ts": now, "messages": []}
+    sess = _CHAT_SESSIONS[session_id]
+    sess["ts"] = now
+    sess["messages"].append({"role": "user", "content": user_msg})
+    if len(sess["messages"]) > 12:
+        sess["messages"] = sess["messages"][-12:]
+
+    messages = [{"role": "system", "content": _AI_SYSTEM_PROMPT}] + sess["messages"]
+
+    try:
+        resp = _openai_client.chat.completions.create(
+            model="gpt-4o",
+            messages=messages,
+            max_tokens=400,
+            temperature=0.75,
+        )
+        reply = resp.choices[0].message.content.strip()
+        sess["messages"].append({"role": "assistant", "content": reply})
+        return jsonify({"ok": True, "reply": reply})
+    except Exception as e:
+        log.error("OpenAI error: %s", e)
+        return jsonify({"ok": False, "message": "Ошибка ИИ-консультанта. Попробуйте позже."}), 500
 
 
 @app.route("/api/contact", methods=["POST"])

@@ -662,6 +662,69 @@ async def funnel_worker(bot: Bot):
             log.error(f"Funnel worker error: {e}")
         await asyncio.sleep(300)  # проверять каждые 5 минут
 
+# ─────────────────────────── ИИ-ответы ───────────────────────────────────────
+
+_OPENAI_KEY = os.getenv("OPENAI_API_KEY", "")
+
+_BOT_SYSTEM_PROMPT = (
+    "Ты — Роза Оглы, духовный консультант с 15-летним опытом в нумерологии, матрицах судьбы и медиумстве. "
+    "Ты общаешься с клиентами через Telegram-бот. "
+    "Услуги: Расчёт матрицы судьбы (5 000 ₸), Нумерология (3 500 ₸), Медиумство (8 000 ₸), "
+    "Чистка энергетики (6 000 ₸), Таро-расклад (4 000 ₸). "
+    "Правила: отвечай по-русски тепло и кратко (2-4 предложения), "
+    "для записи направляй на сайт https://abdramanovtimur71-ux.github.io/---/, "
+    "при вопросах о нумерологии проси дату рождения, используй мягкий мистический тон. "
+    "Команды: /menu — каталог, /diagnostics — диагностика, /myorders — мои заказы."
+)
+
+_ai_history: dict = {}  # tg_id → list of messages
+
+
+async def _ai_reply(tg_id: int, text: str) -> str:
+    if not _OPENAI_KEY:
+        return "Я пока не могу ответить на это. Используйте /menu для каталога услуг 🙏"
+
+    import aiohttp
+
+    if tg_id not in _ai_history:
+        _ai_history[tg_id] = []
+    _ai_history[tg_id].append({"role": "user", "content": text})
+    if len(_ai_history[tg_id]) > 10:
+        _ai_history[tg_id] = _ai_history[tg_id][-10:]
+
+    messages = [{"role": "system", "content": _BOT_SYSTEM_PROMPT}] + _ai_history[tg_id]
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                "https://api.openai.com/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {_OPENAI_KEY}",
+                    "Content-Type": "application/json",
+                },
+                json={"model": "gpt-4o", "messages": messages, "max_tokens": 350, "temperature": 0.75},
+                timeout=aiohttp.ClientTimeout(total=20),
+            ) as resp:
+                data = await resp.json()
+                reply = data["choices"][0]["message"]["content"].strip()
+                _ai_history[tg_id].append({"role": "assistant", "content": reply})
+                return reply
+    except Exception as e:
+        log.error("OpenAI bot error: %s", e)
+        return "Сейчас немного занята, попробуйте чуть позже или воспользуйтесь /menu 🌙"
+
+
+@router.message(F.text)
+async def ai_message_handler(msg: Message, state: FSMContext):
+    """Ловит любой текст, не перехваченный другими хендлерами (не команды, не FSM)."""
+    if await state.get_state():
+        return  # уступаем FSM
+    if not msg.text or msg.text.startswith("/"):
+        return
+    await msg.bot.send_chat_action(msg.chat.id, "typing")
+    reply = await _ai_reply(msg.from_user.id, msg.text)
+    await msg.answer(reply)
+
+
 # ─────────────────────────── Запуск ───────────────────────────────────────────
 
 async def main():
