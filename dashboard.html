@@ -92,6 +92,10 @@
             </div>
         </div>
         <div class="topbar-actions">
+            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleDashTheme()" aria-label="Сменить тему">
+                <span id="themeToggleIcon">☀️</span>
+                <span class="theme-label" id="themeToggleLabel">Светлая</span>
+            </button>
             <a href="index.html" class="topbar-back">← На сайт</a>
         </div>
     </header>
@@ -1556,20 +1560,58 @@ function selectDashboardTheme(theme) {
     const themes = ['ritual', 'oracle'];
     if (!themes.includes(theme)) theme = 'ritual';
     localStorage.setItem('theme', theme);
+    localStorage.setItem('colorMode', 'dark');
     document.documentElement.setAttribute('data-theme', theme);
     document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
     const card = document.getElementById('theme-card-' + theme);
     if (card) card.classList.add('active');
+    updateThemeToggleBtn('dark');
     showNotify(theme === 'ritual' ? 'Тема: Ritual Night' : 'Тема: Crystal Oracle', 'success');
 }
 
 function initDashboardThemeCards() {
+    const colorMode = localStorage.getItem('colorMode') || 'dark';
+    if (colorMode === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        updateThemeToggleBtn('light');
+        return;
+    }
     const saved = localStorage.getItem('theme') || 'ritual';
     const validThemes = ['ritual', 'oracle'];
     const theme = validThemes.includes(saved) ? saved : 'ritual';
     document.documentElement.setAttribute('data-theme', theme);
     const card = document.getElementById('theme-card-' + theme);
     if (card) card.classList.add('active');
+    updateThemeToggleBtn('dark');
+}
+
+function toggleDashTheme() {
+    const current = localStorage.getItem('colorMode') || 'dark';
+    if (current === 'dark') {
+        localStorage.setItem('colorMode', 'light');
+        document.documentElement.setAttribute('data-theme', 'light');
+        updateThemeToggleBtn('light');
+        showNotify('☀️ Светлая тема включена', 'info');
+    } else {
+        const savedDark = localStorage.getItem('theme') || 'ritual';
+        localStorage.setItem('colorMode', 'dark');
+        document.documentElement.setAttribute('data-theme', savedDark);
+        updateThemeToggleBtn('dark');
+        showNotify('🌙 Тёмная тема включена', 'info');
+    }
+}
+
+function updateThemeToggleBtn(mode) {
+    const icon = document.getElementById('themeToggleIcon');
+    const label = document.getElementById('themeToggleLabel');
+    if (!icon || !label) return;
+    if (mode === 'light') {
+        icon.textContent = '🌙';
+        label.textContent = 'Тёмная';
+    } else {
+        icon.textContent = '☀️';
+        label.textContent = 'Светлая';
+    }
 }
 
 // Проверка авторизации

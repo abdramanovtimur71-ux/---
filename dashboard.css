@@ -35,6 +35,58 @@
     --sidebar-w: 272px;
 }
 
+/* ── Светлая тема ── */
+[data-theme="light"] {
+    --bg:       #f2efe8;
+    --bg2:      #ece8df;
+    --bg3:      #e4dfd4;
+    --card:     #faf8f4;
+    --card2:    #f0ece4;
+    --sidebar:  #1a1520;
+    --br:       rgba(130, 100, 60, 0.18);
+    --br-h:     rgba(130, 100, 60, 0.45);
+    --br-g:     rgba(150, 110, 40, 0.34);
+    --t1:  #1a1218;
+    --t2:  #3d3345;
+    --t3:  #8a7e99;
+    --shadow:    0 8px 32px rgba(0,0,0,0.12);
+    --shadow-sm: 0 3px 12px rgba(0,0,0,0.09);
+    --glow-p:    0 0 30px rgba(138,109,60,0.14);
+    --glow-g:    0 0 24px rgba(196,162,74,0.14);
+}
+[data-theme="light"] body {
+    background-image:
+        radial-gradient(circle at 12% 14%, rgba(212, 174, 92, 0.12) 0%, transparent 26%),
+        radial-gradient(circle at 84% 8%,  rgba(180, 130, 60, 0.07) 0%, transparent 14%),
+        radial-gradient(circle at 50% 100%, rgba(180, 150, 90, 0.10) 0%, transparent 34%),
+        linear-gradient(180deg, #f0ece4 0%, #ede8de 100%);
+}
+[data-theme="light"] body::before,
+[data-theme="light"] body::after { opacity: 0.12; }
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4 { color: var(--t1); }
+[data-theme="light"] ::-webkit-scrollbar-track { background: var(--bg3); }
+
+/* ── Кнопка переключения темы ── */
+.theme-toggle-btn {
+    background: var(--card2);
+    border: 1px solid var(--br);
+    border-radius: 50px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    transition: var(--tr);
+    color: var(--t1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.theme-toggle-btn:hover { border-color: var(--br-h); background: var(--card); }
+.theme-toggle-btn .theme-label { font-size: 11px; font-family: Inter, sans-serif; color: var(--t2); }
+
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
