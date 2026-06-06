@@ -119,23 +119,47 @@ const handleFormSubmit = () => {
     const form = document.querySelector('.contact-form');
     if (!form) return;
     
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        // Имитация отправки
         const submitBtn = form.querySelector('.submit-btn');
         const originalText = submitBtn.textContent;
-        submitBtn.textContent = '✓ Сообщение отправлено!';
-        submitBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
-        
-        // Очистка формы
-        form.reset();
-        
-        // Восстановление кнопки
-        setTimeout(() => {
-            submitBtn.textContent = originalText;
-            submitBtn.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
-        }, 3000);
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⟳ Отправка...';
+
+        const name = form.querySelector('[name="name"], #contact-name, input[placeholder*="имя"], input[placeholder*="Имя"]');
+        const email = form.querySelector('[name="email"], #contact-email, input[type="email"]');
+        const message = form.querySelector('[name="message"], #contact-message, textarea');
+
+        try {
+            const resp = await fetch(API_BASE + '/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name ? name.value : '',
+                    email: email ? email.value : '',
+                    message: message ? message.value : ''
+                })
+            });
+            const data = await resp.json().catch(() => ({}));
+            if (resp.ok && data.ok !== false) {
+                submitBtn.textContent = '✓ Сообщение отправлено!';
+                submitBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+                form.reset();
+            } else {
+                throw new Error(data.message || 'Ошибка');
+            }
+        } catch {
+            // Если API недоступно — показываем ссылку mailto как fallback
+            const mailtoLink = `mailto:roza19.91@icloud.com?subject=Сообщение с сайта&body=${encodeURIComponent(message ? message.value : '')}`;
+            window.location.href = mailtoLink;
+            submitBtn.textContent = '✓ Открываем почту...';
+        } finally {
+            submitBtn.disabled = false;
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.style.background = '';
+            }, 3000);
+        }
     });
 };
 
@@ -450,7 +474,7 @@ function initCardAura() {
     });
 }
 
-const ADMIN_ACCESS_CODE = '0000';
+// Пароль проверяется только на backend — не хранится в клиентском коде
 const API_BASE = (() => {
     const params = new URLSearchParams(window.location.search);
     const fromQuery = (params.get('api') || '').trim().replace(/\/$/, '');
@@ -458,7 +482,7 @@ const API_BASE = (() => {
         localStorage.setItem('apiBaseUrl', fromQuery);
         return fromQuery;
     }
-    return (localStorage.getItem('apiBaseUrl') || 'http://127.0.0.1:5000').trim().replace(/\/$/, '');
+    return (localStorage.getItem('apiBaseUrl') || 'https://roza-ogly-api.onrender.com').trim().replace(/\/$/, '');
 })();
 
 function getStorageArray(key) {
@@ -515,22 +539,11 @@ async function openAdminAccess() {
 
         const resetBtn = showLoadingIndicator(modal.querySelector('.submit-btn'));
 
-        const normalized = code.toLowerCase();
-        const password = ['роза оглы', 'матрицы судьбы', 'матрицы судбы'].includes(normalized)
-            ? ADMIN_ACCESS_CODE
-            : code;
-
-        if (password !== ADMIN_ACCESS_CODE) {
-            showError('Неверный пароль');
-            resetBtn();
-            return;
-        }
-
         try {
             const response = await fetch(API_BASE + '/api/admin/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password })
+                body: JSON.stringify({ password: code })
             });
             const data = await response.json();
             if (!response.ok || !data.ok) {
@@ -620,29 +633,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Переключение видимости пароля
-function togglePassword() {
+function togglePassword(btn) {
     const passwordInput = document.getElementById('password');
-    const button = event.target;
-    
+    const button = btn || event.currentTarget;
     if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
-        button.textContent = '🙈';
+        if (button) button.textContent = '🙈';
     } else {
         passwordInput.type = 'password';
-        button.textContent = '👁️';
+        if (button) button.textContent = '👁️';
     }
 }
 
-function toggleRegistrationPassword() {
+function toggleRegistrationPassword(btn) {
     const passwordInput = document.getElementById('reg-password');
-    const button = event.target;
-    
+    const button = btn || event.currentTarget;
     if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
-        button.textContent = '🙈';
+        if (button) button.textContent = '🙈';
     } else {
         passwordInput.type = 'password';
-        button.textContent = '👁️';
+        if (button) button.textContent = '👁️';
     }
 }
 

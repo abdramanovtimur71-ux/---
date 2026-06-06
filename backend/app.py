@@ -62,7 +62,14 @@ def get_conn():
     return conn
 
 
+_ALLOWED_TABLES = {"bookings", "training_enrollments", "payments", "purchases", "messages"}
+_ALLOWED_COLUMNS_RE = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
+
 def ensure_column(conn, table: str, column: str, ddl: str):
+    if table not in _ALLOWED_TABLES:
+        raise ValueError(f"Unknown table: {table}")
+    if not _ALLOWED_COLUMNS_RE.match(column):
+        raise ValueError(f"Invalid column name: {column}")
     cols = conn.execute(f"PRAGMA table_info({table})").fetchall()
     if any(c["name"] == column for c in cols):
         return
@@ -293,12 +300,15 @@ def send_email_notification(subject: str, text: str):
     msg["To"] = to_email
     msg.set_content(text)
 
-    with smtplib.SMTP(smtp_host, smtp_port, timeout=20) as server:
-        if use_tls:
-            server.starttls()
-        server.login(smtp_user, smtp_pass)
-        server.send_message(msg)
-    return True, "email-sent"
+    try:
+        with smtplib.SMTP(smtp_host, smtp_port, timeout=20) as server:
+            if use_tls:
+                server.starttls()
+            server.login(smtp_user, smtp_pass)
+            server.send_message(msg)
+        return True, "email-sent"
+    except Exception as exc:
+        return False, f"email-error: {exc}"
 
 
 def send_telegram_notification(text: str):
@@ -308,9 +318,12 @@ def send_telegram_notification(text: str):
         return False, "telegram-not-configured"
 
     url = f"https://api.telegram.org/bot{token}/sendMessage"
-    resp = requests.post(url, json={"chat_id": chat_id, "text": text}, timeout=20)
-    resp.raise_for_status()
-    return True, "telegram-sent"
+    try:
+        resp = requests.post(url, json={"chat_id": chat_id, "text": text}, timeout=20)
+        resp.raise_for_status()
+        return True, "telegram-sent"
+    except Exception as exc:
+        return False, f"telegram-error: {exc}"
 
 
 def send_whatsapp_notification(text: str):
@@ -319,14 +332,17 @@ def send_whatsapp_notification(text: str):
     if not (api_url and api_token):
         return False, "whatsapp-not-configured"
 
-    resp = requests.post(
-        api_url,
-        json={"message": text, "to": "87072867777"},
-        headers={"Authorization": f"Bearer {api_token}"},
-        timeout=20,
-    )
-    resp.raise_for_status()
-    return True, "whatsapp-sent"
+    try:
+        resp = requests.post(
+            api_url,
+            json={"message": text, "to": "87072867777"},
+            headers={"Authorization": f"Bearer {api_token}"},
+            timeout=20,
+        )
+        resp.raise_for_status()
+        return True, "whatsapp-sent"
+    except Exception as exc:
+        return False, f"whatsapp-error: {exc}"
 
 
 def send_all_notifications(subject: str, text: str):

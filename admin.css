@@ -610,3 +610,19 @@ h1 {
         width: 100%;
     }
 }
+
+/* ── Мобильный скролл для таблиц ── */
+.admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.admin-table { min-width: 700px; }
+
+/* ── Отключение тяжёлых анимаций на мобильных и при prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+@media (max-width: 600px) {
+    body::before, body::after { display: none; }
+}
