@@ -661,136 +661,129 @@
         </div>
 
         <!-- ─── СТРАНИЦА: МАТРИЦЫ СУДЬБЫ ─────────── -->
+        <!-- ─── СТРАНИЦА: Матрица судьбы (полноценный калькулятор) ─── -->
         <div id="page-matrix" class="page">
             <span class="page-label">Нумерология судьбы</span>
             <div class="page-header">
-                <h1>Матрицы Судьбы</h1>
-                <p>Введите дату рождения — получите персональную карту энергий и предназначения</p>
+                <h1>🔮 Матрица Судьбы</h1>
+                <p>Расчёт матрицы по дате рождения</p>
             </div>
 
             <!-- Форма ввода -->
-            <div class="card matrix-input-card">
-                <div class="matrix-input-header">
-                    <div class="matrix-input-icon">⟡</div>
-                    <div>
-                        <h3>Расчёт матрицы</h3>
-                        <p>Дата рождения определяет коды вашей судьбы</p>
+            <div class="matrix-form-card">
+                <div class="matrix-form-row">
+                    <div class="matrix-field">
+                        <label>Имя клиента</label>
+                        <input type="text" id="matrixName" placeholder="Введите имя" class="matrix-input">
                     </div>
-                </div>
-                <div class="matrix-form">
-                    <div class="matrix-form-row">
-                        <div class="form-group">
-                            <label>Дата рождения</label>
-                            <input type="date" id="matrixBirthdate" class="matrix-date-input">
-                        </div>
-                        <div class="form-group">
-                            <label>Имя (для интерпретации)</label>
-                            <input type="text" id="matrixName" placeholder="Ваше имя">
-                        </div>
+                    <div class="matrix-field">
+                        <label>Дата рождения</label>
+                        <input type="date" id="matrixDate" class="matrix-input">
                     </div>
-                    <button class="btn btn-gold matrix-calc-btn" onclick="calcMatrix()">
-                        <span class="matrix-btn-icon">✦</span> Рассчитать матрицу
-                    </button>
+                    <button class="matrix-calc-btn" onclick="calcMatrix()">Рассчитать ✦</button>
                 </div>
             </div>
 
-            <!-- Результат матрицы (скрыт до расчёта) -->
-            <div id="matrixResult" class="matrix-result" style="display:none">
-
-                <!-- Заголовок результата -->
-                <div class="matrix-result-header">
-                    <h2 id="matrixResultTitle">Матрицы судьбы</h2>
-                    <p id="matrixResultDate"></p>
+            <!-- Результат -->
+            <div id="matrixResult" style="display:none">
+                <!-- Имя и дата -->
+                <div class="matrix-person-header">
+                    <span id="matrixPersonName" class="matrix-person-name"></span>
+                    <span id="matrixPersonDate" class="matrix-person-date"></span>
                 </div>
 
-                <!-- Визуальная матрица -->
-                <div class="matrix-grid-wrap">
-                    <div class="matrix-grid">
-                        <!-- Верхняя строка -->
-                        <div class="mg-empty"></div>
-                        <div class="mg-empty"></div>
-                        <div class="matrix-cell sky" id="mc-sky">
-                            <div class="mc-label">Небо</div>
-                            <div class="mc-value" id="mv-sky">—</div>
-                            <div class="mc-hint">Высший план</div>
-                        </div>
-                        <div class="mg-empty"></div>
-                        <div class="mg-empty"></div>
+                <!-- Визуальная матрица (SVG) -->
+                <div class="matrix-visual-wrap">
+                    <svg id="matrixSvg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
+                        <defs>
+                            <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" style="stop-color:#1a1030;stop-opacity:1"/>
+                                <stop offset="100%" style="stop-color:#0a0510;stop-opacity:1"/>
+                            </radialGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                            </filter>
+                        </defs>
+                        <rect width="500" height="500" fill="url(#bgGrad)" rx="16"/>
+                        <!-- Октограмма -->
+                        <polygon points="250,60 440,250 250,440 60,250" fill="none" stroke="rgba(138,109,192,0.4)" stroke-width="1.5"/>
+                        <polygon points="250,120 380,250 250,380 120,250" fill="none" stroke="rgba(196,162,74,0.3)" stroke-width="1"/>
+                        <line x1="60" y1="250" x2="440" y2="250" stroke="rgba(138,109,192,0.2)" stroke-width="1"/>
+                        <line x1="250" y1="60" x2="250" y2="440" stroke="rgba(138,109,192,0.2)" stroke-width="1"/>
+                        <line x1="130" y1="130" x2="370" y2="370" stroke="rgba(196,162,74,0.15)" stroke-width="1"/>
+                        <line x1="370" y1="130" x2="130" y2="370" stroke="rgba(196,162,74,0.15)" stroke-width="1"/>
 
-                        <!-- Вторая строка -->
-                        <div class="mg-empty"></div>
-                        <div class="matrix-cell corner tl" id="mc-tl">
-                            <div class="mc-value" id="mv-tl">—</div>
-                            <div class="mc-hint">Прошлое</div>
-                        </div>
-                        <div class="mg-line v-top"></div>
-                        <div class="matrix-cell corner tr" id="mc-tr">
-                            <div class="mc-value" id="mv-tr">—</div>
-                            <div class="mc-hint">Будущее</div>
-                        </div>
-                        <div class="mg-empty"></div>
+                        <!-- A — низ (Личность) -->
+                        <circle cx="250" cy="440" r="26" fill="#1a1030" stroke="#8a6dc0" stroke-width="2"/>
+                        <text id="mvAnum" x="250" y="445" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="18" font-weight="bold" font-family="serif">?</text>
+                        <text x="250" y="478" text-anchor="middle" fill="#8a9ab5" font-size="11" font-family="sans-serif">Личность</text>
 
-                        <!-- Средняя строка -->
-                        <div class="matrix-cell left" id="mc-left">
-                            <div class="mc-label">Карма</div>
-                            <div class="mc-value" id="mv-left">—</div>
-                        </div>
-                        <div class="mg-line h-left"></div>
-                        <div class="matrix-cell center" id="mc-center">
-                            <div class="mc-label">Я</div>
-                            <div class="mc-value" id="mv-center">—</div>
-                            <div class="mc-hint">Предназначение</div>
-                        </div>
-                        <div class="mg-line h-right"></div>
-                        <div class="matrix-cell right" id="mc-right">
-                            <div class="mc-label">Дар</div>
-                            <div class="mc-value" id="mv-right">—</div>
-                        </div>
+                        <!-- B — лево (Духовность) -->
+                        <circle cx="60" cy="250" r="26" fill="#1a1030" stroke="#8a6dc0" stroke-width="2"/>
+                        <text id="mvBnum" x="60" y="255" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="18" font-weight="bold" font-family="serif">?</text>
+                        <text x="60" y="287" text-anchor="middle" fill="#8a9ab5" font-size="11" font-family="sans-serif">Духовность</text>
 
-                        <!-- Четвёртая строка -->
-                        <div class="mg-empty"></div>
-                        <div class="matrix-cell corner bl" id="mc-bl">
-                            <div class="mc-value" id="mv-bl">—</div>
-                            <div class="mc-hint">Родовое</div>
-                        </div>
-                        <div class="mg-line v-bot"></div>
-                        <div class="matrix-cell corner br" id="mc-br">
-                            <div class="mc-value" id="mv-br">—</div>
-                            <div class="mc-hint">Финансы</div>
-                        </div>
-                        <div class="mg-empty"></div>
+                        <!-- C — верх (Небесный потенциал) -->
+                        <circle cx="250" cy="60" r="26" fill="#1a1030" stroke="#8a6dc0" stroke-width="2"/>
+                        <text id="mvCnum" x="250" y="65" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="18" font-weight="bold" font-family="serif">?</text>
+                        <text x="250" y="22" text-anchor="middle" fill="#8a9ab5" font-size="11" font-family="sans-serif">Небесный потенциал</text>
 
-                        <!-- Нижняя строка -->
-                        <div class="mg-empty"></div>
-                        <div class="mg-empty"></div>
-                        <div class="matrix-cell earth" id="mc-earth">
-                            <div class="mc-label">Земля</div>
-                            <div class="mc-value" id="mv-earth">—</div>
-                            <div class="mc-hint">Тело и ресурс</div>
-                        </div>
-                        <div class="mg-empty"></div>
-                        <div class="mg-empty"></div>
-                    </div>
+                        <!-- D — право (Предназначение) -->
+                        <circle cx="440" cy="250" r="26" fill="#1a1030" stroke="#8a6dc0" stroke-width="2"/>
+                        <text id="mvDnum" x="440" y="255" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="18" font-weight="bold" font-family="serif">?</text>
+                        <text x="440" y="287" text-anchor="middle" fill="#8a9ab5" font-size="11" font-family="sans-serif">Предназначение</text>
 
-                    <!-- Арканы легенда -->
-                    <div class="matrix-arcana-strip">
-                        <div class="arcana-item" id="arc-day"><span class="arc-label">День</span><span class="arc-val" id="av-day">—</span></div>
-                        <div class="arcana-item" id="arc-mon"><span class="arc-label">Месяц</span><span class="arc-val" id="av-mon">—</span></div>
-                        <div class="arcana-item" id="arc-yr"><span class="arc-label">Год</span><span class="arc-val" id="av-yr">—</span></div>
-                        <div class="arcana-item" id="arc-sum"><span class="arc-label">Сумма</span><span class="arc-val" id="av-sum">—</span></div>
-                        <div class="arcana-item" id="arc-task"><span class="arc-label">Задача</span><span class="arc-val" id="av-task">—</span></div>
-                    </div>
+                        <!-- E — центр -->
+                        <circle cx="250" cy="250" r="34" fill="#2a1a40" stroke="#c8a840" stroke-width="2.5" filter="url(#glow)"/>
+                        <text id="mvEnum" x="250" y="255" text-anchor="middle" dominant-baseline="middle" fill="#ffd700" font-size="22" font-weight="bold" font-family="serif">?</text>
+                        <text x="250" y="294" text-anchor="middle" fill="#c8a840" font-size="11" font-family="sans-serif">Центр</text>
+
+                        <!-- AB — лево-низ -->
+                        <circle cx="155" cy="345" r="20" fill="#120820" stroke="rgba(196,162,74,0.6)" stroke-width="1.5"/>
+                        <text id="mvABnum" x="155" y="349" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="14" font-weight="bold" font-family="serif">?</text>
+
+                        <!-- BC — лево-верх -->
+                        <circle cx="155" cy="155" r="20" fill="#120820" stroke="rgba(196,162,74,0.6)" stroke-width="1.5"/>
+                        <text id="mvBCnum" x="155" y="159" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="14" font-weight="bold" font-family="serif">?</text>
+
+                        <!-- CD — право-верх -->
+                        <circle cx="345" cy="155" r="20" fill="#120820" stroke="rgba(196,162,74,0.6)" stroke-width="1.5"/>
+                        <text id="mvCDnum" x="345" y="159" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="14" font-weight="bold" font-family="serif">?</text>
+
+                        <!-- AD — право-низ -->
+                        <circle cx="345" cy="345" r="20" fill="#120820" stroke="rgba(196,162,74,0.6)" stroke-width="1.5"/>
+                        <text id="mvADnum" x="345" y="349" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="14" font-weight="bold" font-family="serif">?</text>
+
+                        <!-- F — кармический хвост (A+E) -->
+                        <circle cx="250" cy="345" r="18" fill="#0f0818" stroke="rgba(138,109,192,0.5)" stroke-width="1.5"/>
+                        <text id="mvFnum" x="250" y="349" text-anchor="middle" dominant-baseline="middle" fill="#a08ad0" font-size="13" font-weight="bold" font-family="serif">?</text>
+
+                        <!-- G — личный квадрат (B+E) -->
+                        <circle cx="155" cy="250" r="18" fill="#0f0818" stroke="rgba(138,109,192,0.5)" stroke-width="1.5"/>
+                        <text id="mvGnum" x="155" y="254" text-anchor="middle" dominant-baseline="middle" fill="#a08ad0" font-size="13" font-weight="bold" font-family="serif">?</text>
+
+                        <!-- H — родовой квадрат (C+E) -->
+                        <circle cx="250" cy="155" r="18" fill="#0f0818" stroke="rgba(138,109,192,0.5)" stroke-width="1.5"/>
+                        <text id="mvHnum" x="250" y="159" text-anchor="middle" dominant-baseline="middle" fill="#a08ad0" font-size="13" font-weight="bold" font-family="serif">?</text>
+
+                        <!-- I — линия денег (D+E) -->
+                        <circle cx="345" cy="250" r="18" fill="#0f0818" stroke="rgba(138,109,192,0.5)" stroke-width="1.5"/>
+                        <text id="mvInum" x="345" y="254" text-anchor="middle" dominant-baseline="middle" fill="#a08ad0" font-size="13" font-weight="bold" font-family="serif">?</text>
+                    </svg>
                 </div>
 
-                <!-- Карточки интерпретации -->
-                <div class="matrix-interp-grid" id="matrixInterpGrid"></div>
+                <!-- Таблица значений -->
+                <div class="matrix-values-grid" id="matrixValuesGrid"></div>
+
+                <!-- Детальные интерпретации -->
+                <div class="matrix-interpretations" id="matrixInterps"></div>
 
                 <!-- Кнопки -->
-                <div class="matrix-actions">
-                    <button class="btn btn-outline" onclick="document.getElementById('matrixResult').style.display='none'">← Новый расчёт</button>
+                <div style="text-align:center;margin-top:20px;display:flex;gap:12px;justify-content:center">
+                    <button class="matrix-save-btn" onclick="copyMatrixResult()">📋 Скопировать результат</button>
                     <button class="btn btn-gold" onclick="bookMatrixSession()">Записаться на расшифровку</button>
                 </div>
-
             </div>
         </div>
 
@@ -1784,105 +1777,144 @@ function digitSum(n) {
     return String(Math.abs(n)).split('').reduce((a, d) => a + parseInt(d), 0);
 }
 
-// Названия арканов
-const ARCANA_NAMES = [
-    '', 'Маг', 'Жрица', 'Императрица', 'Император', 'Иерофант',
-    'Влюблённые', 'Колесница', 'Сила', 'Отшельник', 'Колесо Фортуны',
-    'Справедливость', 'Повешенный', 'Смерть', 'Умеренность', 'Дьявол',
-    'Башня', 'Звезда', 'Луна', 'Солнце', 'Суд', 'Мир', 'Шут'
-];
+// ═══════════════════════════════════════════════════════
+// МАТРИЦА СУДЬБЫ — Калькулятор (полноценный)
+// ═══════════════════════════════════════════════════════
 
-// Краткие интерпретации позиций матрицы
-const MATRIX_INTERP = {
-    sky:    { icon: '☽', title: 'Высший план (Небо)', desc: 'Связь с высшими силами, духовные дары и покровительство, которое сопровождает вас свыше.' },
-    earth:  { icon: '⬡', title: 'Земной план (Тело)', desc: 'Ресурсы, здоровье, физическая реализация. Как вы проявляете себя в материальном мире.' },
-    left:   { icon: '◈', title: 'Кармический хвост', desc: 'Наработки и уроки прошлых жизней. Что принесено в этот мир как опыт для проработки.' },
-    right:  { icon: '✦', title: 'Природный дар', desc: 'Таланты и сильные стороны, данные при рождении. Через что вы легко реализуетесь.' },
-    center: { icon: '⟡', title: 'Личный код (Я)', desc: 'Главное предназначение — суть вашей жизненной программы и энергетический портрет.' },
-    tl:     { icon: '✧', title: 'Прошлое', desc: 'Что повторяется из прошлого, откуда вы пришли и какие сценарии тянутся из детства.' },
-    tr:     { icon: '◉', title: 'Будущее', desc: 'Вектор движения и потенциал, к которому ведёт ваша матрица при осознанном пути.' },
-    bl:     { icon: '☽', title: 'Родовая программа', desc: 'Родовые задачи и семейные сценарии. Что унаследовано по линии предков.' },
-    br:     { icon: '✺', title: 'Финансовый канал', desc: 'Основной поток материальных ресурсов. Как деньги входят в вашу жизнь.' }
+const ARCANA = {
+    1:  { name: 'Маг',             key: 'воля',           desc: 'Воля, целеустремлённость, мастерство. Способность создавать реальность силой намерения. Лидерские качества и умение воплощать замыслы.' },
+    2:  { name: 'Верховная Жрица', key: 'интуиция',       desc: 'Интуиция, тайное знание, внутренний голос. Способность чувствовать невидимое. Мудрость, накопленная внутри.' },
+    3:  { name: 'Императрица',     key: 'изобилие',       desc: 'Изобилие, творчество, материнство. Способность создавать красоту и комфорт. Щедрость, забота, женская сила.' },
+    4:  { name: 'Император',       key: 'власть',         desc: 'Власть, порядок, стабильность. Способность выстраивать структуры и правила. Ответственность и организованность.' },
+    5:  { name: 'Жрец',            key: 'мудрость',       desc: 'Духовная мудрость, традиции, наставничество. Путь через систему знаний. Умение передавать опыт и учить других.' },
+    6:  { name: 'Влюблённые',      key: 'любовь',         desc: 'Любовь, выбор, гармония отношений. Способность строить глубокие связи. Важность осознанного выбора партнёра.' },
+    7:  { name: 'Колесница',       key: 'победа',         desc: 'Победа, движение, контроль над обстоятельствами. Сила воли в преодолении препятствий. Целенаправленное действие.' },
+    8:  { name: 'Сила',            key: 'мужество',       desc: 'Внутренняя сила, мужество, терпение. Умение справляться с трудностями через мягкость. Управление инстинктами.' },
+    9:  { name: 'Отшельник',       key: 'поиск',          desc: 'Поиск истины, мудрость уединения, самопознание. Глубокий анализ и рефлексия. Путь внутреннего просветления.' },
+    10: { name: 'Колесо Фортуны',  key: 'судьба',         desc: 'Цикличность, перемены, судьба. Умение использовать удачные моменты. Понимание закона причинно-следственных связей.' },
+    11: { name: 'Справедливость',  key: 'баланс',         desc: 'Баланс, карма, закон. Способность видеть ситуацию объективно. Восстановление справедливости и равновесия.' },
+    12: { name: 'Повешенный',      key: 'жертва',         desc: 'Пауза, переосмысление, добровольная жертва. Умение отпускать и смотреть на мир с другого угла. Духовный рост через ограничения.' },
+    13: { name: 'Смерть',          key: 'трансформация',  desc: 'Трансформация, завершение цикла, обновление. Необходимость отпустить старое для рождения нового. Глубинные изменения.' },
+    14: { name: 'Умеренность',     key: 'гармония',       desc: 'Гармония, баланс, терпение. Умение находить золотую середину. Интеграция противоположностей и целительная сила.' },
+    15: { name: 'Дьявол',          key: 'страсть',        desc: 'Страсти, соблазны, ограничивающие убеждения. Работа с тёмной стороной. Освобождение через осознание собственных цепей.' },
+    16: { name: 'Башня',           key: 'разрушение',     desc: 'Разрушение старого, кризис, освобождение. Резкие перемены, которые ведут к обновлению. Падение иллюзий.' },
+    17: { name: 'Звезда',          key: 'надежда',        desc: 'Надежда, вдохновение, вера в лучшее. Способность видеть свет в конце тоннеля. Исцеление и восстановление.' },
+    18: { name: 'Луна',            key: 'иллюзии',        desc: 'Страхи, иллюзии, подсознание. Работа с глубинными страхами. Интуиция как компас в неопределённости.' },
+    19: { name: 'Солнце',          key: 'радость',        desc: 'Радость, успех, жизненная энергия. Открытость и искренность. Способность излучать тепло и привлекать счастье.' },
+    20: { name: 'Суд',             key: 'призвание',      desc: 'Возрождение, призвание, пробуждение. Услышать зов своей души. Переход на новый уровень сознания.' },
+    21: { name: 'Мир',             key: 'интеграция',     desc: 'Завершение, интеграция, достижение целостности. Гармония всех аспектов личности. Успешное завершение цикла.' },
+    22: { name: 'Шут',             key: 'свобода',        desc: 'Свобода, новый путь, непредсказуемость. Открытость к неизведанному. Доверие к жизни и детская спонтанность.' }
 };
 
+const POSITIONS = {
+    A:  { label: 'Точка А — Личность',          color: '#8a6dc0', desc: 'Ваша земная природа, физический мир, как вы проявляетесь в обществе' },
+    B:  { label: 'Точка Б — Духовность',         color: '#8a6dc0', desc: 'Ваша духовная составляющая, внутренний мир, скрытые ресурсы' },
+    C:  { label: 'Точка В — Небесный потенциал', color: '#8a6dc0', desc: 'Ваш небесный потенциал, задачи, данные свыше' },
+    D:  { label: 'Точка Г — Предназначение',     color: '#c8a840', desc: 'Ваше предназначение — то, к чему ведёт весь жизненный путь' },
+    E:  { label: 'Центр матрицы',                color: '#ffd700', desc: 'Ключевая энергия матрицы — её суть и основная тема жизни' },
+    AB: { label: 'Линия А+Б (Зона комфорта)',    color: '#6a8ad0', desc: 'Зона комфорта — область, в которой вы чувствуете себя наиболее уверенно' },
+    BC: { label: 'Линия Б+В (Родовые задачи)',   color: '#6a8ad0', desc: 'Родовые задачи — что передаётся по роду и что нужно проработать' },
+    CD: { label: 'Линия В+Г (Таланты)',          color: '#6a8ad0', desc: 'Ваши таланты и навыки, которые нужно развивать' },
+    AD: { label: 'Линия А+Г (Карма)',            color: '#6a8ad0', desc: 'Кармические уроки и задачи, пришедшие из прошлых жизней' },
+    F:  { label: 'А+Е (Кармический хвост)',      color: '#a08ad0', desc: 'Кармический хвост — то, с чем пришла душа из прошлых воплощений' },
+    G:  { label: 'Б+Е (Личный квадрат)',         color: '#a08ad0', desc: 'Центр личного квадрата — ваш внутренний стержень' },
+    H:  { label: 'В+Е (Родовой квадрат)',        color: '#a08ad0', desc: 'Центр родового квадрата — энергия рода и предков' },
+    I:  { label: 'Г+Е (Линия денег)',            color: '#a08ad0', desc: 'Линия денег — ваш путь к материальному благополучию' },
+};
+
+function reduceArcana(n) {
+    if (n <= 0) return 22;
+    while (n > 22) {
+        n = String(n).split('').reduce((a,b) => a + parseInt(b), 0);
+    }
+    return n || 22;
+}
+
 function calcMatrix() {
-    const input = document.getElementById('matrixBirthdate');
-    const name  = (document.getElementById('matrixName').value || 'Ваша').trim();
-    if (!input.value) {
-        input.style.borderColor = 'var(--red)';
-        input.focus();
-        setTimeout(() => input.style.borderColor = '', 1500);
-        return;
+    const name = document.getElementById('matrixName').value.trim() || 'Клиент';
+    const dateVal = document.getElementById('matrixDate').value;
+    if (!dateVal) { showNotify('Введите дату рождения', 'warn'); return; }
+
+    const d = new Date(dateVal);
+    const day   = d.getDate();
+    const month = d.getMonth() + 1;
+    const year  = d.getFullYear();
+
+    const A = reduceArcana(day);
+    const B = reduceArcana(month);
+    const yearSum = String(year).split('').reduce((a,b) => a + parseInt(b), 0);
+    const C = reduceArcana(yearSum);
+    const D = reduceArcana(A + B + C);
+    const E = reduceArcana(A + B + C + D);
+    const AB = reduceArcana(A + B);
+    const BC = reduceArcana(B + C);
+    const CD = reduceArcana(C + D);
+    const AD = reduceArcana(A + D);
+    const F  = reduceArcana(A + E);
+    const G  = reduceArcana(B + E);
+    const H  = reduceArcana(C + E);
+    const I  = reduceArcana(D + E);
+
+    // Обновляем SVG
+    const nums = { A, B, C, D, E, AB, BC, CD, AD, F, G, H, I };
+    for (const [k, v] of Object.entries(nums)) {
+        const el = document.getElementById(`mv${k}num`);
+        if (el) el.textContent = v;
     }
 
-    const [yStr, mStr, dStr] = input.value.split('-');
-    const D = parseInt(dStr, 10);
-    const M = parseInt(mStr, 10);
-    const Y = parseInt(yStr, 10);
-
-    // Базовые арканы
-    const arcDay  = toArcana(D);
-    const arcMon  = toArcana(M);
-    const arcYr   = toArcana(digitSum(Y));
-    const arcSum  = toArcana(arcDay + arcMon + arcYr);
-    const arcTask = toArcana(digitSum(arcDay + arcMon + arcYr));
-
-    // Позиции матрицы
-    const vals = {
-        sky:    arcMon,
-        earth:  arcYr,
-        left:   arcDay,
-        right:  arcTask,
-        center: arcSum,
-        tl:     toArcana(arcDay + arcMon),
-        tr:     toArcana(arcMon + arcYr),
-        bl:     toArcana(arcDay + arcYr),
-        br:     toArcana(arcSum + arcTask)
-    };
-
-    // Заполняем ячейки матрицы
-    Object.entries(vals).forEach(([key, val]) => {
-        const el = document.getElementById('mv-' + key);
-        if (el) {
-            el.textContent = val;
-            el.setAttribute('data-arcana', val);
-        }
-    });
-
-    // Арканы в полосе снизу
-    document.getElementById('av-day').textContent  = arcDay  + ' · ' + ARCANA_NAMES[arcDay];
-    document.getElementById('av-mon').textContent  = arcMon  + ' · ' + ARCANA_NAMES[arcMon];
-    document.getElementById('av-yr').textContent   = arcYr   + ' · ' + ARCANA_NAMES[arcYr];
-    document.getElementById('av-sum').textContent  = arcSum  + ' · ' + ARCANA_NAMES[arcSum];
-    document.getElementById('av-task').textContent = arcTask + ' · ' + ARCANA_NAMES[arcTask];
-
     // Заголовок
-    const dateFormatted = dStr + '.' + mStr + '.' + yStr;
-    document.getElementById('matrixResultTitle').textContent = name + ' — Матрицы Судьбы';
-    document.getElementById('matrixResultDate').textContent  = 'Дата рождения: ' + dateFormatted + ' · Личный аркан: ' + arcSum + ' (' + ARCANA_NAMES[arcSum] + ')';
+    const dStr = `${String(day).padStart(2,'0')}.${String(month).padStart(2,'0')}.${year}`;
+    document.getElementById('matrixPersonName').textContent = name;
+    document.getElementById('matrixPersonDate').textContent = dStr;
 
-    // Карточки интерпретации
-    const grid = document.getElementById('matrixInterpGrid');
-    grid.innerHTML = '';
-    Object.entries(MATRIX_INTERP).forEach(([key, info]) => {
-        const arcNum = vals[key];
-        const card = document.createElement('div');
-        card.className = 'interp-card';
-        card.innerHTML = `
-            <div class="interp-card-top">
-                <span class="interp-icon">${info.icon}</span>
-                <span class="interp-arcana">${arcNum} · ${ARCANA_NAMES[arcNum]}</span>
-            </div>
-            <h4>${info.title}</h4>
-            <p>${info.desc}</p>
-        `;
-        grid.appendChild(card);
+    // Таблица значений
+    const grid = document.getElementById('matrixValuesGrid');
+    const posKeys = ['A','B','C','D','E','AB','BC','CD','AD','F','G','H','I'];
+    grid.innerHTML = posKeys.map(k => {
+        const pos = POSITIONS[k];
+        const val = nums[k];
+        const arc = ARCANA[val];
+        return `<div class="matrix-val-card">
+            <div class="mvc-pos" style="color:${pos.color}">${pos.label}</div>
+            <div class="mvc-num">${val}</div>
+            <div class="mvc-arcana">${arc.name}</div>
+            <div class="mvc-key">${arc.key}</div>
+        </div>`;
+    }).join('');
+
+    // Интерпретации
+    const interps = document.getElementById('matrixInterps');
+    interps.innerHTML = `<h3 class="matrix-interp-title">✦ Детальный разбор матрицы</h3>` +
+        posKeys.map(k => {
+            const pos = POSITIONS[k];
+            const val = nums[k];
+            const arc = ARCANA[val];
+            return `<div class="matrix-interp-item">
+                <div class="mii-header">
+                    <span class="mii-pos" style="color:${pos.color}">${pos.label}</span>
+                    <span class="mii-num" style="background:${pos.color}20;border-color:${pos.color}50">${val} — ${arc.name}</span>
+                </div>
+                <p class="mii-pos-desc">${pos.desc}</p>
+                <p class="mii-arc-desc">${arc.desc}</p>
+            </div>`;
+        }).join('');
+
+    document.getElementById('matrixResult').style.display = 'block';
+    document.getElementById('matrixResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyMatrixResult() {
+    const name = document.getElementById('matrixPersonName').textContent;
+    const date = document.getElementById('matrixPersonDate').textContent;
+    const cards = document.querySelectorAll('.matrix-val-card');
+    let text = `Матрица Судьбы — ${name} (${date})\n${'─'.repeat(40)}\n`;
+    cards.forEach(c => {
+        const pos = c.querySelector('.mvc-pos').textContent;
+        const num = c.querySelector('.mvc-num').textContent;
+        const arc = c.querySelector('.mvc-arcana').textContent;
+        text += `${pos}: ${num} (${arc})\n`;
     });
-
-    // Показываем результат
-    const result = document.getElementById('matrixResult');
-    result.style.display = 'block';
-    setTimeout(() => result.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    navigator.clipboard.writeText(text).then(() => showNotify('Скопировано в буфер обмена', 'success'));
 }
 
 function bookMatrixSession() {
