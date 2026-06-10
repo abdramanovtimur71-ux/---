@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -692,206 +692,204 @@
                     <span id="matrixPersonDate" class="matrix-person-date"></span>
                 </div>
 
-                <!-- Визуальная матрица (SVG) — Правильная октаграмма -->
+                <!-- Визуальная матрица (SVG) — Стандартная октаграмма -->
                 <div class="matrix-visual-wrap">
                   <svg id="matrixSvg" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
+<!-- А=право(0лет,пурпур), Е=низ-право(10), Б=низ(20,пурпур), Ж=низ-лево(30), В=лево(40,тёмно-красн), И=верх-лево(50), Г=верх(60,красн), З=верх-право(70), Д=центр(золото) -->
                     <defs>
-                      <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" style="stop-color:#f8f4ee"/>
-                        <stop offset="100%" style="stop-color:#ede8df"/>
-                      </radialGradient>
-                      <filter id="mglow" x="-30%" y="-30%" width="160%" height="160%">
+                      <filter id="mglow" x="-50%" y="-50%" width="200%" height="200%">
                         <feGaussianBlur stdDeviation="4" result="cb"/>
                         <feMerge><feMergeNode in="cb"/><feMergeNode in="SourceGraphic"/></feMerge>
                       </filter>
-                    </defs>
-                    <rect width="700" height="700" fill="url(#bgGrad)" rx="12"/>
-
-                    <!-- ═══ ЛИНИИ ОКТАГОНА ═══ -->
-                    <!-- Внешний октагон: А(95,350)–Е(170,170)–Б(350,95)–Ж(530,170)–В(605,350)–И(530,530)–Г(350,605)–З(170,530) -->
-                    <polygon points="95,350 170,170 350,95 530,170 605,350 530,530 350,605 170,530"
-                      fill="none" stroke="#bbb" stroke-width="1.2"/>
-
-                    <!-- Внутренний квадрат: А_in–Б_in–В_in–Г_in -->
-                    <polygon points="220,350 350,220 480,350 350,480"
-                      fill="none" stroke="#aaa" stroke-width="1"/>
-
-                    <!-- Крест и диагонали (через центр): А-В, Б-Г, Е-И, Ж-З -->
-                    <line x1="95" y1="350" x2="605" y2="350" stroke="#bbb" stroke-width="1"/>
-                    <line x1="350" y1="95" x2="350" y2="605" stroke="#bbb" stroke-width="1"/>
-                    <line x1="170" y1="170" x2="530" y2="530" stroke="#bbb" stroke-width="1"/>
-                    <line x1="530" y1="170" x2="170" y2="530" stroke="#bbb" stroke-width="1"/>
-
-                    <!-- Дополнительные линии от внешних точек к внутреннему квадрату -->
-                    <line x1="170" y1="170" x2="350" y2="220" stroke="#ccc" stroke-width="0.8"/>
-                    <line x1="530" y1="170" x2="350" y2="220" stroke="#ccc" stroke-width="0.8"/>
-                    <line x1="95" y1="350" x2="220" y2="350" stroke="#ccc" stroke-width="0.8"/>
-                    <line x1="605" y1="350" x2="480" y2="350" stroke="#ccc" stroke-width="0.8"/>
-                    <line x1="170" y1="530" x2="350" y2="480" stroke="#ccc" stroke-width="0.8"/>
-                    <line x1="530" y1="530" x2="350" y2="480" stroke="#ccc" stroke-width="0.8"/>
-                    <line x1="350" y1="95" x2="350" y2="220" stroke="#ccc" stroke-width="0.8"/>
-                    <line x1="350" y1="605" x2="350" y2="480" stroke="#ccc" stroke-width="0.8"/>
-
-                    <!-- Линии от внешних угловых точек к противоположному внутреннему квадрату -->
-                    <line x1="170" y1="170" x2="480" y2="350" stroke="#ddd" stroke-width="0.7"/>
-                    <line x1="170" y1="170" x2="350" y2="480" stroke="#ddd" stroke-width="0.7"/>
-                    <line x1="530" y1="170" x2="220" y2="350" stroke="#ddd" stroke-width="0.7"/>
-                    <line x1="530" y1="170" x2="350" y2="480" stroke="#ddd" stroke-width="0.7"/>
-                    <line x1="170" y1="530" x2="480" y2="350" stroke="#ddd" stroke-width="0.7"/>
-                    <line x1="170" y1="530" x2="350" y2="220" stroke="#ddd" stroke-width="0.7"/>
-                    <line x1="530" y1="530" x2="220" y2="350" stroke="#ddd" stroke-width="0.7"/>
-                    <line x1="530" y1="530" x2="350" y2="220" stroke="#ddd" stroke-width="0.7"/>
-
-                    <!-- Большой круг (зона комфорта) -->
-                    <circle cx="350" cy="350" r="130" fill="none" stroke="#bbb" stroke-width="1" stroke-dasharray="6,4"/>
-
-                    <!-- ═══ СТРЕЛКИ ЛИНИЙ РОДА ═══ -->
-                    <!-- Линия мужского рода (синяя, от А через центр к В, показана диагональю) -->
-                    <line x1="240" y1="290" x2="310" y2="220" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
-                    <text x="248" y="265" fill="#4a90d9" font-size="9" font-family="sans-serif" transform="rotate(-45,248,265)">линия мужского рода</text>
-                    <!-- Линия женского рода (красная) -->
-                    <line x1="370" y1="280" x2="440" y2="350" stroke="#d94a4a" stroke-width="1.5" marker-end="url(#arrowRed)"/>
-                    <text x="395" y="300" fill="#d94a4a" font-size="9" font-family="sans-serif" transform="rotate(45,395,300)">линия женского рода</text>
-
-                    <defs>
-                      <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
-                        <polygon points="0 0, 8 3, 0 6" fill="#4a90d9"/>
+                      <marker id="markerBlue" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+                        <polygon points="0 0, 8 3, 0 6" fill="#3a6cc8"/>
                       </marker>
-                      <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
-                        <polygon points="0 0, 8 3, 0 6" fill="#d94a4a"/>
+                      <marker id="markerRed" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+                        <polygon points="0 0, 8 3, 0 6" fill="#c83a3a"/>
                       </marker>
                     </defs>
+                    <!-- Фон -->
+                    <rect width="700" height="700" fill="#f0ece3" rx="10"/>
 
-                    <!-- ═══ МЕТКИ ВОЗРАСТА (по краям октагона) ═══ -->
-                    <text x="57" y="355" text-anchor="middle" fill="#555" font-size="10" font-family="sans-serif">А</text>
-                    <text x="44" y="370" text-anchor="middle" fill="#555" font-size="9" font-family="sans-serif">0 лет</text>
-                    <text x="133" y="130" text-anchor="middle" fill="#555" font-size="9" font-family="sans-serif">10 лет</text>
-                    <text x="350" y="62" text-anchor="middle" fill="#555" font-size="10" font-family="sans-serif">Б</text>
-                    <text x="350" y="49" text-anchor="middle" fill="#555" font-size="9" font-family="sans-serif">20 лет</text>
-                    <text x="567" y="130" text-anchor="end" fill="#555" font-size="9" font-family="sans-serif">30 лет</text>
-                    <text x="650" y="355" text-anchor="middle" fill="#555" font-size="10" font-family="sans-serif">В</text>
-                    <text x="653" y="370" text-anchor="middle" fill="#555" font-size="9" font-family="sans-serif">40 лет</text>
-                    <text x="567" y="570" text-anchor="end" fill="#555" font-size="9" font-family="sans-serif">50 лет</text>
-                    <text x="350" y="638" text-anchor="middle" fill="#555" font-size="10" font-family="sans-serif">Г</text>
-                    <text x="350" y="650" text-anchor="middle" fill="#555" font-size="9" font-family="sans-serif">60 лет</text>
-                    <text x="133" y="570" text-anchor="middle" fill="#555" font-size="9" font-family="sans-serif">70 лет</text>
-                    <!-- 5-лет маркеры на рёбрах -->
-                    <text x="108" y="258" fill="#999" font-size="8" font-family="sans-serif">5 лет</text>
-                    <text x="220" y="110" fill="#999" font-size="8" font-family="sans-serif">15 лет</text>
-                    <text x="477" y="110" fill="#999" font-size="8" text-anchor="end" font-family="sans-serif">25 лет</text>
-                    <text x="592" y="258" fill="#999" font-size="8" font-family="sans-serif">35 лет</text>
-                    <text x="592" y="450" fill="#999" font-size="8" font-family="sans-serif">45 лет</text>
-                    <text x="477" y="595" fill="#999" font-size="8" text-anchor="end" font-family="sans-serif">55 лет</text>
-                    <text x="220" y="595" fill="#999" font-size="8" font-family="sans-serif">65 лет</text>
-                    <text x="108" y="450" fill="#999" font-size="8" font-family="sans-serif">75 лет</text>
+                    <!-- ── ЛИНИИ СТРУКТУРЫ ── -->
+                    <!-- Внешний октагон: А(590,350)–Е(520,520)–Б(350,590)–Ж(180,520)–В(110,350)–И(180,180)–Г(350,110)–З(520,180) -->
+                    <polygon points="590,350 520,520 350,590 180,520 110,350 180,180 350,110 520,180"
+                      fill="none" stroke="#888" stroke-width="1.5"/>
+                    <!-- Кресты через центр -->
+                    <line x1="110" y1="350" x2="590" y2="350" stroke="#888" stroke-width="1.5"/>
+                    <line x1="350" y1="110" x2="350" y2="590" stroke="#888" stroke-width="1.5"/>
+                    <!-- Диагонали через центр -->
+                    <line x1="180" y1="180" x2="520" y2="520" stroke="#888" stroke-width="1.2"/>
+                    <line x1="520" y1="180" x2="180" y2="520" stroke="#888" stroke-width="1.2"/>
+                    <!-- Внутренний квадрат: А_вн(480,350)–Г_вн(350,220)–В_вн(220,350)–Б_вн(350,480) -->
+                    <polygon points="480,350 350,220 220,350 350,480" fill="none" stroke="#888" stroke-width="1.2"/>
+                    <!-- Внутренний ромб: П(442,258)–О(258,258)–М(258,442)–Н(442,442) -->
+                    <polygon points="442,258 258,258 258,442 442,442" fill="none" stroke="#aaa" stroke-width="0.9"/>
+                    <!-- Линии от диагональных точек к внутреннему квадрату -->
+                    <line x1="520" y1="520" x2="480" y2="350" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="520" y1="520" x2="350" y2="480" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="180" y1="520" x2="220" y2="350" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="180" y1="520" x2="350" y2="480" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="180" y1="180" x2="220" y2="350" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="180" y1="180" x2="350" y2="220" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="520" y1="180" x2="480" y2="350" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="520" y1="180" x2="350" y2="220" stroke="#ccc" stroke-width="0.8"/>
+                    <!-- Линии от углов ромба к внутреннему квадрату -->
+                    <line x1="442" y1="258" x2="480" y2="350" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="442" y1="258" x2="350" y2="220" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="258" y1="258" x2="220" y2="350" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="258" y1="258" x2="350" y2="220" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="258" y1="442" x2="220" y2="350" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="258" y1="442" x2="350" y2="480" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="442" y1="442" x2="480" y2="350" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="442" y1="442" x2="350" y2="480" stroke="#ddd" stroke-width="0.7"/>
+                    <!-- Зона комфорта (пунктир) -->
+                    <circle cx="350" cy="350" r="130" fill="none" stroke="#aaa" stroke-width="1" stroke-dasharray="5,4"/>
 
-                    <!-- ═══ ТЕКСТ "ЗОНА КОМФОРТА" ═══ -->
-                    <text x="350" y="415" text-anchor="middle" fill="#888" font-size="11" font-family="sans-serif" letter-spacing="1">ЗОНА КОМФОРТА</text>
-                    <!-- Символы $ и ♥ -->
-                    <text x="400" y="395" text-anchor="middle" fill="#3a8a3a" font-size="18" font-family="sans-serif">$</text>
-                    <text x="335" y="405" text-anchor="middle" fill="#d94a4a" font-size="16" font-family="sans-serif">♥</text>
+                    <!-- ЗОНА КОМФОРТА + символы (за центральным кругом) -->
+                    <text x="350" y="328" text-anchor="middle" fill="#999" font-size="9.5" font-family="sans-serif" letter-spacing="1.5">ЗОНА КОМФОРТА</text>
+                    <text x="316" y="358" text-anchor="middle" fill="#c83a3a" font-size="17" font-family="sans-serif">♥</text>
+                    <text x="384" y="356" text-anchor="middle" fill="#2a8a2a" font-size="18" font-family="sans-serif">$</text>
 
-                    <!-- ═══ ГЛАВНЫЕ ВНЕШНИЕ ТОЧКИ ═══ -->
+                    <!-- Стрелки линий рода -->
+                    <line x1="305" y1="406" x2="393" y2="306" stroke="#3a6cc8" stroke-width="1.8" marker-end="url(#markerBlue)"/>
+                    <line x1="393" y1="406" x2="305" y2="306" stroke="#c83a3a" stroke-width="1.8" marker-end="url(#markerRed)"/>
+                    <text x="357" y="400" fill="#3a6cc8" font-size="7" font-family="sans-serif" transform="rotate(-45,357,400)">линия мужского рода</text>
+                    <text x="337" y="415" fill="#c83a3a" font-size="7" font-family="sans-serif" transform="rotate(45,337,415)">линия женского рода</text>
 
-                    <!-- А (лево, 0 лет) — фиолетовый большой -->
-                    <circle cx="95" cy="350" r="36" fill="#8b4db8" stroke="#6a2d99" stroke-width="2" filter="url(#mglow)"/>
-                    <text id="mvAnum" x="95" y="356" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── ПРОГРЕССИОННЫЕ КРУГИ НА РЁБРАХ (3 на каждое ребро) ── -->
+                    <!-- Ребро А→Е [0→10 лет] -->
+                    <circle cx="572" cy="393" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_AE1" x="572" y="397" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="555" cy="435" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_AE2" x="555" y="439" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="538" cy="478" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_AE3" x="538" y="482" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро Е→Б [10→20 лет] -->
+                    <circle cx="478" cy="538" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_EB1" x="478" y="542" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="435" cy="555" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_EB2" x="435" y="559" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="393" cy="573" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_EB3" x="393" y="577" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро Б→Ж [20→30 лет] -->
+                    <circle cx="308" cy="573" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_BZh1" x="308" y="577" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="265" cy="555" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_BZh2" x="265" y="559" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="223" cy="538" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_BZh3" x="223" y="542" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро Ж→В [30→40 лет] -->
+                    <circle cx="163" cy="478" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZhV1" x="163" y="482" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="145" cy="435" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZhV2" x="145" y="439" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="128" cy="393" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZhV3" x="128" y="397" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро В→И [40→50 лет] -->
+                    <circle cx="128" cy="308" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_VI1" x="128" y="312" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="145" cy="265" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_VI2" x="145" y="269" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="163" cy="223" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_VI3" x="163" y="227" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро И→Г [50→60 лет] -->
+                    <circle cx="223" cy="163" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_IG1" x="223" y="167" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="265" cy="145" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_IG2" x="265" y="149" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="308" cy="128" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_IG3" x="308" y="132" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро Г→З [60→70 лет] -->
+                    <circle cx="393" cy="128" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_GZ1" x="393" y="132" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="435" cy="145" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_GZ2" x="435" y="149" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="478" cy="163" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_GZ3" x="478" y="167" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро З→А [70→0/80 лет] -->
+                    <circle cx="538" cy="223" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZA1" x="538" y="227" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="555" cy="265" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZA2" x="555" y="269" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="573" cy="308" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZA3" x="573" y="312" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
 
-                    <!-- Б (верх, 20 лет) — фиолетовый большой -->
-                    <circle cx="350" cy="95" r="36" fill="#8b4db8" stroke="#6a2d99" stroke-width="2" filter="url(#mglow)"/>
-                    <text id="mvBnum" x="350" y="101" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── ВНУТРЕННИЙ РОМБ: П, О, М, Н ── -->
+                    <circle cx="442" cy="258" r="17" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvPnum" x="442" y="262" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="258" cy="258" r="17" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvOnum" x="258" y="262" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="258" cy="442" r="17" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvMnum" x="258" y="446" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="442" cy="442" r="17" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvNnum" x="442" y="446" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="serif">?</text>
 
-                    <!-- В (право, 40 лет) — тёмно-красный большой -->
-                    <circle cx="605" cy="350" r="36" fill="#8b2020" stroke="#6a0a0a" stroke-width="2" filter="url(#mglow)"/>
-                    <text id="mvVnum" x="605" y="356" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── ВНУТРЕННИЙ КРЕСТ: А_вн, Г_вн, В_вн, Б_вн ── -->
+                    <circle cx="480" cy="350" r="21" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvAinNum" x="480" y="354" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="15" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="350" cy="220" r="21" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvGinNum" x="350" y="224" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="15" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="220" cy="350" r="21" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvVinNum" x="220" y="354" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="15" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="350" cy="480" r="21" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvBinNum" x="350" y="484" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="15" font-weight="bold" font-family="serif">?</text>
 
-                    <!-- Г (низ, 60 лет) — ярко-красный большой -->
-                    <circle cx="350" cy="605" r="36" fill="#c43030" stroke="#a01818" stroke-width="2" filter="url(#mglow)"/>
-                    <text id="mvGnum" x="350" y="611" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── КОМПАНЬОНЫ РЯДОМ С ДИАГОНАЛЬНЫМИ ТОЧКАМИ (белые) ── -->
+                    <!-- Рядом с Е (520,520) -->
+                    <circle cx="508" cy="469" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvEc1" x="508" y="473" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="469" cy="508" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvEc2" x="469" y="512" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с Ж (180,520) -->
+                    <circle cx="192" cy="469" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvZhc1" x="192" y="473" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="231" cy="508" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvZhc2" x="231" y="512" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с И (180,180) -->
+                    <circle cx="192" cy="231" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvIc1" x="192" y="235" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="231" cy="192" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvIc2" x="231" y="196" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с З (520,180) -->
+                    <circle cx="508" cy="231" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvZc1" x="508" y="235" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="469" cy="192" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvZc2" x="469" y="196" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
 
-                    <!-- ═══ СРЕДНИЕ ВНЕШНИЕ УГЛОВЫЕ ТОЧКИ ═══ -->
+                    <!-- ── КОМПАНЬОНЫ РЯДОМ С ГЛАВНЫМИ ТОЧКАМИ ── -->
+                    <!-- Рядом с А (590,350): голубой + синий -->
+                    <circle cx="551" cy="314" r="16" fill="#6bb8e8" stroke="#4a9aca" stroke-width="1.5"/><text id="mvAc1" x="551" y="318" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="551" cy="352" r="16" fill="#3060c8" stroke="#2040a0" stroke-width="1.5"/><text id="mvAc2" x="551" y="356" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с Б (350,590): голубой + синий -->
+                    <circle cx="386" cy="551" r="16" fill="#6bb8e8" stroke="#4a9aca" stroke-width="1.5"/><text id="mvBc1" x="386" y="555" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="350" cy="549" r="16" fill="#3060c8" stroke="#2040a0" stroke-width="1.5"/><text id="mvBc2" x="350" y="553" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с В (110,350): оранжевый -->
+                    <circle cx="149" cy="314" r="16" fill="#e07030" stroke="#b84820" stroke-width="1.5"/><text id="mvVc1" x="149" y="318" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="149" cy="352" r="16" fill="#c05820" stroke="#984010" stroke-width="1.5"/><text id="mvVc2" x="149" y="356" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с Г (350,110): оранжевый -->
+                    <circle cx="314" cy="149" r="16" fill="#e07030" stroke="#b84820" stroke-width="1.5"/><text id="mvGc1" x="314" y="153" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="352" cy="150" r="16" fill="#c05820" stroke="#984010" stroke-width="1.5"/><text id="mvGc2" x="352" y="154" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
 
-                    <!-- Е (верх-лево, 10 лет) — белый с чёрным текстом -->
-                    <circle cx="170" cy="170" r="28" fill="#fff" stroke="#888" stroke-width="1.5"/>
-                    <text id="mvEnum" x="170" y="176" text-anchor="middle" dominant-baseline="middle" fill="#222" font-size="19" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── ДИАГОНАЛЬНЫЕ ВНЕШНИЕ ТОЧКИ (тёмные) ── -->
+                    <circle cx="520" cy="520" r="27" fill="#1a1a2e" stroke="#555" stroke-width="2"/>
+                    <text id="mvEnum" x="520" y="524" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="19" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="180" cy="520" r="27" fill="#1a1a2e" stroke="#555" stroke-width="2"/>
+                    <text id="mvZhnum" x="180" y="524" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="19" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="180" cy="180" r="27" fill="#1a1a2e" stroke="#555" stroke-width="2"/>
+                    <text id="mvInum" x="180" y="184" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="19" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="520" cy="180" r="27" fill="#1a1a2e" stroke="#555" stroke-width="2"/>
+                    <text id="mvZnum" x="520" y="184" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="19" font-weight="bold" font-family="serif">?</text>
 
-                    <!-- Ж (верх-право, 30 лет) — белый -->
-                    <circle cx="530" cy="170" r="28" fill="#fff" stroke="#888" stroke-width="1.5"/>
-                    <text id="mvZhnum" x="530" y="176" text-anchor="middle" dominant-baseline="middle" fill="#222" font-size="19" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── ГЛАВНЫЕ ВНЕШНИЕ ТОЧКИ ── -->
+                    <!-- А — ПРАВО — ПУРПУРНЫЙ -->
+                    <circle cx="590" cy="350" r="36" fill="#8744b8" stroke="#6820a0" stroke-width="2.5" filter="url(#mglow)"/>
+                    <text id="mvAnum" x="590" y="354" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
+                    <!-- Б — НИЗ — ПУРПУРНЫЙ -->
+                    <circle cx="350" cy="590" r="36" fill="#8744b8" stroke="#6820a0" stroke-width="2.5" filter="url(#mglow)"/>
+                    <text id="mvBnum" x="350" y="594" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
+                    <!-- В — ЛЕВО — ТЁМНО-КРАСНЫЙ -->
+                    <circle cx="110" cy="350" r="36" fill="#8b1a1a" stroke="#6a0808" stroke-width="2.5" filter="url(#mglow)"/>
+                    <text id="mvVnum" x="110" y="354" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
+                    <!-- Г — ВЕРХ — КРАСНЫЙ -->
+                    <circle cx="350" cy="110" r="36" fill="#c03030" stroke="#a01010" stroke-width="2.5" filter="url(#mglow)"/>
+                    <text id="mvGnum" x="350" y="114" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
 
-                    <!-- И (низ-право, 50 лет) — белый -->
-                    <circle cx="530" cy="530" r="28" fill="#fff" stroke="#888" stroke-width="1.5"/>
-                    <text id="mvInum" x="530" y="536" text-anchor="middle" dominant-baseline="middle" fill="#222" font-size="19" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── ЦЕНТР Д — ЗОЛОТОЙ ── -->
+                    <circle cx="350" cy="350" r="44" fill="#f0d060" stroke="#c8a020" stroke-width="2.5" filter="url(#mglow)"/>
+                    <text id="mvDnum" x="350" y="354" text-anchor="middle" dominant-baseline="middle" fill="#5a3800" font-size="28" font-weight="bold" font-family="serif">?</text>
 
-                    <!-- З (низ-лево, 70 лет) — белый -->
-                    <circle cx="170" cy="530" r="28" fill="#fff" stroke="#888" stroke-width="1.5"/>
-                    <text id="mvZnum" x="170" y="536" text-anchor="middle" dominant-baseline="middle" fill="#222" font-size="19" font-weight="bold" font-family="serif">?</text>
-
-                    <!-- ═══ ЦЕНТР (Д) — золотой ═══ -->
-                    <circle cx="350" cy="350" r="42" fill="#f0d060" stroke="#c8a030" stroke-width="2.5" filter="url(#mglow)"/>
-                    <text id="mvDnum" x="350" y="345" text-anchor="middle" dominant-baseline="middle" fill="#5a3800" font-size="28" font-weight="bold" font-family="serif">?</text>
-                    <text x="350" y="376" text-anchor="middle" fill="#7a5010" font-size="9" font-family="sans-serif">д</text>
-
-                    <!-- ═══ ВНУТРЕННИЕ ТОЧКИ КРЕСТОВ ═══ -->
-
-                    <!-- А_in (между А и Д, на горизонтали) — белый-серый -->
-                    <circle cx="220" cy="350" r="22" fill="#fff" stroke="#999" stroke-width="1.5"/>
-                    <text id="mvAinNum" x="220" y="356" text-anchor="middle" dominant-baseline="middle" fill="#222" font-size="15" font-weight="bold" font-family="serif">?</text>
-                    <!-- А_in2 (синий, линия В_in рядом с А) -->
-                    <circle cx="255" cy="318" r="18" fill="#4a7ab8" stroke="#2a5a98" stroke-width="1.5"/>
-                    <text id="mvAin2num" x="255" y="323" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="13" font-weight="bold" font-family="serif">?</text>
-
-                    <!-- Б_in (между Б и Д, на вертикали) — белый-серый -->
-                    <circle cx="350" cy="220" r="22" fill="#fff" stroke="#999" stroke-width="1.5"/>
-                    <text id="mvBinNum" x="350" y="226" text-anchor="middle" dominant-baseline="middle" fill="#222" font-size="15" font-weight="bold" font-family="serif">?</text>
-                    <!-- Б_in2 (синий) -->
-                    <circle cx="382" cy="255" r="18" fill="#4a7ab8" stroke="#2a5a98" stroke-width="1.5"/>
-                    <text id="mvBin2num" x="382" y="260" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="13" font-weight="bold" font-family="serif">?</text>
-
-                    <!-- В_in (между Д и В, на горизонтали) — белый-серый -->
-                    <circle cx="480" cy="350" r="22" fill="#fff" stroke="#999" stroke-width="1.5"/>
-                    <text id="mvVinNum" x="480" y="356" text-anchor="middle" dominant-baseline="middle" fill="#222" font-size="15" font-weight="bold" font-family="serif">?</text>
-                    <!-- В_in2 -->
-                    <circle cx="516" cy="317" r="18" fill="#fff" stroke="#999" stroke-width="1.5"/>
-                    <text id="mvVin2num" x="516" y="322" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="serif">?</text>
-
-                    <!-- Г_in (между Д и Г, на вертикали) — белый-серый -->
-                    <circle cx="350" cy="480" r="22" fill="#fff" stroke="#999" stroke-width="1.5"/>
-                    <text id="mvGinNum" x="350" y="486" text-anchor="middle" dominant-baseline="middle" fill="#222" font-size="15" font-weight="bold" font-family="serif">?</text>
-                    <!-- Г_in2 -->
-                    <circle cx="388" cy="515" r="18" fill="#fff" stroke="#999" stroke-width="1.5"/>
-                    <text id="mvGin2num" x="388" y="520" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="serif">?</text>
-
-                    <!-- ═══ ТОЧКИ ВНУТРЕННЕГО РОМБА (П, О, М, Н) ═══ -->
-                    <!-- П = А_in+Б_in, верх-лево внутри -->
-                    <circle cx="282" cy="282" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
-                    <text id="mvPnum" x="282" y="287" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
-                    <text x="264" y="271" fill="#777" font-size="8" font-family="sans-serif">П</text>
-
-                    <!-- О = Б_in+В_in, верх-право -->
-                    <circle cx="418" cy="282" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
-                    <text id="mvOnum" x="418" y="287" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
-                    <text x="430" y="271" fill="#777" font-size="8" font-family="sans-serif">О</text>
-
-                    <!-- М = В_in+Г_in, низ-право -->
-                    <circle cx="418" cy="418" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
-                    <text id="mvMnum" x="418" y="423" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
-                    <text x="430" y="434" fill="#777" font-size="8" font-family="sans-serif">М</text>
-
-                    <!-- Н = Г_in+А_in сумма = Б_in+Г_in, низ-лево -->
-                    <circle cx="282" cy="418" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
-                    <text id="mvNnum" x="282" y="423" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
-                    <text x="264" y="434" fill="#777" font-size="8" font-family="sans-serif">Н</text>
-
-                    <!-- К = И+Д (около нижнего правого) -->
-                    <circle cx="450" cy="452" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
-                    <text id="mvKnum" x="450" y="457" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
-                    <text x="465" y="445" fill="#777" font-size="8" font-family="sans-serif">К</text>
+                    <!-- ── ПОДПИСИ СНАРУЖИ (буква + возраст) ── -->
+                    <text x="637" y="347" text-anchor="start" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">А</text>
+                    <text x="637" y="362" text-anchor="start" fill="#555" font-size="10" font-family="sans-serif">0 лет</text>
+                    <text x="524" y="555" text-anchor="start" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">Е</text>
+                    <text x="524" y="568" text-anchor="start" fill="#555" font-size="10" font-family="sans-serif">10 лет</text>
+                    <text x="350" y="641" text-anchor="middle" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">Б</text>
+                    <text x="350" y="655" text-anchor="middle" fill="#555" font-size="10" font-family="sans-serif">20 лет</text>
+                    <text x="170" y="555" text-anchor="end" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">Ж</text>
+                    <text x="170" y="568" text-anchor="end" fill="#555" font-size="10" font-family="sans-serif">30 лет</text>
+                    <text x="58" y="347" text-anchor="end" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">В</text>
+                    <text x="58" y="362" text-anchor="end" fill="#555" font-size="10" font-family="sans-serif">40 лет</text>
+                    <text x="163" y="168" text-anchor="end" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">И</text>
+                    <text x="163" y="154" text-anchor="end" fill="#555" font-size="10" font-family="sans-serif">50 лет</text>
+                    <text x="350" y="58" text-anchor="middle" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">Г</text>
+                    <text x="350" y="44" text-anchor="middle" fill="#555" font-size="10" font-family="sans-serif">60 лет</text>
+                    <text x="537" y="168" text-anchor="start" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">З</text>
+                    <text x="537" y="154" text-anchor="start" fill="#555" font-size="10" font-family="sans-serif">70 лет</text>
                   </svg>
                 </div>
 
                 <!-- Таблица значений -->
                 <div class="matrix-values-grid" id="matrixValuesGrid"></div>
+                <!-- Детальные интерпретации -->
 
                 <!-- Детальные интерпретации -->
                 <div class="matrix-interpretations" id="matrixInterps"></div>
@@ -1957,116 +1955,159 @@ function calcMatrix() {
     const month = d.getMonth() + 1;
     const year  = d.getFullYear();
 
-    // Главные точки октогона
-    const A = reduceArcana(day);                             // левый (0 лет)
-    const B = reduceArcana(month);                           // верх (20 лет)
-    const yearSum = String(year).split('').reduce((a,b) => a + parseInt(b), 0);
-    const V = reduceArcana(yearSum);                         // В — право (40 лет)
-    const G = reduceArcana(A + B + V);                      // Г — низ (60 лет)
-    const D = reduceArcana(A + B + V + G);                  // Д — центр
+    // ── ГЛАВНЫЕ ТОЧКИ ──
+    // А=право(0лет), Б=низ(20лет), В=лево(40лет), Г=верх(60лет), Д=центр
+    const A = reduceArcana(day);
+    const B = reduceArcana(month);
+    const yearSum = String(year).split('').reduce((s,c) => s + parseInt(c), 0);
+    const V = reduceArcana(yearSum);
+    const G = reduceArcana(A + B + V);
+    const D = reduceArcana(A + B + V + G);
 
-    // Угловые средние (по рёбрам октагона)
-    const E   = reduceArcana(A + B);                        // Е — верх-лево (10 лет)
-    const Zh  = reduceArcana(B + V);                        // Ж — верх-право (30 лет)
-    const I   = reduceArcana(V + G);                        // И — низ-право (50 лет)
-    const Z   = reduceArcana(A + G);                        // З — низ-лево (70 лет)
+    // ── ДИАГОНАЛЬНЫЕ ТОЧКИ ──
+    const E  = reduceArcana(A + B);   // Е — низ-право (10 лет)
+    const Zh = reduceArcana(B + V);   // Ж — низ-лево  (30 лет)
+    const I  = reduceArcana(V + G);   // И — верх-лево (50 лет)
+    const Z  = reduceArcana(G + A);   // З — верх-право(70 лет)
 
-    // Внутренние точки (на линиях между внешними и центром)
-    const Ain  = reduceArcana(A + D);                       // А_in
-    const Bin  = reduceArcana(B + D);                       // Б_in
-    const Vin  = reduceArcana(V + D);                       // В_in
-    const Gin  = reduceArcana(G + D);                       // Г_in
+    // ── ВНУТРЕННИЙ КРЕСТ (между главной точкой и центром) ──
+    const Ain = reduceArcana(A + D);  // А_вн (правый)
+    const Bin = reduceArcana(B + D);  // Б_вн (нижний)
+    const Vin = reduceArcana(V + D);  // В_вн (левый)
+    const Gin = reduceArcana(G + D);  // Г_вн (верхний)
 
-    // Вторые внутренние (компаньоны)
-    const Ain2 = reduceArcana(A + E);                       // второй к А_in
-    const Bin2 = reduceArcana(B + Zh);                      // второй к Б_in
-    const Vin2 = reduceArcana(V + Zh);                      // второй к В_in
-    const Gin2 = reduceArcana(G + I);                       // второй к Г_in
+    // ── ВНУТРЕННИЙ РОМБ ──
+    const P = reduceArcana(Ain + Gin); // П — верх-право ромба
+    const O = reduceArcana(Gin + Vin); // О — верх-лево ромба
+    const M = reduceArcana(Vin + Bin); // М — низ-лево ромба
+    const N = reduceArcana(Bin + Ain); // Н — низ-право ромба
 
-    // Точки внутреннего ромба
-    const P = reduceArcana(Ain + Bin);                      // П — верх-лево ромба
-    const O = reduceArcana(Bin + Vin);                      // О — верх-право ромба
-    const M = reduceArcana(Vin + Gin);                      // М — низ-право ромба
-    const N = reduceArcana(Gin + Ain);                      // Н — низ-лево ромба
-    const K = reduceArcana(I + D);                          // К — дополнительная
+    // ── КОМПАНЬОНЫ РЯДОМ С ГЛАВНЫМИ ТОЧКАМИ ──
+    const Ac1 = reduceArcana(A + Z);   // рядом с А, вверх
+    const Ac2 = reduceArcana(A + E);   // рядом с А, вниз
+    const Bc1 = reduceArcana(B + E);   // рядом с Б, вправо
+    const Bc2 = reduceArcana(B + Zh);  // рядом с Б, влево
+    const Vc1 = reduceArcana(V + Zh);  // рядом с В, вниз
+    const Vc2 = reduceArcana(V + I);   // рядом с В, вверх
+    const Gc1 = reduceArcana(G + I);   // рядом с Г, влево
+    const Gc2 = reduceArcana(G + Z);   // рядом с Г, вправо
 
-    // Обновляем SVG
+    // ── КОМПАНЬОНЫ РЯДОМ С ДИАГОНАЛЬНЫМИ ТОЧКАМИ ──
+    const Ec1 = reduceArcana(E + Ain); // рядом с Е → А_вн
+    const Ec2 = reduceArcana(E + Bin); // рядом с Е → Б_вн
+    const Zhc1 = reduceArcana(Zh + Vin);
+    const Zhc2 = reduceArcana(Zh + Bin);
+    const Ic1  = reduceArcana(I + Vin);
+    const Ic2  = reduceArcana(I + Gin);
+    const Zc1  = reduceArcana(Z + Ain);
+    const Zc2  = reduceArcana(Z + Gin);
+
+    // ── ПРОГРЕССИОННЫЕ КРУГИ НА РЁБРАХ (фрактальный метод) ──
+    // mid = reduce(P1+P2), q1=reduce(P1+mid), q3=reduce(mid+P2)
+    function edge3(p1, p2) {
+        const m = reduceArcana(p1 + p2);
+        return [reduceArcana(p1 + m), m, reduceArcana(m + p2)];
+    }
+    const [eAE1,eAE2,eAE3]   = edge3(A, E);
+    const [eEB1,eEB2,eEB3]   = edge3(E, B);
+    const [eBZh1,eBZh2,eBZh3] = edge3(B, Zh);
+    const [eZhV1,eZhV2,eZhV3] = edge3(Zh, V);
+    const [eVI1,eVI2,eVI3]   = edge3(V, I);
+    const [eIG1,eIG2,eIG3]   = edge3(I, G);
+    const [eGZ1,eGZ2,eGZ3]   = edge3(G, Z);
+    const [eZA1,eZA2,eZA3]   = edge3(Z, A);
+
+    // ── ОБНОВЛЕНИЕ SVG ──
     const svgMap = {
+        // Главные
         Anum: A, Bnum: B, Vnum: V, Gnum: G, Dnum: D,
+        // Диагональные
         Enum: E, Zhnum: Zh, Inum: I, Znum: Z,
+        // Внутренний крест
         AinNum: Ain, BinNum: Bin, VinNum: Vin, GinNum: Gin,
-        Ain2num: Ain2, Bin2num: Bin2, Vin2num: Vin2, Gin2num: Gin2,
-        Pnum: P, Onum: O, Mnum: M, Nnum: N, Knum: K
+        // Внутренний ромб
+        Pnum: P, Onum: O, Mnum: M, Nnum: N,
+        // Компаньоны главных
+        Ac1: Ac1, Ac2: Ac2, Bc1: Bc1, Bc2: Bc2,
+        Vc1: Vc1, Vc2: Vc2, Gc1: Gc1, Gc2: Gc2,
+        // Компаньоны диагональных
+        Ec1: Ec1, Ec2: Ec2, Zhc1: Zhc1, Zhc2: Zhc2,
+        Ic1: Ic1, Ic2: Ic2, Zc1: Zc1, Zc2: Zc2,
+        // Прогрессия рёбер
+        'E_AE1': eAE1, 'E_AE2': eAE2, 'E_AE3': eAE3,
+        'E_EB1': eEB1, 'E_EB2': eEB2, 'E_EB3': eEB3,
+        'E_BZh1': eBZh1,'E_BZh2': eBZh2,'E_BZh3': eBZh3,
+        'E_ZhV1': eZhV1,'E_ZhV2': eZhV2,'E_ZhV3': eZhV3,
+        'E_VI1': eVI1,  'E_VI2': eVI2,  'E_VI3': eVI3,
+        'E_IG1': eIG1,  'E_IG2': eIG2,  'E_IG3': eIG3,
+        'E_GZ1': eGZ1,  'E_GZ2': eGZ2,  'E_GZ3': eGZ3,
+        'E_ZA1': eZA1,  'E_ZA2': eZA2,  'E_ZA3': eZA3,
     };
     for (const [id, v] of Object.entries(svgMap)) {
         const el = document.getElementById(`mv${id}`);
         if (el) el.textContent = v;
     }
 
-    // Заголовок
+    // ── ЗАГОЛОВОК ──
     const dStr = `${String(day).padStart(2,'0')}.${String(month).padStart(2,'0')}.${year}`;
     document.getElementById('matrixPersonName').textContent = name;
     document.getElementById('matrixPersonDate').textContent = dStr;
 
-    // Таблица значений — все позиции
-    const allPositions = [
-        { key: 'A',   label: 'А (0 лет) — Личность',         val: A,   color: '#8b4db8' },
-        { key: 'B',   label: 'Б (20 лет) — Духовность',       val: B,   color: '#8b4db8' },
-        { key: 'V',   label: 'В (40 лет) — Небесный потенциал', val: V, color: '#8b2020' },
-        { key: 'G',   label: 'Г (60 лет) — Предназначение',   val: G,   color: '#c43030' },
-        { key: 'D',   label: 'Д (Центр) — Точка баланса',     val: D,   color: '#c8a030' },
-        { key: 'E',   label: 'Е (10 лет) — А+Б',              val: E,   color: '#555' },
-        { key: 'Zh',  label: 'Ж (30 лет) — Б+В',              val: Zh,  color: '#555' },
-        { key: 'I',   label: 'И (50 лет) — В+Г',              val: I,   color: '#555' },
-        { key: 'Z',   label: 'З (70 лет) — А+Г',              val: Z,   color: '#555' },
-        { key: 'Ain', label: 'А_вн — А+Д',                    val: Ain, color: '#777' },
-        { key: 'Bin', label: 'Б_вн — Б+Д',                    val: Bin, color: '#777' },
-        { key: 'Vin', label: 'В_вн — В+Д',                    val: Vin, color: '#777' },
-        { key: 'Gin', label: 'Г_вн — Г+Д',                    val: Gin, color: '#777' },
-        { key: 'P',   label: 'П (ромб верх-лево)',             val: P,   color: '#999' },
-        { key: 'O',   label: 'О (ромб верх-право)',            val: O,   color: '#999' },
-        { key: 'M',   label: 'М (ромб низ-право)',             val: M,   color: '#999' },
-        { key: 'N',   label: 'Н (ромб низ-лево)',              val: N,   color: '#999' },
+    // ── ТАБЛИЦА ЗНАЧЕНИЙ ──
+    const positions = [
+        { label: 'А — 0 лет (день)',          val: A,   color: '#8744b8', formula: 'reduce(день)' },
+        { label: 'Б — 20 лет (месяц)',        val: B,   color: '#8744b8', formula: 'reduce(месяц)' },
+        { label: 'В — 40 лет (год)',          val: V,   color: '#8b1a1a', formula: 'reduce(сумма цифр года)' },
+        { label: 'Г — 60 лет',               val: G,   color: '#c03030', formula: 'reduce(А+Б+В)' },
+        { label: 'Д — Центр',                val: D,   color: '#c8a030', formula: 'reduce(А+Б+В+Г)' },
+        { label: 'Е — 10 лет',               val: E,   color: '#444',    formula: 'reduce(А+Б)' },
+        { label: 'Ж — 30 лет',               val: Zh,  color: '#444',    formula: 'reduce(Б+В)' },
+        { label: 'И — 50 лет',               val: I,   color: '#444',    formula: 'reduce(В+Г)' },
+        { label: 'З — 70 лет',               val: Z,   color: '#444',    formula: 'reduce(Г+А)' },
+        { label: 'А_вн (внутр. крест)',       val: Ain, color: '#777',   formula: 'reduce(А+Д)' },
+        { label: 'Б_вн (внутр. крест)',       val: Bin, color: '#777',   formula: 'reduce(Б+Д)' },
+        { label: 'В_вн (внутр. крест)',       val: Vin, color: '#777',   formula: 'reduce(В+Д)' },
+        { label: 'Г_вн (внутр. крест)',       val: Gin, color: '#777',   formula: 'reduce(Г+Д)' },
+        { label: 'П (ромб верх-право)',       val: P,   color: '#999',   formula: 'reduce(А_вн+Г_вн)' },
+        { label: 'О (ромб верх-лево)',        val: O,   color: '#999',   formula: 'reduce(Г_вн+В_вн)' },
+        { label: 'М (ромб низ-лево)',         val: M,   color: '#999',   formula: 'reduce(В_вн+Б_вн)' },
+        { label: 'Н (ромб низ-право)',        val: N,   color: '#999',   formula: 'reduce(Б_вн+А_вн)' },
     ];
 
     const grid = document.getElementById('matrixValuesGrid');
-    grid.innerHTML = allPositions.map(p => {
+    grid.innerHTML = positions.map(p => {
         const arc = ARCANA[p.val];
         return `<div class="matrix-val-card">
             <div class="mvc-pos" style="color:${p.color}">${p.label}</div>
             <div class="mvc-num">${p.val}</div>
             <div class="mvc-arcana">${arc.name}</div>
             <div class="mvc-key">${arc.key}</div>
+            <div style="font-size:9px;color:#888;margin-top:2px">${p.formula}</div>
         </div>`;
     }).join('');
 
-    // Интерпретации для главных точек
-    const mainKeys = ['A','B','V','G','D','E','Zh','I','Z'];
-    const mainLabels = {
-        A: { label: 'А — Личность (день рождения)', desc: 'Отражает вашу базовую личность, характер и внешнее проявление. Это то, как вас видят другие люди.', color: '#8b4db8' },
-        B: { label: 'Б — Душа (месяц рождения)', desc: 'Показывает глубинные желания, духовный потенциал и внутренний мир.', color: '#8b4db8' },
-        V: { label: 'В — Небесный потенциал (год рождения)', desc: 'Кармическое задание, данное свыше. Высший потенциал, который нужно реализовать.', color: '#8b2020' },
-        G: { label: 'Г — Предназначение', desc: 'Ваше главное жизненное предназначение. Формируется из суммы А+Б+В.', color: '#c43030' },
-        D: { label: 'Д — Центр (точка баланса)', desc: 'Центральная точка матрицы. Ваш главный архетип, ключевая энергия всей жизни.', color: '#c8a030' },
-        E:  { label: 'Е — 10 лет (А+Б)', desc: 'Линия верхнего-левого направления. Энергия детства и ранней юности.', color: '#555' },
-        Zh: { label: 'Ж — 30 лет (Б+В)', desc: 'Линия верхнего-правого направления. Энергия взросления и поиска пути.', color: '#555' },
-        I:  { label: 'И — 50 лет (В+Г)', desc: 'Линия нижнего-правого направления. Энергия зрелости и опыта.', color: '#555' },
-        Z:  { label: 'З — 70 лет (А+Г)', desc: 'Линия нижнего-левого направления. Энергия мудрости и завершения цикла.', color: '#555' },
-    };
-    const vals = { A, B, V, G, D, E, Zh, I, Z };
-
+    // ── ИНТЕРПРЕТАЦИИ ──
+    const mainInterp = [
+        { label:'А — Личность (день)',       val:A, color:'#8744b8', desc:'Базовая личность, характер, как вас воспринимают другие.' },
+        { label:'Б — Душа (месяц)',          val:B, color:'#8744b8', desc:'Глубинные желания, духовный потенциал, внутренний мир.' },
+        { label:'В — Небесный потенциал (год)', val:V, color:'#8b1a1a', desc:'Кармическое задание свыше. Высший потенциал для реализации.' },
+        { label:'Г — Предназначение',        val:G, color:'#c03030', desc:'Главное жизненное предназначение = сумма А+Б+В.' },
+        { label:'Д — Центр (баланс)',        val:D, color:'#c8a030', desc:'Центральный архетип. Главная энергия всей жизни.' },
+        { label:'Е — 10 лет',               val:E, color:'#444',    desc:'Период детства. Энергия формирования личности.' },
+        { label:'Ж — 30 лет',               val:Zh,color:'#444',    desc:'Период взросления. Поиск своего пути и призвания.' },
+        { label:'И — 50 лет',               val:I, color:'#444',    desc:'Период зрелости. Накопленный опыт и мудрость.' },
+        { label:'З — 70 лет',               val:Z, color:'#444',    desc:'Период завершения цикла. Итоги и духовное наследие.' },
+    ];
     const interps = document.getElementById('matrixInterps');
     interps.innerHTML = `<h3 class="matrix-interp-title">✦ Детальный разбор матрицы</h3>` +
-        mainKeys.map(k => {
-            const pos = mainLabels[k];
-            const val = vals[k];
-            const arc = ARCANA[val];
+        mainInterp.map(p => {
+            const arc = ARCANA[p.val];
             return `<div class="matrix-interp-item">
                 <div class="mii-header">
-                    <span class="mii-pos" style="color:${pos.color}">${pos.label}</span>
-                    <span class="mii-num" style="background:${pos.color}20;border-color:${pos.color}50">${val} — ${arc.name}</span>
+                    <span class="mii-pos" style="color:${p.color}">${p.label}</span>
+                    <span class="mii-num" style="background:${p.color}20;border-color:${p.color}50">${p.val} — ${arc.name}</span>
                 </div>
-                <p class="mii-pos-desc">${pos.desc}</p>
+                <p class="mii-pos-desc">${p.desc}</p>
                 <p class="mii-arc-desc">${arc.desc}</p>
             </div>`;
         }).join('');
