@@ -4,260 +4,260 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>╨Ы╨╕╤З╨╜╤Л╨╣ ╨║╨░╨▒╨╕╨╜╨╡╤В тАФ ╨Ь╨░╤В╤А╨╕╤Ж╤Л ╨б╤Г╨┤╤М╨▒╤Л</title>
+    <title>Личный кабинет — Матрицы Судьбы</title>
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
 
-<!-- ╨Ю╨▓╨╡╤А╨╗╨╡╨╣ ╨┤╨╗╤П ╨╖╨░╨║╤А╤Л╤В╨╕╤П ╤Б╨░╨╣╨┤╨▒╨░╤А╨░ ╨╜╨░ ╨╝╨╛╨▒╨╕╨╗╤М╨╜╨╛╨╝ -->
+<!-- Оверлей для закрытия сайдбара на мобильном -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
-<!-- тФАтФАтФА ╨С╨Ю╨Ъ╨Ю╨Т╨Ю╨Х ╨Ь╨Х╨Э╨о тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+<!-- ─── БОКОВОЕ МЕНЮ ─────────────────────────────── -->
 <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
-        <span class="sidebar-logo-text">╨Ь╨░╤В╤А╨╕╤Ж╤Л ╨б╤Г╨┤╤М╨▒╤Л</span>
-        <span class="sidebar-logo-sub">╨Ь╨░╤В╤А╨╕╤Ж╤Л ╨б╤Г╨┤╤М╨▒╤Л ┬╖ ╨Э╤Г╨╝╨╡╤А╨╛╨╗╨╛╨│</span>
+        <span class="sidebar-logo-text">Матрицы Судьбы</span>
+        <span class="sidebar-logo-sub">Матрицы Судьбы · Нумеролог</span>
     </a>
 
     <div class="sidebar-user">
-        <div class="sidebar-avatar" id="sidebarAvatar">╨Р</div>
+        <div class="sidebar-avatar" id="sidebarAvatar">А</div>
         <div>
-            <div class="sidebar-user-name" id="sidebarName">╨Р╨╜╨╜╨░</div>
-            <div class="sidebar-user-plan" id="sidebarPlan">тАФ ╨Ю╨▒╤Г╤З╨╡╨╜╨╕╨╡: ╨╜╨╡ ╨╛╨┐╨╗╨░╤З╨╡╨╜╨╛ тАФ</div>
+            <div class="sidebar-user-name" id="sidebarName">Анна</div>
+            <div class="sidebar-user-plan" id="sidebarPlan">— Обучение: не оплачено —</div>
         </div>
     </div>
 
     <nav class="sidebar-nav">
-        <div class="sidebar-section-label">╨У╨╗╨░╨▓╨╜╨╛╨╡</div>
+        <div class="sidebar-section-label">Главное</div>
         <a href="#" class="sidebar-link active" onclick="showPage('overview', this); closeSidebar()">
-            <span class="sidebar-icon">тмб</span> ╨Ю╨▒╨╖╨╛╤А
+            <span class="sidebar-icon">⬡</span> Обзор
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('profile', this); closeSidebar()">
-            <span class="sidebar-icon">тЬж</span> ╨Ь╨╛╨╣ ╨┐╤А╨╛╤Д╨╕╨╗╤М
+            <span class="sidebar-icon">✦</span> Мой профиль
         </a>
 
-        <div class="sidebar-section-label">╨б╨╡╨░╨╜╤Б╤Л</div>
+        <div class="sidebar-section-label">Сеансы</div>
         <a href="#" class="sidebar-link" onclick="showPage('matrix', this); closeSidebar()">
-            <span class="sidebar-icon">тЬ║</span> ╨Ь╨░╤В╤А╨╕╤Ж╤Л ╨б╤Г╨┤╤М╨▒╤Л
+            <span class="sidebar-icon">✺</span> Матрицы Судьбы
             <span class="sidebar-badge new-badge">NEW</span>
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('consultations', this); closeSidebar()">
-            <span class="sidebar-icon">ЁЯФо</span> ╨Ъ╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╨╕
+            <span class="sidebar-icon">🔮</span> Консультации
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('sessions', this); closeSidebar()">
-            <span class="sidebar-icon">тШ╜</span> ╨Ь╨╛╨╕ ╤Б╨╡╨░╨╜╤Б╤Л
+            <span class="sidebar-icon">☽</span> Мои сеансы
             <span class="sidebar-badge">2</span>
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('booking', this); closeSidebar()">
-            <span class="sidebar-icon">тЧИ</span> ╨Э╨╛╨▓╨░╤П ╨╖╨░╨┐╨╕╤Б╤М
+            <span class="sidebar-icon">◈</span> Новая запись
         </a>
 
-        <div class="sidebar-section-label">╨Р╨║╨║╨░╤Г╨╜╤В</div>
+        <div class="sidebar-section-label">Аккаунт</div>
         <a href="#" class="sidebar-link" onclick="showPage('subscription', this); closeSidebar()">
-            <span class="sidebar-icon">тЧЗ</span> ╨Ю╨▒╤Г╤З╨╡╨╜╨╕╨╡
+            <span class="sidebar-icon">◇</span> Обучение
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('shop', this); closeSidebar()">
-            <span class="sidebar-icon">тЬ║</span> ╨Ь╨░╨│╨░╨╖╨╕╨╜
+            <span class="sidebar-icon">✺</span> Магазин
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('messages', this); closeSidebar()">
-            <span class="sidebar-icon">тЬЙ</span> ╨б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╤П
+            <span class="sidebar-icon">✉</span> Сообщения
             <span class="sidebar-badge unread-badge" id="unreadBadge" style="display:none">0</span>
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('settings', this); closeSidebar()">
-            <span class="sidebar-icon">тЪЩ</span> ╨Э╨░╤Б╤В╤А╨╛╨╣╨║╨╕
+            <span class="sidebar-icon">⚙</span> Настройки
         </a>
     </nav>
 
     <div class="sidebar-footer">
         <a href="index.html" class="sidebar-link">
-            <span class="sidebar-icon">тЖР</span> ╨Э╨░ ╤Б╨░╨╣╤В
+            <span class="sidebar-icon">←</span> На сайт
         </a>
         <a href="index.html" class="sidebar-link logout" id="dashLogoutBtn" onclick="dashLogout()">
-            <span class="sidebar-icon">тЖТ</span> ╨Т╤Л╨╣╤В╨╕
+            <span class="sidebar-icon">→</span> Выйти
         </a>
     </div>
 </aside>
 
-<!-- тФАтФАтФА ╨Ю╨б╨Э╨Ю╨Т╨Э╨Р╨п ╨Ю╨С╨Ы╨Р╨б╨в╨м тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+<!-- ─── ОСНОВНАЯ ОБЛАСТЬ ─────────────────────────── -->
 <div class="main-area">
 
-    <!-- ╨Т╨╡╤А╤Е╨╜╤П╤П ╨┐╨░╨╜╨╡╨╗╤М -->
+    <!-- Верхняя панель -->
     <header class="topbar">
         <div style="display:flex;align-items:center;gap:14px;">
-            <button class="dash-hamburger" onclick="toggleSidebar()" aria-label="╨Ь╨╡╨╜╤О">
+            <button class="dash-hamburger" onclick="toggleSidebar()" aria-label="Меню">
                 <span></span><span></span><span></span>
             </button>
             <div>
-                <div class="topbar-title" id="topbarTitle">╨Ю╨▒╨╖╨╛╤А</div>
-                <div class="topbar-sub" id="topbarSub">╨Ф╨╛╨▒╤А╨╛ ╨┐╨╛╨╢╨░╨╗╨╛╨▓╨░╤В╤М ╨▓ ╨╗╨╕╤З╨╜╤Л╨╣ ╨║╨░╨▒╨╕╨╜╨╡╤В</div>
+                <div class="topbar-title" id="topbarTitle">Обзор</div>
+                <div class="topbar-sub" id="topbarSub">Добро пожаловать в личный кабинет</div>
             </div>
         </div>
         <div class="topbar-actions">
-            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleDashTheme()" aria-label="╨б╨╝╨╡╨╜╨╕╤В╤М ╤В╨╡╨╝╤Г">
-                <span id="themeToggleIcon">тШАя╕П</span>
-                <span class="theme-label" id="themeToggleLabel">╨б╨▓╨╡╤В╨╗╨░╤П</span>
+            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleDashTheme()" aria-label="Сменить тему">
+                <span id="themeToggleIcon">☀️</span>
+                <span class="theme-label" id="themeToggleLabel">Светлая</span>
             </button>
-            <a href="index.html" class="topbar-back">тЖР ╨Э╨░ ╤Б╨░╨╣╤В</a>
+            <a href="index.html" class="topbar-back">← На сайт</a>
         </div>
     </header>
 
     <div class="content">
 
-        <!-- тФАтФАтФА ╨б╨в╨а╨Р╨Э╨Ш╨ж╨Р: ╨Ю╨С╨Ч╨Ю╨а тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+        <!-- ─── СТРАНИЦА: ОБЗОР ──────────────────── -->
         <div id="page-overview" class="page active">
 
             <div class="dash-notify info">
-                <div class="dash-notify-icon">тШ╜</div>
+                <div class="dash-notify-icon">☽</div>
                 <div class="dash-notify-text">
-                    <h4>╨С╨╗╨╕╨╢╨░╨╣╤И╨╕╨╣ ╤Б╨╡╨░╨╜╤Б ╤З╨╡╤А╨╡╨╖ 3 ╨┤╨╜╤П</h4>
-                    <p>╨в╨░╤А╨╛ ╨з╤В╨╡╨╜╨╕╨╡ тАФ 10 ╨░╨┐╤А╨╡╨╗╤П 2026, 14:00</p>
+                    <h4>Ближайший сеанс через 3 дня</h4>
+                    <p>Таро Чтение — 10 апреля 2026, 14:00</p>
                 </div>
             </div>
 
             <div class="grid-4">
                 <div class="kpi-card">
-                    <div class="kpi-label">╨Т╤Б╨╡╨│╨╛ ╤Б╨╡╨░╨╜╤Б╨╛╨▓</div>
+                    <div class="kpi-label">Всего сеансов</div>
                     <div class="kpi-value purple">7</div>
-                    <div class="kpi-change">+2 ╤Н╤В╨╛╤В ╨╝╨╡╤Б╤П╤Ж</div>
+                    <div class="kpi-change">+2 этот месяц</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-label">╨Ю╨▒╤Г╤З╨╡╨╜╨╕╨╡</div>
-                    <div class="kpi-value gold" id="overviewPlan">╨Э╨╡ ╨╛╨┐╨╗╨░╤З╨╡╨╜╨╛</div>
-                    <div class="kpi-change">╨Ю╨┐╨╗╨░╤В╨░ ╨┐╨╛ ╤Д╨░╨║╤В╤Г</div>
+                    <div class="kpi-label">Обучение</div>
+                    <div class="kpi-value gold" id="overviewPlan">Не оплачено</div>
+                    <div class="kpi-change">Оплата по факту</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-label">╨б╨▓╨╛╨▒╨╛╨┤╨╜╤Л╤Е ╨╝╨╡╤Б╤В</div>
+                    <div class="kpi-label">Свободных мест</div>
                     <div class="kpi-value green" id="trainingSpots">25</div>
-                    <div class="kpi-change">╨Ы╨╕╨╝╨╕╤В ╨╛╨▒╤Г╤З╨╡╨╜╨╕╤П</div>
+                    <div class="kpi-change">Лимит обучения</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-label">╨Ы╨╕╤Б╤В ╨╛╨╢╨╕╨┤╨░╨╜╨╕╤П</div>
+                    <div class="kpi-label">Лист ожидания</div>
                     <div class="kpi-value" style="color:var(--t1)" id="trainingWaiting">0</div>
-                    <div class="kpi-change">╨Р╨▓╤В╨╛╨╝╨░╤В╨╕╤З╨╡╤Б╨║╨╛╨╡ ╤Г╨┐╤А╨░╨▓╨╗╨╡╨╜╨╕╨╡</div>
+                    <div class="kpi-change">Автоматическое управление</div>
                 </div>
             </div>
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
                 <div class="card" style="margin-bottom:0">
-                    <div class="card-title">╨Я╤А╨╡╨┤╤Б╤В╨╛╤П╤Й╨╕╨╡ ╤Б╨╡╨░╨╜╤Б╤Л <span>╨С╨╗╨╕╨╢╨░╨╣╤И╨╕╨╡</span></div>
+                    <div class="card-title">Предстоящие сеансы <span>Ближайшие</span></div>
                     <div class="session-list" id="overviewUpcomingList">
-                        <div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">╨Ч╨░╨│╤А╤Г╨╖╨║╨░...</div>
+                        <div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Загрузка...</div>
                     </div>
                 </div>
 
                 <div class="card" style="margin-bottom:0">
-                    <div class="card-title">╨Ю╤В╨┤╨╡╨╗ ╨╛╨▒╤Г╤З╨╡╨╜╨╕╤П <span>╨Э╨╛╨▓╤Л╨╣ ╨┐╨╛╤В╨╛╨║</span></div>
-                    <h3 style="font-family:'Cinzel',serif;color:var(--gold-l);font-size:20px;margin-bottom:8px" id="overviewPlanCard">╨б╤В╨░╤В╤Г╤Б: ╨╜╨╡ ╨╛╨┐╨╗╨░╤З╨╡╨╜╨╛</h3>
-                    <p style="font-size:13px;color:var(--t3);margin-bottom:16px">╨Я╨╛╤Б╨╗╨╡ ╨┐╨╛╨┤╤В╨▓╨╡╤А╨╢╨┤╨╡╨╜╨╕╤П ╨╛╨┐╨╗╨░╤В╤Л ╨▓╤Л ╨┐╨╛╨┐╨░╨┤╨░╨╡╤В╨╡ ╨▓ ╤Б╨┐╨╕╤Б╨╛╨║ ╨╛╨▒╤Г╤З╨░╤О╤Й╨╕╤Е╤Б╤П</p>
+                    <div class="card-title">Отдел обучения <span>Новый поток</span></div>
+                    <h3 style="font-family:'Cinzel',serif;color:var(--gold-l);font-size:20px;margin-bottom:8px" id="overviewPlanCard">Статус: не оплачено</h3>
+                    <p style="font-size:13px;color:var(--t3);margin-bottom:16px">После подтверждения оплаты вы попадаете в список обучающихся</p>
                     <div class="progress-bar" style="margin-bottom:8px">
                         <div class="progress-fill gold" id="trainingProgress" style="width:0%"></div>
                     </div>
-                    <p style="font-size:12px;color:var(--t3);margin-bottom:20px" id="trainingProgressText">0 ╨╕╨╖ 25 ╨╝╨╡╤Б╤В ╨╖╨░╨╜╤П╤В╨╛</p>
-                    <button class="btn btn-gold btn-sm" onclick="showPage('subscription', document.querySelector('[onclick*=subscription]'))">╨Ю╤В╨║╤А╤Л╤В╤М ╨╛╨▒╤Г╤З╨╡╨╜╨╕╨╡</button>
+                    <p style="font-size:12px;color:var(--t3);margin-bottom:20px" id="trainingProgressText">0 из 25 мест занято</p>
+                    <button class="btn btn-gold btn-sm" onclick="showPage('subscription', document.querySelector('[onclick*=subscription]'))">Открыть обучение</button>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-title">╨Ш╤Б╤В╨╛╤А╨╕╤П ╤Б╨╡╨░╨╜╤Б╨╛╨▓ <span>╨Я╨╛╤Б╨╗╨╡╨┤╨╜╨╕╨╡ 3</span></div>
+                <div class="card-title">История сеансов <span>Последние 3</span></div>
                 <div class="session-list" id="overviewPastList">
-                    <div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">╨Ч╨░╨│╤А╤Г╨╖╨║╨░...</div>
+                    <div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Загрузка...</div>
                 </div>
             </div>
         </div>
 
-        <!-- тФАтФАтФА ╨б╨в╨а╨Р╨Э╨Ш╨ж╨Р: ╨Я╨а╨Ю╨д╨Ш╨Ы╨м тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+        <!-- ─── СТРАНИЦА: ПРОФИЛЬ ─────────────────── -->
         <div id="page-profile" class="page">
-            <span class="page-label">╨Ы╨╕╤З╨╜╤Л╨╡ ╨┤╨░╨╜╨╜╤Л╨╡</span>
+            <span class="page-label">Личные данные</span>
             <div class="page-header">
-                <h1>╨Ь╨╛╨╣ ╨┐╤А╨╛╤Д╨╕╨╗╤М</h1>
-                <p>╨г╨┐╤А╨░╨▓╨╗╤П╨╣╤В╨╡ ╤Б╨▓╨╛╨╕╨╝╨╕ ╨╗╨╕╤З╨╜╤Л╨╝╨╕ ╨┤╨░╨╜╨╜╤Л╨╝╨╕ ╨╕ ╨║╨╛╨╜╤В╨░╨║╤В╨░╨╝╨╕</p>
+                <h1>Мой профиль</h1>
+                <p>Управляйте своими личными данными и контактами</p>
             </div>
 
             <div class="profile-avatar-section">
-                <div class="profile-avatar-big" id="profileAvatarBig">╨Р</div>
+                <div class="profile-avatar-big" id="profileAvatarBig">А</div>
                 <div class="profile-avatar-info">
-                    <h4 id="profileDisplayName">╨Р╨╜╨╜╨░ ╨Я╨╡╤В╤А╨╛╨▓╨░</h4>
-                    <p>╨г╤З╨░╤Б╤В╨╜╨╕╨║ ╤Б ╨░╨┐╤А╨╡╨╗╤П 2026 ┬╖ ╨Ю╨▒╤Г╤З╨╡╨╜╨╕╨╡: <span style="color:var(--gold)">╨┐╨╛ ╨╖╨░╤П╨▓╨║╨╡</span></p>
-                    <button class="btn btn-outline btn-sm">╨Ш╨╖╨╝╨╡╨╜╨╕╤В╤М ╤Д╨╛╤В╨╛</button>
+                    <h4 id="profileDisplayName">Анна Петрова</h4>
+                    <p>Участник с апреля 2026 · Обучение: <span style="color:var(--gold)">по заявке</span></p>
+                    <button class="btn btn-outline btn-sm">Изменить фото</button>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-title">╨Ы╨╕╤З╨╜╨░╤П ╨╕╨╜╤Д╨╛╤А╨╝╨░╤Ж╨╕╤П</div>
+                <div class="card-title">Личная информация</div>
                 <form onsubmit="saveProfile(event)">
                     <div class="profile-form-grid">
                         <div class="form-group">
-                            <label>╨Ш╨╝╤П</label>
-                            <input type="text" id="profileFirstName" placeholder="╨Т╨░╤И╨╡ ╨╕╨╝╤П" value="╨Р╨╜╨╜╨░">
+                            <label>Имя</label>
+                            <input type="text" id="profileFirstName" placeholder="Ваше имя" value="Анна">
                         </div>
                         <div class="form-group">
-                            <label>╨д╨░╨╝╨╕╨╗╨╕╤П</label>
-                            <input type="text" id="profileLastName" placeholder="╨Т╨░╤И╨░ ╤Д╨░╨╝╨╕╨╗╨╕╤П" value="╨Я╨╡╤В╤А╨╛╨▓╨░">
+                            <label>Фамилия</label>
+                            <input type="text" id="profileLastName" placeholder="Ваша фамилия" value="Петрова">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" id="profileEmail" placeholder="╨▓╨░╤И@email.com" value="anna@example.com">
+                            <input type="email" id="profileEmail" placeholder="ваш@email.com" value="anna@example.com">
                         </div>
                         <div class="form-group">
-                            <label>╨в╨╡╨╗╨╡╤Д╨╛╨╜</label>
+                            <label>Телефон</label>
                             <input type="tel" id="profilePhone" placeholder="+7 (000) 000-00-00">
                         </div>
                         <div class="form-group">
-                            <label>╨Ф╨░╤В╨░ ╤А╨╛╨╢╨┤╨╡╨╜╨╕╤П</label>
+                            <label>Дата рождения</label>
                             <input type="date" id="profileBirthdate">
                         </div>
                         <div class="form-group">
-                            <label>╨У╨╛╤А╨╛╨┤</label>
-                            <input type="text" id="profileCity" placeholder="╨Т╨░╤И ╨│╨╛╤А╨╛╨┤">
+                            <label>Город</label>
+                            <input type="text" id="profileCity" placeholder="Ваш город">
                         </div>
                         <div class="form-group full">
-                            <label>╨Ю ╤Б╨╡╨▒╨╡ (╨┤╨╗╤П ╤В╨╛╤З╨╜╨╛╨│╨╛ ╨┐╤А╨╛╤З╤В╨╡╨╜╨╕╤П)</label>
-                            <textarea id="profileAbout" rows="3" placeholder="╨а╨░╤Б╤Б╨║╨░╨╢╨╕╤В╨╡ ╨╛ ╤Б╨╡╨▒╨╡, ╤Н╤В╨╛ ╨┐╨╛╨╝╨╛╨╢╨╡╤В ╨╝╨░╤Б╤В╨╡╤А╤Г ╨╗╤Г╤З╤И╨╡ ╨┐╨╛╨╜╤П╤В╤М ╨▓╨░╤И ╨╖╨░╨┐╤А╨╛╤Б..."></textarea>
+                            <label>О себе (для точного прочтения)</label>
+                            <textarea id="profileAbout" rows="3" placeholder="Расскажите о себе, это поможет мастеру лучше понять ваш запрос..."></textarea>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">╨б╨╛╤Е╤А╨░╨╜╨╕╤В╤М ╨╕╨╖╨╝╨╡╨╜╨╡╨╜╨╕╤П</button>
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
                 </form>
             </div>
 
         </div>
 
-        <!-- тФАтФАтФА ╨б╨в╨а╨Р╨Э╨Ш╨ж╨Р: ╨Ъ╨Ю╨Э╨б╨г╨Ы╨м╨в╨Р╨ж╨Ш╨Ш тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+        <!-- ─── СТРАНИЦА: КОНСУЛЬТАЦИИ ───────────── -->
         <div id="page-consultations" class="page">
-            <span class="page-label">╨Ч╨░╨║╤А╤Л╤В╤Л╨╡ ╨║╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╨╕</span>
+            <span class="page-label">Закрытые консультации</span>
             <div class="page-header">
-                <h1>╨Ъ╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╨╕</h1>
-                <p>╨Ы╨╕╤З╨╜╤Л╨╣ ╤А╨░╨╖╨▒╨╛╤А, ╨┤╨╕╨░╨│╨╜╨╛╤Б╤В╨╕╨║╨░ ╨╕ ╤Б╨╛╨┐╤А╨╛╨▓╨╛╨╢╨┤╨╡╨╜╨╕╨╡ ╨┐╨╛ ╨▓╨░╤И╨╡╨╝╤Г ╨╖╨░╨┐╤А╨╛╤Б╤Г</p>
+                <h1>Консультации</h1>
+                <p>Личный разбор, диагностика и сопровождение по вашему запросу</p>
             </div>
 
             <div class="card profile-services-card-shell">
                 <div class="profile-services-stage">
                     <div class="profile-services-heading">
-                        <span class="profile-services-kicker">╨Ч╨░╨║╤А╤Л╤В╤Л╨╡ ╨║╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╨╕</span>
-                        <h2>╨Ъ╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╨╕</h2>
-                        <div class="profile-services-ribbon">╨Ы╨╕╤З╨╜╤Л╨╣ ╤А╨░╨╖╨▒╨╛╤А, ╨┤╨╕╨░╨│╨╜╨╛╤Б╤В╨╕╨║╨░ ╨╕ ╤Б╨╛╨┐╤А╨╛╨▓╨╛╨╢╨┤╨╡╨╜╨╕╨╡ ╨┐╨╛ ╨▓╨░╤И╨╡╨╝╤Г ╨╖╨░╨┐╤А╨╛╤Б╤Г</div>
+                        <span class="profile-services-kicker">Закрытые консультации</span>
+                        <h2>Консультации</h2>
+                        <div class="profile-services-ribbon">Личный разбор, диагностика и сопровождение по вашему запросу</div>
                     </div>
 
                     <div class="profile-services-grid">
                         <article class="profile-service-sheet">
-                            <div class="profile-service-ornament">╨Ы╨╕╤З╨╜╨░╤П ╨▓╤Б╤В╤А╨╡╤З╨░</div>
+                            <div class="profile-service-ornament">Личная встреча</div>
                             <ul class="profile-service-list">
-                                <li>╨У╨╗╤Г╨▒╨╛╨║╨╕╨╣ ╤А╨░╨╖╨▒╨╛╤А ╨╗╤О╨▒╨▓╨╕, ╨╛╤В╨╜╨╛╤И╨╡╨╜╨╕╨╣, ╤Б╨╡╨╝╤М╨╕, ╨┤╨╡╨╜╨╡╨│ ╨╕ ╨▓╨╜╤Г╤В╤А╨╡╨╜╨╜╨╡╨│╨╛ ╤Б╨╛╤Б╤В╨╛╤П╨╜╨╕╤П.</li>
-                                <li>╨Ш╨╜╨┤╨╕╨▓╨╕╨┤╤Г╨░╨╗╤М╨╜╨░╤П ╨┤╨╕╨░╨│╨╜╨╛╤Б╤В╨╕╨║╨░ ╤Б╨╕╤В╤Г╨░╤Ж╨╕╨╕ ╤Б ╤А╨╡╨║╨╛╨╝╨╡╨╜╨┤╨░╤Ж╨╕╤П╨╝╨╕ ╨┐╨╛╨┤ ╨▓╨░╤И ╨╖╨░╨┐╤А╨╛╤Б.</li>
-                                <li>╨Я╤А╨╛╤Б╨╝╨╛╤В╤А ╤Н╨╜╨╡╤А╨│╨╡╤В╨╕╤З╨╡╤Б╨║╨╛╨│╨╛ ╤Д╨╛╨╜╨░, ╨┐╤А╨╕╤З╨╕╨╜ ╤В╤А╨╡╨▓╨╛╨│╨╕ ╨╕ ╤В╨╛╤З╨╡╨║ ╨╜╨░╨┐╤А╤П╨╢╨╡╨╜╨╕╤П.</li>
-                                <li>╨Я╤А╨╛╨┤╨╛╨╗╨╢╨╕╤В╨╡╨╗╤М╨╜╨╛╤Б╤В╤М: 60-90 ╨╝╨╕╨╜╤Г╤В.</li>
+                                <li>Глубокий разбор любви, отношений, семьи, денег и внутреннего состояния.</li>
+                                <li>Индивидуальная диагностика ситуации с рекомендациями под ваш запрос.</li>
+                                <li>Просмотр энергетического фона, причин тревоги и точек напряжения.</li>
+                                <li>Продолжительность: 60-90 минут.</li>
                             </ul>
-                            <button class="profile-service-cta" type="button" onclick="startServicePayment('╨Ы╨╕╤З╨╜╨░╤П ╨▓╤Б╤В╤А╨╡╤З╨░', 50000)">╨Ю╨┐╨╗╨░╤В╨╕╤В╤М ╨║╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╤О</button>
+                            <button class="profile-service-cta" type="button" onclick="startServicePayment('Личная встреча', 50000)">Оплатить консультацию</button>
                         </article>
 
                         <article class="profile-service-sheet">
-                            <div class="profile-service-ornament">╨Ю╨╜╨╗╨░╨╣╨╜ ╨▓╤Б╤В╤А╨╡╤З╨░</div>
+                            <div class="profile-service-ornament">Онлайн встреча</div>
                             <ul class="profile-service-list">
-                                <li>╨н╨║╤Б╨┐╤А╨╡╤Б╤Б-╤А╨░╨╖╨▒╨╛╤А ╨▓╨╛╨╗╨╜╤Г╤О╤Й╨╕╤Е ╨▓╨╛╨┐╤А╨╛╤Б╨╛╨▓: ╨╗╤О╨▒╨╛╨▓╤М, ╨║╨░╤А╤М╨╡╤А╨░, ╤Б╨╡╨╝╤М╤П, ╨┤╨╡╤В╨╕, ╨╗╨╕╤З╨╜╤Л╨╣ ╨┐╤Г╤В╤М.</li>
-                                <li>╨Ф╨╕╨░╨│╨╜╨╛╤Б╤В╨╕╨║╨░ ╤Б╨╛╤Б╤В╨╛╤П╨╜╨╕╤П ╨╕ ╨┐╤А╨╛╤Б╨╝╨╛╤В╤А ╤Б╨║╤А╤Л╤В╤Л╤Е ╤Д╨░╨║╤В╨╛╤А╨╛╨▓, ╨║╨╛╤В╨╛╤А╤Л╨╡ ╨╝╨╡╤И╨░╤О╤В ╨┤╨▓╨╕╨│╨░╤В╤М╤Б╤П ╨┤╨░╨╗╤М╤И╨╡.</li>
-                                <li>╨Я╨╛╨┤╤Е╨╛╨┤╨╕╤В ╨┤╨╗╤П ╤Б╤А╨╛╤З╨╜╨╛╨│╨╛ ╨╛╤В╨▓╨╡╤В╨░ ╨╕ ╨┤╨╕╤Б╤В╨░╨╜╤Ж╨╕╨╛╨╜╨╜╨╛╨╣ ╨║╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╨╕ ╨╕╨╖ ╨╗╤О╨▒╨╛╨│╨╛ ╨│╨╛╤А╨╛╨┤╨░.</li>
-                                <li>╨Я╤А╨╛╨┤╨╛╨╗╨╢╨╕╤В╨╡╨╗╤М╨╜╨╛╤Б╤В╤М: 40-50 ╨╝╨╕╨╜╤Г╤В.</li>
+                                <li>Экспресс-разбор волнующих вопросов: любовь, карьера, семья, дети, личный путь.</li>
+                                <li>Диагностика состояния и просмотр скрытых факторов, которые мешают двигаться дальше.</li>
+                                <li>Подходит для срочного ответа и дистанционной консультации из любого города.</li>
+                                <li>Продолжительность: 40-50 минут.</li>
                             </ul>
-                            <button class="profile-service-cta" type="button" onclick="startServicePayment('╨Ю╨╜╨╗╨░╨╣╨╜ ╨▓╤Б╤В╤А╨╡╤З╨░', 35000)">╨Ю╨┐╨╗╨░╤В╨╕╤В╤М ╨║╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╤О</button>
+                            <button class="profile-service-cta" type="button" onclick="startServicePayment('Онлайн встреча', 35000)">Оплатить консультацию</button>
                         </article>
                     </div>
                 </div>
@@ -265,115 +265,115 @@
 
         </div>
 
-        <!-- тФАтФАтФА ╨б╨в╨а╨Р╨Э╨Ш╨ж╨Р: ╨Ь╨Р╨У╨Р╨Ч╨Ш╨Э тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+        <!-- ─── СТРАНИЦА: МАГАЗИН ────────────────── -->
         <div id="page-shop" class="page">
-            <span class="page-label">╨Р╤А╤В╨╡╤Д╨░╨║╤В╤Л ╨╕ ╨╜╨░╨▒╨╛╤А╤Л</span>
+            <span class="page-label">Артефакты и наборы</span>
             <div class="page-header">
-                <h1>╨Ь╨░╨│╨░╨╖╨╕╨╜</h1>
-                <p>╨Я╨╛╨┤╨▒╨╛╤А╨║╨░ ╤А╨╕╤В╤Г╨░╨╗╤М╨╜╤Л╤Е ╨┐╤А╨╡╨┤╨╝╨╡╤В╨╛╨▓ ╨╕ ╨╗╨╕╤З╨╜╤Л╤Е ╨░╤А╤В╨╡╤Д╨░╨║╤В╨╛╨▓ ╨┤╨╗╤П ╨╖╨░╨║╨░╨╖╨░ ╨▓ ╨║╨░╨▒╨╕╨╜╨╡╤В╨╡</p>
+                <h1>Магазин</h1>
+                <p>Подборка ритуальных предметов и личных артефактов для заказа в кабинете</p>
             </div>
 
             <div class="card profile-services-card-shell">
                 <div class="profile-services-stage profile-shop-stage">
                     <div class="profile-services-heading profile-shop-heading">
-                        <span class="profile-services-kicker">╨Ы╨╕╤З╨╜╤Л╨╡ ╨░╤А╤В╨╡╤Д╨░╨║╤В╤Л</span>
-                        <h2>╨Ь╨░╨│╨░╨╖╨╕╨╜</h2>
-                        <div class="profile-services-ribbon">╨Ч╨░╤Й╨╕╤В╨╜╤Л╨╡ ╨┐╤А╨╡╨┤╨╝╨╡╤В╤Л, ╤А╨╕╤В╤Г╨░╨╗╤М╨╜╤Л╨╡ ╨╜╨░╨▒╨╛╤А╤Л ╨╕ ╨╗╨╕╤З╨╜╤Л╨╡ ╤В╨░╨╗╨╕╤Б╨╝╨░╨╜╤Л ╨┤╨╗╤П ╨╖╨░╨║╨░╨╖╨░</div>
+                        <span class="profile-services-kicker">Личные артефакты</span>
+                        <h2>Магазин</h2>
+                        <div class="profile-services-ribbon">Защитные предметы, ритуальные наборы и личные талисманы для заказа</div>
                     </div>
 
                     <div class="profile-shop-grid">
                     <article class="profile-shop-card">
-                        <img src="images/shop-ritual.jpg" alt="╨Ъ╤Г╨║╨╗╨░-╨╛╨▒╨╡╤А╨╡╨│ ╤А╤Г╤З╨╜╨╛╨╣ ╤А╨░╨▒╨╛╤В╤Л" class="profile-shop-image" loading="lazy">
+                        <img src="images/shop-ritual.jpg" alt="Кукла-оберег ручной работы" class="profile-shop-image" loading="lazy">
                         <div class="profile-shop-body">
-                            <h3>╨Ъ╤Г╨║╨╗╨░-╨╛╨▒╨╡╤А╨╡╨│</h3>
-                            <p>╨Ч╨░╤Й╨╕╤В╨╜╤Л╨╣ ╨░╤А╤В╨╡╤Д╨░╨║╤В ╨┤╨╗╤П ╨┤╨╛╨╝╨░ ╨╕ ╨╗╨╕╤З╨╜╨╛╨│╨╛ ╨┐╤А╨╛╤Б╤В╤А╨░╨╜╤Б╤В╨▓╨░, ╤Б╨╛╨▒╤А╨░╨╜╨╜╤Л╨╣ ╨▓╤А╤Г╤З╨╜╤Г╤О ╨┐╨╛╨┤ ╨╜╨░╨╝╨╡╤А╨╡╨╜╨╕╨╡ ╨▓╨╗╨░╨┤╨╡╨╗╤М╤Ж╨░.</p>
+                            <h3>Кукла-оберег</h3>
+                            <p>Защитный артефакт для дома и личного пространства, собранный вручную под намерение владельца.</p>
                             <div class="profile-shop-meta">
-                                <span>╨а╤Г╤З╨╜╨░╤П ╤А╨░╨▒╨╛╤В╨░</span>
-                                <span>╨Ш╨╜╨┤╨╕╨▓╨╕╨┤╤Г╨░╨╗╤М╨╜╨░╤П ╨╜╨░╤Б╤В╤А╨╛╨╣╨║╨░</span>
+                                <span>Ручная работа</span>
+                                <span>Индивидуальная настройка</span>
                             </div>
                             <div class="profile-shop-controls">
-                                <span class="profile-shop-controls-label">╨Ъ╨╛╨╗╨╕╤З╨╡╤Б╤В╨▓╨╛</span>
-                                <div class="profile-shop-qty" aria-label="╨Т╤Л╨▒╨╛╤А ╨║╨╛╨╗╨╕╤З╨╡╤Б╤В╨▓╨░">
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">тИТ</button>
+                                <span class="profile-shop-controls-label">Количество</span>
+                                <div class="profile-shop-qty" aria-label="Выбор количества">
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
                                     <span class="profile-shop-qty-value" data-qty-value>1</span>
                                     <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
                                 </div>
                             </div>
                             <div class="profile-shop-bottom">
-                                <strong>15 000 тВ╕</strong>
-                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, '╨Ъ╤Г╨║╨╗╨░-╨╛╨▒╨╡╤А╨╡╨│', 15000)">╨Ю╨┐╨╗╨░╤В╨╕╤В╤М</button>
+                                <strong>15 000 ₸</strong>
+                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Кукла-оберег', 15000)">Оплатить</button>
                             </div>
                         </div>
                     </article>
 
                     <article class="profile-shop-card">
-                        <img src="images/privorot.jpg" alt="╨Я╤А╨╛╨│╤А╨░╨╝╨╝╨╜╤Л╨╡ ╤Б╨▓╨╡╤З╨╕" class="profile-shop-image" loading="lazy">
+                        <img src="images/privorot.jpg" alt="Программные свечи" class="profile-shop-image" loading="lazy">
                         <div class="profile-shop-body">
-                            <h3>╨Я╤А╨╛╨│╤А╨░╨╝╨╝╨╜╤Л╨╡ ╤Б╨▓╨╡╤З╨╕</h3>
-                            <p>╨б╨▓╨╡╤З╨╕ ╤Б ╨┐╤А╨╛╨│╤А╨░╨╝╨╝╨╕╤А╨╛╨▓╨░╨╜╨╕╨╡╨╝ ╨╜╨░╨╝╨╡╤А╨╡╨╜╨╕╤П ╨┤╨╗╤П ╨╛╤З╨╕╤Й╨╡╨╜╨╕╤П, ╨┐╤А╨╕╨▓╨╗╨╡╤З╨╡╨╜╨╕╤П ╨╕ ╤Г╤Б╨╕╨╗╨╡╨╜╨╕╤П ╤Н╨╜╨╡╤А╨│╨╡╤В╨╕╨║╨╕ ╨┐╤А╨╛╤Б╤В╤А╨░╨╜╤Б╤В╨▓╨░.</p>
+                            <h3>Программные свечи</h3>
+                            <p>Свечи с программированием намерения для очищения, привлечения и усиления энергетики пространства.</p>
                             <div class="profile-shop-meta">
-                                <span>╨б╨▓╨╡╤З╨╕ ╨╕ ╨░╤В╤А╨╕╨▒╤Г╤В╤Л</span>
-                                <span>╨Ш╨╜╤Б╤В╤А╤Г╨║╤Ж╨╕╤П ╨▓╨╜╤Г╤В╤А╨╕</span>
+                                <span>Свечи и атрибуты</span>
+                                <span>Инструкция внутри</span>
                             </div>
                             <div class="profile-shop-controls">
-                                <span class="profile-shop-controls-label">╨Ъ╨╛╨╗╨╕╤З╨╡╤Б╤В╨▓╨╛</span>
-                                <div class="profile-shop-qty" aria-label="╨Т╤Л╨▒╨╛╤А ╨║╨╛╨╗╨╕╤З╨╡╤Б╤В╨▓╨░">
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">тИТ</button>
+                                <span class="profile-shop-controls-label">Количество</span>
+                                <div class="profile-shop-qty" aria-label="Выбор количества">
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
                                     <span class="profile-shop-qty-value" data-qty-value>1</span>
                                     <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
                                 </div>
                             </div>
                             <div class="profile-shop-bottom">
-                                <strong>12 000 тВ╕</strong>
-                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, '╨Я╤А╨╛╨│╤А╨░╨╝╨╝╨╜╤Л╨╡ ╤Б╨▓╨╡╤З╨╕', 12000)">╨Ю╨┐╨╗╨░╤В╨╕╤В╤М</button>
+                                <strong>12 000 ₸</strong>
+                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Программные свечи', 12000)">Оплатить</button>
                             </div>
                         </div>
                     </article>
 
                     <article class="profile-shop-card">
-                        <img src="images/privorot.jpg" alt="╨з╨╕╤Б╤В╨║╨░" class="profile-shop-image" loading="lazy">
+                        <img src="images/privorot.jpg" alt="Чистка" class="profile-shop-image" loading="lazy">
                         <div class="profile-shop-body">
-                            <h3>╨з╨╕╤Б╤В╨║╨░</h3>
-                            <p>╨н╨╜╨╡╤А╨│╨╡╤В╨╕╤З╨╡╤Б╨║╨╛╨╡ ╨╛╤З╨╕╤Й╨╡╨╜╨╕╨╡ ╨┐╤А╨╛╤Б╤В╤А╨░╨╜╤Б╤В╨▓╨░ ╨╕╨╗╨╕ ╤З╨╡╨╗╨╛╨▓╨╡╨║╨░ ╨╛╤В ╨╜╨╡╨│╨░╤В╨╕╨▓╨╜╤Л╤Е ╨┐╤А╨╛╨│╤А╨░╨╝╨╝, ╤Б╨│╨╗╨░╨╖╨╛╨▓ ╨╕ ╨▒╨╗╨╛╨║╨╛╨▓.</p>
+                            <h3>Чистка</h3>
+                            <p>Энергетическое очищение пространства или человека от негативных программ, сглазов и блоков.</p>
                             <div class="profile-shop-meta">
-                                <span>╨Ю╨╜╨╗╨░╨╣╨╜ / ╨Ю╤Д╨╗╨░╨╣╨╜</span>
-                                <span>╨Ш╨╜╨┤╨╕╨▓╨╕╨┤╤Г╨░╨╗╤М╨╜╨╛</span>
+                                <span>Онлайн / Офлайн</span>
+                                <span>Индивидуально</span>
                             </div>
                             <div class="profile-shop-controls">
-                                <span class="profile-shop-controls-label">╨Ъ╨╛╨╗╨╕╤З╨╡╤Б╤В╨▓╨╛</span>
-                                <div class="profile-shop-qty" aria-label="╨Т╤Л╨▒╨╛╤А ╨║╨╛╨╗╨╕╤З╨╡╤Б╤В╨▓╨░">
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">тИТ</button>
+                                <span class="profile-shop-controls-label">Количество</span>
+                                <div class="profile-shop-qty" aria-label="Выбор количества">
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
                                     <span class="profile-shop-qty-value" data-qty-value>1</span>
                                     <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
                                 </div>
                             </div>
                             <div class="profile-shop-bottom">
-                                <strong>15 000 тВ╕</strong>
-                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, '╨з╨╕╤Б╤В╨║╨░', 15000)">╨Ю╨┐╨╗╨░╤В╨╕╤В╤М</button>
+                                <strong>15 000 ₸</strong>
+                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Чистка', 15000)">Оплатить</button>
                             </div>
                         </div>
                     </article>
 
                     <article class="profile-shop-card">
-                        <img src="images/shop-ritual.jpg" alt="╨Р╨╝╤Г╨╗╨╡╤В ╤Б╨╕╨╗╤Л" class="profile-shop-image" loading="lazy">
+                        <img src="images/shop-ritual.jpg" alt="Амулет силы" class="profile-shop-image" loading="lazy">
                         <div class="profile-shop-body">
-                            <h3>╨Р╨╝╤Г╨╗╨╡╤В ╤Б╨╕╨╗╤Л</h3>
-                            <p>╨в╨░╨╗╨╕╤Б╨╝╨░╨╜ ╨╜╨░ ╨▓╨╜╤Г╤В╤А╨╡╨╜╨╜╤О╤О ╤Г╤Б╤В╨╛╨╣╤З╨╕╨▓╨╛╤Б╤В╤М, ╤Д╨╛╨║╤Г╤Б ╨╕ ╤Б╨┐╨╛╨║╨╛╨╣╤Б╤В╨▓╨╕╨╡ ╨▓ ╨┐╨╡╤А╨╕╨╛╨┤ ╨┐╨╡╤А╨╡╨╝╨╡╨╜ ╨╕ ╤Н╨╝╨╛╤Ж╨╕╨╛╨╜╨░╨╗╤М╨╜╨╛╨╣ ╨╜╨░╨│╤А╤Г╨╖╨║╨╕.</p>
+                            <h3>Амулет силы</h3>
+                            <p>Талисман на внутреннюю устойчивость, фокус и спокойствие в период перемен и эмоциональной нагрузки.</p>
                             <div class="profile-shop-meta">
-                                <span>╨Ф╨╗╤П ╨╗╨╕╤З╨╜╨╛╨│╨╛ ╨╜╨╛╤И╨╡╨╜╨╕╤П</span>
-                                <span>╨Ю╤Б╨▓╤П╤Й╤С╨╜╨╜╨░╤П ╨╜╨░╤Б╤В╤А╨╛╨╣╨║╨░</span>
+                                <span>Для личного ношения</span>
+                                <span>Освящённая настройка</span>
                             </div>
                             <div class="profile-shop-controls">
-                                <span class="profile-shop-controls-label">╨Ъ╨╛╨╗╨╕╤З╨╡╤Б╤В╨▓╨╛</span>
-                                <div class="profile-shop-qty" aria-label="╨Т╤Л╨▒╨╛╤А ╨║╨╛╨╗╨╕╤З╨╡╤Б╤В╨▓╨░">
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">тИТ</button>
+                                <span class="profile-shop-controls-label">Количество</span>
+                                <div class="profile-shop-qty" aria-label="Выбор количества">
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
                                     <span class="profile-shop-qty-value" data-qty-value>1</span>
                                     <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
                                 </div>
                             </div>
                             <div class="profile-shop-bottom">
-                                <strong>9 000 тВ╕</strong>
-                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, '╨Р╨╝╤Г╨╗╨╡╤В ╤Б╨╕╨╗╤Л', 9000)">╨Ю╨┐╨╗╨░╤В╨╕╤В╤М</button>
+                                <strong>9 000 ₸</strong>
+                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Амулет силы', 9000)">Оплатить</button>
                             </div>
                         </div>
                     </article>
@@ -382,407 +382,522 @@
             </div>
         </div>
 
-        <!-- тФАтФАтФА ╨б╨в╨а╨Р╨Э╨Ш╨ж╨Р: ╨б╨Х╨Р╨Э╨б╨л тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+        <!-- ─── СТРАНИЦА: СЕАНСЫ ─────────────────── -->
         <div id="page-sessions" class="page">
-            <span class="page-label">╨Ш╤Б╤В╨╛╤А╨╕╤П ╨╕ ╤А╨░╤Б╨┐╨╕╤Б╨░╨╜╨╕╨╡</span>
+            <span class="page-label">История и расписание</span>
             <div class="page-header">
-                <h1>╨Ь╨╛╨╕ ╤Б╨╡╨░╨╜╤Б╤Л</h1>
-                <p>╨С╨╗╨╕╨╢╨░╨╣╤И╨╕╨╡ ╨▓╤Б╤В╤А╨╡╤З╨╕ ╨╕ ╨░╤А╤Е╨╕╨▓ ╨┐╤А╨╛╤И╨╡╨┤╤И╨╕╤Е ╤Б╨╡╨░╨╜╤Б╨╛╨▓</p>
+                <h1>Мои сеансы</h1>
+                <p>Ближайшие встречи и архив прошедших сеансов</p>
             </div>
 
             <div class="dash-notify warn" id="sessionsNotify" style="display:none">
-                <div class="dash-notify-icon">тЧИ</div>
+                <div class="dash-notify-icon">◈</div>
                 <div class="dash-notify-text">
-                    <h4 id="sessionsNotifyTitle">╨Ч╨░╨│╤А╤Г╨╖╨║╨░...</h4>
+                    <h4 id="sessionsNotifyTitle">Загрузка...</h4>
                     <p id="sessionsNotifyText"></p>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-title">╨Я╤А╨╡╨┤╤Б╤В╨╛╤П╤Й╨╕╨╡ ╤Б╨╡╨░╨╜╤Б╤Л <span onclick="showPage('booking', document.querySelector('[onclick*=booking]'))" style="cursor:pointer;color:var(--purple-l)">+ ╨Ч╨░╨┐╨╕╤Б╨░╤В╤М╤Б╤П</span></div>
+                <div class="card-title">Предстоящие сеансы <span onclick="showPage('booking', document.querySelector('[onclick*=booking]'))" style="cursor:pointer;color:var(--purple-l)">+ Записаться</span></div>
                 <div class="session-list" id="sessionsUpcomingList">
-                    <div class="empty" style="padding:20px;text-align:center;color:var(--t3)">╨Ч╨░╨│╤А╤Г╨╖╨║╨░...</div>
+                    <div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Загрузка...</div>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-title">╨Я╤А╨╛╤И╨╡╨┤╤И╨╕╨╡ ╤Б╨╡╨░╨╜╤Б╤Л <span>╨Р╤А╤Е╨╕╨▓</span></div>
+                <div class="card-title">Прошедшие сеансы <span>Архив</span></div>
                 <div class="session-list" id="sessionsPastList">
-                    <div class="empty" style="padding:20px;text-align:center;color:var(--t3)">╨Ч╨░╨│╤А╤Г╨╖╨║╨░...</div>
+                    <div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Загрузка...</div>
                 </div>
             </div>
         </div>
 
-        <!-- тФАтФАтФА ╨б╨в╨а╨Р╨Э╨Ш╨ж╨Р: ╨Ч╨Р╨Я╨Ш╨б╨м тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+        <!-- ─── СТРАНИЦА: ЗАПИСЬ ──────────────────── -->
         <div id="page-booking" class="page">
-            <span class="page-label">╨Э╨╛╨▓╤Л╨╣ ╤Б╨╡╨░╨╜╤Б</span>
+            <span class="page-label">Новый сеанс</span>
             <div class="page-header">
-                <h1>╨Ч╨░╨┐╨╕╤Б╨░╤В╤М╤Б╤П ╨╜╨░ ╤Б╨╡╨░╨╜╤Б</h1>
-                <p>╨Ч╨░╨┐╨╛╨╗╨╜╨╕╤В╨╡ ╤Д╨╛╤А╨╝╤Г ╨╕ ╨╝╨░╤Б╤В╨╡╤А ╨┐╨╛╨┤╤В╨▓╨╡╤А╨┤╨╕╤В ╨╖╨░╨┐╨╕╤Б╤М ╨▓ ╤В╨╡╤З╨╡╨╜╨╕╨╡ ╤З╨░╤Б╨░</p>
+                <h1>Записаться на сеанс</h1>
+                <p>Заполните форму и мастер подтвердит запись в течение часа</p>
             </div>
             <div class="card" style="max-width:700px">
-                <div class="card-title">╨д╨╛╤А╨╝╨░ ╨╖╨░╨┐╨╕╤Б╨╕</div>
+                <div class="card-title">Форма записи</div>
                 <form onsubmit="submitBooking(event)">
                     <div class="profile-form-grid">
                         <div class="form-group">
-                            <label>╨Ш╨╝╤П</label>
-                            <input type="text" id="bkName" placeholder="╨Т╨░╤И╨╡ ╨╕╨╝╤П" required>
+                            <label>Имя</label>
+                            <input type="text" id="bkName" placeholder="Ваше имя" required>
                         </div>
                         <div class="form-group">
-                            <label>╨в╨╡╨╗╨╡╤Д╨╛╨╜</label>
+                            <label>Телефон</label>
                             <input type="tel" id="bkPhone" placeholder="+7 (000) 000-00-00" required>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" id="bkEmail" placeholder="╨▓╨░╤И@email.com" required>
+                            <input type="email" id="bkEmail" placeholder="ваш@email.com" required>
                         </div>
                         <div class="form-group">
-                            <label>╨в╨╕╨┐ ╤Г╤Б╨╗╤Г╨│╨╕</label>
+                            <label>Тип услуги</label>
                             <select id="bkService" required>
-                                <option value="">╨Т╤Л╨▒╨╡╤А╨╕╤В╨╡ ╤Г╤Б╨╗╤Г╨│╤Г</option>
-                                <option>╨в╨░╤А╨╛ ╨з╤В╨╡╨╜╨╕╨╡ тАФ ╨╛╤В 5 000 тВ╕</option>
-                                <option>╨Ъ╨╛╨╜╤В╨░╨║╤В ╤Б ╨Ф╤Г╤Е╨░╨╝╨╕ тАФ ╨╛╤В 10 000 тВ╕</option>
-                                <option>╨н╨╜╨╡╤А╨│╨╡╤В╨╕╤З╨╡╤Б╨║╨╛╨╡ ╨Ю╤З╨╕╤Й╨╡╨╜╨╕╨╡ тАФ ╨╛╤В 7 500 тВ╕</option>
-                                <option>╨Р╤Б╤В╤А╨╛╨╗╨╛╨│╨╕╤З╨╡╤Б╨║╨░╤П ╨Ъ╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╤П тАФ ╨╛╤В 9 000 тВ╕</option>
-                                <option>╨а╨╡╨╣╨║╨╕ ╨Ш╤Б╤Ж╨╡╨╗╨╡╨╜╨╕╨╡ тАФ ╨╛╤В 6 000 тВ╕</option>
-                                <option>╨Ф╤Г╤Е╨╛╨▓╨╜╨╛╨╡ ╨Э╨░╤Б╤В╨░╨▓╨╜╨╕╤З╨╡╤Б╤В╨▓╨╛ тАФ ╨╛╤В 12 500 тВ╕</option>
+                                <option value="">Выберите услугу</option>
+                                <option>Таро Чтение — от 5 000 ₸</option>
+                                <option>Контакт с Духами — от 10 000 ₸</option>
+                                <option>Энергетическое Очищение — от 7 500 ₸</option>
+                                <option>Астрологическая Консультация — от 9 000 ₸</option>
+                                <option>Рейки Исцеление — от 6 000 ₸</option>
+                                <option>Духовное Наставничество — от 12 500 ₸</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>╨Ф╨░╤В╨░</label>
+                            <label>Дата</label>
                             <input type="date" id="bkDate" required>
                         </div>
                         <div class="form-group">
-                            <label>╨Т╤А╨╡╨╝╤П</label>
+                            <label>Время</label>
                             <input type="time" id="bkTime" required>
                         </div>
                         <div class="form-group full">
                             <div class="slot-hints" id="dashboardBookingSlots"></div>
                         </div>
                         <div class="form-group">
-                            <label>╨д╨╛╤А╨╝╨░╤В</label>
+                            <label>Формат</label>
                             <select id="bkFormat">
-                                <option>╨Ю╨╜╨╗╨░╨╣╨╜ (Zoom/Telegram)</option>
-                                <option>╨Ы╨╕╤З╨╜╨╛ (╨г╨▓╨░╨╗╨╕╤Е╨░╨╜╨╛╨▓╨░ 58)</option>
-                                <option>╨в╨╡╨╗╨╡╤Д╨╛╨╜</option>
+                                <option>Онлайн (Zoom/Telegram)</option>
+                                <option>Лично (Увалиханова 58)</option>
+                                <option>Телефон</option>
                             </select>
                         </div>
                         <div class="form-group full">
-                            <label>╨Ю╨┐╨╕╤Б╨░╨╜╨╕╨╡ ╤Б╨╕╤В╤Г╨░╤Ж╨╕╨╕ (╨╛╨┐╤Ж╨╕╨╛╨╜╨░╨╗╤М╨╜╨╛)</label>
-                            <textarea id="bkNote" rows="4" placeholder="╨а╨░╤Б╤Б╨║╨░╨╢╨╕╤В╨╡ ╨╛ ╤Б╨▓╨╛╤С╨╝ ╨╖╨░╨┐╤А╨╛╤Б╨╡..."></textarea>
+                            <label>Описание ситуации (опционально)</label>
+                            <textarea id="bkNote" rows="4" placeholder="Расскажите о своём запросе..."></textarea>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">╨Ю╤В╨┐╤А╨░╨▓╨╕╤В╤М ╨╖╨░╤П╨▓╨║╤Г</button>
+                    <button type="submit" class="btn btn-primary">Отправить заявку</button>
                 </form>
             </div>
         </div>
 
-        <!-- тФАтФАтФА ╨б╨в╨а╨Р╨Э╨Ш╨ж╨Р: ╨Ю╨С╨г╨з╨Х╨Э╨Ш╨Х тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+        <!-- ─── СТРАНИЦА: ОБУЧЕНИЕ ────────────────── -->
         <div id="page-subscription" class="page">
-            <span class="page-label">╨Ю╤В╨┤╨╡╨╗ ╨╛╨▒╤Г╤З╨╡╨╜╨╕╤П</span>
+            <span class="page-label">Отдел обучения</span>
             <div class="page-header">
-                <h1>╨Ю╨▒╤Г╤З╨╡╨╜╨╕╨╡</h1>
-                <p>╨Ы╨╕╨╝╨╕╤В 25 ╤З╨╡╨╗╨╛╨▓╨╡╨║. ╨Я╤А╨╕ ╨┐╨╡╤А╨╡╨┐╨╛╨╗╨╜╨╡╨╜╨╕╨╕ ╤А╨░╨▒╨╛╤В╨░╨╡╤В ╨╗╨╕╤Б╤В ╨╛╨╢╨╕╨┤╨░╨╜╨╕╤П</p>
+                <h1>Обучение</h1>
+                <p>Лимит 25 человек. При переполнении работает лист ожидания</p>
             </div>
 
             <div class="plan-current">
                 <div class="plan-header-row">
                     <div class="plan-title-area">
-                        <h2 id="currentPlanName">╨Я╤А╨╛╨│╤А╨░╨╝╨╝╨░ ┬л╨Я╤А╨░╨║╤В╨╕╨║ ╨Ь╨░╤В╤А╨╕╤Ж╤Л┬╗</h2>
-                        <p>╨Ю╨┐╨╗╨░╤В╨░ ╨┐╨╛ ╤Д╨░╨║╤В╤Г, ╨┐╨╛╤Б╨╗╨╡ ╨┐╨╛╨┤╤В╨▓╨╡╤А╨╢╨┤╨╡╨╜╨╕╤П ╨▓╤Л ╤Б╤А╨░╨╖╤Г ╨┐╨╛╨┐╨░╨┤╨░╨╡╤В╨╡ ╨▓ ╤Б╨┐╨╕╤Б╨╛╨║ ╨╛╨▒╤Г╤З╨░╤О╤Й╨╕╤Е╤Б╤П</p>
+                        <h2 id="currentPlanName">Программа «Практик Матрицы»</h2>
+                        <p>Оплата по факту, после подтверждения вы сразу попадаете в список обучающихся</p>
                     </div>
                     <div class="plan-price-display">
-                        <div><span class="price" id="currentPlanPrice">75 000</span><span class="currency"> тВ╕</span></div>
+                        <div><span class="price" id="currentPlanPrice">75 000</span><span class="currency"> ₸</span></div>
                     </div>
                 </div>
                 <div class="plan-features-row">
-                    <span class="plan-feat-pill">╨Ь╨╕╤Б╤В╨╕╤З╨╡╤Б╨║╨╕╨╡ ╨┐╤А╨░╨║╤В╨╕╨║╨╕</span>
-                    <span class="plan-feat-pill">╨Я╨╛╨┤╨┤╨╡╤А╨╢╨║╨░ ╨╜╨░╤Б╤В╨░╨▓╨╜╨╕╨║╨░</span>
-                    <span class="plan-feat-pill">╨Ч╨░╨║╤А╤Л╤В╤Л╨╣ ╤Б╨┐╨╕╤Б╨╛╨║ ╨╛╨▒╤Г╤З╨░╤О╤Й╨╕╤Е╤Б╤П</span>
+                    <span class="plan-feat-pill">Мистические практики</span>
+                    <span class="plan-feat-pill">Поддержка наставника</span>
+                    <span class="plan-feat-pill">Закрытый список обучающихся</span>
                 </div>
                 <div class="progress-bar" style="margin-bottom:8px">
                     <div class="progress-fill gold" id="trainingPageProgress" style="width:0%"></div>
                 </div>
-                <p style="font-size:12px;color:var(--t3);margin-bottom:20px" id="trainingPageProgressText">0 ╨╕╨╖ 25 ╨╝╨╡╤Б╤В ╨╖╨░╨╜╤П╤В╨╛</p>
+                <p style="font-size:12px;color:var(--t3);margin-bottom:20px" id="trainingPageProgressText">0 из 25 мест занято</p>
                 <div class="plan-actions">
-                    <button class="btn btn-gold btn-sm" onclick="startTrainingPayment()">╨Ю╨┐╨╗╨░╤В╨╕╤В╤М ╨╕ ╨▓╤Б╤В╤Г╨┐╨╕╤В╤М</button>
-                    <button class="btn btn-outline btn-sm" onclick="loadTrainingStatus()">╨Ю╨▒╨╜╨╛╨▓╨╕╤В╤М ╤Б╤В╨░╤В╤Г╤Б</button>
+                    <button class="btn btn-gold btn-sm" onclick="startTrainingPayment()">Оплатить и вступить</button>
+                    <button class="btn btn-outline btn-sm" onclick="loadTrainingStatus()">Обновить статус</button>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-title">╨Я╤А╨░╨▓╨╕╨╗╨░ ╨╜╨░╨▒╨╛╤А╨░ <span>╨Т╨░╨╢╨╜╨╛</span></div>
+                <div class="card-title">Правила набора <span>Важно</span></div>
                 <div class="session-list">
                     <div class="session-item">
                         <div class="session-left">
-                            <div class="session-icon">тЬж</div>
+                            <div class="session-icon">✦</div>
                             <div>
-                                <div class="session-name">╨Ы╨╕╨╝╨╕╤В ╨┐╨╛╤В╨╛╨║╨░: 25 ╤Г╤З╨╡╨╜╨╕╨║╨╛╨▓</div>
-                                <div class="session-date">╨Я╨╛╤Б╨╗╨╡ ╨┤╨╛╤Б╤В╨╕╨╢╨╡╨╜╨╕╤П ╨╗╨╕╨╝╨╕╤В╨░ ╨▓╨║╨╗╤О╤З╨░╨╡╤В╤Б╤П ╨╗╨╕╤Б╤В ╨╛╨╢╨╕╨┤╨░╨╜╨╕╤П</div>
+                                <div class="session-name">Лимит потока: 25 учеников</div>
+                                <div class="session-date">После достижения лимита включается лист ожидания</div>
                             </div>
                         </div>
-                        <span class="session-status status-done">╨Р╨║╤В╨╕╨▓╨╜╨╛</span>
+                        <span class="session-status status-done">Активно</span>
                     </div>
                     <div class="session-item">
                         <div class="session-left">
-                            <div class="session-icon">тЬж</div>
+                            <div class="session-icon">✦</div>
                             <div>
-                                <div class="session-name">╨Я╤А╨╛╨▓╨╡╤А╨║╨░ ╨╛╨┐╨╗╨░╤В╤Л ╨╛╨▒╤П╨╖╨░╤В╨╡╨╗╤М╨╜╨░</div>
-                                <div class="session-date">╨С╨╡╨╖ ╨┐╨╛╨┤╤В╨▓╨╡╤А╨╢╨┤╨╡╨╜╨╜╨╛╨╣ ╨╛╨┐╨╗╨░╤В╤Л ╨╖╨░╤З╨╕╤Б╨╗╨╡╨╜╨╕╨╡ ╨╜╨╡╨▓╨╛╨╖╨╝╨╛╨╢╨╜╨╛</div>
+                                <div class="session-name">Проверка оплаты обязательна</div>
+                                <div class="session-date">Без подтвержденной оплаты зачисление невозможно</div>
                             </div>
                         </div>
-                        <span class="session-status status-upcoming">╨Я╤А╨╛╨▓╨╡╤А╨║╨░</span>
+                        <span class="session-status status-upcoming">Проверка</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- тФАтФАтФА ╨б╨в╨а╨Р╨Э╨Ш╨ж╨Р: ╨б╨Ю╨Ю╨С╨й╨Х╨Э╨Ш╨п тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+        <!-- ─── СТРАНИЦА: СООБЩЕНИЯ ──────────────── -->
         <div id="page-messages" class="page">
-            <span class="page-label">╨б╨▓╤П╨╖╤М ╤Б ╨░╨┤╨╝╨╕╨╜╨╛╨╝</span>
+            <span class="page-label">Связь с админом</span>
             <div class="page-header">
-                <h1>╨б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╤П</h1>
-                <p>╨Ч╨┤╨╡╤Б╤М ╨▓╤Л ╨▓╨╕╨┤╨╕╤В╨╡ ╨╛╤В╨▓╨╡╤В╤Л ╨░╨┤╨╝╨╕╨╜╨╕╤Б╤В╤А╨░╤Ж╨╕╨╕ ╨╕ ╨╝╨╛╨╢╨╡╤В╨╡ ╨╛╤В╨┐╤А╨░╨▓╨╗╤П╤В╤М ╤Б╨▓╨╛╨╕ ╤Б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╤П</p>
+                <h1>Сообщения</h1>
+                <p>Здесь вы видите ответы администрации и можете отправлять свои сообщения</p>
             </div>
 
             <div class="card">
-                <div class="card-title">╨Я╨╡╤А╨╡╨┐╨╕╤Б╨║╨░</div>
+                <div class="card-title">Переписка</div>
                 <div id="clientMessagesList" class="session-list"></div>
             </div>
 
             <div class="card">
-                <div class="card-title">╨Ю╤В╨▓╨╡╤В╨╕╤В╤М ╨░╨┤╨╝╨╕╨╜╨╕╤Б╤В╤А╨░╤В╨╛╤А╤Г</div>
+                <div class="card-title">Ответить администратору</div>
                 <form onsubmit="sendClientReply(event)">
                     <div class="form-group">
-                        <label>╨Т╨░╤И ╨╛╤В╨▓╨╡╤В</label>
-                        <textarea id="clientReplyText" rows="4" placeholder="╨Э╨░╨┐╨╕╤И╨╕╤В╨╡ ╤Б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╨╡ ╨░╨┤╨╝╨╕╨╜╨╕╤Б╤В╤А╨░╤В╨╛╤А╤Г..." required></textarea>
+                        <label>Ваш ответ</label>
+                        <textarea id="clientReplyText" rows="4" placeholder="Напишите сообщение администратору..." required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-gold btn-sm">╨Ю╤В╨┐╤А╨░╨▓╨╕╤В╤М</button>
+                    <button type="submit" class="btn btn-gold btn-sm">Отправить</button>
                 </form>
             </div>
         </div>
 
-        <!-- тФАтФАтФА ╨б╨в╨а╨Р╨Э╨Ш╨ж╨Р: ╨Э╨Р╨б╨в╨а╨Ю╨Щ╨Ъ╨Ш тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+        <!-- ─── СТРАНИЦА: НАСТРОЙКИ ───────────────── -->
         <div id="page-settings" class="page">
-            <span class="page-label">╨Ъ╨╛╨╜╤Д╨╕╨│╤Г╤А╨░╤Ж╨╕╤П</span>
+            <span class="page-label">Конфигурация</span>
             <div class="page-header">
-                <h1>╨Э╨░╤Б╤В╤А╨╛╨╣╨║╨╕</h1>
-                <p>╨г╨┐╤А╨░╨▓╨╗╤П╨╣╤В╨╡ ╨┐╨░╤А╨░╨╝╨╡╤В╤А╨░╨╝╨╕ ╨░╨║╨║╨░╤Г╨╜╤В╨░ ╨╕ ╤Г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╨╣</p>
+                <h1>Настройки</h1>
+                <p>Управляйте параметрами аккаунта и уведомлений</p>
             </div>
 
             <div class="card">
                 <div class="settings-section">
-                    <h3>╨г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╤П</h3>
+                    <h3>Уведомления</h3>
                     <div class="toggle-row">
                         <div class="toggle-label">
-                            <h4>╨Э╨░╨┐╨╛╨╝╨╕╨╜╨░╨╜╨╕╤П ╨╛ ╤Б╨╡╨░╨╜╤Б╨░╤Е</h4>
-                            <p>╨Ч╨░ 24 ╤З╨░╤Б╨░ ╨╕ ╨╖╨░ 1 ╤З╨░╤Б ╨┤╨╛ ╨╜╨░╤З╨░╨╗╨░ ╤Б╨╡╨░╨╜╤Б╨░</p>
+                            <h4>Напоминания о сеансах</h4>
+                            <p>За 24 часа и за 1 час до начала сеанса</p>
                         </div>
                         <div class="toggle on" id="toggle-sessions" onclick="toggleSetting(this)"></div>
                     </div>
                     <div class="toggle-row">
                         <div class="toggle-label">
-                            <h4>╨Э╨╛╨▓╨╛╤Б╤В╨╕ ╨╕ ╤Б╤В╨░╤В╤М╨╕</h4>
-                            <p>╨г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╤П ╨╛ ╨╜╨╛╨▓╤Л╤Е ╨┐╤Г╨▒╨╗╨╕╨║╨░╤Ж╨╕╤П╤Е ╨▓ ╨▒╨╗╨╛╨│╨╡</p>
+                            <h4>Новости и статьи</h4>
+                            <p>Уведомления о новых публикациях в блоге</p>
                         </div>
                         <div class="toggle" id="toggle-news" onclick="toggleSetting(this)"></div>
                     </div>
                     <div class="toggle-row">
                         <div class="toggle-label">
-                            <h4>╨б╨┐╨╡╤Ж╨╕╨░╨╗╤М╨╜╤Л╨╡ ╨┐╤А╨╡╨┤╨╗╨╛╨╢╨╡╨╜╨╕╤П</h4>
-                            <p>╨Р╨║╤Ж╨╕╨╕ ╨╕ ╤Б╨║╨╕╨┤╨║╨╕ ╨┤╨╗╤П ╨╛╨▒╤Г╤З╨░╤О╤Й╨╕╤Е╤Б╤П</p>
+                            <h4>Специальные предложения</h4>
+                            <p>Акции и скидки для обучающихся</p>
                         </div>
                         <div class="toggle on" id="toggle-offers" onclick="toggleSetting(this)"></div>
                     </div>
                     <div class="toggle-row">
                         <div class="toggle-label">
-                            <h4>SMS-╤Г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╤П</h4>
-                            <p>╨Ф╨╛╨┐╨╛╨╗╨╜╨╕╤В╨╡╨╗╤М╨╜╤Л╨╡ ╤Г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╤П ╨┐╨╛ SMS</p>
+                            <h4>SMS-уведомления</h4>
+                            <p>Дополнительные уведомления по SMS</p>
                         </div>
                         <div class="toggle" id="toggle-sms" onclick="toggleSetting(this)"></div>
                     </div>
                 </div>
 
                 <div class="settings-section">
-                    <h3>╨в╨╡╨╝╨░ ╨╛╤Д╨╛╤А╨╝╨╗╨╡╨╜╨╕╤П</h3>
-                    <p style="font-size:13px;color:var(--t3);margin-bottom:20px">╨Т╤Л╨▒╨╡╤А╨╕╤В╨╡ ╨▓╨╕╨╖╤Г╨░╨╗╤М╨╜╤Л╨╣ ╤Б╤В╨╕╨╗╤М ╨┤╨╗╤П ╨▓╤Б╨╡╨│╨╛ ╤Б╨░╨╣╤В╨░</p>
+                    <h3>Тема оформления</h3>
+                    <p style="font-size:13px;color:var(--t3);margin-bottom:20px">Выберите визуальный стиль для всего сайта</p>
                     <div class="theme-picker">
                         <div class="theme-card" id="theme-card-ritual" onclick="selectDashboardTheme('ritual')">
                             <div class="theme-card-preview ritual-prev">
-                                <span class="tcp-icon">тШ╛</span>
+                                <span class="tcp-icon">☾</span>
                             </div>
                             <div class="theme-card-body">
                                 <div class="theme-card-name">Ritual Night</div>
-                                <div class="theme-card-desc">╨Ь╨╕╤Б╤В╨╕╤З╨╡╤Б╨║╨░╤П ╨╜╨╛╤З╤М тАФ ╨┐╤Г╤А╨┐╤Г╤А ╨╕ ╨╖╨╛╨╗╨╛╤В╨╛</div>
+                                <div class="theme-card-desc">Мистическая ночь — пурпур и золото</div>
                             </div>
-                            <div class="theme-card-check" id="check-ritual">тЬУ</div>
+                            <div class="theme-card-check" id="check-ritual">✓</div>
                         </div>
                         <div class="theme-card" id="theme-card-oracle" onclick="selectDashboardTheme('oracle')">
                             <div class="theme-card-preview oracle-prev">
-                                <span class="tcp-icon">ЁЯФо</span>
+                                <span class="tcp-icon">🔮</span>
                             </div>
                             <div class="theme-card-body">
                                 <div class="theme-card-name">Crystal Oracle</div>
-                                <div class="theme-card-desc">╨Ы╤Г╨╜╨╜╨░╤П ╨╜╨╛╤З╤М тАФ ╨▒╨╕╤А╤О╨╖╨░ ╨╕ ╤Б╨╡╤А╨╡╨▒╤А╨╛</div>
+                                <div class="theme-card-desc">Лунная ночь — бирюза и серебро</div>
                             </div>
-                            <div class="theme-card-check" id="check-oracle">тЬУ</div>
+                            <div class="theme-card-check" id="check-oracle">✓</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="settings-section">
-                    <h3>╨С╨╡╨╖╨╛╨┐╨░╤Б╨╜╨╛╤Б╤В╤М</h3>
-                    <h4 style="font-family:'Inter';font-size:14px;color:var(--t1);margin-bottom:16px;font-weight:500">╨б╨╝╨╡╨╜╨░ ╨┐╨░╤А╨╛╨╗╤П</h4>
+                    <h3>Безопасность</h3>
+                    <h4 style="font-family:'Inter';font-size:14px;color:var(--t1);margin-bottom:16px;font-weight:500">Смена пароля</h4>
                     <form onsubmit="changePassword(event)" style="max-width:480px">
                         <div class="form-group">
-                            <label>╨в╨╡╨║╤Г╤Й╨╕╨╣ ╨┐╨░╤А╨╛╨╗╤М</label>
-                            <input type="password" placeholder="тАвтАвтАвтАвтАвтАвтАвтАв" required>
+                            <label>Текущий пароль</label>
+                            <input type="password" placeholder="••••••••" required>
                         </div>
                         <div class="form-group">
-                            <label>╨Э╨╛╨▓╤Л╨╣ ╨┐╨░╤А╨╛╨╗╤М</label>
-                            <input type="password" placeholder="╨Э╨╡ ╨╝╨╡╨╜╨╡╨╡ 8 ╤Б╨╕╨╝╨▓╨╛╨╗╨╛╨▓" required>
+                            <label>Новый пароль</label>
+                            <input type="password" placeholder="Не менее 8 символов" required>
                         </div>
                         <div class="form-group">
-                            <label>╨Я╨╛╨┤╤В╨▓╨╡╤А╨┤╨╕╤В╤М ╨┐╨░╤А╨╛╨╗╤М</label>
-                            <input type="password" placeholder="╨Я╨╛╨▓╤В╨╛╤А╨╕╤В╨╡ ╨╜╨╛╨▓╤Л╨╣ ╨┐╨░╤А╨╛╨╗╤М" required>
+                            <label>Подтвердить пароль</label>
+                            <input type="password" placeholder="Повторите новый пароль" required>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-sm">╨б╨╝╨╡╨╜╨╕╤В╤М ╨┐╨░╤А╨╛╨╗╤М</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Сменить пароль</button>
                     </form>
                 </div>
 
                 <div class="settings-section">
-                    <h3>╨Р╨║╨║╨░╤Г╨╜╤В</h3>
+                    <h3>Аккаунт</h3>
                     <div style="display:flex;gap:12px;flex-wrap:wrap">
-                        <button class="btn btn-outline btn-sm">╨н╨║╤Б╨┐╨╛╤А╤В ╨┤╨░╨╜╨╜╤Л╤Е</button>
-                        <button class="btn btn-danger btn-sm" onclick="confirmDeleteAccount()">╨г╨┤╨░╨╗╨╕╤В╤М ╨░╨║╨║╨░╤Г╨╜╤В</button>
+                        <button class="btn btn-outline btn-sm">Экспорт данных</button>
+                        <button class="btn btn-danger btn-sm" onclick="confirmDeleteAccount()">Удалить аккаунт</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- тФАтФАтФА ╨б╨в╨а╨Р╨Э╨Ш╨ж╨Р: ╨Ь╨Р╨в╨а╨Ш╨ж╨л ╨б╨г╨Ф╨м╨С╨л тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
-        <!-- тФАтФАтФА ╨б╨в╨а╨Р╨Э╨Ш╨ж╨Р: ╨Ь╨░╤В╤А╨╕╤Ж╨░ ╤Б╤Г╨┤╤М╨▒╤Л (╨┐╨╛╨╗╨╜╨╛╤Ж╨╡╨╜╨╜╤Л╨╣ ╨║╨░╨╗╤М╨║╤Г╨╗╤П╤В╨╛╤А) тФАтФАтФА -->
+        <!-- ─── СТРАНИЦА: МАТРИЦЫ СУДЬБЫ ─────────── -->
+        <!-- ─── СТРАНИЦА: Матрица судьбы (полноценный калькулятор) ─── -->
         <div id="page-matrix" class="page">
-            <span class="page-label">╨Э╤Г╨╝╨╡╤А╨╛╨╗╨╛╨│╨╕╤П ╤Б╤Г╨┤╤М╨▒╤Л</span>
+            <span class="page-label">Нумерология судьбы</span>
             <div class="page-header">
-                <h1>ЁЯФо ╨Ь╨░╤В╤А╨╕╤Ж╨░ ╨б╤Г╨┤╤М╨▒╤Л</h1>
-                <p>╨а╨░╤Б╤З╤С╤В ╨╝╨░╤В╤А╨╕╤Ж╤Л ╨┐╨╛ ╨┤╨░╤В╨╡ ╤А╨╛╨╢╨┤╨╡╨╜╨╕╤П</p>
+                <h1>🔮 Матрица Судьбы</h1>
+                <p>Расчёт матрицы по дате рождения</p>
             </div>
 
-            <!-- ╨д╨╛╤А╨╝╨░ ╨▓╨▓╨╛╨┤╨░ -->
+            <!-- Форма ввода -->
             <div class="matrix-form-card">
                 <div class="matrix-form-row">
                     <div class="matrix-field">
-                        <label>╨Ш╨╝╤П ╨║╨╗╨╕╨╡╨╜╤В╨░</label>
-                        <input type="text" id="matrixName" placeholder="╨Т╨▓╨╡╨┤╨╕╤В╨╡ ╨╕╨╝╤П" class="matrix-input">
+                        <label>Имя клиента</label>
+                        <input type="text" id="matrixName" placeholder="Введите имя" class="matrix-input">
                     </div>
                     <div class="matrix-field">
-                        <label>╨Ф╨░╤В╨░ ╤А╨╛╨╢╨┤╨╡╨╜╨╕╤П</label>
+                        <label>Дата рождения</label>
                         <input type="date" id="matrixDate" class="matrix-input">
                     </div>
-                    <button class="matrix-calc-btn" onclick="calcMatrix()">╨а╨░╤Б╤Б╤З╨╕╤В╨░╤В╤М тЬж</button>
+                    <button class="matrix-calc-btn" onclick="calcMatrix()">Рассчитать ✦</button>
                 </div>
             </div>
 
-            <!-- ╨а╨╡╨╖╤Г╨╗╤М╤В╨░╤В -->
+            <!-- Результат -->
             <div id="matrixResult" style="display:none">
-                <!-- ╨Ш╨╝╤П ╨╕ ╨┤╨░╤В╨░ -->
+                <!-- Имя и дата -->
                 <div class="matrix-person-header">
                     <span id="matrixPersonName" class="matrix-person-name"></span>
                     <span id="matrixPersonDate" class="matrix-person-date"></span>
                 </div>
 
-                <!-- ╨Т╨╕╨╖╤Г╨░╨╗╤М╨╜╨░╤П ╨╝╨░╤В╤А╨╕╤Ж╨░ (SVG) -->
+                <!-- Визуальная матрица (SVG) — Стандартная октаграмма -->
                 <div class="matrix-visual-wrap">
-                    <svg id="matrixSvg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
-                        <defs>
-                            <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" style="stop-color:#1a1030;stop-opacity:1"/>
-                                <stop offset="100%" style="stop-color:#0a0510;stop-opacity:1"/>
-                            </radialGradient>
-                            <filter id="glow">
-                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                            </filter>
-                        </defs>
-                        <rect width="500" height="500" fill="url(#bgGrad)" rx="16"/>
-                        <!-- ╨Ю╨║╤В╨╛╨│╤А╨░╨╝╨╝╨░ -->
-                        <polygon points="250,60 440,250 250,440 60,250" fill="none" stroke="rgba(138,109,192,0.4)" stroke-width="1.5"/>
-                        <polygon points="250,120 380,250 250,380 120,250" fill="none" stroke="rgba(196,162,74,0.3)" stroke-width="1"/>
-                        <line x1="60" y1="250" x2="440" y2="250" stroke="rgba(138,109,192,0.2)" stroke-width="1"/>
-                        <line x1="250" y1="60" x2="250" y2="440" stroke="rgba(138,109,192,0.2)" stroke-width="1"/>
-                        <line x1="130" y1="130" x2="370" y2="370" stroke="rgba(196,162,74,0.15)" stroke-width="1"/>
-                        <line x1="370" y1="130" x2="130" y2="370" stroke="rgba(196,162,74,0.15)" stroke-width="1"/>
+                  <svg id="matrixSvg" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
+<!-- А=право(0лет,пурпур), Е=низ-право(10), Б=низ(20,пурпур), Ж=низ-лево(30), В=лево(40,тёмно-красн), И=верх-лево(50), Г=верх(60,красн), З=верх-право(70), Д=центр(золото) -->
+                    <defs>
+                      <filter id="mglow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="4" result="cb"/>
+                        <feMerge><feMergeNode in="cb"/><feMergeNode in="SourceGraphic"/></feMerge>
+                      </filter>
+                      <marker id="markerBlue" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+                        <polygon points="0 0, 8 3, 0 6" fill="#3a6cc8"/>
+                      </marker>
+                      <marker id="markerRed" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+                        <polygon points="0 0, 8 3, 0 6" fill="#c83a3a"/>
+                      </marker>
+                    </defs>
+                    <!-- Фон -->
+                    <rect width="700" height="700" fill="#f0ece3" rx="10"/>
 
-                        <!-- A тАФ ╨╜╨╕╨╖ (╨Ы╨╕╤З╨╜╨╛╤Б╤В╤М) -->
-                        <circle cx="250" cy="440" r="26" fill="#1a1030" stroke="#8a6dc0" stroke-width="2"/>
-                        <text id="mvAnum" x="250" y="445" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="18" font-weight="bold" font-family="serif">?</text>
-                        <text x="250" y="478" text-anchor="middle" fill="#8a9ab5" font-size="11" font-family="sans-serif">╨Ы╨╕╤З╨╜╨╛╤Б╤В╤М</text>
+                    <!-- ── ЛИНИИ СТРУКТУРЫ ── -->
+                    <!-- Внешний октагон: А(590,350)–Е(520,520)–Б(350,590)–Ж(180,520)–В(110,350)–И(180,180)–Г(350,110)–З(520,180) -->
+                    <polygon points="590,350 520,520 350,590 180,520 110,350 180,180 350,110 520,180"
+                      fill="none" stroke="#888" stroke-width="1.5"/>
+                    <!-- Кресты через центр -->
+                    <line x1="110" y1="350" x2="590" y2="350" stroke="#888" stroke-width="1.5"/>
+                    <line x1="350" y1="110" x2="350" y2="590" stroke="#888" stroke-width="1.5"/>
+                    <!-- Диагонали через центр -->
+                    <line x1="180" y1="180" x2="520" y2="520" stroke="#888" stroke-width="1.2"/>
+                    <line x1="520" y1="180" x2="180" y2="520" stroke="#888" stroke-width="1.2"/>
+                    <!-- Внутренний квадрат: А_вн(480,350)–Г_вн(350,220)–В_вн(220,350)–Б_вн(350,480) -->
+                    <polygon points="480,350 350,220 220,350 350,480" fill="none" stroke="#888" stroke-width="1.2"/>
+                    <!-- Внутренний ромб: П(442,258)–О(258,258)–М(258,442)–Н(442,442) -->
+                    <polygon points="442,258 258,258 258,442 442,442" fill="none" stroke="#aaa" stroke-width="0.9"/>
+                    <!-- Линии от диагональных точек к внутреннему квадрату -->
+                    <line x1="520" y1="520" x2="480" y2="350" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="520" y1="520" x2="350" y2="480" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="180" y1="520" x2="220" y2="350" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="180" y1="520" x2="350" y2="480" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="180" y1="180" x2="220" y2="350" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="180" y1="180" x2="350" y2="220" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="520" y1="180" x2="480" y2="350" stroke="#ccc" stroke-width="0.8"/>
+                    <line x1="520" y1="180" x2="350" y2="220" stroke="#ccc" stroke-width="0.8"/>
+                    <!-- Линии от углов ромба к внутреннему квадрату -->
+                    <line x1="442" y1="258" x2="480" y2="350" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="442" y1="258" x2="350" y2="220" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="258" y1="258" x2="220" y2="350" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="258" y1="258" x2="350" y2="220" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="258" y1="442" x2="220" y2="350" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="258" y1="442" x2="350" y2="480" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="442" y1="442" x2="480" y2="350" stroke="#ddd" stroke-width="0.7"/>
+                    <line x1="442" y1="442" x2="350" y2="480" stroke="#ddd" stroke-width="0.7"/>
+                    <!-- Зона комфорта (пунктир) -->
+                    <circle cx="350" cy="350" r="130" fill="none" stroke="#aaa" stroke-width="1" stroke-dasharray="5,4"/>
 
-                        <!-- B тАФ ╨╗╨╡╨▓╨╛ (╨Ф╤Г╤Е╨╛╨▓╨╜╨╛╤Б╤В╤М) -->
-                        <circle cx="60" cy="250" r="26" fill="#1a1030" stroke="#8a6dc0" stroke-width="2"/>
-                        <text id="mvBnum" x="60" y="255" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="18" font-weight="bold" font-family="serif">?</text>
-                        <text x="60" y="287" text-anchor="middle" fill="#8a9ab5" font-size="11" font-family="sans-serif">╨Ф╤Г╤Е╨╛╨▓╨╜╨╛╤Б╤В╤М</text>
+                    <!-- ЗОНА КОМФОРТА + символы (за центральным кругом) -->
+                    <text x="350" y="328" text-anchor="middle" fill="#999" font-size="9.5" font-family="sans-serif" letter-spacing="1.5">ЗОНА КОМФОРТА</text>
+                    <text x="316" y="358" text-anchor="middle" fill="#c83a3a" font-size="17" font-family="sans-serif">♥</text>
+                    <text x="384" y="356" text-anchor="middle" fill="#2a8a2a" font-size="18" font-family="sans-serif">$</text>
 
-                        <!-- C тАФ ╨▓╨╡╤А╤Е (╨Э╨╡╨▒╨╡╤Б╨╜╤Л╨╣ ╨┐╨╛╤В╨╡╨╜╤Ж╨╕╨░╨╗) -->
-                        <circle cx="250" cy="60" r="26" fill="#1a1030" stroke="#8a6dc0" stroke-width="2"/>
-                        <text id="mvCnum" x="250" y="65" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="18" font-weight="bold" font-family="serif">?</text>
-                        <text x="250" y="22" text-anchor="middle" fill="#8a9ab5" font-size="11" font-family="sans-serif">╨Э╨╡╨▒╨╡╤Б╨╜╤Л╨╣ ╨┐╨╛╤В╨╡╨╜╤Ж╨╕╨░╨╗</text>
+                    <!-- Стрелки линий рода -->
+                    <line x1="305" y1="406" x2="393" y2="306" stroke="#3a6cc8" stroke-width="1.8" marker-end="url(#markerBlue)"/>
+                    <line x1="393" y1="406" x2="305" y2="306" stroke="#c83a3a" stroke-width="1.8" marker-end="url(#markerRed)"/>
+                    <text x="357" y="400" fill="#3a6cc8" font-size="7" font-family="sans-serif" transform="rotate(-45,357,400)">линия мужского рода</text>
+                    <text x="337" y="415" fill="#c83a3a" font-size="7" font-family="sans-serif" transform="rotate(45,337,415)">линия женского рода</text>
 
-                        <!-- D тАФ ╨┐╤А╨░╨▓╨╛ (╨Я╤А╨╡╨┤╨╜╨░╨╖╨╜╨░╤З╨╡╨╜╨╕╨╡) -->
-                        <circle cx="440" cy="250" r="26" fill="#1a1030" stroke="#8a6dc0" stroke-width="2"/>
-                        <text id="mvDnum" x="440" y="255" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="18" font-weight="bold" font-family="serif">?</text>
-                        <text x="440" y="287" text-anchor="middle" fill="#8a9ab5" font-size="11" font-family="sans-serif">╨Я╤А╨╡╨┤╨╜╨░╨╖╨╜╨░╤З╨╡╨╜╨╕╨╡</text>
+                    <!-- ── ПРОГРЕССИОННЫЕ КРУГИ НА РЁБРАХ (3 на каждое ребро) ── -->
+                    <!-- Ребро А→Е [0→10 лет] -->
+                    <circle cx="572" cy="393" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_AE1" x="572" y="397" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="555" cy="435" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_AE2" x="555" y="439" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="538" cy="478" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_AE3" x="538" y="482" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро Е→Б [10→20 лет] -->
+                    <circle cx="478" cy="538" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_EB1" x="478" y="542" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="435" cy="555" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_EB2" x="435" y="559" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="393" cy="573" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_EB3" x="393" y="577" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро Б→Ж [20→30 лет] -->
+                    <circle cx="308" cy="573" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_BZh1" x="308" y="577" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="265" cy="555" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_BZh2" x="265" y="559" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="223" cy="538" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_BZh3" x="223" y="542" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро Ж→В [30→40 лет] -->
+                    <circle cx="163" cy="478" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZhV1" x="163" y="482" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="145" cy="435" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZhV2" x="145" y="439" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="128" cy="393" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZhV3" x="128" y="397" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро В→И [40→50 лет] -->
+                    <circle cx="128" cy="308" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_VI1" x="128" y="312" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="145" cy="265" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_VI2" x="145" y="269" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="163" cy="223" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_VI3" x="163" y="227" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро И→Г [50→60 лет] -->
+                    <circle cx="223" cy="163" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_IG1" x="223" y="167" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="265" cy="145" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_IG2" x="265" y="149" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="308" cy="128" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_IG3" x="308" y="132" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро Г→З [60→70 лет] -->
+                    <circle cx="393" cy="128" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_GZ1" x="393" y="132" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="435" cy="145" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_GZ2" x="435" y="149" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="478" cy="163" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_GZ3" x="478" y="167" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <!-- Ребро З→А [70→0/80 лет] -->
+                    <circle cx="538" cy="223" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZA1" x="538" y="227" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="555" cy="265" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZA2" x="555" y="269" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="573" cy="308" r="12" fill="#fff" stroke="#aaa" stroke-width="1"/><text id="mvE_ZA3" x="573" y="312" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="8" font-weight="bold" font-family="serif">?</text>
 
-                        <!-- E тАФ ╤Ж╨╡╨╜╤В╤А -->
-                        <circle cx="250" cy="250" r="34" fill="#2a1a40" stroke="#c8a840" stroke-width="2.5" filter="url(#glow)"/>
-                        <text id="mvEnum" x="250" y="255" text-anchor="middle" dominant-baseline="middle" fill="#ffd700" font-size="22" font-weight="bold" font-family="serif">?</text>
-                        <text x="250" y="294" text-anchor="middle" fill="#c8a840" font-size="11" font-family="sans-serif">╨ж╨╡╨╜╤В╤А</text>
+                    <!-- ── ВНУТРЕННИЙ РОМБ: П, О, М, Н ── -->
+                    <circle cx="442" cy="258" r="17" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvPnum" x="442" y="262" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="258" cy="258" r="17" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvOnum" x="258" y="262" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="258" cy="442" r="17" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvMnum" x="258" y="446" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="442" cy="442" r="17" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvNnum" x="442" y="446" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="serif">?</text>
 
-                        <!-- AB тАФ ╨╗╨╡╨▓╨╛-╨╜╨╕╨╖ -->
-                        <circle cx="155" cy="345" r="20" fill="#120820" stroke="rgba(196,162,74,0.6)" stroke-width="1.5"/>
-                        <text id="mvABnum" x="155" y="349" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="14" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── ВНУТРЕННИЙ КРЕСТ: А_вн, Г_вн, В_вн, Б_вн ── -->
+                    <circle cx="480" cy="350" r="21" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvAinNum" x="480" y="354" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="15" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="350" cy="220" r="21" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvGinNum" x="350" y="224" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="15" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="220" cy="350" r="21" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvVinNum" x="220" y="354" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="15" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="350" cy="480" r="21" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvBinNum" x="350" y="484" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="15" font-weight="bold" font-family="serif">?</text>
 
-                        <!-- BC тАФ ╨╗╨╡╨▓╨╛-╨▓╨╡╤А╤Е -->
-                        <circle cx="155" cy="155" r="20" fill="#120820" stroke="rgba(196,162,74,0.6)" stroke-width="1.5"/>
-                        <text id="mvBCnum" x="155" y="159" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="14" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── КОМПАНЬОНЫ РЯДОМ С ДИАГОНАЛЬНЫМИ ТОЧКАМИ (белые) ── -->
+                    <!-- Рядом с Е (520,520) -->
+                    <circle cx="508" cy="469" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvEc1" x="508" y="473" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="469" cy="508" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvEc2" x="469" y="512" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с Ж (180,520) -->
+                    <circle cx="192" cy="469" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvZhc1" x="192" y="473" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="231" cy="508" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvZhc2" x="231" y="512" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с И (180,180) -->
+                    <circle cx="192" cy="231" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvIc1" x="192" y="235" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="231" cy="192" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvIc2" x="231" y="196" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с З (520,180) -->
+                    <circle cx="508" cy="231" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvZc1" x="508" y="235" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="469" cy="192" r="15" fill="#fff" stroke="#aaa" stroke-width="1.5"/><text id="mvZc2" x="469" y="196" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="11" font-weight="bold" font-family="serif">?</text>
 
-                        <!-- CD тАФ ╨┐╤А╨░╨▓╨╛-╨▓╨╡╤А╤Е -->
-                        <circle cx="345" cy="155" r="20" fill="#120820" stroke="rgba(196,162,74,0.6)" stroke-width="1.5"/>
-                        <text id="mvCDnum" x="345" y="159" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="14" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── КОМПАНЬОНЫ РЯДОМ С ГЛАВНЫМИ ТОЧКАМИ ── -->
+                    <!-- Рядом с А (590,350): голубой + синий -->
+                    <circle cx="551" cy="314" r="16" fill="#6bb8e8" stroke="#4a9aca" stroke-width="1.5"/><text id="mvAc1" x="551" y="318" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="551" cy="352" r="16" fill="#3060c8" stroke="#2040a0" stroke-width="1.5"/><text id="mvAc2" x="551" y="356" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с Б (350,590): голубой + синий -->
+                    <circle cx="386" cy="551" r="16" fill="#6bb8e8" stroke="#4a9aca" stroke-width="1.5"/><text id="mvBc1" x="386" y="555" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="350" cy="549" r="16" fill="#3060c8" stroke="#2040a0" stroke-width="1.5"/><text id="mvBc2" x="350" y="553" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с В (110,350): оранжевый -->
+                    <circle cx="149" cy="314" r="16" fill="#e07030" stroke="#b84820" stroke-width="1.5"/><text id="mvVc1" x="149" y="318" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="149" cy="352" r="16" fill="#c05820" stroke="#984010" stroke-width="1.5"/><text id="mvVc2" x="149" y="356" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <!-- Рядом с Г (350,110): оранжевый -->
+                    <circle cx="314" cy="149" r="16" fill="#e07030" stroke="#b84820" stroke-width="1.5"/><text id="mvGc1" x="314" y="153" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="352" cy="150" r="16" fill="#c05820" stroke="#984010" stroke-width="1.5"/><text id="mvGc2" x="352" y="154" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="12" font-weight="bold" font-family="serif">?</text>
 
-                        <!-- AD тАФ ╨┐╤А╨░╨▓╨╛-╨╜╨╕╨╖ -->
-                        <circle cx="345" cy="345" r="20" fill="#120820" stroke="rgba(196,162,74,0.6)" stroke-width="1.5"/>
-                        <text id="mvADnum" x="345" y="349" text-anchor="middle" dominant-baseline="middle" fill="#c8a840" font-size="14" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── ДИАГОНАЛЬНЫЕ ВНЕШНИЕ ТОЧКИ (тёмные) ── -->
+                    <circle cx="520" cy="520" r="27" fill="#1a1a2e" stroke="#555" stroke-width="2"/>
+                    <text id="mvEnum" x="520" y="524" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="19" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="180" cy="520" r="27" fill="#1a1a2e" stroke="#555" stroke-width="2"/>
+                    <text id="mvZhnum" x="180" y="524" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="19" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="180" cy="180" r="27" fill="#1a1a2e" stroke="#555" stroke-width="2"/>
+                    <text id="mvInum" x="180" y="184" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="19" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="520" cy="180" r="27" fill="#1a1a2e" stroke="#555" stroke-width="2"/>
+                    <text id="mvZnum" x="520" y="184" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="19" font-weight="bold" font-family="serif">?</text>
 
-                        <!-- F тАФ ╨║╨░╤А╨╝╨╕╤З╨╡╤Б╨║╨╕╨╣ ╤Е╨▓╨╛╤Б╤В (A+E) -->
-                        <circle cx="250" cy="345" r="18" fill="#0f0818" stroke="rgba(138,109,192,0.5)" stroke-width="1.5"/>
-                        <text id="mvFnum" x="250" y="349" text-anchor="middle" dominant-baseline="middle" fill="#a08ad0" font-size="13" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── ГЛАВНЫЕ ВНЕШНИЕ ТОЧКИ ── -->
+                    <!-- А — ПРАВО — ПУРПУРНЫЙ -->
+                    <circle cx="590" cy="350" r="36" fill="#8744b8" stroke="#6820a0" stroke-width="2.5" filter="url(#mglow)"/>
+                    <text id="mvAnum" x="590" y="354" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
+                    <!-- Б — НИЗ — ПУРПУРНЫЙ -->
+                    <circle cx="350" cy="590" r="36" fill="#8744b8" stroke="#6820a0" stroke-width="2.5" filter="url(#mglow)"/>
+                    <text id="mvBnum" x="350" y="594" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
+                    <!-- В — ЛЕВО — ТЁМНО-КРАСНЫЙ -->
+                    <circle cx="110" cy="350" r="36" fill="#8b1a1a" stroke="#6a0808" stroke-width="2.5" filter="url(#mglow)"/>
+                    <text id="mvVnum" x="110" y="354" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
+                    <!-- Г — ВЕРХ — КРАСНЫЙ -->
+                    <circle cx="350" cy="110" r="36" fill="#c03030" stroke="#a01010" stroke-width="2.5" filter="url(#mglow)"/>
+                    <text id="mvGnum" x="350" y="114" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="24" font-weight="bold" font-family="serif">?</text>
 
-                        <!-- G тАФ ╨╗╨╕╤З╨╜╤Л╨╣ ╨║╨▓╨░╨┤╤А╨░╤В (B+E) -->
-                        <circle cx="155" cy="250" r="18" fill="#0f0818" stroke="rgba(138,109,192,0.5)" stroke-width="1.5"/>
-                        <text id="mvGnum" x="155" y="254" text-anchor="middle" dominant-baseline="middle" fill="#a08ad0" font-size="13" font-weight="bold" font-family="serif">?</text>
+                    <!-- ── ЦЕНТР Д — ЗОЛОТОЙ ── -->
+                    <circle cx="350" cy="350" r="44" fill="#f0d060" stroke="#c8a020" stroke-width="2.5" filter="url(#mglow)"/>
+                    <text id="mvDnum" x="350" y="354" text-anchor="middle" dominant-baseline="middle" fill="#5a3800" font-size="28" font-weight="bold" font-family="serif">?</text>
 
-                        <!-- H тАФ ╤А╨╛╨┤╨╛╨▓╨╛╨╣ ╨║╨▓╨░╨┤╤А╨░╤В (C+E) -->
-                        <circle cx="250" cy="155" r="18" fill="#0f0818" stroke="rgba(138,109,192,0.5)" stroke-width="1.5"/>
-                        <text id="mvHnum" x="250" y="159" text-anchor="middle" dominant-baseline="middle" fill="#a08ad0" font-size="13" font-weight="bold" font-family="serif">?</text>
-
-                        <!-- I тАФ ╨╗╨╕╨╜╨╕╤П ╨┤╨╡╨╜╨╡╨│ (D+E) -->
-                        <circle cx="345" cy="250" r="18" fill="#0f0818" stroke="rgba(138,109,192,0.5)" stroke-width="1.5"/>
-                        <text id="mvInum" x="345" y="254" text-anchor="middle" dominant-baseline="middle" fill="#a08ad0" font-size="13" font-weight="bold" font-family="serif">?</text>
-                    </svg>
+                    <!-- ── ПОДПИСИ СНАРУЖИ (буква + возраст) ── -->
+                    <text x="637" y="347" text-anchor="start" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">А</text>
+                    <text x="637" y="362" text-anchor="start" fill="#555" font-size="10" font-family="sans-serif">0 лет</text>
+                    <text x="524" y="555" text-anchor="start" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">Е</text>
+                    <text x="524" y="568" text-anchor="start" fill="#555" font-size="10" font-family="sans-serif">10 лет</text>
+                    <text x="350" y="641" text-anchor="middle" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">Б</text>
+                    <text x="350" y="655" text-anchor="middle" fill="#555" font-size="10" font-family="sans-serif">20 лет</text>
+                    <text x="170" y="555" text-anchor="end" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">Ж</text>
+                    <text x="170" y="568" text-anchor="end" fill="#555" font-size="10" font-family="sans-serif">30 лет</text>
+                    <text x="58" y="347" text-anchor="end" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">В</text>
+                    <text x="58" y="362" text-anchor="end" fill="#555" font-size="10" font-family="sans-serif">40 лет</text>
+                    <text x="163" y="168" text-anchor="end" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">И</text>
+                    <text x="163" y="154" text-anchor="end" fill="#555" font-size="10" font-family="sans-serif">50 лет</text>
+                    <text x="350" y="58" text-anchor="middle" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">Г</text>
+                    <text x="350" y="44" text-anchor="middle" fill="#555" font-size="10" font-family="sans-serif">60 лет</text>
+                    <text x="537" y="168" text-anchor="start" fill="#222" font-size="13" font-family="sans-serif" font-weight="700">З</text>
+                    <text x="537" y="154" text-anchor="start" fill="#555" font-size="10" font-family="sans-serif">70 лет</text>
+                  </svg>
                 </div>
 
-                <!-- ╨в╨░╨▒╨╗╨╕╤Ж╨░ ╨╖╨╜╨░╤З╨╡╨╜╨╕╨╣ -->
+                <!-- Таблица значений -->
                 <div class="matrix-values-grid" id="matrixValuesGrid"></div>
+                <!-- Детальные интерпретации -->
 
-                <!-- ╨Ф╨╡╤В╨░╨╗╤М╨╜╤Л╨╡ ╨╕╨╜╤В╨╡╤А╨┐╤А╨╡╤В╨░╤Ж╨╕╨╕ -->
+                <!-- Детальные интерпретации -->
                 <div class="matrix-interpretations" id="matrixInterps"></div>
 
-                <!-- ╨Ъ╨╜╨╛╨┐╨║╨╕ -->
+                <!-- Кнопки -->
                 <div style="text-align:center;margin-top:20px;display:flex;gap:12px;justify-content:center">
-                    <button class="matrix-save-btn" onclick="copyMatrixResult()">ЁЯУЛ ╨б╨║╨╛╨┐╨╕╤А╨╛╨▓╨░╤В╤М ╤А╨╡╨╖╤Г╨╗╤М╤В╨░╤В</button>
-                    <button class="btn btn-gold" onclick="bookMatrixSession()">╨Ч╨░╨┐╨╕╤Б╨░╤В╤М╤Б╤П ╨╜╨░ ╤А╨░╤Б╤И╨╕╤Д╤А╨╛╨▓╨║╤Г</button>
+                    <button class="matrix-save-btn" onclick="copyMatrixResult()">📋 Скопировать результат</button>
+                    <button class="btn btn-gold" onclick="bookMatrixSession()">Записаться на расшифровку</button>
                 </div>
             </div>
         </div>
@@ -792,17 +907,17 @@
 
 <div class="payment-overlay" id="paymentOverlay">
     <div class="payment-modal">
-        <button class="payment-close" onclick="closePaymentModal()">├Ч</button>
-        <h3 id="paymentTitle">╨Ю╨┐╨╗╨░╤В╨░</h3>
-        <p id="paymentPlanInfo">╨Я╤А╨╛╨│╤А╨░╨╝╨╝╨░ ╨╕ ╤Б╤Г╨╝╨╝╨░</p>
+        <button class="payment-close" onclick="closePaymentModal()">×</button>
+        <h3 id="paymentTitle">Оплата</h3>
+        <p id="paymentPlanInfo">Программа и сумма</p>
         <form id="paymentForm" onsubmit="confirmPayment(event)">
             <div class="form-group">
-                <label>╨Э╨╛╨╝╨╡╤А ╨║╨░╤А╤В╤Л</label>
+                <label>Номер карты</label>
                 <input type="text" id="payCard" placeholder="0000 0000 0000 0000" minlength="16" maxlength="19" required>
             </div>
             <div class="profile-form-grid">
                 <div class="form-group">
-                    <label>╨б╤А╨╛╨║ (MM/YY)</label>
+                    <label>Срок (MM/YY)</label>
                     <input type="text" id="payExp" placeholder="08/28" required>
                 </div>
                 <div class="form-group">
@@ -811,40 +926,40 @@
                 </div>
             </div>
             <div class="form-group">
-                <label>╨Ш╨╝╤П ╨▓╨╗╨░╨┤╨╡╨╗╤М╤Ж╨░</label>
+                <label>Имя владельца</label>
                 <input type="text" id="payHolder" placeholder="AIGERIM K." required>
             </div>
-            <button type="submit" class="btn btn-gold" id="paymentSubmitButton" style="width:100%">╨Ю╨┐╨╗╨░╤В╨╕╤В╤М</button>
+            <button type="submit" class="btn btn-gold" id="paymentSubmitButton" style="width:100%">Оплатить</button>
         </form>
     </div>
 </div>
 
-<!-- тФАтФАтФА ╨Ь╨Ю╨С╨Ш╨Ы╨м╨Э╨Р╨п ╨Э╨Ш╨Ц╨Э╨п╨п ╨Э╨Р╨Т╨Ш╨У╨Р╨ж╨Ш╨п тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА -->
+<!-- ─── МОБИЛЬНАЯ НИЖНЯЯ НАВИГАЦИЯ ─────────────── -->
 <nav class="mobile-bottom-nav" id="mobileBottomNav">
     <a class="mob-nav-item active" onclick="showPage('overview', null); setMobNav(this)" href="#">
-        <span class="mob-nav-icon">тмб</span>
-        <span class="mob-nav-label">╨Ю╨▒╨╖╨╛╤А</span>
+        <span class="mob-nav-icon">⬡</span>
+        <span class="mob-nav-label">Обзор</span>
     </a>
     <a class="mob-nav-item" onclick="showPage('booking', null); setMobNav(this)" href="#">
-        <span class="mob-nav-icon">тЧИ</span>
-        <span class="mob-nav-label">╨Ч╨░╨┐╨╕╤Б╤М</span>
+        <span class="mob-nav-icon">◈</span>
+        <span class="mob-nav-label">Запись</span>
     </a>
     <a class="mob-nav-item" onclick="showPage('sessions', null); setMobNav(this)" href="#">
-        <span class="mob-nav-icon">тШ╜</span>
-        <span class="mob-nav-label">╨б╨╡╨░╨╜╤Б╤Л</span>
+        <span class="mob-nav-icon">☽</span>
+        <span class="mob-nav-label">Сеансы</span>
     </a>
     <a class="mob-nav-item" onclick="showPage('shop', null); setMobNav(this)" href="#">
-        <span class="mob-nav-icon">тЬ║</span>
-        <span class="mob-nav-label">╨Ь╨░╨│╨░╨╖╨╕╨╜</span>
+        <span class="mob-nav-icon">✺</span>
+        <span class="mob-nav-label">Магазин</span>
     </a>
     <a class="mob-nav-item" onclick="showPage('messages', null); setMobNav(this)" href="#">
-        <span class="mob-nav-icon">тЬЙ</span>
-        <span class="mob-nav-label">╨з╨░╤В</span>
+        <span class="mob-nav-icon">✉</span>
+        <span class="mob-nav-label">Чат</span>
     </a>
 </nav>
 
 <script>
-/* тФАтФАтФА DASHBOARD JS тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА */
+/* ─── DASHBOARD JS ──────────────────────────────── */
 
 const API_BASE = (() => {
     const params = new URLSearchParams(window.location.search);
@@ -885,22 +1000,22 @@ function addAdminRecord(key, payload) {
     setStorageArray(key, items.slice(0, 300));
 }
 
-// ╨Ч╨░╨│╤А╤Г╨╖╨║╨░ ╨┤╨░╨╜╨╜╤Л╤Е ╨┐╨╛╨╗╤М╨╖╨╛╨▓╨░╤В╨╡╨╗╤П
+// Загрузка данных пользователя
 function loadUser() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const name = userData.name || localStorage.getItem('userName') || '╨У╨╛╤Б╤В╤М';
+    const name = userData.name || localStorage.getItem('userName') || 'Гость';
     const trainingState = localStorage.getItem('trainingState') || 'not_paid';
-    const trainingLabel = trainingState === 'accepted' ? '╨╖╨░╤З╨╕╤Б╨╗╨╡╨╜' : (trainingState === 'waitlist' ? '╨╗╨╕╤Б╤В ╨╛╨╢╨╕╨┤╨░╨╜╨╕╤П' : '╨╜╨╡ ╨╛╨┐╨╗╨░╤З╨╡╨╜╨╛');
+    const trainingLabel = trainingState === 'accepted' ? 'зачислен' : (trainingState === 'waitlist' ? 'лист ожидания' : 'не оплачено');
 
     const initial = name.charAt(0).toUpperCase();
     document.getElementById('sidebarAvatar').textContent = initial;
     document.getElementById('sidebarName').textContent = name;
-    document.getElementById('sidebarPlan').textContent = 'тАФ ╨Ю╨▒╤Г╤З╨╡╨╜╨╕╨╡: ' + trainingLabel + ' тАФ';
+    document.getElementById('sidebarPlan').textContent = '— Обучение: ' + trainingLabel + ' —';
     document.getElementById('profileAvatarBig').textContent = initial;
     document.getElementById('profileDisplayName').textContent = name;
     document.getElementById('overviewPlan').textContent = trainingLabel;
-    document.getElementById('overviewPlanCard').textContent = '╨б╤В╨░╤В╤Г╤Б: ' + trainingLabel;
-    document.getElementById('currentPlanName').textContent = '╨Я╤А╨╛╨│╤А╨░╨╝╨╝╨░ ┬л╨Я╤А╨░╨║╤В╨╕╨║ ╨Ь╨░╤В╤А╨╕╤Ж╤Л┬╗';
+    document.getElementById('overviewPlanCard').textContent = 'Статус: ' + trainingLabel;
+    document.getElementById('currentPlanName').textContent = 'Программа «Практик Матрицы»';
     document.getElementById('currentPlanPrice').textContent = trainingPrice;
 }
 
@@ -921,14 +1036,14 @@ async function loadTrainingStatus() {
         document.getElementById('trainingWaiting').textContent = String(waiting);
         document.getElementById('trainingProgress').style.width = progress + '%';
         document.getElementById('trainingPageProgress').style.width = progress + '%';
-        document.getElementById('trainingProgressText').textContent = accepted + ' ╨╕╨╖ ' + capacity + ' ╨╝╨╡╤Б╤В ╨╖╨░╨╜╤П╤В╨╛';
-        document.getElementById('trainingPageProgressText').textContent = accepted + ' ╨╕╨╖ ' + capacity + ' ╨╝╨╡╤Б╤В ╨╖╨░╨╜╤П╤В╨╛';
+        document.getElementById('trainingProgressText').textContent = accepted + ' из ' + capacity + ' мест занято';
+        document.getElementById('trainingPageProgressText').textContent = accepted + ' из ' + capacity + ' мест занято';
     } catch (error) {
-        showNotify('╨Э╨╡ ╤Г╨┤╨░╨╗╨╛╤Б╤М ╨╖╨░╨│╤А╤Г╨╖╨╕╤В╤М ╤Б╤В╨░╤В╤Г╤Б ╨╛╨▒╤Г╤З╨╡╨╜╨╕╤П', 'error');
+        showNotify('Не удалось загрузить статус обучения', 'error');
     }
 }
 
-// ╨г╨┐╤А╨░╨▓╨╗╨╡╨╜╨╕╨╡ ╤Б╨░╨╣╨┤╨▒╨░╤А╨╛╨╝ ╨╜╨░ ╨╝╨╛╨▒╨╕╨╗╤М╨╜╨╛╨╝
+// Управление сайдбаром на мобильном
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
@@ -950,7 +1065,7 @@ function closeSidebar() {
     document.getElementById('sidebarOverlay').classList.remove('active');
 }
 
-// Swipe ╨▓╨╗╨╡╨▓╨╛ ╤З╤В╨╛╨▒╤Л ╨╖╨░╨║╤А╤Л╤В╤М ╤Б╨░╨╣╨┤╨▒╨░╤А
+// Swipe влево чтобы закрыть сайдбар
 (function () {
     let touchStartX = 0;
     let touchStartY = 0;
@@ -969,7 +1084,7 @@ function closeSidebar() {
     }, { passive: true });
 })();
 
-// ╨Э╨░╨▓╨╕╨│╨░╤Ж╨╕╤П ╨╝╨╡╨╢╨┤╤Г ╤Б╤В╤А╨░╨╜╨╕╤Ж╨░╨╝╨╕
+// Навигация между страницами
 function showPage(pageId, linkEl) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
@@ -986,14 +1101,14 @@ function showPage(pageId, linkEl) {
     localStorage.setItem('dashboard_page', pageId);
 
     const titles = {
-        overview: ['╨Ю╨▒╨╖╨╛╤А', '╨б╨▓╨╛╨┤╨╜╨░╤П ╨╕╨╜╤Д╨╛╤А╨╝╨░╤Ж╨╕╤П ╨┐╨╛ ╨▓╨░╤И╨╡╨╝╤Г ╨║╨░╨▒╨╕╨╜╨╡╤В╤Г'],
-        profile: ['╨Ь╨╛╨╣ ╨┐╤А╨╛╤Д╨╕╨╗╤М', '╨Ы╨╕╤З╨╜╤Л╨╡ ╨┤╨░╨╜╨╜╤Л╨╡ ╨╕ ╨║╨╛╨╜╤В╨░╨║╤В╤Л'],
-        shop: ['╨Ь╨░╨│╨░╨╖╨╕╨╜', '╨Р╤А╤В╨╡╤Д╨░╨║╤В╤Л ╨╕ ╤А╨╕╤В╤Г╨░╨╗╤М╨╜╤Л╨╡ ╨╜╨░╨▒╨╛╤А╤Л ╨▓ ╨║╨░╨▒╨╕╨╜╨╡╤В╨╡'],
-        sessions: ['╨Ь╨╛╨╕ ╤Б╨╡╨░╨╜╤Б╤Л', '╨Я╤А╨╡╨┤╤Б╤В╨╛╤П╤Й╨╕╨╡ ╨▓╤Б╤В╤А╨╡╤З╨╕ ╨╕ ╨╕╤Б╤В╨╛╤А╨╕╤П'],
-        booking: ['╨Э╨╛╨▓╨░╤П ╨╖╨░╨┐╨╕╤Б╤М', '╨Ч╨░╨┐╨╕╤И╨╕╤В╨╡╤Б╤М ╨╜╨░ ╨┐╤А╨╕╨╡╨╝'],
-        subscription: ['╨Ю╨▒╤Г╤З╨╡╨╜╨╕╨╡', '╨Ю╨┐╨╗╨░╤В╨░, ╨╗╨╕╨╝╨╕╤В ╨╝╨╡╤Б╤В, ╨╗╨╕╤Б╤В ╨╛╨╢╨╕╨┤╨░╨╜╨╕╤П'],
-        messages: ['╨б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╤П', '╨Ф╨╕╨░╨╗╨╛╨│ ╨║╨╗╨╕╨╡╨╜╤В╨░ ╤Б ╨░╨┤╨╝╨╕╨╜╨╕╤Б╤В╤А╨░╤В╨╛╤А╨╛╨╝'],
-        settings: ['╨Э╨░╤Б╤В╤А╨╛╨╣╨║╨╕', '╨Я╨░╤А╨░╨╝╨╡╤В╤А╤Л ╨░╨║╨║╨░╤Г╨╜╤В╨░ ╨╕ ╤Г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╨╣']
+        overview: ['Обзор', 'Сводная информация по вашему кабинету'],
+        profile: ['Мой профиль', 'Личные данные и контакты'],
+        shop: ['Магазин', 'Артефакты и ритуальные наборы в кабинете'],
+        sessions: ['Мои сеансы', 'Предстоящие встречи и история'],
+        booking: ['Новая запись', 'Запишитесь на прием'],
+        subscription: ['Обучение', 'Оплата, лимит мест, лист ожидания'],
+        messages: ['Сообщения', 'Диалог клиента с администратором'],
+        settings: ['Настройки', 'Параметры аккаунта и уведомлений']
     };
     if (titles[pageId]) {
         document.getElementById('topbarTitle').textContent = titles[pageId][0];
@@ -1011,12 +1126,12 @@ function showPage(pageId, linkEl) {
     window.scrollTo(0, 0);
 }
 
-// ╨в╨╛╨║╨│╨╗╤Л ╨╜╨░╤Б╤В╤А╨╛╨╡╨║
+// Токглы настроек
 function toggleSetting(el) {
     el.classList.toggle('on');
 }
 
-// ╨б╨╛╤Е╤А╨░╨╜╨╡╨╜╨╕╨╡ ╨┐╤А╨╛╤Д╨╕╨╗╤П
+// Сохранение профиля
 function saveProfile(e) {
     e.preventDefault();
     const first = document.getElementById('profileFirstName').value;
@@ -1032,10 +1147,10 @@ function saveProfile(e) {
     userData.about = document.getElementById('profileAbout').value;
     localStorage.setItem('userData', JSON.stringify(userData));
     loadUser();
-    showNotify('╨Я╤А╨╛╤Д╨╕╨╗╤М ╤Г╤Б╨┐╨╡╤И╨╜╨╛ ╤Б╨╛╤Е╤А╨░╨╜╤С╨╜', 'success');
+    showNotify('Профиль успешно сохранён', 'success');
 }
 
-// ╨Ю╤В╨┐╤А╨░╨▓╨║╨░ ╨╖╨░╨┐╨╕╤Б╨╕
+// Отправка записи
 async function loadDashboardSlotHints() {
     const dateEl = document.getElementById('bkDate');
     const timeEl = document.getElementById('bkTime');
@@ -1054,15 +1169,15 @@ async function loadDashboardSlotHints() {
         const response = await fetch(API_BASE + '/api/bookings/slots?' + qs.toString());
         const data = await response.json();
         if (!response.ok || !data.ok) {
-            root.innerHTML = '<div class="empty">╨Э╨╡ ╤Г╨┤╨░╨╗╨╛╤Б╤М ╨╖╨░╨│╤А╤Г╨╖╨╕╤В╤М ╤Б╨▓╨╛╨▒╨╛╨┤╨╜╤Л╨╡ ╤Б╨╗╨╛╤В╤Л</div>';
+            root.innerHTML = '<div class="empty">Не удалось загрузить свободные слоты</div>';
             return;
         }
         const list = (data.available || []).slice(0, 10);
         if (!list.length) {
-            root.innerHTML = '<div class="empty">╨Э╨░ ╨▓╤Л╨▒╤А╨░╨╜╨╜╤Г╤О ╨┤╨░╤В╤Г ╨╜╨╡╤В ╤Б╨▓╨╛╨▒╨╛╨┤╨╜╤Л╤Е ╤Б╨╗╨╛╤В╨╛╨▓</div>';
+            root.innerHTML = '<div class="empty">На выбранную дату нет свободных слотов</div>';
             return;
         }
-        root.innerHTML = '<div class="slot-hint-title">╨б╨▓╨╛╨▒╨╛╨┤╨╜╤Л╨╡ ╤Б╨╗╨╛╤В╤Л:</div><div class="slot-chip-row">'
+        root.innerHTML = '<div class="slot-hint-title">Свободные слоты:</div><div class="slot-chip-row">'
             + list.map((t) => '<button type="button" class="slot-chip" data-time="' + t + '">' + t + '</button>').join('')
             + '</div>';
         root.querySelectorAll('.slot-chip').forEach((btn) => {
@@ -1073,7 +1188,7 @@ async function loadDashboardSlotHints() {
             });
         });
     } catch (error) {
-        root.innerHTML = '<div class="empty">╨б╨╡╤А╨▓╨╡╤А ╨╜╨╡╨┤╨╛╤Б╤В╤Г╨┐╨╡╨╜, ╨┐╨╛╨┤╤Б╨║╨░╨╖╨║╨╕ ╨▓╤А╨╡╨╝╨╡╨╜╨╕ ╨╛╤В╨║╨╗╤О╤З╨╡╨╜╤Л</div>';
+        root.innerHTML = '<div class="empty">Сервер недоступен, подсказки времени отключены</div>';
     }
 }
 
@@ -1096,7 +1211,7 @@ async function submitBooking(e) {
         });
         const data = await response.json();
         if (!response.ok) {
-            const m = data.suggestedTime ? ((data.message || '╨н╤В╨╛ ╨▓╤А╨╡╨╝╤П ╨╖╨░╨╜╤П╤В╨╛') + ' ╨а╨╡╨║╨╛╨╝╨╡╨╜╨┤╤Г╨╡╨╝: ' + data.suggestedTime) : (data.message || '╨Ю╤И╨╕╨▒╨║╨░ ╨╖╨░╨┐╨╕╤Б╨╕');
+            const m = data.suggestedTime ? ((data.message || 'Это время занято') + ' Рекомендуем: ' + data.suggestedTime) : (data.message || 'Ошибка записи');
             showNotify(m, 'error');
             if (data.suggestedTime) {
                 document.getElementById('bkTime').value = data.suggestedTime;
@@ -1106,19 +1221,19 @@ async function submitBooking(e) {
         }
 
         addAdminRecord('bookings', { name, email, service, date, time, format, source: 'dashboard-booking-api' });
-        showNotify('ЁЯЧУ ╨Ч╨░╨┐╨╕╤Б╤М ╤Б╨╛╨╖╨┤╨░╨╜╨░! ╨г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╨╡ ╨╛╤В╨┐╤А╨░╨▓╨╗╨╡╨╜╨╛ ╨╜╨░ ╨┐╨╛╤З╤В╤Г.', 'success');
+        showNotify('🗓 Запись создана! Уведомление отправлено на почту.', 'success');
         e.target.reset();
         const slotRoot = document.getElementById('dashboardBookingSlots');
         if (slotRoot) slotRoot.innerHTML = '';
     } catch (error) {
-        showNotify('╨б╨╡╤А╨▓╨╡╤А ╨╖╨░╨┐╨╕╤Б╨╕ ╨╜╨╡╨┤╨╛╤Б╤В╤Г╨┐╨╡╨╜', 'error');
+        showNotify('Сервер записи недоступен', 'error');
     }
 }
 
-// ╨б╨╝╨╡╨╜╨░ ╨┐╨░╤А╨╛╨╗╤П
+// Смена пароля
 function changePassword(e) {
     e.preventDefault();
-    showNotify('╨Я╨░╤А╨╛╨╗╤М ╤Г╤Б╨┐╨╡╤И╨╜╨╛ ╨╕╨╖╨╝╨╡╨╜╤С╨╜', 'success');
+    showNotify('Пароль успешно изменён', 'success');
     e.target.reset();
 }
 
@@ -1133,21 +1248,21 @@ function openPaymentModal(config) {
 function startTrainingPayment() {
     openPaymentModal({
         kind: 'training',
-        title: '╨Ю╨┐╨╗╨░╤В╨░ ╨╛╨▒╤Г╤З╨╡╨╜╨╕╤П',
-        description: '╨Я╤А╨╛╨│╤А╨░╨╝╨╝╨░ ┬л╨Я╤А╨░╨║╤В╨╕╨║ ╨Ь╨░╤В╤А╨╕╤Ж╤Л┬╗ ┬╖ ' + trainingPrice + ' тВ╕',
+        title: 'Оплата обучения',
+        description: 'Программа «Практик Матрицы» · ' + trainingPrice + ' ₸',
         amount: 75000,
-        buttonLabel: '╨Ю╨┐╨╗╨░╤В╨╕╤В╤М ╨╕ ╨░╨║╤В╨╕╨▓╨╕╤А╨╛╨▓╨░╤В╤М'
+        buttonLabel: 'Оплатить и активировать'
     });
 }
 
 function startServicePayment(title, amount) {
     openPaymentModal({
         kind: 'consultation',
-        title: '╨Ю╨┐╨╗╨░╤В╨░ ╨║╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╨╕',
-        description: title + ' ┬╖ ' + amount.toLocaleString('ru-RU') + ' тВ╕',
+        title: 'Оплата консультации',
+        description: title + ' · ' + amount.toLocaleString('ru-RU') + ' ₸',
         itemTitle: title,
         amount,
-        buttonLabel: '╨Ю╨┐╨╗╨░╤В╨╕╤В╤М ╨║╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╤О'
+        buttonLabel: 'Оплатить консультацию'
     });
 }
 
@@ -1158,13 +1273,13 @@ function startProductPayment(button, title, amount) {
     const totalAmount = amount * quantity;
     openPaymentModal({
         kind: 'product',
-        title: '╨Ю╨┐╨╗╨░╤В╨░ ╤В╨╛╨▓╨░╤А╨░',
-        description: title + ' ┬╖ ' + quantity + ' ╤И╤В. ┬╖ ' + totalAmount.toLocaleString('ru-RU') + ' тВ╕',
+        title: 'Оплата товара',
+        description: title + ' · ' + quantity + ' шт. · ' + totalAmount.toLocaleString('ru-RU') + ' ₸',
         itemTitle: title,
         unitPrice: amount,
         quantity,
         amount: totalAmount,
-        buttonLabel: '╨Ю╨┐╨╗╨░╤В╨╕╤В╤М ╤В╨╛╨▓╨░╤А'
+        buttonLabel: 'Оплатить товар'
     });
 }
 
@@ -1177,7 +1292,7 @@ function closePaymentModal() {
 async function confirmPayment(e) {
     e.preventDefault();
     if (!paymentContext) {
-        showNotify('╨Я╨╗╨░╤В╨╡╨╢ ╨╜╨╡ ╨╕╨╜╨╕╤Ж╨╕╨░╨╗╨╕╨╖╨╕╤А╨╛╨▓╨░╨╜', 'error');
+        showNotify('Платеж не инициализирован', 'error');
         return;
     }
 
@@ -1187,25 +1302,25 @@ async function confirmPayment(e) {
     const holder = document.getElementById('payHolder').value.trim();
 
     if (card.length < 16 || !/^\d+$/.test(card)) {
-        showNotify('╨Я╤А╨╛╨▓╨╡╤А╤М╤В╨╡ ╨╜╨╛╨╝╨╡╤А ╨║╨░╤А╤В╤Л', 'error');
+        showNotify('Проверьте номер карты', 'error');
         return;
     }
     if (!/^\d{2}\/\d{2}$/.test(exp)) {
-        showNotify('╨б╤А╨╛╨║ ╨║╨░╤А╤В╤Л ╨┤╨╛╨╗╨╢╨╡╨╜ ╨▒╤Л╤В╤М ╨▓ ╤Д╨╛╤А╨╝╨░╤В╨╡ MM/YY', 'error');
+        showNotify('Срок карты должен быть в формате MM/YY', 'error');
         return;
     }
     if (!/^\d{3,4}$/.test(cvv) || !holder) {
-        showNotify('╨Я╤А╨╛╨▓╨╡╤А╤М╤В╨╡ CVV ╨╕ ╨╕╨╝╤П ╨▓╨╗╨░╨┤╨╡╨╗╤М╤Ж╨░', 'error');
+        showNotify('Проверьте CVV и имя владельца', 'error');
         return;
     }
 
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const name = (localStorage.getItem('userName') || userData.name || holder || '╨г╤З╨╡╨╜╨╕╨║').trim();
+    const name = (localStorage.getItem('userName') || userData.name || holder || 'Ученик').trim();
     const email = (userData.email || localStorage.getItem('userEmail') || '').trim();
     const phone = (userData.phone || '').trim();
 
     if (!email) {
-        showNotify('╨Ф╨╗╤П ╨╛╨┐╨╗╨░╤В╤Л ╨┤╨╛╨▒╨░╨▓╤М╤В╨╡ email ╨▓ ╨┐╤А╨╛╤Д╨╕╨╗╨╡', 'error');
+        showNotify('Для оплаты добавьте email в профиле', 'error');
         return;
     }
 
@@ -1224,7 +1339,7 @@ async function confirmPayment(e) {
         });
         const verifyData = await verifyResponse.json();
         if (!verifyResponse.ok || !verifyData.ok) {
-            showNotify(verifyData.message || '╨Я╨╗╨░╤В╨╡╨╢ ╨╜╨╡ ╨┐╨╛╨┤╤В╨▓╨╡╤А╨╢╨┤╨╡╨╜', 'error');
+            showNotify(verifyData.message || 'Платеж не подтвержден', 'error');
             return;
         }
 
@@ -1238,7 +1353,7 @@ async function confirmPayment(e) {
             });
             const data = await response.json();
             if (!response.ok) {
-                showNotify(data.message || '╨Э╨╡ ╤Г╨┤╨░╨╗╨╛╤Б╤М ╨┐╨╛╨┤╤В╨▓╨╡╤А╨┤╨╕╤В╤М ╨╛╨┐╨╗╨░╤В╤Г', 'error');
+                showNotify(data.message || 'Не удалось подтвердить оплату', 'error');
                 return;
             }
 
@@ -1248,16 +1363,16 @@ async function confirmPayment(e) {
 
             addAdminRecord('payments', {
                 purpose: 'training',
-                amount: trainingPrice + ' тВ╕',
+                amount: trainingPrice + ' ₸',
                 status: 'paid',
                 paymentId,
                 maskedCard: '**** **** **** ' + card.slice(-4)
             });
 
             if (data.status === 'waitlist') {
-                showNotify('╨Ю╨┐╨╗╨░╤В╨░ ╨┐╤А╨╕╨╜╤П╤В╨░. ╨Ь╨╡╤Б╤В╨░ ╨╖╨░╨╜╤П╤В╤Л, ╨▓╤Л ╨▓ ╨╗╨╕╤Б╤В╨╡ ╨╛╨╢╨╕╨┤╨░╨╜╨╕╤П.', 'success');
+                showNotify('Оплата принята. Места заняты, вы в листе ожидания.', 'success');
             } else {
-                showNotify('╨Ю╨┐╨╗╨░╤В╨░ ╨┐╨╛╨┤╤В╨▓╨╡╤А╨╢╨┤╨╡╨╜╨░. ╨Т╤Л ╨╖╨░╤З╨╕╤Б╨╗╨╡╨╜╤Л ╨▓ ╨╛╨▒╤Г╤З╨╡╨╜╨╕╨╡!', 'success');
+                showNotify('Оплата подтверждена. Вы зачислены в обучение!', 'success');
             }
             closePaymentModal();
             return;
@@ -1281,7 +1396,7 @@ async function confirmPayment(e) {
         });
         const data = await response.json();
         if (!response.ok || !data.ok) {
-            showNotify(data.message || '╨Э╨╡ ╤Г╨┤╨░╨╗╨╛╤Б╤М ╨┐╨╛╨┤╤В╨▓╨╡╤А╨┤╨╕╤В╤М ╨╛╨┐╨╗╨░╤В╤Г', 'error');
+            showNotify(data.message || 'Не удалось подтвердить оплату', 'error');
             return;
         }
 
@@ -1289,7 +1404,7 @@ async function confirmPayment(e) {
             purpose: paymentContext.kind,
             title: paymentContext.itemTitle,
             quantity: paymentContext.quantity || 1,
-            amount: paymentContext.amount.toLocaleString('ru-RU') + ' тВ╕',
+            amount: paymentContext.amount.toLocaleString('ru-RU') + ' ₸',
             status: 'paid',
             paymentId,
             maskedCard: '**** **** **** ' + card.slice(-4)
@@ -1305,52 +1420,52 @@ async function confirmPayment(e) {
         });
 
         if (paymentContext.kind === 'consultation') {
-            showNotify('ЁЯТм ╨Ю╨┐╨╗╨░╤В╨░ ╨║╨╛╨╜╤Б╤Г╨╗╤М╤В╨░╤Ж╨╕╨╕ ╨┐╤А╨╕╨╜╤П╤В╨░! ╨Р╨┤╨╝╨╕╨╜╨╕╤Б╤В╤А╨░╤В╨╛╤А ╤Б╨▓╤П╨╢╨╡╤В╤Б╤П ╨┤╨╗╤П ╤Б╨╛╨│╨╗╨░╤Б╨╛╨▓╨░╨╜╨╕╤П ╨▓╤А╨╡╨╝╨╡╨╜╨╕.', 'success');
+            showNotify('💬 Оплата консультации принята! Администратор свяжется для согласования времени.', 'success');
         } else {
-            showNotify('ЁЯЫТ ╨Ю╨┐╨╗╨░╤В╨░ ╨┐╤А╨╕╨╜╤П╤В╨░! ╨в╨╛╨▓╨░╤А: ' + paymentContext.itemTitle + ' ├Ч ' + (paymentContext.quantity || 1) + '.', 'success');
+            showNotify('🛒 Оплата принята! Товар: ' + paymentContext.itemTitle + ' × ' + (paymentContext.quantity || 1) + '.', 'success');
         }
         closePaymentModal();
     } catch (error) {
-        showNotify('╨б╨╡╤А╨▓╨╡╤А ╨╛╨┐╨╗╨░╤В╤Л ╨╜╨╡╨┤╨╛╤Б╤В╤Г╨┐╨╡╨╜', 'error');
+        showNotify('Сервер оплаты недоступен', 'error');
     }
 }
 
-// ╨Я╨╛╨┤╤В╨▓╨╡╤А╨╢╨┤╨╡╨╜╨╕╨╡ ╤Г╨┤╨░╨╗╨╡╨╜╨╕╤П ╨░╨║╨║╨░╤Г╨╜╤В╨░
+// Подтверждение удаления аккаунта
 function confirmDeleteAccount() {
-    if (confirm('╨Т╤Л ╤Г╨▓╨╡╤А╨╡╨╜╤Л? ╨Т╤Б╨╡ ╨┤╨░╨╜╨╜╤Л╨╡ ╨▒╤Г╨┤╤Г╤В ╤Г╨┤╨░╨╗╨╡╨╜╤Л ╨▒╨╡╨╖ ╨▓╨╛╨╖╨╝╨╛╨╢╨╜╨╛╤Б╤В╨╕ ╨▓╨╛╤Б╤Б╤В╨░╨╜╨╛╨▓╨╗╨╡╨╜╨╕╤П.')) {
+    if (confirm('Вы уверены? Все данные будут удалены без возможности восстановления.')) {
         localStorage.clear();
         window.location.href = 'index.html';
     }
 }
 
-// ╨Т╤Л╤Е╨╛╨┤
+// Выход
 function dashLogout() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userName');
     window.location.href = 'index.html';
 }
 
-/* тФАтФА ╨б╨╡╨░╨╜╤Б╤Л: ╤А╨╡╨░╨╗╤М╨╜╤Л╨╡ ╨┤╨░╨╜╨╜╤Л╨╡ ╤Б API тФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФАтФА */
+/* ── Сеансы: реальные данные с API ─────────────── */
 const SESSION_ICONS = {
-    '╤В╨░╤А╨╛': 'ЁЯФо', '╨░╤Б╤В╤А╨╛': 'тШ╜', '╤А╨╡╨╣╨║╨╕': 'тЬж', '╤Н╨╜╨╡╤А╨│': 'тЧИ',
-    '╨┤╤Г╤Е╨╛╨▓╨╜': 'тмб', '╨║╨╛╨╜╤В╨░╨║╤В': 'тЬ║', '╨╝╨░╤В╤А╨╕╤Ж': 'тЬ║'
+    'таро': '🔮', 'астро': '☽', 'рейки': '✦', 'энерг': '◈',
+    'духовн': '⬡', 'контакт': '✺', 'матриц': '✺'
 };
 function sessionIcon(service) {
     const s = (service || '').toLowerCase();
     for (const [key, ico] of Object.entries(SESSION_ICONS)) {
         if (s.includes(key)) return ico;
     }
-    return 'тЧЗ';
+    return '◇';
 }
 
 function renderSessionItem(item, showStatus) {
-    const fmt = item.format ? ' ┬╖ ' + item.format : '';
+    const fmt = item.format ? ' · ' + item.format : '';
     const cancelBtn = showStatus && item.id
-        ? `<button class="btn-cancel-session" onclick="cancelBooking(${item.id}, this)" title="╨Ю╤В╨╝╨╡╨╜╨╕╤В╤М ╨╖╨░╨┐╨╕╤Б╤М">тЬХ ╨Ю╤В╨╝╨╡╨╜╨╕╤В╤М</button>`
+        ? `<button class="btn-cancel-session" onclick="cancelBooking(${item.id}, this)" title="Отменить запись">✕ Отменить</button>`
         : '';
     const status = showStatus
-        ? '<span class="session-status status-upcoming">╨Я╤А╨╡╨┤╤Б╤В╨╛╨╕╤В</span>'
-        : '<span class="session-status status-done">╨Ч╨░╨▓╨╡╤А╤И╤С╨╜</span>';
+        ? '<span class="session-status status-upcoming">Предстоит</span>'
+        : '<span class="session-status status-done">Завершён</span>';
     return `<div class="session-item" data-booking-id="${item.id || ''}">
         <div class="session-left">
             <div class="session-icon">${sessionIcon(item.service)}</div>
@@ -1367,7 +1482,7 @@ function renderSessionItem(item, showStatus) {
 }
 
 async function cancelBooking(bookingId, btn) {
-    if (!confirm('╨Ю╤В╨╝╨╡╨╜╨╕╤В╤М ╤Н╤В╤Г ╨╖╨░╨┐╨╕╤Б╤М?')) return;
+    if (!confirm('Отменить эту запись?')) return;
     const orig = btn.textContent;
     btn.disabled = true;
     btn.textContent = '...';
@@ -1387,14 +1502,14 @@ async function cancelBooking(bookingId, btn) {
                 item.style.opacity = '0';
                 setTimeout(() => item.remove(), 300);
             }
-            showNotify('тЬЕ ╨Ч╨░╨┐╨╕╤Б╤М ╨╛╤В╨╝╨╡╨╜╨╡╨╜╨░', 'success');
+            showNotify('✅ Запись отменена', 'success');
         } else {
-            showNotify(data.message || '╨Э╨╡ ╤Г╨┤╨░╨╗╨╛╤Б╤М ╨╛╤В╨╝╨╡╨╜╨╕╤В╤М', 'error');
+            showNotify(data.message || 'Не удалось отменить', 'error');
             btn.disabled = false;
             btn.textContent = orig;
         }
     } catch {
-        showNotify('╨б╨╡╤А╨▓╨╡╤А ╨╜╨╡╨┤╨╛╤Б╤В╤Г╨┐╨╡╨╜', 'error');
+        showNotify('Сервер недоступен', 'error');
         btn.disabled = false;
         btn.textContent = orig;
     }
@@ -1411,7 +1526,7 @@ async function loadSessions() {
     const notifyText  = document.getElementById('sessionsNotifyText');
 
     if (!email) {
-        const msg = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">╨Ф╨╛╨▒╨░╨▓╤М╤В╨╡ email ╨▓ ╨┐╤А╨╛╤Д╨╕╨╗╨╡ ╨┤╨╗╤П ╨╛╤В╨╛╨▒╤А╨░╨╢╨╡╨╜╨╕╤П ╤Б╨╡╨░╨╜╤Б╨╛╨▓</div>';
+        const msg = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Добавьте email в профиле для отображения сеансов</div>';
         if (upcomingEl) upcomingEl.innerHTML = msg;
         if (pastEl)     pastEl.innerHTML     = msg;
         return;
@@ -1421,39 +1536,39 @@ async function loadSessions() {
         const res  = await fetch(API_BASE + '/api/bookings?email=' + encodeURIComponent(email));
         const data = await res.json();
         if (!res.ok || !data.ok) {
-            const err = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">╨Э╨╡ ╤Г╨┤╨░╨╗╨╛╤Б╤М ╨╖╨░╨│╤А╤Г╨╖╨╕╤В╤М ╨┤╨░╨╜╨╜╤Л╨╡</div>';
+            const err = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Не удалось загрузить данные</div>';
             if (upcomingEl) upcomingEl.innerHTML = err;
             if (pastEl)     pastEl.innerHTML     = err;
             return;
         }
 
-        // ╨Я╤А╨╡╨┤╤Б╤В╨╛╤П╤Й╨╕╨╡
+        // Предстоящие
         if (upcomingEl) {
             upcomingEl.innerHTML = data.upcoming.length
                 ? data.upcoming.map(i => renderSessionItem(i, true)).join('')
-                : '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">╨Э╨╡╤В ╨┐╤А╨╡╨┤╤Б╤В╨╛╤П╤Й╨╕╤Е ╤Б╨╡╨░╨╜╤Б╨╛╨▓</div>';
+                : '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Нет предстоящих сеансов</div>';
         }
 
-        // ╨Я╤А╨╛╤И╨╡╨┤╤И╨╕╨╡
+        // Прошедшие
         if (pastEl) {
             pastEl.innerHTML = data.past.length
                 ? data.past.map(i => renderSessionItem(i, false)).join('')
-                : '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">╨Ш╤Б╤В╨╛╤А╨╕╤П ╨┐╤Г╤Б╤В╨░</div>';
+                : '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">История пуста</div>';
         }
 
-        // ╨г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╨╡ ╤Б╨▓╨╡╤А╤Е╤Г
+        // Уведомление сверху
         if (notifyEl) {
             if (data.upcoming.length > 0) {
                 const next = data.upcoming[0];
-                notifyTitle.textContent = `╨Я╤А╨╡╨┤╤Б╤В╨╛╨╕╤В ${data.upcoming.length} ╤Б╨╡╨░╨╜╤Б${data.upcoming.length > 1 ? '╨░' : ''}`;
-                notifyText.textContent  = `╨С╨╗╨╕╨╢╨░╨╣╤И╨╕╨╣ тАФ ${next.booking_at} ┬╖ ${next.service}`;
+                notifyTitle.textContent = `Предстоит ${data.upcoming.length} сеанс${data.upcoming.length > 1 ? 'а' : ''}`;
+                notifyText.textContent  = `Ближайший — ${next.booking_at} · ${next.service}`;
                 notifyEl.style.display  = 'flex';
             } else {
                 notifyEl.style.display  = 'none';
             }
         }
     } catch {
-        const err = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">╨б╨╡╤А╨▓╨╡╤А ╨╜╨╡╨┤╨╛╤Б╤В╤Г╨┐╨╡╨╜</div>';
+        const err = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Сервер недоступен</div>';
         if (upcomingEl) upcomingEl.innerHTML = err;
         if (pastEl)     pastEl.innerHTML     = err;
     }
@@ -1466,7 +1581,7 @@ async function loadOverviewSessions() {
     const pastEl = document.getElementById('overviewPastList');
 
     if (!email) {
-        const msg = '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">╨Ф╨╛╨▒╨░╨▓╤М╤В╨╡ email ╨▓ ╨┐╤А╨╛╤Д╨╕╨╗╨╡</div>';
+        const msg = '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Добавьте email в профиле</div>';
         if (upEl)   upEl.innerHTML   = msg;
         if (pastEl) pastEl.innerHTML = msg;
         return;
@@ -1480,18 +1595,18 @@ async function loadOverviewSessions() {
         if (upEl) {
             upEl.innerHTML = data.upcoming.length
                 ? data.upcoming.slice(0, 3).map(i => renderSessionItem(i, true)).join('')
-                : '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">╨Э╨╡╤В ╨┐╤А╨╡╨┤╤Б╤В╨╛╤П╤Й╨╕╤Е ╤Б╨╡╨░╨╜╤Б╨╛╨▓</div>';
+                : '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Нет предстоящих сеансов</div>';
         }
         if (pastEl) {
             pastEl.innerHTML = data.past.length
                 ? data.past.slice(0, 3).map(i => renderSessionItem(i, false)).join('')
-                : '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">╨Ш╤Б╤В╨╛╤А╨╕╤П ╨┐╤Г╤Б╤В╨░</div>';
+                : '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">История пуста</div>';
         }
 
-        // KPI "╨Т╤Б╨╡╨│╨╛ ╤Б╨╡╨░╨╜╤Б╨╛╨▓"
+        // KPI "Всего сеансов"
         const kpiEl = document.querySelector('.kpi-value.purple');
         if (kpiEl) kpiEl.textContent = data.upcoming.length + data.past.length;
-    } catch { /* ╤В╨╕╤Е╨╛ */ }
+    } catch { /* тихо */ }
 }
 
 async function loadClientMessages() {
@@ -1502,7 +1617,7 @@ async function loadClientMessages() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
     if (!email) {
-        root.innerHTML = '<div class="empty">╨Ф╨╛╨▒╨░╨▓╤М╤В╨╡ email ╨▓ ╨┐╤А╨╛╤Д╨╕╨╗╨╡, ╤З╤В╨╛╨▒╤Л ╨┐╨╛╨╗╤М╨╖╨╛╨▓╨░╤В╤М╤Б╤П ╤Б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╤П╨╝╨╕</div>';
+        root.innerHTML = '<div class="empty">Добавьте email в профиле, чтобы пользоваться сообщениями</div>';
         return;
     }
 
@@ -1510,23 +1625,23 @@ async function loadClientMessages() {
         const response = await fetch(API_BASE + '/api/messages/inbox?email=' + encodeURIComponent(email));
         const data = await response.json();
         if (!response.ok || !data.ok) {
-            root.innerHTML = '<div class="empty">╨Э╨╡ ╤Г╨┤╨░╨╗╨╛╤Б╤М ╨╖╨░╨│╤А╤Г╨╖╨╕╤В╤М ╤Б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╤П</div>';
+            root.innerHTML = '<div class="empty">Не удалось загрузить сообщения</div>';
             return;
         }
         const messages = data.messages || [];
         if (!messages.length) {
-            root.innerHTML = '<div class="empty">╨Я╨╛╨║╨░ ╨╜╨╡╤В ╤Б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╨╣</div>';
+            root.innerHTML = '<div class="empty">Пока нет сообщений</div>';
             return;
         }
 
         root.innerHTML = messages.map((m) => {
             const fromAdmin = m.sender_role === 'admin';
-            const label = fromAdmin ? '╨Р╨┤╨╝╨╕╨╜╨╕╤Б╤В╤А╨░╤В╨╛╤А' : '╨Т╤Л';
+            const label = fromAdmin ? 'Администратор' : 'Вы';
             const date = new Date(m.created_at).toLocaleString('ru-RU');
             const subj = m.subject ? ('<div style="font-size:12px;color:var(--t3);margin-top:4px">' + m.subject + '</div>') : '';
             return '<div class="session-item">'
                 + '<div class="session-left">'
-                + '<div class="session-icon">' + (fromAdmin ? 'тЬЙ' : 'тЧИ') + '</div>'
+                + '<div class="session-icon">' + (fromAdmin ? '✉' : '◈') + '</div>'
                 + '<div>'
                 + '<div class="session-name">' + label + '</div>'
                 + subj
@@ -1537,9 +1652,9 @@ async function loadClientMessages() {
                 + '</div>';
         }).join('');
     } catch (error) {
-        root.innerHTML = '<div class="empty">╨б╨╡╤А╨▓╨╡╤А ╨╜╨╡╨┤╨╛╤Б╤В╤Г╨┐╨╡╨╜</div>';
+        root.innerHTML = '<div class="empty">Сервер недоступен</div>';
     }
-    // ╨Ю╨▒╨╜╨╛╨▓╨╕╤В╤М ╤Б╤З╤С╤В╤З╨╕╨║ ╨╜╨╡╨┐╤А╨╛╤З╨╕╤В╨░╨╜╨╜╤Л╤Е
+    // Обновить счётчик непрочитанных
     updateUnreadBadge();
 }
 
@@ -1574,11 +1689,11 @@ async function sendClientReply(e) {
     const text = document.getElementById('clientReplyText').value.trim();
 
     if (!email) {
-        showNotify('╨Ф╨╛╨▒╨░╨▓╤М╤В╨╡ email ╨▓ ╨┐╤А╨╛╤Д╨╕╨╗╨╡', 'error');
+        showNotify('Добавьте email в профиле', 'error');
         return;
     }
     if (!text) {
-        showNotify('╨Т╨▓╨╡╨┤╨╕╤В╨╡ ╤Б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╨╡', 'error');
+        showNotify('Введите сообщение', 'error');
         return;
     }
 
@@ -1590,19 +1705,19 @@ async function sendClientReply(e) {
         });
         const data = await response.json();
         if (!response.ok || !data.ok) {
-            showNotify(data.message || '╨Э╨╡ ╤Г╨┤╨░╨╗╨╛╤Б╤М ╨╛╤В╨┐╤А╨░╨▓╨╕╤В╤М', 'error');
+            showNotify(data.message || 'Не удалось отправить', 'error');
             return;
         }
         document.getElementById('clientReplyText').value = '';
-        showNotify('╨б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╨╡ ╨╛╤В╨┐╤А╨░╨▓╨╗╨╡╨╜╨╛ ╨░╨┤╨╝╨╕╨╜╨╕╤Б╤В╤А╨░╤В╨╛╤А╤Г', 'success');
+        showNotify('Сообщение отправлено администратору', 'success');
         await loadClientMessages();
     } catch (error) {
-        showNotify('╨б╨╡╤А╨▓╨╡╤А ╨╜╨╡╨┤╨╛╤Б╤В╤Г╨┐╨╡╨╜', 'error');
+        showNotify('Сервер недоступен', 'error');
     }
 }
 
-// ╨г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╨╡
-/* тФАтФА Toast-╤Г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╤П тФАтФА */
+// Уведомление
+/* ── Toast-уведомления ── */
 (function () {
     if (document.getElementById('_toastStyles')) return;
     const s = document.createElement('style');
@@ -1639,7 +1754,7 @@ async function sendClientReply(e) {
 })();
 
 function showNotify(msg, type = 'success') {
-    const icons = { success: 'тЬЕ', error: 'тЭМ', info: 'тД╣я╕П' };
+    const icons = { success: '✅', error: '❌', info: 'ℹ️' };
     let container = document.getElementById('_toastContainer');
     if (!container) {
         container = document.createElement('div');
@@ -1652,7 +1767,7 @@ function showNotify(msg, type = 'success') {
     toast.innerHTML = `
         <span class="toast-icon">${icons[type] || icons.info}</span>
         <span class="toast-msg">${msg}</span>
-        <button class="toast-close" aria-label="╨Ч╨░╨║╤А╤Л╤В╤М">тЬХ</button>
+        <button class="toast-close" aria-label="Закрыть">✕</button>
         <div class="toast-bar"></div>
     `;
 
@@ -1667,7 +1782,7 @@ function showNotify(msg, type = 'success') {
     setTimeout(dismiss, 4000);
 }
 
-// ╨Т╤Л╨▒╨╛╤А ╤В╨╡╨╝╤Л ╨▓ ╨╜╨░╤Б╤В╤А╨╛╨╣╨║╨░╤Е ╨║╨░╨▒╨╕╨╜╨╡╤В╨░
+// Выбор темы в настройках кабинета
 function selectDashboardTheme(theme) {
     const themes = ['ritual', 'oracle'];
     if (!themes.includes(theme)) theme = 'ritual';
@@ -1678,7 +1793,7 @@ function selectDashboardTheme(theme) {
     const card = document.getElementById('theme-card-' + theme);
     if (card) card.classList.add('active');
     updateThemeToggleBtn('dark');
-    showNotify(theme === 'ritual' ? '╨в╨╡╨╝╨░: Ritual Night' : '╨в╨╡╨╝╨░: Crystal Oracle', 'success');
+    showNotify(theme === 'ritual' ? 'Тема: Ritual Night' : 'Тема: Crystal Oracle', 'success');
 }
 
 function initDashboardThemeCards() {
@@ -1703,13 +1818,13 @@ function toggleDashTheme() {
         localStorage.setItem('colorMode', 'light');
         document.documentElement.setAttribute('data-theme', 'light');
         updateThemeToggleBtn('light');
-        showNotify('тШАя╕П ╨б╨▓╨╡╤В╨╗╨░╤П ╤В╨╡╨╝╨░ ╨▓╨║╨╗╤О╤З╨╡╨╜╨░', 'info');
+        showNotify('☀️ Светлая тема включена', 'info');
     } else {
         const savedDark = localStorage.getItem('theme') || 'ritual';
         localStorage.setItem('colorMode', 'dark');
         document.documentElement.setAttribute('data-theme', savedDark);
         updateThemeToggleBtn('dark');
-        showNotify('ЁЯМЩ ╨в╤С╨╝╨╜╨░╤П ╤В╨╡╨╝╨░ ╨▓╨║╨╗╤О╤З╨╡╨╜╨░', 'info');
+        showNotify('🌙 Тёмная тема включена', 'info');
     }
 }
 
@@ -1718,15 +1833,15 @@ function updateThemeToggleBtn(mode) {
     const label = document.getElementById('themeToggleLabel');
     if (!icon || !label) return;
     if (mode === 'light') {
-        icon.textContent = 'ЁЯМЩ';
-        label.textContent = '╨в╤С╨╝╨╜╨░╤П';
+        icon.textContent = '🌙';
+        label.textContent = 'Тёмная';
     } else {
-        icon.textContent = 'тШАя╕П';
-        label.textContent = '╨б╨▓╨╡╤В╨╗╨░╤П';
+        icon.textContent = '☀️';
+        label.textContent = 'Светлая';
     }
 }
 
-// ╨Я╤А╨╛╨▓╨╡╤А╨║╨░ ╨░╨▓╤В╨╛╤А╨╕╨╖╨░╤Ж╨╕╨╕
+// Проверка авторизации
 function checkAuth() {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     if (!isLoggedIn) {
@@ -1734,7 +1849,7 @@ function checkAuth() {
     }
 }
 
-// ╨Ш╨╜╨╕╤Ж╨╕╨░╨╗╨╕╨╖╨░╤Ж╨╕╤П
+// Инициализация
 window.addEventListener('DOMContentLoaded', () => {
     checkAuth();
     loadUser();
@@ -1748,9 +1863,9 @@ window.addEventListener('DOMContentLoaded', () => {
     if (timeEl) timeEl.addEventListener('change', loadDashboardSlotHints);
 
     updateUnreadBadge();
-    setInterval(updateUnreadBadge, 60000); // ╨┐╤А╨╛╨▓╨╡╤А╤П╤В╤М ╨║╨░╨╢╨┤╤Г╤О ╨╝╨╕╨╜╤Г╤В╤Г
+    setInterval(updateUnreadBadge, 60000); // проверять каждую минуту
 
-    // ╨Т╨╛╤Б╤Б╤В╨░╨╜╨╛╨▓╨╗╨╡╨╜╨╕╨╡ ╤Б╤В╤А╨░╨╜╨╕╤Ж╤Л ╨┐╨╛╤Б╨╗╨╡ ╨╛╨▒╨╜╨╛╨▓╨╗╨╡╨╜╨╕╤П: ╤Е╤Н╤И тЖТ localStorage тЖТ 'overview'
+    // Восстановление страницы после обновления: хэш → localStorage → 'overview'
     const hash = window.location.hash.replace('#', '');
     const savedPage = hash && document.getElementById('page-' + hash)
         ? hash
@@ -1759,11 +1874,11 @@ window.addEventListener('DOMContentLoaded', () => {
     showPage(savedPage, link);
 });
 
-/* тХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХР
-    ╨Ь╨Р╨в╨а╨Ш╨ж╨л ╨б╨г╨Ф╨м╨С╨л тАФ ╨║╨░╨╗╤М╨║╤Г╨╗╤П╤В╨╛╤А
-   тХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХР */
+/* ═══════════════════════════════════════════════════
+    МАТРИЦЫ СУДЬБЫ — калькулятор
+   ═══════════════════════════════════════════════════ */
 
-// ╨Р╤А╨║╨░╨╜ (╤Б╨▓╨╛╨┤╨╕╨╝ ╨║ ╤З╨╕╤Б╨╗╤Г 1-22)
+// Аркан (сводим к числу 1-22)
 function toArcana(n) {
     if (n <= 0) return 1;
     while (n > 22) {
@@ -1772,54 +1887,54 @@ function toArcana(n) {
     return n || 22;
 }
 
-// ╨б╤Г╨╝╨╝╨╕╤А╤Г╨╡╨╝ ╤Ж╨╕╤Д╤А╤Л ╤З╨╕╤Б╨╗╨░
+// Суммируем цифры числа
 function digitSum(n) {
     return String(Math.abs(n)).split('').reduce((a, d) => a + parseInt(d), 0);
 }
 
-// тХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХР
-// ╨Ь╨Р╨в╨а╨Ш╨ж╨Р ╨б╨г╨Ф╨м╨С╨л тАФ ╨Ъ╨░╨╗╤М╨║╤Г╨╗╤П╤В╨╛╤А (╨┐╨╛╨╗╨╜╨╛╤Ж╨╡╨╜╨╜╤Л╨╣)
-// тХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХРтХР
+// ═══════════════════════════════════════════════════════
+// МАТРИЦА СУДЬБЫ — Калькулятор (полноценный)
+// ═══════════════════════════════════════════════════════
 
 const ARCANA = {
-    1:  { name: '╨Ь╨░╨│',             key: '╨▓╨╛╨╗╤П',           desc: '╨Т╨╛╨╗╤П, ╤Ж╨╡╨╗╨╡╤Г╤Б╤В╤А╨╡╨╝╨╗╤С╨╜╨╜╨╛╤Б╤В╤М, ╨╝╨░╤Б╤В╨╡╤А╤Б╤В╨▓╨╛. ╨б╨┐╨╛╤Б╨╛╨▒╨╜╨╛╤Б╤В╤М ╤Б╨╛╨╖╨┤╨░╨▓╨░╤В╤М ╤А╨╡╨░╨╗╤М╨╜╨╛╤Б╤В╤М ╤Б╨╕╨╗╨╛╨╣ ╨╜╨░╨╝╨╡╤А╨╡╨╜╨╕╤П. ╨Ы╨╕╨┤╨╡╤А╤Б╨║╨╕╨╡ ╨║╨░╤З╨╡╤Б╤В╨▓╨░ ╨╕ ╤Г╨╝╨╡╨╜╨╕╨╡ ╨▓╨╛╨┐╨╗╨╛╤Й╨░╤В╤М ╨╖╨░╨╝╤Л╤Б╨╗╤Л.' },
-    2:  { name: '╨Т╨╡╤А╤Е╨╛╨▓╨╜╨░╤П ╨Ц╤А╨╕╤Ж╨░', key: '╨╕╨╜╤В╤Г╨╕╤Ж╨╕╤П',       desc: '╨Ш╨╜╤В╤Г╨╕╤Ж╨╕╤П, ╤В╨░╨╣╨╜╨╛╨╡ ╨╖╨╜╨░╨╜╨╕╨╡, ╨▓╨╜╤Г╤В╤А╨╡╨╜╨╜╨╕╨╣ ╨│╨╛╨╗╨╛╤Б. ╨б╨┐╨╛╤Б╨╛╨▒╨╜╨╛╤Б╤В╤М ╤З╤Г╨▓╤Б╤В╨▓╨╛╨▓╨░╤В╤М ╨╜╨╡╨▓╨╕╨┤╨╕╨╝╨╛╨╡. ╨Ь╤Г╨┤╤А╨╛╤Б╤В╤М, ╨╜╨░╨║╨╛╨┐╨╗╨╡╨╜╨╜╨░╤П ╨▓╨╜╤Г╤В╤А╨╕.' },
-    3:  { name: '╨Ш╨╝╨┐╨╡╤А╨░╤В╤А╨╕╤Ж╨░',     key: '╨╕╨╖╨╛╨▒╨╕╨╗╨╕╨╡',       desc: '╨Ш╨╖╨╛╨▒╨╕╨╗╨╕╨╡, ╤В╨▓╨╛╤А╤З╨╡╤Б╤В╨▓╨╛, ╨╝╨░╤В╨╡╤А╨╕╨╜╤Б╤В╨▓╨╛. ╨б╨┐╨╛╤Б╨╛╨▒╨╜╨╛╤Б╤В╤М ╤Б╨╛╨╖╨┤╨░╨▓╨░╤В╤М ╨║╤А╨░╤Б╨╛╤В╤Г ╨╕ ╨║╨╛╨╝╤Д╨╛╤А╤В. ╨й╨╡╨┤╤А╨╛╤Б╤В╤М, ╨╖╨░╨▒╨╛╤В╨░, ╨╢╨╡╨╜╤Б╨║╨░╤П ╤Б╨╕╨╗╨░.' },
-    4:  { name: '╨Ш╨╝╨┐╨╡╤А╨░╤В╨╛╤А',       key: '╨▓╨╗╨░╤Б╤В╤М',         desc: '╨Т╨╗╨░╤Б╤В╤М, ╨┐╨╛╤А╤П╨┤╨╛╨║, ╤Б╤В╨░╨▒╨╕╨╗╤М╨╜╨╛╤Б╤В╤М. ╨б╨┐╨╛╤Б╨╛╨▒╨╜╨╛╤Б╤В╤М ╨▓╤Л╤Б╤В╤А╨░╨╕╨▓╨░╤В╤М ╤Б╤В╤А╤Г╨║╤В╤Г╤А╤Л ╨╕ ╨┐╤А╨░╨▓╨╕╨╗╨░. ╨Ю╤В╨▓╨╡╤В╤Б╤В╨▓╨╡╨╜╨╜╨╛╤Б╤В╤М ╨╕ ╨╛╤А╨│╨░╨╜╨╕╨╖╨╛╨▓╨░╨╜╨╜╨╛╤Б╤В╤М.' },
-    5:  { name: '╨Ц╤А╨╡╤Ж',            key: '╨╝╤Г╨┤╤А╨╛╤Б╤В╤М',       desc: '╨Ф╤Г╤Е╨╛╨▓╨╜╨░╤П ╨╝╤Г╨┤╤А╨╛╤Б╤В╤М, ╤В╤А╨░╨┤╨╕╤Ж╨╕╨╕, ╨╜╨░╤Б╤В╨░╨▓╨╜╨╕╤З╨╡╤Б╤В╨▓╨╛. ╨Я╤Г╤В╤М ╤З╨╡╤А╨╡╨╖ ╤Б╨╕╤Б╤В╨╡╨╝╤Г ╨╖╨╜╨░╨╜╨╕╨╣. ╨г╨╝╨╡╨╜╨╕╨╡ ╨┐╨╡╤А╨╡╨┤╨░╨▓╨░╤В╤М ╨╛╨┐╤Л╤В ╨╕ ╤Г╤З╨╕╤В╤М ╨┤╤А╤Г╨│╨╕╤Е.' },
-    6:  { name: '╨Т╨╗╤О╨▒╨╗╤С╨╜╨╜╤Л╨╡',      key: '╨╗╤О╨▒╨╛╨▓╤М',         desc: '╨Ы╤О╨▒╨╛╨▓╤М, ╨▓╤Л╨▒╨╛╤А, ╨│╨░╤А╨╝╨╛╨╜╨╕╤П ╨╛╤В╨╜╨╛╤И╨╡╨╜╨╕╨╣. ╨б╨┐╨╛╤Б╨╛╨▒╨╜╨╛╤Б╤В╤М ╤Б╤В╤А╨╛╨╕╤В╤М ╨│╨╗╤Г╨▒╨╛╨║╨╕╨╡ ╤Б╨▓╤П╨╖╨╕. ╨Т╨░╨╢╨╜╨╛╤Б╤В╤М ╨╛╤Б╨╛╨╖╨╜╨░╨╜╨╜╨╛╨│╨╛ ╨▓╤Л╨▒╨╛╤А╨░ ╨┐╨░╤А╤В╨╜╤С╤А╨░.' },
-    7:  { name: '╨Ъ╨╛╨╗╨╡╤Б╨╜╨╕╤Ж╨░',       key: '╨┐╨╛╨▒╨╡╨┤╨░',         desc: '╨Я╨╛╨▒╨╡╨┤╨░, ╨┤╨▓╨╕╨╢╨╡╨╜╨╕╨╡, ╨║╨╛╨╜╤В╤А╨╛╨╗╤М ╨╜╨░╨┤ ╨╛╨▒╤Б╤В╨╛╤П╤В╨╡╨╗╤М╤Б╤В╨▓╨░╨╝╨╕. ╨б╨╕╨╗╨░ ╨▓╨╛╨╗╨╕ ╨▓ ╨┐╤А╨╡╨╛╨┤╨╛╨╗╨╡╨╜╨╕╨╕ ╨┐╤А╨╡╨┐╤П╤В╤Б╤В╨▓╨╕╨╣. ╨ж╨╡╨╗╨╡╨╜╨░╨┐╤А╨░╨▓╨╗╨╡╨╜╨╜╨╛╨╡ ╨┤╨╡╨╣╤Б╤В╨▓╨╕╨╡.' },
-    8:  { name: '╨б╨╕╨╗╨░',            key: '╨╝╤Г╨╢╨╡╤Б╤В╨▓╨╛',       desc: '╨Т╨╜╤Г╤В╤А╨╡╨╜╨╜╤П╤П ╤Б╨╕╨╗╨░, ╨╝╤Г╨╢╨╡╤Б╤В╨▓╨╛, ╤В╨╡╤А╨┐╨╡╨╜╨╕╨╡. ╨г╨╝╨╡╨╜╨╕╨╡ ╤Б╨┐╤А╨░╨▓╨╗╤П╤В╤М╤Б╤П ╤Б ╤В╤А╤Г╨┤╨╜╨╛╤Б╤В╤П╨╝╨╕ ╤З╨╡╤А╨╡╨╖ ╨╝╤П╨│╨║╨╛╤Б╤В╤М. ╨г╨┐╤А╨░╨▓╨╗╨╡╨╜╨╕╨╡ ╨╕╨╜╤Б╤В╨╕╨╜╨║╤В╨░╨╝╨╕.' },
-    9:  { name: '╨Ю╤В╤И╨╡╨╗╤М╨╜╨╕╨║',       key: '╨┐╨╛╨╕╤Б╨║',          desc: '╨Я╨╛╨╕╤Б╨║ ╨╕╤Б╤В╨╕╨╜╤Л, ╨╝╤Г╨┤╤А╨╛╤Б╤В╤М ╤Г╨╡╨┤╨╕╨╜╨╡╨╜╨╕╤П, ╤Б╨░╨╝╨╛╨┐╨╛╨╖╨╜╨░╨╜╨╕╨╡. ╨У╨╗╤Г╨▒╨╛╨║╨╕╨╣ ╨░╨╜╨░╨╗╨╕╨╖ ╨╕ ╤А╨╡╤Д╨╗╨╡╨║╤Б╨╕╤П. ╨Я╤Г╤В╤М ╨▓╨╜╤Г╤В╤А╨╡╨╜╨╜╨╡╨│╨╛ ╨┐╤А╨╛╤Б╨▓╨╡╤В╨╗╨╡╨╜╨╕╤П.' },
-    10: { name: '╨Ъ╨╛╨╗╨╡╤Б╨╛ ╨д╨╛╤А╤В╤Г╨╜╤Л',  key: '╤Б╤Г╨┤╤М╨▒╨░',         desc: '╨ж╨╕╨║╨╗╨╕╤З╨╜╨╛╤Б╤В╤М, ╨┐╨╡╤А╨╡╨╝╨╡╨╜╤Л, ╤Б╤Г╨┤╤М╨▒╨░. ╨г╨╝╨╡╨╜╨╕╨╡ ╨╕╤Б╨┐╨╛╨╗╤М╨╖╨╛╨▓╨░╤В╤М ╤Г╨┤╨░╤З╨╜╤Л╨╡ ╨╝╨╛╨╝╨╡╨╜╤В╤Л. ╨Я╨╛╨╜╨╕╨╝╨░╨╜╨╕╨╡ ╨╖╨░╨║╨╛╨╜╨░ ╨┐╤А╨╕╤З╨╕╨╜╨╜╨╛-╤Б╨╗╨╡╨┤╤Б╤В╨▓╨╡╨╜╨╜╤Л╤Е ╤Б╨▓╤П╨╖╨╡╨╣.' },
-    11: { name: '╨б╨┐╤А╨░╨▓╨╡╨┤╨╗╨╕╨▓╨╛╤Б╤В╤М',  key: '╨▒╨░╨╗╨░╨╜╤Б',         desc: '╨С╨░╨╗╨░╨╜╤Б, ╨║╨░╤А╨╝╨░, ╨╖╨░╨║╨╛╨╜. ╨б╨┐╨╛╤Б╨╛╨▒╨╜╨╛╤Б╤В╤М ╨▓╨╕╨┤╨╡╤В╤М ╤Б╨╕╤В╤Г╨░╤Ж╨╕╤О ╨╛╨▒╤К╨╡╨║╤В╨╕╨▓╨╜╨╛. ╨Т╨╛╤Б╤Б╤В╨░╨╜╨╛╨▓╨╗╨╡╨╜╨╕╨╡ ╤Б╨┐╤А╨░╨▓╨╡╨┤╨╗╨╕╨▓╨╛╤Б╤В╨╕ ╨╕ ╤А╨░╨▓╨╜╨╛╨▓╨╡╤Б╨╕╤П.' },
-    12: { name: '╨Я╨╛╨▓╨╡╤И╨╡╨╜╨╜╤Л╨╣',      key: '╨╢╨╡╤А╤В╨▓╨░',         desc: '╨Я╨░╤Г╨╖╨░, ╨┐╨╡╤А╨╡╨╛╤Б╨╝╤Л╤Б╨╗╨╡╨╜╨╕╨╡, ╨┤╨╛╨▒╤А╨╛╨▓╨╛╨╗╤М╨╜╨░╤П ╨╢╨╡╤А╤В╨▓╨░. ╨г╨╝╨╡╨╜╨╕╨╡ ╨╛╤В╨┐╤Г╤Б╨║╨░╤В╤М ╨╕ ╤Б╨╝╨╛╤В╤А╨╡╤В╤М ╨╜╨░ ╨╝╨╕╤А ╤Б ╨┤╤А╤Г╨│╨╛╨│╨╛ ╤Г╨│╨╗╨░. ╨Ф╤Г╤Е╨╛╨▓╨╜╤Л╨╣ ╤А╨╛╤Б╤В ╤З╨╡╤А╨╡╨╖ ╨╛╨│╤А╨░╨╜╨╕╤З╨╡╨╜╨╕╤П.' },
-    13: { name: '╨б╨╝╨╡╤А╤В╤М',          key: '╤В╤А╨░╨╜╤Б╤Д╨╛╤А╨╝╨░╤Ж╨╕╤П',  desc: '╨в╤А╨░╨╜╤Б╤Д╨╛╤А╨╝╨░╤Ж╨╕╤П, ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨╕╨╡ ╤Ж╨╕╨║╨╗╨░, ╨╛╨▒╨╜╨╛╨▓╨╗╨╡╨╜╨╕╨╡. ╨Э╨╡╨╛╨▒╤Е╨╛╨┤╨╕╨╝╨╛╤Б╤В╤М ╨╛╤В╨┐╤Г╤Б╤В╨╕╤В╤М ╤Б╤В╨░╤А╨╛╨╡ ╨┤╨╗╤П ╤А╨╛╨╢╨┤╨╡╨╜╨╕╤П ╨╜╨╛╨▓╨╛╨│╨╛. ╨У╨╗╤Г╨▒╨╕╨╜╨╜╤Л╨╡ ╨╕╨╖╨╝╨╡╨╜╨╡╨╜╨╕╤П.' },
-    14: { name: '╨г╨╝╨╡╤А╨╡╨╜╨╜╨╛╤Б╤В╤М',     key: '╨│╨░╤А╨╝╨╛╨╜╨╕╤П',       desc: '╨У╨░╤А╨╝╨╛╨╜╨╕╤П, ╨▒╨░╨╗╨░╨╜╤Б, ╤В╨╡╤А╨┐╨╡╨╜╨╕╨╡. ╨г╨╝╨╡╨╜╨╕╨╡ ╨╜╨░╤Е╨╛╨┤╨╕╤В╤М ╨╖╨╛╨╗╨╛╤В╤Г╤О ╤Б╨╡╤А╨╡╨┤╨╕╨╜╤Г. ╨Ш╨╜╤В╨╡╨│╤А╨░╤Ж╨╕╤П ╨┐╤А╨╛╤В╨╕╨▓╨╛╨┐╨╛╨╗╨╛╨╢╨╜╨╛╤Б╤В╨╡╨╣ ╨╕ ╤Ж╨╡╨╗╨╕╤В╨╡╨╗╤М╨╜╨░╤П ╤Б╨╕╨╗╨░.' },
-    15: { name: '╨Ф╤М╤П╨▓╨╛╨╗',          key: '╤Б╤В╤А╨░╤Б╤В╤М',        desc: '╨б╤В╤А╨░╤Б╤В╨╕, ╤Б╨╛╨▒╨╗╨░╨╖╨╜╤Л, ╨╛╨│╤А╨░╨╜╨╕╤З╨╕╨▓╨░╤О╤Й╨╕╨╡ ╤Г╨▒╨╡╨╢╨┤╨╡╨╜╨╕╤П. ╨а╨░╨▒╨╛╤В╨░ ╤Б ╤В╤С╨╝╨╜╨╛╨╣ ╤Б╤В╨╛╤А╨╛╨╜╨╛╨╣. ╨Ю╤Б╨▓╨╛╨▒╨╛╨╢╨┤╨╡╨╜╨╕╨╡ ╤З╨╡╤А╨╡╨╖ ╨╛╤Б╨╛╨╖╨╜╨░╨╜╨╕╨╡ ╤Б╨╛╨▒╤Б╤В╨▓╨╡╨╜╨╜╤Л╤Е ╤Ж╨╡╨┐╨╡╨╣.' },
-    16: { name: '╨С╨░╤И╨╜╤П',           key: '╤А╨░╨╖╤А╤Г╤И╨╡╨╜╨╕╨╡',     desc: '╨а╨░╨╖╤А╤Г╤И╨╡╨╜╨╕╨╡ ╤Б╤В╨░╤А╨╛╨│╨╛, ╨║╤А╨╕╨╖╨╕╤Б, ╨╛╤Б╨▓╨╛╨▒╨╛╨╢╨┤╨╡╨╜╨╕╨╡. ╨а╨╡╨╖╨║╨╕╨╡ ╨┐╨╡╤А╨╡╨╝╨╡╨╜╤Л, ╨║╨╛╤В╨╛╤А╤Л╨╡ ╨▓╨╡╨┤╤Г╤В ╨║ ╨╛╨▒╨╜╨╛╨▓╨╗╨╡╨╜╨╕╤О. ╨Я╨░╨┤╨╡╨╜╨╕╨╡ ╨╕╨╗╨╗╤О╨╖╨╕╨╣.' },
-    17: { name: '╨Ч╨▓╨╡╨╖╨┤╨░',          key: '╨╜╨░╨┤╨╡╨╢╨┤╨░',        desc: '╨Э╨░╨┤╨╡╨╢╨┤╨░, ╨▓╨┤╨╛╤Е╨╜╨╛╨▓╨╡╨╜╨╕╨╡, ╨▓╨╡╤А╨░ ╨▓ ╨╗╤Г╤З╤И╨╡╨╡. ╨б╨┐╨╛╤Б╨╛╨▒╨╜╨╛╤Б╤В╤М ╨▓╨╕╨┤╨╡╤В╤М ╤Б╨▓╨╡╤В ╨▓ ╨║╨╛╨╜╤Ж╨╡ ╤В╨╛╨╜╨╜╨╡╨╗╤П. ╨Ш╤Б╤Ж╨╡╨╗╨╡╨╜╨╕╨╡ ╨╕ ╨▓╨╛╤Б╤Б╤В╨░╨╜╨╛╨▓╨╗╨╡╨╜╨╕╨╡.' },
-    18: { name: '╨Ы╤Г╨╜╨░',            key: '╨╕╨╗╨╗╤О╨╖╨╕╨╕',        desc: '╨б╤В╤А╨░╤Е╨╕, ╨╕╨╗╨╗╤О╨╖╨╕╨╕, ╨┐╨╛╨┤╤Б╨╛╨╖╨╜╨░╨╜╨╕╨╡. ╨а╨░╨▒╨╛╤В╨░ ╤Б ╨│╨╗╤Г╨▒╨╕╨╜╨╜╤Л╨╝╨╕ ╤Б╤В╤А╨░╤Е╨░╨╝╨╕. ╨Ш╨╜╤В╤Г╨╕╤Ж╨╕╤П ╨║╨░╨║ ╨║╨╛╨╝╨┐╨░╤Б ╨▓ ╨╜╨╡╨╛╨┐╤А╨╡╨┤╨╡╨╗╤С╨╜╨╜╨╛╤Б╤В╨╕.' },
-    19: { name: '╨б╨╛╨╗╨╜╤Ж╨╡',          key: '╤А╨░╨┤╨╛╤Б╤В╤М',        desc: '╨а╨░╨┤╨╛╤Б╤В╤М, ╤Г╤Б╨┐╨╡╤Е, ╨╢╨╕╨╖╨╜╨╡╨╜╨╜╨░╤П ╤Н╨╜╨╡╤А╨│╨╕╤П. ╨Ю╤В╨║╤А╤Л╤В╨╛╤Б╤В╤М ╨╕ ╨╕╤Б╨║╤А╨╡╨╜╨╜╨╛╤Б╤В╤М. ╨б╨┐╨╛╤Б╨╛╨▒╨╜╨╛╤Б╤В╤М ╨╕╨╖╨╗╤Г╤З╨░╤В╤М ╤В╨╡╨┐╨╗╨╛ ╨╕ ╨┐╤А╨╕╨▓╨╗╨╡╨║╨░╤В╤М ╤Б╤З╨░╤Б╤В╤М╨╡.' },
-    20: { name: '╨б╤Г╨┤',             key: '╨┐╤А╨╕╨╖╨▓╨░╨╜╨╕╨╡',      desc: '╨Т╨╛╨╖╤А╨╛╨╢╨┤╨╡╨╜╨╕╨╡, ╨┐╤А╨╕╨╖╨▓╨░╨╜╨╕╨╡, ╨┐╤А╨╛╨▒╤Г╨╢╨┤╨╡╨╜╨╕╨╡. ╨г╤Б╨╗╤Л╤И╨░╤В╤М ╨╖╨╛╨▓ ╤Б╨▓╨╛╨╡╨╣ ╨┤╤Г╤И╨╕. ╨Я╨╡╤А╨╡╤Е╨╛╨┤ ╨╜╨░ ╨╜╨╛╨▓╤Л╨╣ ╤Г╤А╨╛╨▓╨╡╨╜╤М ╤Б╨╛╨╖╨╜╨░╨╜╨╕╤П.' },
-    21: { name: '╨Ь╨╕╤А',             key: '╨╕╨╜╤В╨╡╨│╤А╨░╤Ж╨╕╤П',     desc: '╨Ч╨░╨▓╨╡╤А╤И╨╡╨╜╨╕╨╡, ╨╕╨╜╤В╨╡╨│╤А╨░╤Ж╨╕╤П, ╨┤╨╛╤Б╤В╨╕╨╢╨╡╨╜╨╕╨╡ ╤Ж╨╡╨╗╨╛╤Б╤В╨╜╨╛╤Б╤В╨╕. ╨У╨░╤А╨╝╨╛╨╜╨╕╤П ╨▓╤Б╨╡╤Е ╨░╤Б╨┐╨╡╨║╤В╨╛╨▓ ╨╗╨╕╤З╨╜╨╛╤Б╤В╨╕. ╨г╤Б╨┐╨╡╤И╨╜╨╛╨╡ ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨╕╨╡ ╤Ж╨╕╨║╨╗╨░.' },
-    22: { name: '╨и╤Г╤В',             key: '╤Б╨▓╨╛╨▒╨╛╨┤╨░',        desc: '╨б╨▓╨╛╨▒╨╛╨┤╨░, ╨╜╨╛╨▓╤Л╨╣ ╨┐╤Г╤В╤М, ╨╜╨╡╨┐╤А╨╡╨┤╤Б╨║╨░╨╖╤Г╨╡╨╝╨╛╤Б╤В╤М. ╨Ю╤В╨║╤А╤Л╤В╨╛╤Б╤В╤М ╨║ ╨╜╨╡╨╕╨╖╨▓╨╡╨┤╨░╨╜╨╜╨╛╨╝╤Г. ╨Ф╨╛╨▓╨╡╤А╨╕╨╡ ╨║ ╨╢╨╕╨╖╨╜╨╕ ╨╕ ╨┤╨╡╤В╤Б╨║╨░╤П ╤Б╨┐╨╛╨╜╤В╨░╨╜╨╜╨╛╤Б╤В╤М.' }
+    1:  { name: 'Маг',             key: 'воля',           desc: 'Воля, целеустремлённость, мастерство. Способность создавать реальность силой намерения. Лидерские качества и умение воплощать замыслы.' },
+    2:  { name: 'Верховная Жрица', key: 'интуиция',       desc: 'Интуиция, тайное знание, внутренний голос. Способность чувствовать невидимое. Мудрость, накопленная внутри.' },
+    3:  { name: 'Императрица',     key: 'изобилие',       desc: 'Изобилие, творчество, материнство. Способность создавать красоту и комфорт. Щедрость, забота, женская сила.' },
+    4:  { name: 'Император',       key: 'власть',         desc: 'Власть, порядок, стабильность. Способность выстраивать структуры и правила. Ответственность и организованность.' },
+    5:  { name: 'Жрец',            key: 'мудрость',       desc: 'Духовная мудрость, традиции, наставничество. Путь через систему знаний. Умение передавать опыт и учить других.' },
+    6:  { name: 'Влюблённые',      key: 'любовь',         desc: 'Любовь, выбор, гармония отношений. Способность строить глубокие связи. Важность осознанного выбора партнёра.' },
+    7:  { name: 'Колесница',       key: 'победа',         desc: 'Победа, движение, контроль над обстоятельствами. Сила воли в преодолении препятствий. Целенаправленное действие.' },
+    8:  { name: 'Сила',            key: 'мужество',       desc: 'Внутренняя сила, мужество, терпение. Умение справляться с трудностями через мягкость. Управление инстинктами.' },
+    9:  { name: 'Отшельник',       key: 'поиск',          desc: 'Поиск истины, мудрость уединения, самопознание. Глубокий анализ и рефлексия. Путь внутреннего просветления.' },
+    10: { name: 'Колесо Фортуны',  key: 'судьба',         desc: 'Цикличность, перемены, судьба. Умение использовать удачные моменты. Понимание закона причинно-следственных связей.' },
+    11: { name: 'Справедливость',  key: 'баланс',         desc: 'Баланс, карма, закон. Способность видеть ситуацию объективно. Восстановление справедливости и равновесия.' },
+    12: { name: 'Повешенный',      key: 'жертва',         desc: 'Пауза, переосмысление, добровольная жертва. Умение отпускать и смотреть на мир с другого угла. Духовный рост через ограничения.' },
+    13: { name: 'Смерть',          key: 'трансформация',  desc: 'Трансформация, завершение цикла, обновление. Необходимость отпустить старое для рождения нового. Глубинные изменения.' },
+    14: { name: 'Умеренность',     key: 'гармония',       desc: 'Гармония, баланс, терпение. Умение находить золотую середину. Интеграция противоположностей и целительная сила.' },
+    15: { name: 'Дьявол',          key: 'страсть',        desc: 'Страсти, соблазны, ограничивающие убеждения. Работа с тёмной стороной. Освобождение через осознание собственных цепей.' },
+    16: { name: 'Башня',           key: 'разрушение',     desc: 'Разрушение старого, кризис, освобождение. Резкие перемены, которые ведут к обновлению. Падение иллюзий.' },
+    17: { name: 'Звезда',          key: 'надежда',        desc: 'Надежда, вдохновение, вера в лучшее. Способность видеть свет в конце тоннеля. Исцеление и восстановление.' },
+    18: { name: 'Луна',            key: 'иллюзии',        desc: 'Страхи, иллюзии, подсознание. Работа с глубинными страхами. Интуиция как компас в неопределённости.' },
+    19: { name: 'Солнце',          key: 'радость',        desc: 'Радость, успех, жизненная энергия. Открытость и искренность. Способность излучать тепло и привлекать счастье.' },
+    20: { name: 'Суд',             key: 'призвание',      desc: 'Возрождение, призвание, пробуждение. Услышать зов своей души. Переход на новый уровень сознания.' },
+    21: { name: 'Мир',             key: 'интеграция',     desc: 'Завершение, интеграция, достижение целостности. Гармония всех аспектов личности. Успешное завершение цикла.' },
+    22: { name: 'Шут',             key: 'свобода',        desc: 'Свобода, новый путь, непредсказуемость. Открытость к неизведанному. Доверие к жизни и детская спонтанность.' }
 };
 
 const POSITIONS = {
-    A:  { label: '╨в╨╛╤З╨║╨░ ╨Р тАФ ╨Ы╨╕╤З╨╜╨╛╤Б╤В╤М',          color: '#8a6dc0', desc: '╨Т╨░╤И╨░ ╨╖╨╡╨╝╨╜╨░╤П ╨┐╤А╨╕╤А╨╛╨┤╨░, ╤Д╨╕╨╖╨╕╤З╨╡╤Б╨║╨╕╨╣ ╨╝╨╕╤А, ╨║╨░╨║ ╨▓╤Л ╨┐╤А╨╛╤П╨▓╨╗╤П╨╡╤В╨╡╤Б╤М ╨▓ ╨╛╨▒╤Й╨╡╤Б╤В╨▓╨╡' },
-    B:  { label: '╨в╨╛╤З╨║╨░ ╨С тАФ ╨Ф╤Г╤Е╨╛╨▓╨╜╨╛╤Б╤В╤М',         color: '#8a6dc0', desc: '╨Т╨░╤И╨░ ╨┤╤Г╤Е╨╛╨▓╨╜╨░╤П ╤Б╨╛╤Б╤В╨░╨▓╨╗╤П╤О╤Й╨░╤П, ╨▓╨╜╤Г╤В╤А╨╡╨╜╨╜╨╕╨╣ ╨╝╨╕╤А, ╤Б╨║╤А╤Л╤В╤Л╨╡ ╤А╨╡╤Б╤Г╤А╤Б╤Л' },
-    C:  { label: '╨в╨╛╤З╨║╨░ ╨Т тАФ ╨Э╨╡╨▒╨╡╤Б╨╜╤Л╨╣ ╨┐╨╛╤В╨╡╨╜╤Ж╨╕╨░╨╗', color: '#8a6dc0', desc: '╨Т╨░╤И ╨╜╨╡╨▒╨╡╤Б╨╜╤Л╨╣ ╨┐╨╛╤В╨╡╨╜╤Ж╨╕╨░╨╗, ╨╖╨░╨┤╨░╤З╨╕, ╨┤╨░╨╜╨╜╤Л╨╡ ╤Б╨▓╤Л╤И╨╡' },
-    D:  { label: '╨в╨╛╤З╨║╨░ ╨У тАФ ╨Я╤А╨╡╨┤╨╜╨░╨╖╨╜╨░╤З╨╡╨╜╨╕╨╡',     color: '#c8a840', desc: '╨Т╨░╤И╨╡ ╨┐╤А╨╡╨┤╨╜╨░╨╖╨╜╨░╤З╨╡╨╜╨╕╨╡ тАФ ╤В╨╛, ╨║ ╤З╨╡╨╝╤Г ╨▓╨╡╨┤╤С╤В ╨▓╨╡╤Б╤М ╨╢╨╕╨╖╨╜╨╡╨╜╨╜╤Л╨╣ ╨┐╤Г╤В╤М' },
-    E:  { label: '╨ж╨╡╨╜╤В╤А ╨╝╨░╤В╤А╨╕╤Ж╤Л',                color: '#ffd700', desc: '╨Ъ╨╗╤О╤З╨╡╨▓╨░╤П ╤Н╨╜╨╡╤А╨│╨╕╤П ╨╝╨░╤В╤А╨╕╤Ж╤Л тАФ ╨╡╤С ╤Б╤Г╤В╤М ╨╕ ╨╛╤Б╨╜╨╛╨▓╨╜╨░╤П ╤В╨╡╨╝╨░ ╨╢╨╕╨╖╨╜╨╕' },
-    AB: { label: '╨Ы╨╕╨╜╨╕╤П ╨Р+╨С (╨Ч╨╛╨╜╨░ ╨║╨╛╨╝╤Д╨╛╤А╤В╨░)',    color: '#6a8ad0', desc: '╨Ч╨╛╨╜╨░ ╨║╨╛╨╝╤Д╨╛╤А╤В╨░ тАФ ╨╛╨▒╨╗╨░╤Б╤В╤М, ╨▓ ╨║╨╛╤В╨╛╤А╨╛╨╣ ╨▓╤Л ╤З╤Г╨▓╤Б╤В╨▓╤Г╨╡╤В╨╡ ╤Б╨╡╨▒╤П ╨╜╨░╨╕╨▒╨╛╨╗╨╡╨╡ ╤Г╨▓╨╡╤А╨╡╨╜╨╜╨╛' },
-    BC: { label: '╨Ы╨╕╨╜╨╕╤П ╨С+╨Т (╨а╨╛╨┤╨╛╨▓╤Л╨╡ ╨╖╨░╨┤╨░╤З╨╕)',   color: '#6a8ad0', desc: '╨а╨╛╨┤╨╛╨▓╤Л╨╡ ╨╖╨░╨┤╨░╤З╨╕ тАФ ╤З╤В╨╛ ╨┐╨╡╤А╨╡╨┤╨░╤С╤В╤Б╤П ╨┐╨╛ ╤А╨╛╨┤╤Г ╨╕ ╤З╤В╨╛ ╨╜╤Г╨╢╨╜╨╛ ╨┐╤А╨╛╤А╨░╨▒╨╛╤В╨░╤В╤М' },
-    CD: { label: '╨Ы╨╕╨╜╨╕╤П ╨Т+╨У (╨в╨░╨╗╨░╨╜╤В╤Л)',          color: '#6a8ad0', desc: '╨Т╨░╤И╨╕ ╤В╨░╨╗╨░╨╜╤В╤Л ╨╕ ╨╜╨░╨▓╤Л╨║╨╕, ╨║╨╛╤В╨╛╤А╤Л╨╡ ╨╜╤Г╨╢╨╜╨╛ ╤А╨░╨╖╨▓╨╕╨▓╨░╤В╤М' },
-    AD: { label: '╨Ы╨╕╨╜╨╕╤П ╨Р+╨У (╨Ъ╨░╤А╨╝╨░)',            color: '#6a8ad0', desc: '╨Ъ╨░╤А╨╝╨╕╤З╨╡╤Б╨║╨╕╨╡ ╤Г╤А╨╛╨║╨╕ ╨╕ ╨╖╨░╨┤╨░╤З╨╕, ╨┐╤А╨╕╤И╨╡╨┤╤И╨╕╨╡ ╨╕╨╖ ╨┐╤А╨╛╤И╨╗╤Л╤Е ╨╢╨╕╨╖╨╜╨╡╨╣' },
-    F:  { label: '╨Р+╨Х (╨Ъ╨░╤А╨╝╨╕╤З╨╡╤Б╨║╨╕╨╣ ╤Е╨▓╨╛╤Б╤В)',      color: '#a08ad0', desc: '╨Ъ╨░╤А╨╝╨╕╤З╨╡╤Б╨║╨╕╨╣ ╤Е╨▓╨╛╤Б╤В тАФ ╤В╨╛, ╤Б ╤З╨╡╨╝ ╨┐╤А╨╕╤И╨╗╨░ ╨┤╤Г╤И╨░ ╨╕╨╖ ╨┐╤А╨╛╤И╨╗╤Л╤Е ╨▓╨╛╨┐╨╗╨╛╤Й╨╡╨╜╨╕╨╣' },
-    G:  { label: '╨С+╨Х (╨Ы╨╕╤З╨╜╤Л╨╣ ╨║╨▓╨░╨┤╤А╨░╤В)',         color: '#a08ad0', desc: '╨ж╨╡╨╜╤В╤А ╨╗╨╕╤З╨╜╨╛╨│╨╛ ╨║╨▓╨░╨┤╤А╨░╤В╨░ тАФ ╨▓╨░╤И ╨▓╨╜╤Г╤В╤А╨╡╨╜╨╜╨╕╨╣ ╤Б╤В╨╡╤А╨╢╨╡╨╜╤М' },
-    H:  { label: '╨Т+╨Х (╨а╨╛╨┤╨╛╨▓╨╛╨╣ ╨║╨▓╨░╨┤╤А╨░╤В)',        color: '#a08ad0', desc: '╨ж╨╡╨╜╤В╤А ╤А╨╛╨┤╨╛╨▓╨╛╨│╨╛ ╨║╨▓╨░╨┤╤А╨░╤В╨░ тАФ ╤Н╨╜╨╡╤А╨│╨╕╤П ╤А╨╛╨┤╨░ ╨╕ ╨┐╤А╨╡╨┤╨║╨╛╨▓' },
-    I:  { label: '╨У+╨Х (╨Ы╨╕╨╜╨╕╤П ╨┤╨╡╨╜╨╡╨│)',            color: '#a08ad0', desc: '╨Ы╨╕╨╜╨╕╤П ╨┤╨╡╨╜╨╡╨│ тАФ ╨▓╨░╤И ╨┐╤Г╤В╤М ╨║ ╨╝╨░╤В╨╡╤А╨╕╨░╨╗╤М╨╜╨╛╨╝╤Г ╨▒╨╗╨░╨│╨╛╨┐╨╛╨╗╤Г╤З╨╕╤О' },
+    A:  { label: 'Точка А — Личность',          color: '#8a6dc0', desc: 'Ваша земная природа, физический мир, как вы проявляетесь в обществе' },
+    B:  { label: 'Точка Б — Духовность',         color: '#8a6dc0', desc: 'Ваша духовная составляющая, внутренний мир, скрытые ресурсы' },
+    C:  { label: 'Точка В — Небесный потенциал', color: '#8a6dc0', desc: 'Ваш небесный потенциал, задачи, данные свыше' },
+    D:  { label: 'Точка Г — Предназначение',     color: '#c8a840', desc: 'Ваше предназначение — то, к чему ведёт весь жизненный путь' },
+    E:  { label: 'Центр матрицы',                color: '#ffd700', desc: 'Ключевая энергия матрицы — её суть и основная тема жизни' },
+    AB: { label: 'Линия А+Б (Зона комфорта)',    color: '#6a8ad0', desc: 'Зона комфорта — область, в которой вы чувствуете себя наиболее уверенно' },
+    BC: { label: 'Линия Б+В (Родовые задачи)',   color: '#6a8ad0', desc: 'Родовые задачи — что передаётся по роду и что нужно проработать' },
+    CD: { label: 'Линия В+Г (Таланты)',          color: '#6a8ad0', desc: 'Ваши таланты и навыки, которые нужно развивать' },
+    AD: { label: 'Линия А+Г (Карма)',            color: '#6a8ad0', desc: 'Кармические уроки и задачи, пришедшие из прошлых жизней' },
+    F:  { label: 'А+Е (Кармический хвост)',      color: '#a08ad0', desc: 'Кармический хвост — то, с чем пришла душа из прошлых воплощений' },
+    G:  { label: 'Б+Е (Личный квадрат)',         color: '#a08ad0', desc: 'Центр личного квадрата — ваш внутренний стержень' },
+    H:  { label: 'В+Е (Родовой квадрат)',        color: '#a08ad0', desc: 'Центр родового квадрата — энергия рода и предков' },
+    I:  { label: 'Г+Е (Линия денег)',            color: '#a08ad0', desc: 'Линия денег — ваш путь к материальному благополучию' },
 };
 
 function reduceArcana(n) {
@@ -1831,70 +1946,168 @@ function reduceArcana(n) {
 }
 
 function calcMatrix() {
-    const name = document.getElementById('matrixName').value.trim() || '╨Ъ╨╗╨╕╨╡╨╜╤В';
+    const name = document.getElementById('matrixName').value.trim() || 'Клиент';
     const dateVal = document.getElementById('matrixDate').value;
-    if (!dateVal) { showNotify('╨Т╨▓╨╡╨┤╨╕╤В╨╡ ╨┤╨░╤В╤Г ╤А╨╛╨╢╨┤╨╡╨╜╨╕╤П', 'warn'); return; }
+    if (!dateVal) { showNotify('Введите дату рождения', 'warn'); return; }
 
     const d = new Date(dateVal);
     const day   = d.getDate();
     const month = d.getMonth() + 1;
     const year  = d.getFullYear();
 
+    // ── ГЛАВНЫЕ ТОЧКИ ──
+    // А=право(0лет), Б=низ(20лет), В=лево(40лет), Г=верх(60лет), Д=центр
     const A = reduceArcana(day);
     const B = reduceArcana(month);
-    const yearSum = String(year).split('').reduce((a,b) => a + parseInt(b), 0);
-    const C = reduceArcana(yearSum);
-    const D = reduceArcana(A + B + C);
-    const E = reduceArcana(A + B + C + D);
-    const AB = reduceArcana(A + B);
-    const BC = reduceArcana(B + C);
-    const CD = reduceArcana(C + D);
-    const AD = reduceArcana(A + D);
-    const F  = reduceArcana(A + E);
-    const G  = reduceArcana(B + E);
-    const H  = reduceArcana(C + E);
-    const I  = reduceArcana(D + E);
+    const yearSum = String(year).split('').reduce((s,c) => s + parseInt(c), 0);
+    const V = reduceArcana(yearSum);
+    const G = reduceArcana(A + B + V);
+    const D = reduceArcana(A + B + V + G);
 
-    // ╨Ю╨▒╨╜╨╛╨▓╨╗╤П╨╡╨╝ SVG
-    const nums = { A, B, C, D, E, AB, BC, CD, AD, F, G, H, I };
-    for (const [k, v] of Object.entries(nums)) {
-        const el = document.getElementById(`mv${k}num`);
+    // ── ДИАГОНАЛЬНЫЕ ТОЧКИ ──
+    const E  = reduceArcana(A + B);   // Е — низ-право (10 лет)
+    const Zh = reduceArcana(B + V);   // Ж — низ-лево  (30 лет)
+    const I  = reduceArcana(V + G);   // И — верх-лево (50 лет)
+    const Z  = reduceArcana(G + A);   // З — верх-право(70 лет)
+
+    // ── ВНУТРЕННИЙ КРЕСТ (между главной точкой и центром) ──
+    const Ain = reduceArcana(A + D);  // А_вн (правый)
+    const Bin = reduceArcana(B + D);  // Б_вн (нижний)
+    const Vin = reduceArcana(V + D);  // В_вн (левый)
+    const Gin = reduceArcana(G + D);  // Г_вн (верхний)
+
+    // ── ВНУТРЕННИЙ РОМБ ──
+    const P = reduceArcana(Ain + Gin); // П — верх-право ромба
+    const O = reduceArcana(Gin + Vin); // О — верх-лево ромба
+    const M = reduceArcana(Vin + Bin); // М — низ-лево ромба
+    const N = reduceArcana(Bin + Ain); // Н — низ-право ромба
+
+    // ── КОМПАНЬОНЫ РЯДОМ С ГЛАВНЫМИ ТОЧКАМИ ──
+    const Ac1 = reduceArcana(A + Z);   // рядом с А, вверх
+    const Ac2 = reduceArcana(A + E);   // рядом с А, вниз
+    const Bc1 = reduceArcana(B + E);   // рядом с Б, вправо
+    const Bc2 = reduceArcana(B + Zh);  // рядом с Б, влево
+    const Vc1 = reduceArcana(V + Zh);  // рядом с В, вниз
+    const Vc2 = reduceArcana(V + I);   // рядом с В, вверх
+    const Gc1 = reduceArcana(G + I);   // рядом с Г, влево
+    const Gc2 = reduceArcana(G + Z);   // рядом с Г, вправо
+
+    // ── КОМПАНЬОНЫ РЯДОМ С ДИАГОНАЛЬНЫМИ ТОЧКАМИ ──
+    const Ec1 = reduceArcana(E + Ain); // рядом с Е → А_вн
+    const Ec2 = reduceArcana(E + Bin); // рядом с Е → Б_вн
+    const Zhc1 = reduceArcana(Zh + Vin);
+    const Zhc2 = reduceArcana(Zh + Bin);
+    const Ic1  = reduceArcana(I + Vin);
+    const Ic2  = reduceArcana(I + Gin);
+    const Zc1  = reduceArcana(Z + Ain);
+    const Zc2  = reduceArcana(Z + Gin);
+
+    // ── ПРОГРЕССИОННЫЕ КРУГИ НА РЁБРАХ (фрактальный метод) ──
+    // mid = reduce(P1+P2), q1=reduce(P1+mid), q3=reduce(mid+P2)
+    function edge3(p1, p2) {
+        const m = reduceArcana(p1 + p2);
+        return [reduceArcana(p1 + m), m, reduceArcana(m + p2)];
+    }
+    const [eAE1,eAE2,eAE3]   = edge3(A, E);
+    const [eEB1,eEB2,eEB3]   = edge3(E, B);
+    const [eBZh1,eBZh2,eBZh3] = edge3(B, Zh);
+    const [eZhV1,eZhV2,eZhV3] = edge3(Zh, V);
+    const [eVI1,eVI2,eVI3]   = edge3(V, I);
+    const [eIG1,eIG2,eIG3]   = edge3(I, G);
+    const [eGZ1,eGZ2,eGZ3]   = edge3(G, Z);
+    const [eZA1,eZA2,eZA3]   = edge3(Z, A);
+
+    // ── ОБНОВЛЕНИЕ SVG ──
+    const svgMap = {
+        // Главные
+        Anum: A, Bnum: B, Vnum: V, Gnum: G, Dnum: D,
+        // Диагональные
+        Enum: E, Zhnum: Zh, Inum: I, Znum: Z,
+        // Внутренний крест
+        AinNum: Ain, BinNum: Bin, VinNum: Vin, GinNum: Gin,
+        // Внутренний ромб
+        Pnum: P, Onum: O, Mnum: M, Nnum: N,
+        // Компаньоны главных
+        Ac1: Ac1, Ac2: Ac2, Bc1: Bc1, Bc2: Bc2,
+        Vc1: Vc1, Vc2: Vc2, Gc1: Gc1, Gc2: Gc2,
+        // Компаньоны диагональных
+        Ec1: Ec1, Ec2: Ec2, Zhc1: Zhc1, Zhc2: Zhc2,
+        Ic1: Ic1, Ic2: Ic2, Zc1: Zc1, Zc2: Zc2,
+        // Прогрессия рёбер
+        'E_AE1': eAE1, 'E_AE2': eAE2, 'E_AE3': eAE3,
+        'E_EB1': eEB1, 'E_EB2': eEB2, 'E_EB3': eEB3,
+        'E_BZh1': eBZh1,'E_BZh2': eBZh2,'E_BZh3': eBZh3,
+        'E_ZhV1': eZhV1,'E_ZhV2': eZhV2,'E_ZhV3': eZhV3,
+        'E_VI1': eVI1,  'E_VI2': eVI2,  'E_VI3': eVI3,
+        'E_IG1': eIG1,  'E_IG2': eIG2,  'E_IG3': eIG3,
+        'E_GZ1': eGZ1,  'E_GZ2': eGZ2,  'E_GZ3': eGZ3,
+        'E_ZA1': eZA1,  'E_ZA2': eZA2,  'E_ZA3': eZA3,
+    };
+    for (const [id, v] of Object.entries(svgMap)) {
+        const el = document.getElementById(`mv${id}`);
         if (el) el.textContent = v;
     }
 
-    // ╨Ч╨░╨│╨╛╨╗╨╛╨▓╨╛╨║
+    // ── ЗАГОЛОВОК ──
     const dStr = `${String(day).padStart(2,'0')}.${String(month).padStart(2,'0')}.${year}`;
     document.getElementById('matrixPersonName').textContent = name;
     document.getElementById('matrixPersonDate').textContent = dStr;
 
-    // ╨в╨░╨▒╨╗╨╕╤Ж╨░ ╨╖╨╜╨░╤З╨╡╨╜╨╕╨╣
+    // ── ТАБЛИЦА ЗНАЧЕНИЙ ──
+    const positions = [
+        { label: 'А — 0 лет (день)',          val: A,   color: '#8744b8', formula: 'reduce(день)' },
+        { label: 'Б — 20 лет (месяц)',        val: B,   color: '#8744b8', formula: 'reduce(месяц)' },
+        { label: 'В — 40 лет (год)',          val: V,   color: '#8b1a1a', formula: 'reduce(сумма цифр года)' },
+        { label: 'Г — 60 лет',               val: G,   color: '#c03030', formula: 'reduce(А+Б+В)' },
+        { label: 'Д — Центр',                val: D,   color: '#c8a030', formula: 'reduce(А+Б+В+Г)' },
+        { label: 'Е — 10 лет',               val: E,   color: '#444',    formula: 'reduce(А+Б)' },
+        { label: 'Ж — 30 лет',               val: Zh,  color: '#444',    formula: 'reduce(Б+В)' },
+        { label: 'И — 50 лет',               val: I,   color: '#444',    formula: 'reduce(В+Г)' },
+        { label: 'З — 70 лет',               val: Z,   color: '#444',    formula: 'reduce(Г+А)' },
+        { label: 'А_вн (внутр. крест)',       val: Ain, color: '#777',   formula: 'reduce(А+Д)' },
+        { label: 'Б_вн (внутр. крест)',       val: Bin, color: '#777',   formula: 'reduce(Б+Д)' },
+        { label: 'В_вн (внутр. крест)',       val: Vin, color: '#777',   formula: 'reduce(В+Д)' },
+        { label: 'Г_вн (внутр. крест)',       val: Gin, color: '#777',   formula: 'reduce(Г+Д)' },
+        { label: 'П (ромб верх-право)',       val: P,   color: '#999',   formula: 'reduce(А_вн+Г_вн)' },
+        { label: 'О (ромб верх-лево)',        val: O,   color: '#999',   formula: 'reduce(Г_вн+В_вн)' },
+        { label: 'М (ромб низ-лево)',         val: M,   color: '#999',   formula: 'reduce(В_вн+Б_вн)' },
+        { label: 'Н (ромб низ-право)',        val: N,   color: '#999',   formula: 'reduce(Б_вн+А_вн)' },
+    ];
+
     const grid = document.getElementById('matrixValuesGrid');
-    const posKeys = ['A','B','C','D','E','AB','BC','CD','AD','F','G','H','I'];
-    grid.innerHTML = posKeys.map(k => {
-        const pos = POSITIONS[k];
-        const val = nums[k];
-        const arc = ARCANA[val];
+    grid.innerHTML = positions.map(p => {
+        const arc = ARCANA[p.val];
         return `<div class="matrix-val-card">
-            <div class="mvc-pos" style="color:${pos.color}">${pos.label}</div>
-            <div class="mvc-num">${val}</div>
+            <div class="mvc-pos" style="color:${p.color}">${p.label}</div>
+            <div class="mvc-num">${p.val}</div>
             <div class="mvc-arcana">${arc.name}</div>
             <div class="mvc-key">${arc.key}</div>
+            <div style="font-size:9px;color:#888;margin-top:2px">${p.formula}</div>
         </div>`;
     }).join('');
 
-    // ╨Ш╨╜╤В╨╡╤А╨┐╤А╨╡╤В╨░╤Ж╨╕╨╕
+    // ── ИНТЕРПРЕТАЦИИ ──
+    const mainInterp = [
+        { label:'А — Личность (день)',       val:A, color:'#8744b8', desc:'Базовая личность, характер, как вас воспринимают другие.' },
+        { label:'Б — Душа (месяц)',          val:B, color:'#8744b8', desc:'Глубинные желания, духовный потенциал, внутренний мир.' },
+        { label:'В — Небесный потенциал (год)', val:V, color:'#8b1a1a', desc:'Кармическое задание свыше. Высший потенциал для реализации.' },
+        { label:'Г — Предназначение',        val:G, color:'#c03030', desc:'Главное жизненное предназначение = сумма А+Б+В.' },
+        { label:'Д — Центр (баланс)',        val:D, color:'#c8a030', desc:'Центральный архетип. Главная энергия всей жизни.' },
+        { label:'Е — 10 лет',               val:E, color:'#444',    desc:'Период детства. Энергия формирования личности.' },
+        { label:'Ж — 30 лет',               val:Zh,color:'#444',    desc:'Период взросления. Поиск своего пути и призвания.' },
+        { label:'И — 50 лет',               val:I, color:'#444',    desc:'Период зрелости. Накопленный опыт и мудрость.' },
+        { label:'З — 70 лет',               val:Z, color:'#444',    desc:'Период завершения цикла. Итоги и духовное наследие.' },
+    ];
     const interps = document.getElementById('matrixInterps');
-    interps.innerHTML = `<h3 class="matrix-interp-title">тЬж ╨Ф╨╡╤В╨░╨╗╤М╨╜╤Л╨╣ ╤А╨░╨╖╨▒╨╛╤А ╨╝╨░╤В╤А╨╕╤Ж╤Л</h3>` +
-        posKeys.map(k => {
-            const pos = POSITIONS[k];
-            const val = nums[k];
-            const arc = ARCANA[val];
+    interps.innerHTML = `<h3 class="matrix-interp-title">✦ Детальный разбор матрицы</h3>` +
+        mainInterp.map(p => {
+            const arc = ARCANA[p.val];
             return `<div class="matrix-interp-item">
                 <div class="mii-header">
-                    <span class="mii-pos" style="color:${pos.color}">${pos.label}</span>
-                    <span class="mii-num" style="background:${pos.color}20;border-color:${pos.color}50">${val} тАФ ${arc.name}</span>
+                    <span class="mii-pos" style="color:${p.color}">${p.label}</span>
+                    <span class="mii-num" style="background:${p.color}20;border-color:${p.color}50">${p.val} — ${arc.name}</span>
                 </div>
-                <p class="mii-pos-desc">${pos.desc}</p>
+                <p class="mii-pos-desc">${p.desc}</p>
                 <p class="mii-arc-desc">${arc.desc}</p>
             </div>`;
         }).join('');
@@ -1907,14 +2120,14 @@ function copyMatrixResult() {
     const name = document.getElementById('matrixPersonName').textContent;
     const date = document.getElementById('matrixPersonDate').textContent;
     const cards = document.querySelectorAll('.matrix-val-card');
-    let text = `╨Ь╨░╤В╤А╨╕╤Ж╨░ ╨б╤Г╨┤╤М╨▒╤Л тАФ ${name} (${date})\n${'тФА'.repeat(40)}\n`;
+    let text = `Матрица Судьбы — ${name} (${date})\n${'─'.repeat(40)}\n`;
     cards.forEach(c => {
         const pos = c.querySelector('.mvc-pos').textContent;
         const num = c.querySelector('.mvc-num').textContent;
         const arc = c.querySelector('.mvc-arcana').textContent;
         text += `${pos}: ${num} (${arc})\n`;
     });
-    navigator.clipboard.writeText(text).then(() => showNotify('╨б╨║╨╛╨┐╨╕╤А╨╛╨▓╨░╨╜╨╛ ╨▓ ╨▒╤Г╤Д╨╡╤А ╨╛╨▒╨╝╨╡╨╜╨░', 'success'));
+    navigator.clipboard.writeText(text).then(() => showNotify('Скопировано в буфер обмена', 'success'));
 }
 
 function bookMatrixSession() {
