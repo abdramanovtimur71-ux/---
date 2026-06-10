@@ -1751,7 +1751,7 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     .nav-links { display: none !important; }
     .nav-link::after { display: none; }
     .fab-whatsapp { bottom: 88px; right: 16px; width: 46px; height: 46px; font-size: 18px; }
-    .fab-scroll-top { bottom: 32px; right: 16px; width: 46px; height: 46px; font-size: 16px; }
+    .fab-scroll-top { bottom: 32px; left: 16px; right: auto; width: 46px; height: 46px; font-size: 16px; }
 }
 @media (max-width: 480px) {
     .container { padding: 0 16px; }
@@ -1823,7 +1823,7 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
         right: 12px;
     }
     .fab-whatsapp { bottom: 82px; right: 14px; }
-    .fab-scroll-top { bottom: 28px; right: 14px; }
+    .fab-scroll-top { bottom: 28px; left: 14px; right: auto; }
 }
 
 @media (max-width: 390px) {
@@ -2570,8 +2570,8 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 /* Upgraded scroll-top */
 .fab-scroll-top {
     position: fixed;
-    bottom: 28px; right: 22px;
-    width: 52px; height: 52px;
+    bottom: 28px; left: 22px; right: auto;
+    width: 44px; height: 44px;
     background: var(--card2);
     border: 1px solid var(--br-g);
     color: var(--gold);
@@ -2629,7 +2629,7 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     }
     .process-step { padding: 28px 20px; }
     .fab-group { bottom: 80px; right: 16px; }
-    .fab-scroll-top { bottom: 20px; right: 16px; }
+    .fab-scroll-top { bottom: 20px; left: 12px; right: auto; }
     .hero-eyebrow { font-size: 11px; }
     .hero-title { font-size: clamp(28px, 8vw, 42px); }
     .hero-subtitle { font-size: 14px; }
