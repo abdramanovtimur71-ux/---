@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
+  <!-- ── Звёздный фон ─────────────────────────────────── -->
+  <canvas id="starsCanvas" class="stars-canvas" aria-hidden="true"></canvas>
+  <div class="nebula-orb nebula-orb-1" aria-hidden="true"></div>
+  <div class="nebula-orb nebula-orb-2" aria-hidden="true"></div>
+  <div class="nebula-orb nebula-orb-3" aria-hidden="true"></div>
+  <div class="nebula-orb nebula-orb-4" aria-hidden="true"></div>
 
 <!-- Оверлей для закрытия сайдбара на мобильном -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
@@ -2557,6 +2563,55 @@ function bookMatrixSession() {
 
   </div>
 </div>
+
+
+<script>
+/* ── Animated star field ─────────────────────────────────────────── */
+(function(){
+  const canvas = document.getElementById('starsCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [];
+  const N = 220;
+
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  function mkStar(){
+    return {
+      x: Math.random()*W,
+      y: Math.random()*H,
+      r: Math.random()*1.2 + 0.2,
+      a: Math.random(),
+      da: (Math.random()*0.004+0.001) * (Math.random()<0.5?1:-1),
+      color: Math.random()<0.15 ? '#D4AE5C' : '#a0c0ff'
+    };
+  }
+  function init(){
+    resize();
+    stars = Array.from({length:N}, mkStar);
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(const s of stars){
+      s.a += s.da;
+      if(s.a > 1){ s.a = 1; s.da = -Math.abs(s.da); }
+      if(s.a < 0.05){ s.a = 0.05; s.da = Math.abs(s.da); }
+      ctx.globalAlpha = s.a;
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize', ()=>{ resize(); });
+  init();
+  draw();
+})();
+</script>
 
 </body>
 </html>
