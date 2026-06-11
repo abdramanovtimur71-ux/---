@@ -99,11 +99,10 @@ body {
     display: flex;
     position: relative;
     background-image:
-        radial-gradient(circle at 12% 14%, rgba(95, 141, 255, 0.24) 0%, transparent 26%),
-        radial-gradient(circle at 84% 10%, rgba(245, 203, 104, 0.10) 0%, transparent 16%),
-        radial-gradient(circle at 56% 0%, rgba(144, 104, 255, 0.20) 0%, transparent 18%),
-        radial-gradient(circle at 50% 100%, rgba(38, 116, 214, 0.22) 0%, transparent 34%),
-        linear-gradient(180deg, #050b1d 0%, #07132c 30%, #08183a 60%, #04070f 100%);
+        radial-gradient(circle at 14% 16%, rgba(72, 108, 196, 0.16) 0%, transparent 24%),
+        radial-gradient(circle at 86% 12%, rgba(255, 255, 255, 0.04) 0%, transparent 14%),
+        radial-gradient(circle at 50% 100%, rgba(20, 38, 84, 0.18) 0%, transparent 36%),
+        linear-gradient(180deg, #02050b 0%, #050b16 28%, #07101d 58%, #020406 100%);
     background-attachment: fixed;
     overflow-x: hidden;
 }
@@ -114,7 +113,7 @@ body::after {
     inset: auto;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.22;
+    opacity: 0.12;
 }
 body::before {
     top: -120px;
@@ -123,8 +122,8 @@ body::before {
     height: 520px;
     border-radius: 50%;
     background:
-        radial-gradient(circle, rgba(20, 55, 160, 0.34) 0%, rgba(20, 55, 160, 0.12) 34%, transparent 68%),
-        conic-gradient(from 180deg, transparent 0deg, rgba(212, 174, 92, 0.07) 26deg, transparent 54deg, rgba(212, 174, 92, 0.03) 90deg, transparent 130deg, rgba(30, 60, 160, 0.12) 180deg, transparent 240deg, rgba(212, 174, 92, 0.04) 300deg, transparent 360deg);
+        radial-gradient(circle, rgba(42, 66, 122, 0.24) 0%, rgba(42, 66, 122, 0.08) 34%, transparent 70%),
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.05) 0%, transparent 28%);
     filter: blur(20px);
     animation: mistDriftA 24s ease-in-out infinite alternate;
 }
@@ -135,8 +134,8 @@ body::after {
     height: 520px;
     border-radius: 50%;
     background:
-        radial-gradient(circle, rgba(15, 35, 115, 0.16) 0%, rgba(212, 174, 92, 0.04) 24%, transparent 65%),
-        conic-gradient(from 0deg, transparent 0deg, rgba(30, 60, 160, 0.08) 40deg, transparent 85deg, rgba(212, 174, 92, 0.05) 130deg, transparent 190deg, rgba(30, 60, 160, 0.06) 240deg, transparent 300deg, rgba(212, 174, 92, 0.04) 340deg, transparent 360deg);
+        radial-gradient(circle, rgba(32, 48, 82, 0.12) 0%, transparent 62%),
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.04) 0%, transparent 20%);
     filter: blur(24px);
     animation: mistDriftB 30s ease-in-out infinite alternate;
 }
@@ -148,11 +147,11 @@ body::after {
     bottom: -80px;
     height: 240px;
     background:
-        radial-gradient(ellipse at 20% 70%, rgba(255,255,255,0.04) 0%, transparent 46%),
-        radial-gradient(ellipse at 50% 64%, rgba(40, 90, 220, 0.14) 0%, transparent 48%),
-        radial-gradient(ellipse at 80% 72%, rgba(255,255,255,0.035) 0%, transparent 44%);
+        radial-gradient(ellipse at 20% 70%, rgba(255,255,255,0.025) 0%, transparent 46%),
+        radial-gradient(ellipse at 50% 64%, rgba(72, 108, 196, 0.08) 0%, transparent 48%),
+        radial-gradient(ellipse at 80% 72%, rgba(255,255,255,0.02) 0%, transparent 44%);
     filter: blur(22px);
-    opacity: 0.42;
+    opacity: 0.14;
     pointer-events: none;
     z-index: 1;
     animation: templeSmoke 22s ease-in-out infinite alternate;
@@ -184,8 +183,8 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(circle at top center, rgba(255,255,255,0.08) 0%, transparent 22%),
-        linear-gradient(180deg, transparent 0%, rgba(20, 45, 130, 0.08) 58%, transparent 100%);
+        radial-gradient(circle at top center, rgba(255,255,255,0.05) 0%, transparent 22%),
+        linear-gradient(180deg, transparent 0%, rgba(18, 30, 60, 0.08) 58%, transparent 100%);
     pointer-events: none;
     animation: veilShift 16s ease-in-out infinite alternate;
 }
@@ -204,7 +203,7 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
     right: 20px;
     top: 10px;
     height: 56px;
-    background: radial-gradient(circle at center, rgba(30, 60, 160, 0.18) 0%, rgba(212, 174, 92, 0.05) 36%, transparent 74%);
+    background: radial-gradient(circle at center, rgba(72, 108, 196, 0.16) 0%, rgba(212, 174, 92, 0.03) 36%, transparent 74%);
     filter: blur(12px);
     pointer-events: none;
     animation: logoAura 7s ease-in-out infinite;
