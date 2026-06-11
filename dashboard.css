@@ -1468,9 +1468,50 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
     50% { box-shadow: 0 28px 54px rgba(0,0,0,0.42), 0 0 34px rgba(30, 60, 160, 0.12); }
 }
 
-.card,
-.page-header,
-.profile-services-card-shell { animation: none; }
+@keyframes floatBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+@keyframes glowShift {
+    0%, 100% { filter: saturate(1) brightness(1); }
+    50% { filter: saturate(1.08) brightness(1.06); }
+}
+@keyframes shimmerDrift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.page-header {
+    animation: floatBob 9s ease-in-out infinite;
+}
+.kpi-card {
+    animation: floatBob 10s ease-in-out infinite, glowShift 8s ease-in-out infinite;
+}
+.card {
+    animation: floatBob 12s ease-in-out infinite;
+}
+.session-item {
+    animation: glowShift 9s ease-in-out infinite;
+}
+.profile-services-card-shell {
+    animation: floatBob 11s ease-in-out infinite;
+}
+.profile-service-sheet,
+.profile-shop-card {
+    animation: floatBob 12s ease-in-out infinite;
+}
+.profile-service-sheet:nth-child(2),
+.profile-shop-grid .profile-shop-card:nth-child(2) {
+    animation-delay: 1.8s;
+}
+.profile-shop-grid .profile-shop-card:nth-child(3) {
+    animation-delay: 3.1s;
+}
+.btn-primary,
+.btn-gold {
+    background-size: 200% 200%;
+    animation: shimmerDrift 7s linear infinite;
+}
 .btn-gold { background: linear-gradient(135deg, #ffe59d 0%, #f5cb68 40%, #5f8dff 100%); color: #07111f; box-shadow: 0 10px 28px rgba(95,141,255,0.16); }
 .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(95,141,255,0.24), 0 0 18px rgba(245,203,104,0.18); }
 .btn-outline { background: rgba(255,255,255,0.03); border: 1px solid rgba(132,190,255,0.16); color: var(--t1); }
@@ -1478,6 +1519,20 @@ h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1
 .btn-danger { background: rgba(208,96,96,0.1); border: 1px solid rgba(208,96,96,0.3); color: var(--red); }
 .btn-danger:hover { background: rgba(208,96,96,0.2); }
 .btn-sm { padding: 8px 18px; font-size: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+    .page-header,
+    .kpi-card,
+    .card,
+    .session-item,
+    .profile-services-card-shell,
+    .profile-service-sheet,
+    .profile-shop-card,
+    .btn-primary,
+    .btn-gold {
+        animation: none !important;
+    }
+}
 
 .payment-overlay {
     position: fixed;
