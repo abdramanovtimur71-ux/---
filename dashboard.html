@@ -745,6 +745,9 @@
                     <!-- Большой круг (зона комфорта) -->
                     <circle cx="350" cy="350" r="130" fill="none" stroke="#bbb" stroke-width="1" stroke-dasharray="6,4"/>
 
+                    <!-- Внутренний ромб (П-О-М-Н на осях) -->
+                    <polygon points="350,290 410,350 350,410 290,350" fill="none" stroke="#ccc" stroke-width="1"/>
+
                     <!-- ═══ СТРЕЛКИ ЛИНИЙ РОДА ═══ -->
                     <!-- Линия мужского рода (синяя, от А через центр к В, показана диагональю) -->
                     <line x1="240" y1="290" x2="310" y2="220" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
@@ -862,6 +865,18 @@
                     <circle cx="350" cy="543" r="18" fill="#fff" stroke="#999" stroke-width="1.5"/>
                     <text id="mvGin2num" x="350" y="549" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="serif">?</text>
 
+                    <!-- Е компаньоны (верх-лево, диагональ) -->
+                    <circle cx="233" cy="233" r="17" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvEinNum" x="233" y="239" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="202" cy="202" r="17" fill="#fff" stroke="#aaa" stroke-width="1"/>
+                    <text id="mvEin2num" x="202" y="208" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="serif">?</text>
+
+                    <!-- Ж компаньоны (верх-право, диагональ) -->
+                    <circle cx="467" cy="233" r="17" fill="#fff" stroke="#999" stroke-width="1.5"/>
+                    <text id="mvZhinNum" x="467" y="239" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <circle cx="498" cy="202" r="17" fill="#fff" stroke="#aaa" stroke-width="1"/>
+                    <text id="mvZhin2num" x="498" y="208" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="serif">?</text>
+
                     <!-- З компаньоны (низ-лево, 70 лет) — на линии З→центр -->
                     <circle cx="233" cy="467" r="17" fill="#fff" stroke="#999" stroke-width="1.5"/>
                     <text id="mvZinNum" x="233" y="473" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
@@ -874,31 +889,26 @@
                     <circle cx="498" cy="498" r="17" fill="#fff" stroke="#aaa" stroke-width="1"/>
                     <text id="mvIin2num" x="498" y="504" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="serif">?</text>
 
-                    <!-- ═══ ТОЧКИ ВНУТРЕННЕГО РОМБА (П, О, М, Н) ═══ -->
-                    <!-- П = А_in+Б_in, верх-лево внутри -->
-                    <circle cx="282" cy="282" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
-                    <text id="mvPnum" x="282" y="287" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
-                    <text x="264" y="271" fill="#777" font-size="8" font-family="sans-serif">П</text>
+                    <!-- ═══ ТОЧКИ ВНУТРЕННЕГО РОМБА (П,О,М,Н) на осях у центра ═══ -->
+                    <!-- П = reduce(Bin+D), на вертикальной оси сверху -->
+                    <circle cx="350" cy="290" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
+                    <text id="mvPnum" x="350" y="296" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <text x="365" y="282" fill="#777" font-size="8" font-family="sans-serif">П</text>
 
-                    <!-- О = Б_in+В_in, верх-право -->
-                    <circle cx="418" cy="282" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
-                    <text id="mvOnum" x="418" y="287" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
-                    <text x="430" y="271" fill="#777" font-size="8" font-family="sans-serif">О</text>
+                    <!-- О = reduce(Vin+D), на горизонтальной оси справа -->
+                    <circle cx="410" cy="350" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
+                    <text id="mvOnum" x="410" y="356" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <text x="425" y="346" fill="#777" font-size="8" font-family="sans-serif">О</text>
 
-                    <!-- М = В_in+Г_in, низ-право -->
-                    <circle cx="418" cy="418" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
-                    <text id="mvMnum" x="418" y="423" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
-                    <text x="430" y="434" fill="#777" font-size="8" font-family="sans-serif">М</text>
+                    <!-- М = reduce(Gin+D), на вертикальной оси снизу -->
+                    <circle cx="350" cy="410" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
+                    <text id="mvMnum" x="350" y="416" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <text x="365" y="430" fill="#777" font-size="8" font-family="sans-serif">М</text>
 
-                    <!-- Н = Г_in+А_in сумма = Б_in+Г_in, низ-лево -->
-                    <circle cx="282" cy="418" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
-                    <text id="mvNnum" x="282" y="423" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
-                    <text x="264" y="434" fill="#777" font-size="8" font-family="sans-serif">Н</text>
-
-                    <!-- К = И+Д (около нижнего правого) -->
-                    <circle cx="450" cy="452" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
-                    <text id="mvKnum" x="450" y="457" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
-                    <text x="465" y="445" fill="#777" font-size="8" font-family="sans-serif">К</text>
+                    <!-- Н = reduce(Ain+D), на горизонтальной оси слева -->
+                    <circle cx="290" cy="350" r="17" fill="#fff" stroke="#aaa" stroke-width="1.5"/>
+                    <text id="mvNnum" x="290" y="356" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="serif">?</text>
+                    <text x="272" y="344" fill="#777" font-size="8" font-family="sans-serif">Н</text>
                   </svg>
                 </div>
 
@@ -2122,30 +2132,31 @@ function calcMatrix() {
     const I   = reduceArcana(V + G);                        // И — низ-право (50 лет)
     const Z   = reduceArcana(A + G);                        // З — низ-лево (70 лет)
 
-    // Внутренние точки (на линиях между внешними и центром)
-    const Ain  = reduceArcana(A + D);                       // А_in
-    const Bin  = reduceArcana(B + D);                       // Б_in
-    const Vin  = reduceArcana(V + D);                       // В_in
-    const Gin  = reduceArcana(G + D);                       // Г_in
+    // Внутренние точки ВСЕ 8 рёбер: Xin = reduce(X + D)
+    const Ain  = reduceArcana(A + D);
+    const Bin  = reduceArcana(B + D);
+    const Vin  = reduceArcana(V + D);
+    const Gin  = reduceArcana(G + D);
+    const Ein  = reduceArcana(E + D);
+    const Zhin = reduceArcana(Zh + D);
+    const Iin  = reduceArcana(I + D);
+    const Zin  = reduceArcana(Z + D);
 
-    // Вторые внутренние (компаньоны) — формула: X + X_in
-    const Ain2 = reduceArcana(A + Ain);                     // ближе к А
-    const Bin2 = reduceArcana(B + Bin);                     // ближе к Б
-    const Vin2 = reduceArcana(V + Vin);                     // ближе к В
-    const Gin2 = reduceArcana(G + Gin);                     // ближе к Г
+    // Внешние компаньоны: Xin2 = reduce(X + Xin)
+    const Ain2  = reduceArcana(A + Ain);
+    const Bin2  = reduceArcana(B + Bin);
+    const Vin2  = reduceArcana(V + Vin);
+    const Gin2  = reduceArcana(G + Gin);
+    const Ein2  = reduceArcana(E + Ein);
+    const Zhin2 = reduceArcana(Zh + Zhin);
+    const Iin2  = reduceArcana(I + Iin);
+    const Zin2  = reduceArcana(Z + Zin);
 
-    // Компаньоны для диагональных вершин
-    const Zin  = reduceArcana(Z + D);                       // З_in
-    const Zin2 = reduceArcana(Z + Zin);                     // З_in2
-    const Iin  = reduceArcana(I + D);                       // И_in
-    const Iin2 = reduceArcana(I + Iin);                     // И_in2
-
-    // Точки внутреннего ромба
-    const P = reduceArcana(Ain + Bin);                      // П — верх-лево ромба
-    const O = reduceArcana(Bin + Vin);                      // О — верх-право ромба
-    const M = reduceArcana(Vin + Gin);                      // М — низ-право ромба
-    const N = reduceArcana(Gin + Ain);                      // Н — низ-лево ромба
-    const K = reduceArcana(I + D);                          // К — дополнительная
+    // Внутренний ромб (на осях, ближайшие к центру): Xin_inner = reduce(Xin + D)
+    const P = reduceArcana(Bin + D);   // П — ось Б (сверху от центра)
+    const O = reduceArcana(Vin + D);   // О — ось В (справа от центра)
+    const M = reduceArcana(Gin + D);   // М — ось Г (снизу от центра)
+    const N = reduceArcana(Ain + D);   // Н — ось А (слева от центра)
 
     // Обновляем SVG
     const svgMap = {
@@ -2153,8 +2164,11 @@ function calcMatrix() {
         Enum: E, Zhnum: Zh, Inum: I, Znum: Z,
         AinNum: Ain, BinNum: Bin, VinNum: Vin, GinNum: Gin,
         Ain2num: Ain2, Bin2num: Bin2, Vin2num: Vin2, Gin2num: Gin2,
-        ZinNum: Zin, Zin2num: Zin2, IinNum: Iin, Iin2num: Iin2,
-        Pnum: P, Onum: O, Mnum: M, Nnum: N, Knum: K
+        EinNum: Ein, Ein2num: Ein2,
+        ZhinNum: Zhin, Zhin2num: Zhin2,
+        ZinNum: Zin, Zin2num: Zin2,
+        IinNum: Iin, Iin2num: Iin2,
+        Pnum: P, Onum: O, Mnum: M, Nnum: N
     };
     for (const [id, v] of Object.entries(svgMap)) {
         const el = document.getElementById(`mv${id}`);
