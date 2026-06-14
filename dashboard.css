@@ -2247,16 +2247,41 @@ table { min-width: 560px; }
 .matrix-input {
     width: 100%;
     padding: 11px 14px;
-    background: #0d0b14;
-    border: 1px solid rgba(138,109,192,0.25);
+    background: #120f1d;
+    border: 1px solid rgba(138,109,192,0.42);
     border-radius: 10px;
-    color: #d0d8f0;
-    font-size: 14px;
+    color: #eef4ff;
+    font-size: 15px;
+    font-weight: 600;
     outline: none;
     box-sizing: border-box;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
-.matrix-input:focus { border-color: rgba(138,109,192,0.6); }
+.matrix-input::placeholder {
+    color: #c7d4f5;
+    opacity: 0.95;
+}
+.matrix-input:focus {
+    background: #171227;
+    border-color: rgba(200,168,64,0.7);
+    box-shadow: 0 0 0 3px rgba(200,168,64,0.16);
+}
+input[type="date"].matrix-input {
+    color-scheme: dark;
+}
+input[type="date"].matrix-input::-webkit-datetime-edit,
+input[type="date"].matrix-input::-webkit-datetime-edit-fields-wrapper,
+input[type="date"].matrix-input::-webkit-datetime-edit-text,
+input[type="date"].matrix-input::-webkit-datetime-edit-month-field,
+input[type="date"].matrix-input::-webkit-datetime-edit-day-field,
+input[type="date"].matrix-input::-webkit-datetime-edit-year-field {
+    color: #eef4ff;
+}
+input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
+    opacity: 1;
+    cursor: pointer;
+    filter: invert(93%) sepia(15%) saturate(446%) hue-rotate(184deg) brightness(104%) contrast(97%);
+}
 .matrix-calc-btn {
     padding: 12px 28px;
     background: linear-gradient(135deg, #7b4fc9, #c8a840);
