@@ -782,6 +782,12 @@
                     <!-- И_in2 — ближе к И (648,592) -->
                     <text id="mvIin2num" x="648" y="592" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
 
+                    <!-- Точки ближе к центру (раньше были пустыми) -->
+                    <text id="mvAinCnum" x="210" y="380" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvBinCnum" x="440" y="151" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvVinCnum" x="610" y="380" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvKnum" x="440" y="546" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+
                     <!-- П — подпись на денежной оси -->
                     <text id="mvPnum" x="640" y="380" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
 
@@ -2355,9 +2361,9 @@ function calcMatrix() {
     const V = reduceArcana(yearSum);                         // В — право (40 лет)
     const sumABV = A + B + V;
     const G = reduceArcana(sumABV);                         // Г — низ (60 лет)
-    // Д: если сумма А+Б+В <= 22, используем Г − 2×А; иначе классическая сумма А+Б+В+Г
+    // Д: если сумма А+Б+В <= 22 и день < 10, используем Г − 2×А; иначе классическая сумма А+Б+В+Г
     const D_raw = G - 2 * A;
-    const D = (sumABV <= 22 && D_raw > 0) ? reduceArcana(D_raw) : reduceArcana(A + B + V + G);
+    const D = (sumABV <= 22 && day < 10 && D_raw > 0) ? reduceArcana(D_raw) : reduceArcana(A + B + V + G);
 
     // Угловые средние (по рёбрам октагона)
     const E   = reduceArcana(A + B);                        // Е — верх-лево (10 лет)
