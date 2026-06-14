@@ -2360,10 +2360,8 @@ function calcMatrix() {
     const yearSum = String(year).split('').reduce((a,b) => a + Number(b), 0);
     const V = reduceArcana(yearSum);                         // В — право (40 лет)
     const sumABV = A + B + V;
-    const G = reduceArcana(sumABV);                         // Г — низ (60 лет)
-    // Д: если сумма А+Б+В <= 22 и день < 10, используем Г − 2×А; иначе классическая сумма А+Б+В+Г
-    const D_raw = G - 2 * A;
-    const D = (sumABV <= 22 && day < 10 && D_raw > 0) ? reduceArcana(D_raw) : reduceArcana(A + B + V + G);
+    const G = reduceArcana(sumABV);                         // Г = А + Б + В
+    const D = reduceArcana(A + B + V + G);                 // Д = А + Б + В + Г
 
     // Угловые средние (по рёбрам октагона)
     const E   = reduceArcana(A + B);                        // Е — верх-лево (10 лет)
