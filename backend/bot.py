@@ -38,7 +38,7 @@ import bot_database as db
 
 load_dotenv()
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "") or os.getenv("TELEGRAM_BOT_TOKEN", "")
 PAYMENT_PROVIDER_TOKEN = os.getenv("PAYMENT_PROVIDER_TOKEN", "")  # от @BotFather
 ADMIN_TG_ID = int(os.getenv("ADMIN_TG_ID", "0"))
 KASPI_QR_LINK = os.getenv("KASPI_QR_LINK", "")  # ваша ссылка на QR Kaspi
@@ -728,6 +728,9 @@ async def ai_message_handler(msg: Message, state: FSMContext):
 # ─────────────────────────── Запуск ───────────────────────────────────────────
 
 async def main():
+    if not BOT_TOKEN:
+        log.error("Set BOT_TOKEN (or TELEGRAM_BOT_TOKEN) in environment before starting the bot.")
+        return
     db.init_db()
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher(storage=MemoryStorage())
