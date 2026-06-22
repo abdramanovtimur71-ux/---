@@ -2239,6 +2239,9 @@ table { min-width: 560px; }
     flex: 1;
     min-width: 160px;
 }
+.matrix-field-date {
+    position: relative;
+}
 .matrix-field label {
     display: block;
     font-size: 12px;
@@ -2246,6 +2249,60 @@ table { min-width: 560px; }
     margin-bottom: 6px;
     letter-spacing: 0.4px;
     text-transform: uppercase;
+}
+.matrix-date-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 11px;
+}
+.matrix-date-gesture {
+    color: #7f95cf;
+    letter-spacing: 0.2px;
+}
+.matrix-age-preview {
+    color: #d7e4ff;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.matrix-date-selects {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    width: 100%;
+}
+.matrix-date-select-col {
+    flex: 1;
+    min-width: 92px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.matrix-date-select-col-year { min-width: 120px; }
+.matrix-date-select-col > span {
+    font-size: 12px;
+    color: #9db3e4;
+    letter-spacing: 0.2px;
+}
+.matrix-date-select {
+    width: 100%;
+    height: 42px;
+    border: 1px solid rgba(110,150,255,0.42);
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(9,13,30,0.96), rgba(18,28,56,0.88));
+    color: #eef4ff;
+    font-size: 15px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    outline: none;
+    padding: 0 12px;
+    appearance: auto;
+}
+.matrix-date-select:focus {
+    border-color: rgba(200,168,64,0.75);
+    box-shadow: 0 0 0 3px rgba(200,168,64,0.14);
 }
 .matrix-input {
     width: 100%;
@@ -2284,6 +2341,7 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     opacity: 1;
     cursor: pointer;
     filter: invert(93%) sepia(15%) saturate(446%) hue-rotate(184deg) brightness(104%) contrast(97%);
+    transform: scale(1.08);
 }
 .matrix-calc-btn {
     padding: 12px 28px;
@@ -2319,6 +2377,17 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
 .matrix-person-date {
     font-size: 15px;
     color: #8a9ab5;
+}
+.matrix-person-age {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff3d2;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(212,174,92,0.38);
+    background: linear-gradient(135deg, rgba(212,174,92,0.18), rgba(95,141,255,0.12));
+    font-variant-numeric: tabular-nums;
 }
 
 .matrix-visual-wrap {
@@ -2576,6 +2645,15 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     background: linear-gradient(180deg, rgba(9,13,30,0.96), rgba(18,28,56,0.88));
     border-color: rgba(110,150,255,0.42);
 }
+#page-matrix .matrix-date-select {
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 0 1px rgba(110,150,255,0.1);
+}
+#page-matrix .matrix-date-gesture {
+    color: #86a6ef;
+}
+#page-matrix .matrix-age-preview {
+    color: #ecf2ff;
+}
 #page-matrix .matrix-calc-btn {
     background: linear-gradient(135deg, #355fd0 0%, #7b4fc9 45%, #d9b15e 100%);
     box-shadow: 0 10px 24px rgba(30,60,160,0.38), 0 0 24px rgba(212,174,92,0.18);
@@ -2652,6 +2730,8 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     .matrix-values-grid { grid-template-columns: repeat(2, 1fr); }
     .matrix-svg { max-width: 340px; }
     .matrix-person-header { flex-direction: column; gap: 4px; text-align: center; }
+    .matrix-date-meta { width: 100%; }
+    .matrix-person-age { margin-left: 0; }
 }
 
 /* ══ STARS ANIMATION ═══════════════════════════════════════════════ */

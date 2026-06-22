@@ -6,77 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
     <link rel="stylesheet" href="dashboard.css">
-    <style>
-        .date-spinner {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0;
-            padding: 8px 12px;
-            background: #120f1d;
-            border: 1px solid rgba(138,109,192,0.42);
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #eef4ff;
-        }
-        .spinner-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-        .spinner-input {
-            width: 50px;
-            height: 32px;
-            text-align: center;
-            background: rgba(18,28,56,0.5);
-            border: 1px solid rgba(110,150,255,0.3);
-            border-radius: 6px;
-            color: #eef4ff;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 0;
-            cursor: ns-resize;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: none;
-        }
-        .spinner-input:hover {
-            background: rgba(18,28,56,0.7);
-            border-color: rgba(110,150,255,0.5);
-        }
-        #spinnerYear {
-            width: 60px;
-        }
-        .spinner-btn-up, .spinner-btn-down {
-            width: 28px;
-            height: 20px;
-            padding: 0;
-            background: rgba(110,150,255,0.2);
-            border: 1px solid rgba(110,150,255,0.4);
-            border-radius: 4px;
-            color: #6e96ff;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-        .spinner-btn-up:hover, .spinner-btn-down:hover {
-            background: rgba(110,150,255,0.4);
-            border-color: rgba(110,150,255,0.6);
-            color: #a3c4ff;
-        }
-        .spinner-btn-up:active, .spinner-btn-down:active {
-            background: rgba(110,150,255,0.5);
-        }
-        .spinner-sep {
-            font-size: 20px;
-            color: #6e96ff;
-            margin: 0 4px;
-            line-height: 1;
-        }
-    </style>
 </head>
 <body>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
@@ -753,9 +682,33 @@
                         <label>Имя клиента</label>
                         <input type="text" id="matrixName" placeholder="Введите имя" class="matrix-input">
                     </div>
-                    <div class="matrix-field">
+                    <div class="matrix-field matrix-field-date">
                         <label>Дата рождения</label>
-                        <input type="date" id="matrixDate" class="matrix-input">
+                        <div class="matrix-date-selects" aria-label="Дата рождения: день, месяц и год">
+                            <div class="matrix-date-select-col">
+                                <span>День</span>
+                                <select id="matrixDaySelect" class="matrix-date-select" aria-label="День">
+                                    <option value="">ДД</option>
+                                </select>
+                            </div>
+                            <div class="matrix-date-select-col">
+                                <span>Месяц</span>
+                                <select id="matrixMonthSelect" class="matrix-date-select" aria-label="Месяц">
+                                    <option value="">ММ</option>
+                                </select>
+                            </div>
+                            <div class="matrix-date-select-col matrix-date-select-col-year">
+                                <span>Год</span>
+                                <select id="matrixYearSelect" class="matrix-date-select" aria-label="Год">
+                                    <option value="">ГГГГ</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" id="matrixDate">
+                        <div class="matrix-date-meta">
+                            <span class="matrix-date-gesture">Выберите дату рождения</span>
+                            <span id="matrixAgePreview" class="matrix-age-preview">Возраст: —</span>
+                        </div>
                     </div>
                     <button class="matrix-calc-btn" onclick="calcMatrix()">Рассчитать ✦</button>
                 </div>
@@ -767,6 +720,7 @@
                 <div class="matrix-person-header">
                     <span id="matrixPersonName" class="matrix-person-name"></span>
                     <span id="matrixPersonDate" class="matrix-person-date"></span>
+                    <span id="matrixPersonAge" class="matrix-person-age"></span>
                 </div>
 
                 <!-- Визуальная матрица (SVG) — Правильная октаграмма -->
@@ -2452,94 +2406,157 @@ function reduceArcana(n) {
     return n || 22;
 }
 
-function spinnerInc(field) {
-    const inputs = {
-        day: { el: 'spinnerDay', min: 1, max: 31 },
-        month: { el: 'spinnerMonth', min: 1, max: 12 },
-        year: { el: 'spinnerYear', min: 1900, max: 2100 }
-    };
-    const cfg = inputs[field];
-    if (!cfg) return;
-    const el = document.getElementById(cfg.el);
-    let val = parseInt(el.value) || cfg.min;
-    val = Math.min(val + 1, cfg.max);
-    el.value = field === 'year' ? String(val) : String(val).padStart(2, '0');
+function parseMatrixDateValue(dateVal) {
+    if (!dateVal) return null;
+    const [yearStr, monthStr, dayStr] = dateVal.split('-');
+    const day = Number(dayStr);
+    const month = Number(monthStr);
+    const year = Number(yearStr);
+    if (!day || !month || !year) return null;
+
+    const date = new Date(year, month - 1, day);
+    if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+    ) return null;
+
+    return { day, month, year, date };
 }
 
-function spinnerDec(field) {
-    const inputs = {
-        day: { el: 'spinnerDay', min: 1, max: 31 },
-        month: { el: 'spinnerMonth', min: 1, max: 12 },
-        year: { el: 'spinnerYear', min: 1900, max: 2100 }
-    };
-    const cfg = inputs[field];
-    if (!cfg) return;
-    const el = document.getElementById(cfg.el);
-    let val = parseInt(el.value) || cfg.min;
-    val = Math.max(val - 1, cfg.min);
-    el.value = field === 'year' ? String(val) : String(val).padStart(2, '0');
+function matrixAgeLabel(age) {
+    const absAge = Math.abs(age);
+    const mod10 = absAge % 10;
+    const mod100 = absAge % 100;
+    if (mod10 === 1 && mod100 !== 11) return `${age} год`;
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return `${age} года`;
+    return `${age} лет`;
 }
 
-// Spinner wheel/touch handlers
-let spinnerTouchStart = {};
+function calculateMatrixAge(birthDate, today = new Date()) {
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDelta = today.getMonth() - birthDate.getMonth();
+    if (monthDelta < 0 || (monthDelta === 0 && today.getDate() < birthDate.getDate())) {
+        age -= 1;
+    }
+    return age;
+}
 
-function initSpinner() {
-    ['spinnerDay', 'spinnerMonth', 'spinnerYear'].forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        
-        // Wheel (мышь)
-        el.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            const field = id.replace('spinner', '').toLowerCase();
-            if (e.deltaY < 0) spinnerInc(field);
-            else spinnerDec(field);
-        }, { passive: false });
-        
-        // Touch (телефон)
-        el.addEventListener('touchstart', (e) => {
-            spinnerTouchStart[id] = e.touches[0].clientY;
-        }, { passive: true });
-        
-        el.addEventListener('touchmove', (e) => {
-            if (!spinnerTouchStart[id]) return;
-            const currentY = e.touches[0].clientY;
-            const diff = spinnerTouchStart[id] - currentY;
-            const field = id.replace('spinner', '').toLowerCase();
-            
-            if (Math.abs(diff) > 10) {
-                if (diff > 0) spinnerInc(field);
-                else spinnerDec(field);
-                spinnerTouchStart[id] = currentY;
-            }
-        }, { passive: true });
-        
-        el.addEventListener('touchend', () => {
-            spinnerTouchStart[id] = null;
-        });
+function updateMatrixAgePreview() {
+    const dateInput = document.getElementById('matrixDate');
+    const agePreview = document.getElementById('matrixAgePreview');
+    if (!dateInput || !agePreview) return;
+
+    const parsed = parseMatrixDateValue(dateInput.value);
+    if (!parsed) {
+        agePreview.textContent = 'Возраст: —';
+        return;
+    }
+
+    const age = calculateMatrixAge(parsed.date);
+    agePreview.textContent = age >= 0 ? `Возраст: ${matrixAgeLabel(age)}` : 'Возраст: —';
+}
+
+function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+}
+
+function parseMatrixSelectValues() {
+    const day = Number(document.getElementById('matrixDaySelect')?.value);
+    const month = Number(document.getElementById('matrixMonthSelect')?.value);
+    const year = Number(document.getElementById('matrixYearSelect')?.value);
+    if (!day || !month || !year) return null;
+    return { day, month, year };
+}
+
+function fillMatrixDateSelects(day, month, year) {
+    const dayEl = document.getElementById('matrixDaySelect');
+    const monthEl = document.getElementById('matrixMonthSelect');
+    const yearEl = document.getElementById('matrixYearSelect');
+    if (!dayEl || !monthEl || !yearEl) return;
+    dayEl.value = String(day).padStart(2, '0');
+    monthEl.value = String(month).padStart(2, '0');
+    yearEl.value = String(year);
+}
+
+function syncMatrixDateFromSelects() {
+    const dateInput = document.getElementById('matrixDate');
+    if (!dateInput) return;
+
+    const values = parseMatrixSelectValues();
+    if (!values) {
+        dateInput.value = '';
+        updateMatrixAgePreview();
+        return;
+    }
+
+    const maxYear = new Date().getFullYear();
+    const year = Math.min(Math.max(values.year, 1900), maxYear);
+    const month = Math.min(Math.max(values.month, 1), 12);
+    const day = Math.min(Math.max(values.day, 1), daysInMonth(month, year));
+    fillMatrixDateSelects(day, month, year);
+
+    dateInput.value = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    updateMatrixAgePreview();
+}
+
+function initMatrixDateSelects() {
+    const dayEl = document.getElementById('matrixDaySelect');
+    const monthEl = document.getElementById('matrixMonthSelect');
+    const yearEl = document.getElementById('matrixYearSelect');
+    const dateInput = document.getElementById('matrixDate');
+    if (!dayEl || !monthEl || !yearEl || !dateInput || dayEl.dataset.enhanced === '1') return;
+
+    [dayEl, monthEl, yearEl].forEach(el => { el.dataset.enhanced = '1'; });
+
+    if (dayEl.options.length <= 1) {
+        for (let day = 1; day <= 31; day += 1) {
+            const val = String(day).padStart(2, '0');
+            dayEl.add(new Option(val, val));
+        }
+    }
+    if (monthEl.options.length <= 1) {
+        for (let month = 1; month <= 12; month += 1) {
+            const val = String(month).padStart(2, '0');
+            monthEl.add(new Option(val, val));
+        }
+    }
+    if (yearEl.options.length <= 1) {
+        const currentYear = new Date().getFullYear();
+        for (let year = currentYear; year >= 1900; year -= 1) {
+            yearEl.add(new Option(String(year), String(year)));
+        }
+    }
+
+    const parsed = parseMatrixDateValue(dateInput.value);
+    if (parsed) fillMatrixDateSelects(parsed.day, parsed.month, parsed.year);
+
+    [dayEl, monthEl, yearEl].forEach(el => {
+        el.addEventListener('change', syncMatrixDateFromSelects);
     });
+    syncMatrixDateFromSelects();
 }
 
-// Инициализация при загрузке
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSpinner);
+    document.addEventListener('DOMContentLoaded', initMatrixDateSelects);
 } else {
-    initSpinner();
+    initMatrixDateSelects();
 }
 
 function calcMatrix() {
     // На случай старого кеша: убрать ранее добавленный слой прогрессии, если он есть.
     document.getElementById('progressionDotsGroup')?.remove();
-
+    syncMatrixDateFromSelects();
     const name = document.getElementById('matrixName').value.trim() || 'Клиент';
     const dateVal = document.getElementById('matrixDate').value;
     if (!dateVal) { showNotify('Введите дату рождения', 'warn'); return; }
 
-    // YYYY-MM-DD from <input type="date">: parse manually to avoid timezone shifts
-    const [yearStr, monthStr, dayStr] = dateVal.split('-');
-    const day   = Number(dayStr);
-    const month = Number(monthStr);
-    const year  = Number(yearStr);
+    const birth = parseMatrixDateValue(dateVal);
+    if (!birth) { showNotify('Проверьте корректность даты', 'warn'); return; }
+
+    const { day, month, year, date: birthDate } = birth;
+    const age = calculateMatrixAge(birthDate);
+    if (age < 0) { showNotify('Дата рождения не может быть в будущем', 'warn'); return; }
 
     // Главные точки октогона
     const A = reduceArcana(day);                             // левый (0 лет)
@@ -2617,6 +2634,7 @@ function calcMatrix() {
     const dStr = `${String(day).padStart(2,'0')}.${String(month).padStart(2,'0')}.${year}`;
     document.getElementById('matrixPersonName').textContent = name;
     document.getElementById('matrixPersonDate').textContent = dStr;
+    document.getElementById('matrixPersonAge').textContent = matrixAgeLabel(age);
 
     // Таблица значений — все позиции
     const allPositions = [
