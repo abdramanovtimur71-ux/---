@@ -755,9 +755,16 @@
                     </div>
                     <div class="matrix-field matrix-field-date">
                         <label>Дата рождения</label>
-                        <input type="date" id="matrixDate" class="matrix-input matrix-input-date">
+                        <div class="date-spinner matrix-date-spinner" aria-label="Дата рождения: день, месяц и год">
+                            <input type="text" id="spinnerDay" class="spinner-input" inputmode="numeric" maxlength="2" placeholder="ДД" aria-label="День">
+                            <span class="spinner-sep">.</span>
+                            <input type="text" id="spinnerMonth" class="spinner-input" inputmode="numeric" maxlength="2" placeholder="ММ" aria-label="Месяц">
+                            <span class="spinner-sep">.</span>
+                            <input type="text" id="spinnerYear" class="spinner-input" inputmode="numeric" maxlength="4" placeholder="ГГГГ" aria-label="Год">
+                        </div>
+                        <input type="date" id="matrixDate" class="matrix-input matrix-input-date matrix-date-native">
                         <div class="matrix-date-meta">
-                            <span class="matrix-date-gesture">Свайп ↑↓ или колесо</span>
+                            <span class="matrix-date-gesture">Свайп ↑↓ по каждому: день · месяц · год</span>
                             <span id="matrixAgePreview" class="matrix-age-preview">Возраст: —</span>
                         </div>
                     </div>
@@ -2508,95 +2515,85 @@ function updateMatrixAgePreview() {
     agePreview.textContent = age >= 0 ? `Возраст: ${matrixAgeLabel(age)}` : 'Возраст: —';
 }
 
-function shiftMatrixDateByDays(stepDays) {
+function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+}
+
+function parseSpinnerValues() {
+    const day = Number(document.getElementById('spinnerDay')?.value);
+    const month = Number(document.getElementById('spinnerMonth')?.value);
+    const year = Number(document.getElementById('spinnerYear')?.value);
+    if (!day || !month || !year) return null;
+    return { day, month, year };
+}
+
+function fillSpinnerValues(day, month, year) {
+    const dayEl = document.getElementById('spinnerDay');
+    const monthEl = document.getElementById('spinnerMonth');
+    const yearEl = document.getElementById('spinnerYear');
+    if (!dayEl || !monthEl || !yearEl) return;
+    dayEl.value = String(day).padStart(2, '0');
+    monthEl.value = String(month).padStart(2, '0');
+    yearEl.value = String(year);
+}
+
+function syncDateFromSpinner() {
     const dateInput = document.getElementById('matrixDate');
     if (!dateInput) return;
 
-    const parsed = parseMatrixDateValue(dateInput.value);
-    if (!parsed) return;
+    const values = parseSpinnerValues();
+    if (!values) {
+        dateInput.value = '';
+        updateMatrixAgePreview();
+        return;
+    }
 
-    const next = new Date(parsed.year, parsed.month - 1, parsed.day + stepDays);
-    const nextValue = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}-${String(next.getDate()).padStart(2, '0')}`;
-    dateInput.value = nextValue;
+    const maxYear = new Date().getFullYear();
+    const year = Math.min(Math.max(values.year, 1900), maxYear);
+    const month = Math.min(Math.max(values.month, 1), 12);
+    const maxDay = daysInMonth(month, year);
+    const day = Math.min(Math.max(values.day, 1), maxDay);
+
+    fillSpinnerValues(day, month, year);
+    dateInput.value = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     updateMatrixAgePreview();
 }
 
-let matrixDateTouchStartY = null;
-
-function initMatrixDateInput() {
+function syncSpinnerFromDate() {
     const dateInput = document.getElementById('matrixDate');
-    if (!dateInput || dateInput.dataset.enhanced === '1') return;
-    dateInput.dataset.enhanced = '1';
-
-    const today = new Date();
-    const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    dateInput.max = todayIso;
-
-    dateInput.addEventListener('input', updateMatrixAgePreview);
-    dateInput.addEventListener('change', updateMatrixAgePreview);
-
-    dateInput.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        shiftMatrixDateByDays(e.deltaY < 0 ? 1 : -1);
-    }, { passive: false });
-
-    dateInput.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            shiftMatrixDateByDays(1);
-        } else if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            shiftMatrixDateByDays(-1);
-        }
-    });
-
-    dateInput.addEventListener('touchstart', (e) => {
-        matrixDateTouchStartY = e.touches[0].clientY;
-    }, { passive: true });
-
-    dateInput.addEventListener('touchmove', (e) => {
-        if (matrixDateTouchStartY == null) return;
-        const currentY = e.touches[0].clientY;
-        const diff = matrixDateTouchStartY - currentY;
-        if (Math.abs(diff) < 20) return;
-        e.preventDefault();
-        shiftMatrixDateByDays(diff > 0 ? 1 : -1);
-        matrixDateTouchStartY = currentY;
-    }, { passive: false });
-
-    dateInput.addEventListener('touchend', () => {
-        matrixDateTouchStartY = null;
-    });
-
+    if (!dateInput || !dateInput.value) return;
+    const parsed = parseMatrixDateValue(dateInput.value);
+    if (!parsed) return;
+    fillSpinnerValues(parsed.day, parsed.month, parsed.year);
     updateMatrixAgePreview();
+}
+
+function adjustSpinnerField(field, delta) {
+    const current = parseSpinnerValues() || (() => {
+        const today = new Date();
+        return { day: today.getDate(), month: today.getMonth() + 1, year: today.getFullYear() };
+    })();
+    const maxYear = new Date().getFullYear();
+
+    let { day, month, year } = current;
+    if (field === 'day') day += delta;
+    if (field === 'month') month += delta;
+    if (field === 'year') year += delta;
+
+    year = Math.min(Math.max(year, 1900), maxYear);
+    month = Math.min(Math.max(month, 1), 12);
+    day = Math.min(Math.max(day, 1), daysInMonth(month, year));
+
+    fillSpinnerValues(day, month, year);
+    syncDateFromSpinner();
 }
 
 function spinnerInc(field) {
-    const inputs = {
-        day: { el: 'spinnerDay', min: 1, max: 31 },
-        month: { el: 'spinnerMonth', min: 1, max: 12 },
-        year: { el: 'spinnerYear', min: 1900, max: 2100 }
-    };
-    const cfg = inputs[field];
-    if (!cfg) return;
-    const el = document.getElementById(cfg.el);
-    let val = parseInt(el.value) || cfg.min;
-    val = Math.min(val + 1, cfg.max);
-    el.value = field === 'year' ? String(val) : String(val).padStart(2, '0');
+    adjustSpinnerField(field, 1);
 }
 
 function spinnerDec(field) {
-    const inputs = {
-        day: { el: 'spinnerDay', min: 1, max: 31 },
-        month: { el: 'spinnerMonth', min: 1, max: 12 },
-        year: { el: 'spinnerYear', min: 1900, max: 2100 }
-    };
-    const cfg = inputs[field];
-    if (!cfg) return;
-    const el = document.getElementById(cfg.el);
-    let val = parseInt(el.value) || cfg.min;
-    val = Math.max(val - 1, cfg.min);
-    el.value = field === 'year' ? String(val) : String(val).padStart(2, '0');
+    adjustSpinnerField(field, -1);
 }
 
 // Spinner wheel/touch handlers
@@ -2605,38 +2602,69 @@ let spinnerTouchStart = {};
 function initSpinner() {
     ['spinnerDay', 'spinnerMonth', 'spinnerYear'].forEach(id => {
         const el = document.getElementById(id);
-        if (!el) return;
-        
-        // Wheel (мышь)
+        if (!el || el.dataset.enhanced === '1') return;
+        el.dataset.enhanced = '1';
+
+        const field = id.replace('spinner', '').toLowerCase();
+
+        el.addEventListener('input', () => {
+            const limit = field === 'year' ? 4 : 2;
+            el.value = el.value.replace(/\D/g, '').slice(0, limit);
+            syncDateFromSpinner();
+        });
+
+        el.addEventListener('blur', () => {
+            if (!el.value) return;
+            if (field !== 'year') el.value = String(Number(el.value)).padStart(2, '0');
+            syncDateFromSpinner();
+        });
+
         el.addEventListener('wheel', (e) => {
             e.preventDefault();
-            const field = id.replace('spinner', '').toLowerCase();
             if (e.deltaY < 0) spinnerInc(field);
             else spinnerDec(field);
         }, { passive: false });
-        
-        // Touch (телефон)
+
+        el.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                spinnerInc(field);
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                spinnerDec(field);
+            }
+        });
+
         el.addEventListener('touchstart', (e) => {
             spinnerTouchStart[id] = e.touches[0].clientY;
         }, { passive: true });
-        
+
         el.addEventListener('touchmove', (e) => {
-            if (!spinnerTouchStart[id]) return;
+            if (spinnerTouchStart[id] == null) return;
             const currentY = e.touches[0].clientY;
             const diff = spinnerTouchStart[id] - currentY;
-            const field = id.replace('spinner', '').toLowerCase();
-            
-            if (Math.abs(diff) > 10) {
-                if (diff > 0) spinnerInc(field);
-                else spinnerDec(field);
-                spinnerTouchStart[id] = currentY;
-            }
-        }, { passive: true });
-        
+            if (Math.abs(diff) <= 10) return;
+            e.preventDefault();
+            if (diff > 0) spinnerInc(field);
+            else spinnerDec(field);
+            spinnerTouchStart[id] = currentY;
+        }, { passive: false });
+
         el.addEventListener('touchend', () => {
             spinnerTouchStart[id] = null;
         });
     });
+}
+
+function initMatrixDateInput() {
+    const dateInput = document.getElementById('matrixDate');
+    if (!dateInput || dateInput.dataset.enhanced === '1') return;
+    dateInput.dataset.enhanced = '1';
+    const today = new Date();
+    dateInput.max = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    dateInput.addEventListener('change', syncSpinnerFromDate);
+    syncSpinnerFromDate();
+    updateMatrixAgePreview();
 }
 
 // Инициализация при загрузке
@@ -2654,6 +2682,7 @@ function calcMatrix() {
     // На случай старого кеша: убрать ранее добавленный слой прогрессии, если он есть.
     document.getElementById('progressionDotsGroup')?.remove();
 
+    syncDateFromSpinner();
     const name = document.getElementById('matrixName').value.trim() || 'Клиент';
     const dateVal = document.getElementById('matrixDate').value;
     if (!dateVal) { showNotify('Введите дату рождения', 'warn'); return; }
