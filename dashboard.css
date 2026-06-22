@@ -2465,10 +2465,10 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
 }
 
 .matrix-values-grid {
-    display: grid;
+    display: none;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 12px;
-    margin-bottom: 32px;
+    margin-bottom: 0;
 }
 .matrix-val-card {
     background: rgba(13,11,20,0.8);
