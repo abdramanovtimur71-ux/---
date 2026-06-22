@@ -1945,15 +1945,20 @@ function initMatrixProgressionDots() {
     const buildEdgeFormula = (left, right) => {
         const mid = reduceArcana(left + right);
         const point23 = reduceArcana(left + mid);
+        const point78 = reduceArcana(right + mid);
+        const point12 = reduceArcana(left + point23);
+        const point34 = reduceArcana(point23 + mid);
+        const point67 = reduceArcana(mid + point78);
+        const point89 = reduceArcana(point78 + right);
         return {
             1: null,                         // 1-2 скрыта как раньше
-            2: reduceArcana(left + point23), // 2-3
-            3: point23,                      // 3-4
-            4: reduceArcana(point23 + mid),  // 4-5
-            5: mid,                          // 5 лет
-            6: point23,                      // 6-7
-            7: reduceArcana(right + mid),    // 7-8
-            8: mid,                          // 8-9
+            2: point12,
+            3: point23,
+            4: point34,
+            5: mid,                          // 5 лет = left + right
+            6: point67,
+            7: point78,
+            8: point89,
         };
     };
     const ns = 'http://www.w3.org/2000/svg';
