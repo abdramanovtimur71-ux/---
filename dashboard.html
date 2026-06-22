@@ -2864,11 +2864,14 @@ function calcMatrix() {
                 }
                 : null;
             const positionDetails = posArc ? `
-                <p class="mii-arc-desc"><strong>Для этой точки:</strong> ${posArc.desc}</p>
-                <div class="mii-plusminus">
-                    <div class="mii-plus">✅ <strong>В плюсе точки:</strong> ${posArc.plus}</div>
-                    <div class="mii-minus">⚠️ <strong>В минусе точки:</strong> ${posArc.minus}</div>
-                </div>` : '';
+                <details class="mii-detail">
+                    <summary>Подробно для этой точки</summary>
+                    <p class="mii-arc-desc"><strong>Для этой точки:</strong> ${posArc.desc}</p>
+                    <div class="mii-plusminus">
+                        <div class="mii-plus">✅ <strong>В плюсе точки:</strong> ${posArc.plus}</div>
+                        <div class="mii-minus">⚠️ <strong>В минусе точки:</strong> ${posArc.minus}</div>
+                    </div>
+                </details>` : '';
             return `<div class="matrix-interp-item">
                 <div class="mii-header">
                     <span class="mii-pos" style="color:${pos.color}">${pos.label}</span>
