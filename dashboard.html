@@ -753,9 +753,13 @@
                         <label>Имя клиента</label>
                         <input type="text" id="matrixName" placeholder="Введите имя" class="matrix-input">
                     </div>
-                    <div class="matrix-field">
+                    <div class="matrix-field matrix-field-date">
                         <label>Дата рождения</label>
-                        <input type="date" id="matrixDate" class="matrix-input">
+                        <input type="date" id="matrixDate" class="matrix-input matrix-input-date">
+                        <div class="matrix-date-meta">
+                            <span class="matrix-date-gesture">Свайп ↑↓ или колесо</span>
+                            <span id="matrixAgePreview" class="matrix-age-preview">Возраст: —</span>
+                        </div>
                     </div>
                     <button class="matrix-calc-btn" onclick="calcMatrix()">Рассчитать ✦</button>
                 </div>
@@ -767,6 +771,7 @@
                 <div class="matrix-person-header">
                     <span id="matrixPersonName" class="matrix-person-name"></span>
                     <span id="matrixPersonDate" class="matrix-person-date"></span>
+                    <span id="matrixPersonAge" class="matrix-person-age"></span>
                 </div>
 
                 <!-- Визуальная матрица (SVG) — Правильная октаграмма -->
@@ -2452,6 +2457,120 @@ function reduceArcana(n) {
     return n || 22;
 }
 
+function parseMatrixDateValue(dateVal) {
+    if (!dateVal) return null;
+    const [yearStr, monthStr, dayStr] = dateVal.split('-');
+    const day = Number(dayStr);
+    const month = Number(monthStr);
+    const year = Number(yearStr);
+    if (!day || !month || !year) return null;
+
+    const date = new Date(year, month - 1, day);
+    if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+    ) return null;
+
+    return { day, month, year, date };
+}
+
+function matrixAgeLabel(age) {
+    const absAge = Math.abs(age);
+    const mod10 = absAge % 10;
+    const mod100 = absAge % 100;
+    if (mod10 === 1 && mod100 !== 11) return `${age} год`;
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return `${age} года`;
+    return `${age} лет`;
+}
+
+function calculateMatrixAge(birthDate, today = new Date()) {
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDelta = today.getMonth() - birthDate.getMonth();
+    if (monthDelta < 0 || (monthDelta === 0 && today.getDate() < birthDate.getDate())) {
+        age -= 1;
+    }
+    return age;
+}
+
+function updateMatrixAgePreview() {
+    const dateInput = document.getElementById('matrixDate');
+    const agePreview = document.getElementById('matrixAgePreview');
+    if (!dateInput || !agePreview) return;
+
+    const parsed = parseMatrixDateValue(dateInput.value);
+    if (!parsed) {
+        agePreview.textContent = 'Возраст: —';
+        return;
+    }
+
+    const age = calculateMatrixAge(parsed.date);
+    agePreview.textContent = age >= 0 ? `Возраст: ${matrixAgeLabel(age)}` : 'Возраст: —';
+}
+
+function shiftMatrixDateByDays(stepDays) {
+    const dateInput = document.getElementById('matrixDate');
+    if (!dateInput) return;
+
+    const parsed = parseMatrixDateValue(dateInput.value);
+    if (!parsed) return;
+
+    const next = new Date(parsed.year, parsed.month - 1, parsed.day + stepDays);
+    const nextValue = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}-${String(next.getDate()).padStart(2, '0')}`;
+    dateInput.value = nextValue;
+    updateMatrixAgePreview();
+}
+
+let matrixDateTouchStartY = null;
+
+function initMatrixDateInput() {
+    const dateInput = document.getElementById('matrixDate');
+    if (!dateInput || dateInput.dataset.enhanced === '1') return;
+    dateInput.dataset.enhanced = '1';
+
+    const today = new Date();
+    const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    dateInput.max = todayIso;
+
+    dateInput.addEventListener('input', updateMatrixAgePreview);
+    dateInput.addEventListener('change', updateMatrixAgePreview);
+
+    dateInput.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        shiftMatrixDateByDays(e.deltaY < 0 ? 1 : -1);
+    }, { passive: false });
+
+    dateInput.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            shiftMatrixDateByDays(1);
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            shiftMatrixDateByDays(-1);
+        }
+    });
+
+    dateInput.addEventListener('touchstart', (e) => {
+        matrixDateTouchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    dateInput.addEventListener('touchmove', (e) => {
+        if (matrixDateTouchStartY == null) return;
+        const currentY = e.touches[0].clientY;
+        const diff = matrixDateTouchStartY - currentY;
+        if (Math.abs(diff) < 20) return;
+        e.preventDefault();
+        shiftMatrixDateByDays(diff > 0 ? 1 : -1);
+        matrixDateTouchStartY = currentY;
+    }, { passive: false });
+
+    dateInput.addEventListener('touchend', () => {
+        matrixDateTouchStartY = null;
+    });
+
+    updateMatrixAgePreview();
+}
+
 function spinnerInc(field) {
     const inputs = {
         day: { el: 'spinnerDay', min: 1, max: 31 },
@@ -2522,9 +2641,13 @@ function initSpinner() {
 
 // Инициализация при загрузке
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSpinner);
+    document.addEventListener('DOMContentLoaded', () => {
+        initSpinner();
+        initMatrixDateInput();
+    });
 } else {
     initSpinner();
+    initMatrixDateInput();
 }
 
 function calcMatrix() {
@@ -2535,11 +2658,12 @@ function calcMatrix() {
     const dateVal = document.getElementById('matrixDate').value;
     if (!dateVal) { showNotify('Введите дату рождения', 'warn'); return; }
 
-    // YYYY-MM-DD from <input type="date">: parse manually to avoid timezone shifts
-    const [yearStr, monthStr, dayStr] = dateVal.split('-');
-    const day   = Number(dayStr);
-    const month = Number(monthStr);
-    const year  = Number(yearStr);
+    const birth = parseMatrixDateValue(dateVal);
+    if (!birth) { showNotify('Проверьте корректность даты', 'warn'); return; }
+
+    const { day, month, year, date: birthDate } = birth;
+    const age = calculateMatrixAge(birthDate);
+    if (age < 0) { showNotify('Дата рождения не может быть в будущем', 'warn'); return; }
 
     // Главные точки октогона
     const A = reduceArcana(day);                             // левый (0 лет)
@@ -2617,6 +2741,7 @@ function calcMatrix() {
     const dStr = `${String(day).padStart(2,'0')}.${String(month).padStart(2,'0')}.${year}`;
     document.getElementById('matrixPersonName').textContent = name;
     document.getElementById('matrixPersonDate').textContent = dStr;
+    document.getElementById('matrixPersonAge').textContent = matrixAgeLabel(age);
 
     // Таблица значений — все позиции
     const allPositions = [
