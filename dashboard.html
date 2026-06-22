@@ -1945,12 +1945,11 @@ function initMatrixProgressionDots() {
     const buildEdgeFormula = (left, right) => {
         const mid = reduceArcana(left + right);
         const point23 = reduceArcana(left + mid);
-        // Позиции симметричны вокруг t=0.5 (5 лет):
-        // первая половина: t=0.2,0.3,0.4 — вторая: t=0.6,0.7,0.8
         return {
-            2: reduceArcana(left + point23), // 1-2  (t=0.2)
-            3: point23,                      // 2-3  (t=0.3)
-            4: reduceArcana(point23 + mid),  // 3-4  (t=0.4)
+            1: reduceArcana(left + point23), // 1-2  (t=0.1)
+            2: point23,                      // 2-3  (t=0.2)
+            3: reduceArcana(point23 + mid),  // 3-4  (t=0.3)
+            4: null,                         // 4-5  скрыта (t=0.4)
             5: mid,                          // 5 лет (t=0.5)
             6: point23,                      // 6-7  (t=0.6)
             7: reduceArcana(right + mid),    // 7-8  (t=0.7)
