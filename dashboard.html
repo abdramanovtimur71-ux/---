@@ -2457,8 +2457,33 @@ function daysInMonth(month, year) {
 const matrixWheelDateState = { day: 1, month: 1, year: 2000 };
 let matrixWheelTouchStart = {};
 let matrixWheelTouchCarry = {};
-const MATRIX_WHEEL_SWIPE_TRIGGER = 8;
-const MATRIX_WHEEL_SWIPE_STEP = 14;
+let matrixWheelTouchVelocity = {};
+let matrixWheelTouchTimestamp = {};
+let matrixWheelInertiaTimer = {};
+const MATRIX_WHEEL_SWIPE_TRIGGER = 4;
+const MATRIX_WHEEL_SWIPE_STEP = 9;
+const MATRIX_WHEEL_VELOCITY_MIN = 0.22;
+
+function clearMatrixWheelInertia(field) {
+    if (!matrixWheelInertiaTimer[field]) return;
+    clearInterval(matrixWheelInertiaTimer[field]);
+    matrixWheelInertiaTimer[field] = null;
+}
+
+function startMatrixWheelInertia(field, velocity) {
+    clearMatrixWheelInertia(field);
+    let v = velocity;
+    matrixWheelInertiaTimer[field] = setInterval(() => {
+        if (Math.abs(v) < 0.05) {
+            clearMatrixWheelInertia(field);
+            return;
+        }
+        const direction = v > 0 ? 1 : -1;
+        const speed = Math.min(3, Math.max(1, Math.round(Math.abs(v) * 6)));
+        adjustMatrixDateField(field, direction * speed);
+        v *= 0.72;
+    }, 70);
+}
 
 function cycleValue(value, min, max, delta) {
     const range = max - min + 1;
@@ -2566,13 +2591,20 @@ function initMatrixDateSelects() {
         }, { passive: false });
         root.addEventListener('touchstart', (e) => {
             if (e.touches.length !== 1) return;
+            clearMatrixWheelInertia(field);
             matrixWheelTouchStart[field] = e.touches[0].clientY;
             matrixWheelTouchCarry[field] = 0;
+            matrixWheelTouchVelocity[field] = 0;
+            matrixWheelTouchTimestamp[field] = Date.now();
         }, { passive: true });
         root.addEventListener('touchmove', (e) => {
             if (matrixWheelTouchStart[field] == null) return;
             const currentY = e.touches[0].clientY;
             const diff = matrixWheelTouchStart[field] - currentY;
+            const now = Date.now();
+            const elapsed = Math.max(8, now - (matrixWheelTouchTimestamp[field] || now));
+            matrixWheelTouchVelocity[field] = diff / elapsed;
+            matrixWheelTouchTimestamp[field] = now;
             let carry = (matrixWheelTouchCarry[field] || 0) + diff;
             if (Math.abs(carry) < MATRIX_WHEEL_SWIPE_TRIGGER) {
                 matrixWheelTouchStart[field] = currentY;
@@ -2588,12 +2620,17 @@ function initMatrixDateSelects() {
             matrixWheelTouchStart[field] = currentY;
         }, { passive: false });
         root.addEventListener('touchend', () => {
+            if (Math.abs(matrixWheelTouchVelocity[field] || 0) >= MATRIX_WHEEL_VELOCITY_MIN) {
+                startMatrixWheelInertia(field, matrixWheelTouchVelocity[field]);
+            }
             matrixWheelTouchStart[field] = null;
             matrixWheelTouchCarry[field] = 0;
+            matrixWheelTouchVelocity[field] = 0;
         });
         root.addEventListener('touchcancel', () => {
             matrixWheelTouchStart[field] = null;
             matrixWheelTouchCarry[field] = 0;
+            matrixWheelTouchVelocity[field] = 0;
         });
     });
 
