@@ -1946,10 +1946,10 @@ function initMatrixProgressionDots() {
         const mid = reduceArcana(left + right);
         const point23 = reduceArcana(left + mid);
         return {
-            1: reduceArcana(left + point23), // 1-2
-            2: point23,                      // 2-3
-            3: reduceArcana(point23 + mid),  // 3-4
-            4: null,                         // 4-5 скрыта
+            1: null,                         // 1-2 скрыта как раньше
+            2: reduceArcana(left + point23), // 2-3
+            3: point23,                      // 3-4
+            4: reduceArcana(point23 + mid),  // 4-5
             5: mid,                          // 5 лет
             6: point23,                      // 6-7
             7: reduceArcana(right + mid),    // 7-8
