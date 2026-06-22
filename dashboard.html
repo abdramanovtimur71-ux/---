@@ -2460,6 +2460,9 @@ let matrixWheelTouchCarry = {};
 let matrixWheelTouchVelocity = {};
 let matrixWheelTouchTimestamp = {};
 let matrixWheelInertiaTimer = {};
+let matrixWheelStepQueue = {};
+let matrixWheelStepRunning = {};
+let matrixWheelRootsByField = {};
 const MATRIX_WHEEL_SWIPE_TRIGGER = 4;
 const MATRIX_WHEEL_SWIPE_STEP = 9;
 const MATRIX_WHEEL_VELOCITY_MIN = 0.22;
@@ -2468,6 +2471,36 @@ function clearMatrixWheelInertia(field) {
     if (!matrixWheelInertiaTimer[field]) return;
     clearInterval(matrixWheelInertiaTimer[field]);
     matrixWheelInertiaTimer[field] = null;
+}
+
+function pulseMatrixWheelStep(field, direction) {
+    const root = matrixWheelRootsByField[field];
+    if (!root) return;
+    const cls = direction > 0 ? 'matrix-wheel-spin-up' : 'matrix-wheel-spin-down';
+    root.classList.remove('matrix-wheel-spin-up', 'matrix-wheel-spin-down');
+    root.offsetHeight;
+    root.classList.add(cls);
+    setTimeout(() => root.classList.remove(cls), 90);
+}
+
+function processMatrixWheelQueue(field) {
+    if ((matrixWheelStepQueue[field] || 0) === 0) {
+        matrixWheelStepRunning[field] = false;
+        return;
+    }
+    matrixWheelStepRunning[field] = true;
+    const direction = matrixWheelStepQueue[field] > 0 ? 1 : -1;
+    matrixWheelStepQueue[field] -= direction;
+    pulseMatrixWheelStep(field, direction);
+    adjustMatrixDateField(field, direction);
+    setTimeout(() => processMatrixWheelQueue(field), 42);
+}
+
+function queueMatrixDateFieldAdjust(field, delta) {
+    if (!delta) return;
+    matrixWheelStepQueue[field] = (matrixWheelStepQueue[field] || 0) + delta;
+    if (matrixWheelStepRunning[field]) return;
+    processMatrixWheelQueue(field);
 }
 
 function startMatrixWheelInertia(field, velocity) {
@@ -2480,7 +2513,7 @@ function startMatrixWheelInertia(field, velocity) {
         }
         const direction = v > 0 ? 1 : -1;
         const speed = Math.min(3, Math.max(1, Math.round(Math.abs(v) * 6)));
-        adjustMatrixDateField(field, direction * speed);
+        queueMatrixDateFieldAdjust(field, direction * speed);
         v *= 0.72;
     }, 70);
 }
@@ -2585,9 +2618,10 @@ function initMatrixDateSelects() {
 
     wheelRoots.forEach((root) => {
         const field = root.dataset.field;
+        matrixWheelRootsByField[field] = root;
         root.addEventListener('wheel', (e) => {
             e.preventDefault();
-            adjustMatrixDateField(field, e.deltaY < 0 ? 1 : -1);
+            queueMatrixDateFieldAdjust(field, e.deltaY < 0 ? 1 : -1);
         }, { passive: false });
         root.addEventListener('touchstart', (e) => {
             if (e.touches.length !== 1) return;
@@ -2613,7 +2647,7 @@ function initMatrixDateSelects() {
             e.preventDefault();
             const steps = Math.trunc(carry / MATRIX_WHEEL_SWIPE_STEP);
             if (steps !== 0) {
-                adjustMatrixDateField(field, steps);
+                queueMatrixDateFieldAdjust(field, steps);
                 carry -= steps * MATRIX_WHEEL_SWIPE_STEP;
             }
             matrixWheelTouchCarry[field] = carry;
