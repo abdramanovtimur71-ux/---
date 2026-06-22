@@ -2464,20 +2464,48 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     border-radius: 12px;
 }
 
+.matrix-values-accordion {
+    margin-bottom: 16px;
+    border: 1px solid rgba(95,141,255,0.26);
+    border-radius: 12px;
+    background: linear-gradient(155deg, rgba(10,14,30,0.7), rgba(18,28,54,0.5));
+    overflow: hidden;
+}
+.matrix-values-accordion > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #d8e5ff;
+    user-select: none;
+}
+.matrix-values-accordion > summary::-webkit-details-marker {
+    display: none;
+}
+.matrix-values-accordion > summary::after {
+    content: '▾';
+    float: right;
+    opacity: 0.8;
+    transition: transform 0.2s ease;
+}
+.matrix-values-accordion[open] > summary::after {
+    transform: rotate(180deg);
+}
 .matrix-values-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
-    max-height: 232px;
+    gap: 10px;
+    max-height: 204px;
     overflow-y: auto;
-    padding-right: 4px;
-    margin-bottom: 16px;
+    padding: 0 10px 10px;
+    margin-bottom: 0;
 }
 .matrix-val-card {
     background: rgba(13,11,20,0.8);
     border: 1px solid rgba(212,174,92,0.12);
     border-radius: 12px;
-    padding: 14px;
+    padding: 12px 10px;
     text-align: center;
     transition: border-color 0.2s;
 }
@@ -2792,7 +2820,7 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
 @media (max-width: 600px) {
     .matrix-form-row { flex-direction: column; }
     .matrix-values-grid { grid-template-columns: repeat(2, 1fr); }
-    .matrix-values-grid { max-height: 186px; }
+    .matrix-values-grid { max-height: 160px; padding: 0 8px 8px; }
     .matrix-svg { max-width: 340px; }
     .matrix-person-header { flex-direction: column; gap: 4px; text-align: center; }
     .matrix-date-meta { width: 100%; }
