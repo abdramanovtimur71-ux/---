@@ -2479,7 +2479,7 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     transition: border-color 0.2s;
 }
 .matrix-val-card:hover { border-color: rgba(212,174,92,0.3); }
-.mvc-pos { font-size: 11px; margin-bottom: 6px; font-weight: 600; letter-spacing: 0.3px; }
+.mvc-pos { display: none; }
 .mvc-num { display: none; }
 .mvc-arcana { font-size: 13px; color: #d0d8f0; font-weight: 600; margin-bottom: 2px; }
 .mvc-key { font-size: 11px; color: #8a9ab5; text-transform: capitalize; }
