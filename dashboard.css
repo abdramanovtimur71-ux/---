@@ -2276,17 +2276,17 @@ table { min-width: 560px; }
 .matrix-timer-wheels {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 24px 1fr 24px 1fr;
+    grid-template-columns: 0.9fr 14px 0.9fr 14px 1.2fr;
     align-items: center;
-    gap: 8px;
-    padding: 6px 8px;
+    gap: 6px;
+    padding: 4px 6px;
     border-radius: 12px;
     border: 1px solid rgba(110,150,255,0.28);
     background: rgba(7, 14, 35, 0.92);
 }
 .matrix-timer-wheel {
     position: relative;
-    height: 170px;
+    height: 138px;
     overflow: hidden;
     border-radius: 10px;
 }
@@ -2300,7 +2300,7 @@ table { min-width: 560px; }
     border: none;
     background: transparent;
     color: #5f6b85;
-    font-size: 26px;
+    font-size: 20px;
     font-weight: 500;
     font-variant-numeric: tabular-nums;
     line-height: 1;
@@ -2310,9 +2310,11 @@ table { min-width: 560px; }
 .matrix-wheel-item.is-near { color: #7f89a3; opacity: 0.8; }
 .matrix-wheel-item.is-active {
     color: #f5f8ff;
-    font-size: 52px;
+    font-size: 44px;
     font-weight: 700;
 }
+.matrix-timer-wheel[data-field="year"] .matrix-wheel-item.is-active { font-size: 36px; }
+.matrix-timer-wheel[data-field="year"] .matrix-wheel-item.is-near { font-size: 18px; }
 .matrix-wheel-item.is-far { opacity: 0.35; }
 .matrix-timer-wheel::before,
 .matrix-timer-wheel::after {
@@ -2320,7 +2322,7 @@ table { min-width: 560px; }
     position: absolute;
     left: 0;
     right: 0;
-    height: 24%;
+    height: 22%;
     pointer-events: none;
     z-index: 2;
 }
@@ -2333,12 +2335,12 @@ table { min-width: 560px; }
     background: linear-gradient(0deg, rgba(7, 14, 35, 0.98), rgba(7, 14, 35, 0));
 }
 .matrix-timer-sep {
-    height: 170px;
+    height: 138px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #dce6ff;
-    font-size: 48px;
+    font-size: 36px;
     font-weight: 500;
     opacity: 0.85;
 }
