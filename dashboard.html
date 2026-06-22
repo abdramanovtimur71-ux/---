@@ -684,34 +684,26 @@
                     </div>
                     <div class="matrix-field matrix-field-date">
                         <label>Дата рождения</label>
-                        <div class="matrix-date-control">
-                            <button type="button" id="matrixCalendarTrigger" class="matrix-calendar-trigger" aria-haspopup="dialog" aria-expanded="false">
-                                <span class="matrix-calendar-trigger-icon">📅</span>
-                                <span id="matrixDateDisplay">Выберите дату рождения</span>
-                            </button>
-
-                            <div id="matrixCalendarPopover" class="matrix-calendar-popover" role="dialog" aria-label="Календарь даты рождения" hidden>
-                                <div class="matrix-calendar-head">
-                                    <button type="button" id="matrixCalendarPrev" class="matrix-calendar-nav" aria-label="Предыдущий месяц">‹</button>
-                                    <div class="matrix-calendar-selects">
-                                        <select id="matrixCalendarMonth" class="matrix-calendar-select" aria-label="Месяц"></select>
-                                        <select id="matrixCalendarYear" class="matrix-calendar-select" aria-label="Год"></select>
-                                    </div>
-                                    <button type="button" id="matrixCalendarNext" class="matrix-calendar-nav" aria-label="Следующий месяц">›</button>
-                                </div>
-                                <div class="matrix-calendar-weekdays">
-                                    <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
-                                </div>
-                                <div id="matrixCalendarGrid" class="matrix-calendar-grid"></div>
-                                <div class="matrix-calendar-actions">
-                                    <button type="button" id="matrixCalendarToday" class="matrix-calendar-action">Сегодня</button>
-                                    <button type="button" id="matrixCalendarClear" class="matrix-calendar-action matrix-calendar-action-clear">Очистить</button>
-                                </div>
+                        <div class="matrix-wheel-picker" aria-label="Дата рождения: день, месяц и год">
+                            <div class="matrix-wheel-col">
+                                <button type="button" class="matrix-wheel-btn" data-wheel="day" data-dir="up" aria-label="Увеличить день">▲</button>
+                                <input type="text" id="matrixWheelDay" class="matrix-wheel-input" inputmode="numeric" maxlength="2" placeholder="ДД" aria-label="День">
+                                <button type="button" class="matrix-wheel-btn" data-wheel="day" data-dir="down" aria-label="Уменьшить день">▼</button>
+                            </div>
+                            <div class="matrix-wheel-col">
+                                <button type="button" class="matrix-wheel-btn" data-wheel="month" data-dir="up" aria-label="Увеличить месяц">▲</button>
+                                <input type="text" id="matrixWheelMonth" class="matrix-wheel-input" inputmode="numeric" maxlength="2" placeholder="ММ" aria-label="Месяц">
+                                <button type="button" class="matrix-wheel-btn" data-wheel="month" data-dir="down" aria-label="Уменьшить месяц">▼</button>
+                            </div>
+                            <div class="matrix-wheel-col matrix-wheel-col-year">
+                                <button type="button" class="matrix-wheel-btn" data-wheel="year" data-dir="up" aria-label="Увеличить год">▲</button>
+                                <input type="text" id="matrixWheelYear" class="matrix-wheel-input" inputmode="numeric" maxlength="4" placeholder="ГГГГ" aria-label="Год">
+                                <button type="button" class="matrix-wheel-btn" data-wheel="year" data-dir="down" aria-label="Уменьшить год">▼</button>
                             </div>
                         </div>
                         <input type="hidden" id="matrixDate">
                         <div class="matrix-date-meta">
-                            <span class="matrix-date-gesture">Новый календарь: быстро и удобно</span>
+                            <span class="matrix-date-gesture">Свайп, колесо или кнопки ▲▼</span>
                             <span id="matrixAgePreview" class="matrix-age-preview">Возраст: —</span>
                         </div>
                     </div>
@@ -2466,213 +2458,146 @@ function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
 }
 
-const MATRIX_CALENDAR_MONTHS = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
-const matrixCalendarState = { viewYear: 0, viewMonth: 0 };
-
-function toIsoDate(year, month, day) {
-    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+function parseMatrixWheelValues() {
+    const day = Number(document.getElementById('matrixWheelDay')?.value);
+    const month = Number(document.getElementById('matrixWheelMonth')?.value);
+    const year = Number(document.getElementById('matrixWheelYear')?.value);
+    if (!day || !month || !year) return null;
+    return { day, month, year };
 }
 
-function formatMatrixDateDisplay(dateVal) {
-    const parsed = parseMatrixDateValue(dateVal);
-    if (!parsed) return 'Выберите дату рождения';
-    return `${String(parsed.day).padStart(2, '0')}.${String(parsed.month).padStart(2, '0')}.${parsed.year}`;
+function fillMatrixWheels(day, month, year) {
+    const dayEl = document.getElementById('matrixWheelDay');
+    const monthEl = document.getElementById('matrixWheelMonth');
+    const yearEl = document.getElementById('matrixWheelYear');
+    if (!dayEl || !monthEl || !yearEl) return;
+    dayEl.value = String(day).padStart(2, '0');
+    monthEl.value = String(month).padStart(2, '0');
+    yearEl.value = String(year);
 }
 
-function setMatrixDateValue(dateVal) {
+function syncMatrixDateFromWheels() {
     const dateInput = document.getElementById('matrixDate');
-    const dateDisplay = document.getElementById('matrixDateDisplay');
-    const trigger = document.getElementById('matrixCalendarTrigger');
-    if (!dateInput || !dateDisplay || !trigger) return;
+    if (!dateInput) return;
 
-    dateInput.value = dateVal || '';
-    const parsed = parseMatrixDateValue(dateInput.value);
-    dateDisplay.textContent = formatMatrixDateDisplay(dateInput.value);
-    trigger.classList.toggle('is-filled', Boolean(parsed));
+    const values = parseMatrixWheelValues();
+    if (!values) {
+        dateInput.value = '';
+        updateMatrixAgePreview();
+        return;
+    }
+
+    const maxYear = new Date().getFullYear();
+    const year = Math.min(Math.max(values.year, 1900), maxYear);
+    const month = Math.min(Math.max(values.month, 1), 12);
+    const day = Math.min(Math.max(values.day, 1), daysInMonth(month, year));
+    fillMatrixWheels(day, month, year);
+
+    dateInput.value = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     updateMatrixAgePreview();
 }
 
-function closeMatrixCalendar() {
-    const popover = document.getElementById('matrixCalendarPopover');
-    const trigger = document.getElementById('matrixCalendarTrigger');
-    if (!popover || !trigger) return;
-    popover.hidden = true;
-    trigger.setAttribute('aria-expanded', 'false');
+function adjustMatrixWheel(field, delta) {
+    const current = parseMatrixWheelValues() || (() => {
+        const now = new Date();
+        return { day: now.getDate(), month: now.getMonth() + 1, year: now.getFullYear() };
+    })();
+    const maxYear = new Date().getFullYear();
+
+    let { day, month, year } = current;
+    if (field === 'day') day += delta;
+    if (field === 'month') month += delta;
+    if (field === 'year') year += delta;
+
+    year = Math.min(Math.max(year, 1900), maxYear);
+    month = Math.min(Math.max(month, 1), 12);
+    day = Math.min(Math.max(day, 1), daysInMonth(month, year));
+
+    fillMatrixWheels(day, month, year);
+    syncMatrixDateFromWheels();
 }
 
-function openMatrixCalendar() {
-    const popover = document.getElementById('matrixCalendarPopover');
-    const trigger = document.getElementById('matrixCalendarTrigger');
+let matrixWheelTouchStart = {};
+
+function initMatrixWheels() {
+    const dayEl = document.getElementById('matrixWheelDay');
+    const monthEl = document.getElementById('matrixWheelMonth');
+    const yearEl = document.getElementById('matrixWheelYear');
     const dateInput = document.getElementById('matrixDate');
-    if (!popover || !trigger || !dateInput) return;
+    if (!dayEl || !monthEl || !yearEl || !dateInput || dayEl.dataset.enhanced === '1') return;
+
+    [dayEl, monthEl, yearEl].forEach(el => { el.dataset.enhanced = '1'; });
+
+    const wheelMap = {
+        matrixWheelDay: { field: 'day', maxLen: 2 },
+        matrixWheelMonth: { field: 'month', maxLen: 2 },
+        matrixWheelYear: { field: 'year', maxLen: 4 }
+    };
+
+    Object.entries(wheelMap).forEach(([id, cfg]) => {
+        const el = document.getElementById(id);
+        el.addEventListener('input', () => {
+            el.value = el.value.replace(/\D/g, '').slice(0, cfg.maxLen);
+            syncMatrixDateFromWheels();
+        });
+
+        el.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            adjustMatrixWheel(cfg.field, e.deltaY < 0 ? 1 : -1);
+        }, { passive: false });
+
+        el.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                adjustMatrixWheel(cfg.field, 1);
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                adjustMatrixWheel(cfg.field, -1);
+            }
+        });
+
+        el.addEventListener('touchstart', (e) => {
+            matrixWheelTouchStart[id] = e.touches[0].clientY;
+        }, { passive: true });
+
+        el.addEventListener('touchmove', (e) => {
+            if (matrixWheelTouchStart[id] == null) return;
+            const currentY = e.touches[0].clientY;
+            const diff = matrixWheelTouchStart[id] - currentY;
+            if (Math.abs(diff) < 12) return;
+            e.preventDefault();
+            adjustMatrixWheel(cfg.field, diff > 0 ? 1 : -1);
+            matrixWheelTouchStart[id] = currentY;
+        }, { passive: false });
+
+        el.addEventListener('touchend', () => {
+            matrixWheelTouchStart[id] = null;
+        });
+    });
+
+    document.querySelectorAll('.matrix-wheel-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const field = btn.dataset.wheel;
+            const dir = btn.dataset.dir === 'up' ? 1 : -1;
+            adjustMatrixWheel(field, dir);
+        });
+    });
 
     const parsed = parseMatrixDateValue(dateInput.value);
-    const base = parsed ? parsed.date : new Date();
-    matrixCalendarState.viewYear = base.getFullYear();
-    matrixCalendarState.viewMonth = base.getMonth() + 1;
-    renderMatrixCalendar();
-    popover.hidden = false;
-    trigger.setAttribute('aria-expanded', 'true');
+    if (parsed) fillMatrixWheels(parsed.day, parsed.month, parsed.year);
+    updateMatrixAgePreview();
 }
 
-function shiftMatrixCalendarMonth(step) {
-    let year = matrixCalendarState.viewYear;
-    let month = matrixCalendarState.viewMonth + step;
-    while (month < 1) { month += 12; year -= 1; }
-    while (month > 12) { month -= 12; year += 1; }
-
-    const currentYear = new Date().getFullYear();
-    year = Math.max(1900, Math.min(currentYear, year));
-    matrixCalendarState.viewYear = year;
-    matrixCalendarState.viewMonth = month;
-    renderMatrixCalendar();
-}
-
-function renderMatrixCalendar() {
-    const monthSelect = document.getElementById('matrixCalendarMonth');
-    const yearSelect = document.getElementById('matrixCalendarYear');
-    const grid = document.getElementById('matrixCalendarGrid');
-    const dateInput = document.getElementById('matrixDate');
-    if (!monthSelect || !yearSelect || !grid || !dateInput) return;
-
-    monthSelect.value = String(matrixCalendarState.viewMonth);
-    yearSelect.value = String(matrixCalendarState.viewYear);
-
-    const selectedDate = parseMatrixDateValue(dateInput.value);
-    const selectedIso = selectedDate ? dateInput.value : '';
-    const today = new Date();
-    const todayIso = toIsoDate(today.getFullYear(), today.getMonth() + 1, today.getDate());
-
-    const year = matrixCalendarState.viewYear;
-    const month = matrixCalendarState.viewMonth;
-    const firstDayIndex = (new Date(year, month - 1, 1).getDay() + 6) % 7;
-    const daysCurrent = daysInMonth(month, year);
-    const prevMonth = month === 1 ? 12 : month - 1;
-    const prevYear = month === 1 ? year - 1 : year;
-    const daysPrev = daysInMonth(prevMonth, prevYear);
-
-    let html = '';
-    for (let cell = 0; cell < 42; cell += 1) {
-        let day;
-        let cellMonth = month;
-        let cellYear = year;
-        let outside = false;
-
-        if (cell < firstDayIndex) {
-            day = daysPrev - firstDayIndex + cell + 1;
-            cellMonth = prevMonth;
-            cellYear = prevYear;
-            outside = true;
-        } else if (cell >= firstDayIndex + daysCurrent) {
-            day = cell - firstDayIndex - daysCurrent + 1;
-            cellMonth = month === 12 ? 1 : month + 1;
-            cellYear = month === 12 ? year + 1 : year;
-            outside = true;
-        } else {
-            day = cell - firstDayIndex + 1;
-        }
-
-        const iso = toIsoDate(cellYear, cellMonth, day);
-        const isFuture = iso > todayIso;
-        const classes = ['matrix-calendar-day'];
-        if (outside) classes.push('is-outside');
-        if (iso === selectedIso) classes.push('is-selected');
-        if (iso === todayIso) classes.push('is-today');
-        if (isFuture) classes.push('is-disabled');
-
-        html += `<button type="button" class="${classes.join(' ')}" data-date="${iso}" ${isFuture ? 'disabled' : ''}>${day}</button>`;
-    }
-
-    grid.innerHTML = html;
-}
-
-function initMatrixCalendar() {
-    const dateInput = document.getElementById('matrixDate');
-    const trigger = document.getElementById('matrixCalendarTrigger');
-    const popover = document.getElementById('matrixCalendarPopover');
-    const prevBtn = document.getElementById('matrixCalendarPrev');
-    const nextBtn = document.getElementById('matrixCalendarNext');
-    const monthSelect = document.getElementById('matrixCalendarMonth');
-    const yearSelect = document.getElementById('matrixCalendarYear');
-    const grid = document.getElementById('matrixCalendarGrid');
-    const todayBtn = document.getElementById('matrixCalendarToday');
-    const clearBtn = document.getElementById('matrixCalendarClear');
-    if (!dateInput || !trigger || !popover || !prevBtn || !nextBtn || !monthSelect || !yearSelect || !grid || !todayBtn || !clearBtn) return;
-    if (trigger.dataset.enhanced === '1') return;
-    trigger.dataset.enhanced = '1';
-
-    MATRIX_CALENDAR_MONTHS.forEach((name, idx) => {
-        monthSelect.add(new Option(name, String(idx + 1)));
-    });
-    const currentYear = new Date().getFullYear();
-    for (let year = currentYear; year >= 1900; year -= 1) {
-        yearSelect.add(new Option(String(year), String(year)));
-    }
-
-    const today = new Date();
-    matrixCalendarState.viewYear = today.getFullYear();
-    matrixCalendarState.viewMonth = today.getMonth() + 1;
-
-    trigger.addEventListener('click', () => {
-        if (popover.hidden) openMatrixCalendar();
-        else closeMatrixCalendar();
-    });
-
-    prevBtn.addEventListener('click', () => shiftMatrixCalendarMonth(-1));
-    nextBtn.addEventListener('click', () => shiftMatrixCalendarMonth(1));
-
-    monthSelect.addEventListener('change', () => {
-        matrixCalendarState.viewMonth = Number(monthSelect.value);
-        renderMatrixCalendar();
-    });
-    yearSelect.addEventListener('change', () => {
-        matrixCalendarState.viewYear = Number(yearSelect.value);
-        renderMatrixCalendar();
-    });
-
-    grid.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-date]');
-        if (!btn || btn.disabled) return;
-        setMatrixDateValue(btn.dataset.date);
-        closeMatrixCalendar();
-    });
-
-    todayBtn.addEventListener('click', () => {
-        const now = new Date();
-        const iso = toIsoDate(now.getFullYear(), now.getMonth() + 1, now.getDate());
-        setMatrixDateValue(iso);
-        matrixCalendarState.viewYear = now.getFullYear();
-        matrixCalendarState.viewMonth = now.getMonth() + 1;
-        closeMatrixCalendar();
-    });
-
-    clearBtn.addEventListener('click', () => {
-        setMatrixDateValue('');
-        closeMatrixCalendar();
-    });
-
-    document.addEventListener('click', (e) => {
-        if (popover.hidden) return;
-        if (!e.target.closest('.matrix-date-control')) closeMatrixCalendar();
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMatrixCalendar();
-    });
-
-    setMatrixDateValue(dateInput.value || '');
-}
-
-// Инициализация при загрузке
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMatrixCalendar);
+    document.addEventListener('DOMContentLoaded', initMatrixWheels);
 } else {
-    initMatrixCalendar();
+    initMatrixWheels();
 }
 
 function calcMatrix() {
     // На случай старого кеша: убрать ранее добавленный слой прогрессии, если он есть.
     document.getElementById('progressionDotsGroup')?.remove();
+    syncMatrixDateFromWheels();
     const name = document.getElementById('matrixName').value.trim() || 'Клиент';
     const dateVal = document.getElementById('matrixDate').value;
     if (!dateVal) { showNotify('Введите дату рождения', 'warn'); return; }
