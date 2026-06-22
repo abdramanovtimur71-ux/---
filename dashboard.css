@@ -2292,13 +2292,19 @@ table { min-width: 560px; }
     border: 1px solid rgba(110,150,255,0.42);
     border-radius: 10px;
     background: linear-gradient(180deg, rgba(9,13,30,0.96), rgba(18,28,56,0.88));
-    color: #eef4ff;
+    color: #ffffff;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     font-variant-numeric: tabular-nums;
     outline: none;
     padding: 0 12px;
     appearance: auto;
+    text-shadow: none;
+    -webkit-text-fill-color: #ffffff;
+}
+.matrix-date-select option {
+    color: #ffffff;
+    background: #0b1530;
 }
 .matrix-date-select:focus {
     border-color: rgba(200,168,64,0.75);
