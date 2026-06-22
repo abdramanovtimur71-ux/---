@@ -1914,6 +1914,7 @@ function initMatrixProgressionDots() {
     const svg = document.getElementById('matrixSvg');
     if (!svg) return;
     document.getElementById('progressionDotsGroup')?.remove();
+    const matrixCalc = window.__matrixCalc || {};
 
     // Вершины октагона в порядке возрастания возраста (по координатам шаблона)
     const verts = [
@@ -1927,33 +1928,33 @@ function initMatrixProgressionDots() {
         {x: 213, y: 609, age: 70},  // З — 70 лет
     ];
     const CX = 440, CY = 384;
-        const yearArcanaOverrides = {
-        '1-2': 6, '2-3': 7, '3-4': 15, '4-5': 8,
-        '6-7': 7, '7-8': 17, '8-9': 8,
-        '11-12': 19, '12-13': 10, '13-14': 11, '14-15': 19,
-        '16-17': 11, '17-18': 21, '18-19': 10,
-        '21-22': 10, '22-23': 18, '23-24': 8, '24-25': 8,
-        '26-27': 6, '27-28': 22,
-        '31-32': 9, '32-33': 11, '33-34': 6, '34-35': 22,
-        '36-37': 10, '37-38': 16,
-        '41-42': 12, '42-43': 6, '43-44': 6, '44-45': 18,
-        '46-47': 3, '47-48': 15,
-        '51-52': 15, '52-53': 3, '53-54': 21, '54-55': 18,
-        '56-57': 6, '57-58': 6, '58-59': 12,
-        '61-62': 5, '62-63': 17, '63-64': 10, '64-65': 11,
-        '66-67': 16, '67-68': 21, '68-69': 5,
-        '71-72': 14, '72-73': 9, '73-74': 4, '74-75': 22,
-        '76-77': 12, '77-78': 11, '78-79': 17
+    const readPoint = (id, fallback) => {
+        const value = Number(document.getElementById(id)?.textContent);
+        return Number.isFinite(value) && value > 0 ? value : fallback;
     };
-    const exactYearOverrides = {
-        5: 8,
-        15: 3,
-        25: 14,
-        35: 5,
-        45: 21,
-        55: 6,
-        65: 9,
-        75: 7
+    const pointByAge = {
+        0: matrixCalc.A ?? readPoint('mvAnum', 17),
+        10: matrixCalc.E ?? readPoint('mvEnum', 9),
+        20: matrixCalc.B ?? readPoint('mvBnum', 10),
+        30: matrixCalc.Zh ?? readPoint('mvZhnum', 16),
+        40: matrixCalc.V ?? readPoint('mvVnum', 6),
+        50: matrixCalc.I ?? readPoint('mvInum', 12),
+        60: matrixCalc.G ?? readPoint('mvGnum', 6),
+        70: matrixCalc.Z ?? readPoint('mvZnum', 5),
+    };
+    const buildEdgeFormula = (left, right) => {
+        const mid = reduceArcana(left + right);
+        const point23 = reduceArcana(left + mid);
+        return {
+            1: reduceArcana(left + point23), // 1-2
+            2: point23,                      // 2-3
+            3: reduceArcana(point23 + mid),  // 3-4
+            4: null,                         // 4-5 скрываем как в эталоне
+            5: mid,                          // 5-6 (5 лет)
+            6: point23,                      // 6-7
+            7: reduceArcana(right + mid),    // 7-8
+            8: mid,                          // 8-9
+        };
     };
     const ns = 'http://www.w3.org/2000/svg';
     const g = document.createElementNS(ns, 'g');
@@ -1964,6 +1965,11 @@ function initMatrixProgressionDots() {
         const v1 = verts[i];
         const v2 = verts[(i + 1) % 8];
         const dx = v2.x - v1.x, dy = v2.y - v1.y;
+        const leftPoint = pointByAge[v1.age];
+        const rightPoint = pointByAge[v2.age];
+        const edgeFormula = (leftPoint != null && rightPoint != null)
+            ? buildEdgeFormula(leftPoint, rightPoint)
+            : {};
         // Направление наружу от центра через середину ребра
         const mx = (v1.x + v2.x) / 2 - CX;
         const my = (v1.y + v2.y) / 2 - CY;
@@ -1974,9 +1980,7 @@ function initMatrixProgressionDots() {
             const t = j / 10;
             const x = v1.x + dx * t;
             const y = v1.y + dy * t;
-            const year = v1.age + j;
-            const period = `${year}-${year+1}`;
-            const value = (exactYearOverrides[year] ?? yearArcanaOverrides[period]);
+            const value = edgeFormula[j];
             if (value == null) continue;
 
             // Арканы выводим ДАЛЕКО СНАРУЖИ (в обратную сторону)
@@ -2583,6 +2587,7 @@ function calcMatrix() {
     const VinC = reduceArcana(Vin + D); // VinC — ось В (410,350)
     const K    = Gin;                   // К — оранжевый круг на нижней оси
     N = reduceArcana(M + K);
+    window.__matrixCalc = { A, B, V, G, D, E, Zh, I, Z };
 
     // Обновляем SVG
     const svgMap = {
