@@ -2267,49 +2267,40 @@ table { min-width: 560px; }
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
 }
-.matrix-wheel-picker {
+.matrix-date-selects {
     display: flex;
     gap: 10px;
-    align-items: stretch;
+    align-items: flex-end;
     width: 100%;
 }
-.matrix-wheel-col {
+.matrix-date-select-col {
     flex: 1;
-    min-width: 72px;
-    display: grid;
-    grid-template-rows: 28px 44px 28px;
+    min-width: 92px;
+    display: flex;
+    flex-direction: column;
     gap: 4px;
 }
-.matrix-wheel-col-year { min-width: 96px; }
-.matrix-wheel-btn {
-    border: 1px solid rgba(110,150,255,0.42);
-    border-radius: 8px;
-    background: rgba(18,28,56,0.7);
-    color: #bcd2ff;
-    cursor: pointer;
+.matrix-date-select-col-year { min-width: 120px; }
+.matrix-date-select-col > span {
     font-size: 12px;
-    line-height: 1;
-    transition: border-color 0.2s, background 0.2s;
+    color: #9db3e4;
+    letter-spacing: 0.2px;
 }
-.matrix-wheel-btn:hover {
-    border-color: rgba(200,168,64,0.64);
-    background: rgba(34,48,88,0.85);
-}
-.matrix-wheel-input {
+.matrix-date-select {
     width: 100%;
-    text-align: center;
+    height: 42px;
     border: 1px solid rgba(110,150,255,0.42);
     border-radius: 10px;
     background: linear-gradient(180deg, rgba(9,13,30,0.96), rgba(18,28,56,0.88));
     color: #eef4ff;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
     outline: none;
-    padding: 0 8px;
-    touch-action: pan-x;
+    padding: 0 12px;
+    appearance: auto;
 }
-.matrix-wheel-input:focus {
+.matrix-date-select:focus {
     border-color: rgba(200,168,64,0.75);
     box-shadow: 0 0 0 3px rgba(200,168,64,0.14);
 }
@@ -2654,11 +2645,8 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     background: linear-gradient(180deg, rgba(9,13,30,0.96), rgba(18,28,56,0.88));
     border-color: rgba(110,150,255,0.42);
 }
-#page-matrix .matrix-wheel-input {
+#page-matrix .matrix-date-select {
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 0 1px rgba(110,150,255,0.1);
-}
-#page-matrix .matrix-wheel-btn {
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
 }
 #page-matrix .matrix-date-gesture {
     color: #86a6ef;
