@@ -2280,6 +2280,11 @@ table { min-width: 560px; }
     border-color: rgba(110,150,255,0.38);
     font-size: 15px;
 }
+.matrix-date-spinner select.spinner-input {
+    padding: 0 26px 0 10px;
+    text-align: left;
+    appearance: auto;
+}
 .matrix-date-spinner #spinnerYear {
     width: 92px;
 }

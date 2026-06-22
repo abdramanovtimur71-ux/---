@@ -27,27 +27,25 @@
             gap: 4px;
         }
         .spinner-input {
-            width: 50px;
-            height: 32px;
+            width: 66px;
+            height: 34px;
             text-align: center;
             background: rgba(18,28,56,0.5);
             border: 1px solid rgba(110,150,255,0.3);
-            border-radius: 6px;
+            border-radius: 8px;
             color: #eef4ff;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             padding: 0;
-            cursor: ns-resize;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: none;
+            cursor: pointer;
+            touch-action: manipulation;
         }
         .spinner-input:hover {
             background: rgba(18,28,56,0.7);
             border-color: rgba(110,150,255,0.5);
         }
         #spinnerYear {
-            width: 60px;
+            width: 92px;
         }
         .spinner-btn-up, .spinner-btn-down {
             width: 28px;
@@ -756,16 +754,22 @@
                     <div class="matrix-field matrix-field-date">
                         <label>Дата рождения</label>
                         <div class="date-spinner matrix-date-spinner" aria-label="Дата рождения: день, месяц и год">
-                            <input type="text" id="spinnerDay" class="spinner-input" inputmode="numeric" maxlength="2" placeholder="ДД" aria-label="День">
+                            <select id="spinnerDay" class="spinner-input" aria-label="День">
+                                <option value="">ДД</option>
+                            </select>
                             <span class="spinner-sep">.</span>
-                            <input type="text" id="spinnerMonth" class="spinner-input" inputmode="numeric" maxlength="2" placeholder="ММ" aria-label="Месяц">
+                            <select id="spinnerMonth" class="spinner-input" aria-label="Месяц">
+                                <option value="">ММ</option>
+                            </select>
                             <span class="spinner-sep">.</span>
-                            <input type="text" id="spinnerYear" class="spinner-input" inputmode="numeric" maxlength="4" placeholder="ГГГГ" aria-label="Год">
+                            <select id="spinnerYear" class="spinner-input" aria-label="Год">
+                                <option value="">ГГГГ</option>
+                            </select>
                             <button type="button" id="matrixDatePickerBtn" class="matrix-date-picker-btn" aria-label="Открыть календарь">📅</button>
                         </div>
                         <input type="date" id="matrixDate" class="matrix-input matrix-input-date matrix-date-native">
                         <div class="matrix-date-meta">
-                            <span class="matrix-date-gesture">Свайп ↑↓ по каждому: день · месяц · год</span>
+                            <span class="matrix-date-gesture">Выберите день · месяц · год</span>
                             <span id="matrixAgePreview" class="matrix-age-preview">Возраст: —</span>
                         </div>
                     </div>
@@ -2528,6 +2532,34 @@ function parseSpinnerValues() {
     return { day, month, year };
 }
 
+function ensureSpinnerSelectOptions() {
+    const dayEl = document.getElementById('spinnerDay');
+    const monthEl = document.getElementById('spinnerMonth');
+    const yearEl = document.getElementById('spinnerYear');
+    if (!dayEl || !monthEl || !yearEl) return;
+
+    if (dayEl.options.length <= 1) {
+        for (let day = 1; day <= 31; day += 1) {
+            const val = String(day).padStart(2, '0');
+            dayEl.add(new Option(val, val));
+        }
+    }
+
+    if (monthEl.options.length <= 1) {
+        for (let month = 1; month <= 12; month += 1) {
+            const val = String(month).padStart(2, '0');
+            monthEl.add(new Option(val, val));
+        }
+    }
+
+    if (yearEl.options.length <= 1) {
+        const currentYear = new Date().getFullYear();
+        for (let year = currentYear; year >= 1900; year -= 1) {
+            yearEl.add(new Option(String(year), String(year)));
+        }
+    }
+}
+
 function fillSpinnerValues(day, month, year) {
     const dayEl = document.getElementById('spinnerDay');
     const monthEl = document.getElementById('spinnerMonth');
@@ -2601,6 +2633,8 @@ function spinnerDec(field) {
 let spinnerTouchStart = {};
 
 function initSpinner() {
+    ensureSpinnerSelectOptions();
+
     ['spinnerDay', 'spinnerMonth', 'spinnerYear'].forEach(id => {
         const el = document.getElementById(id);
         if (!el || el.dataset.enhanced === '1') return;
@@ -2608,15 +2642,7 @@ function initSpinner() {
 
         const field = id.replace('spinner', '').toLowerCase();
 
-        el.addEventListener('input', () => {
-            const limit = field === 'year' ? 4 : 2;
-            el.value = el.value.replace(/\D/g, '').slice(0, limit);
-            syncDateFromSpinner();
-        });
-
-        el.addEventListener('blur', () => {
-            if (!el.value) return;
-            if (field !== 'year') el.value = String(Number(el.value)).padStart(2, '0');
+        el.addEventListener('change', () => {
             syncDateFromSpinner();
         });
 
