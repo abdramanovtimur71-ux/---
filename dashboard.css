@@ -2468,36 +2468,10 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 12px;
-    margin-bottom: 32px;
-}
-.matrix-values-controls {
-    display: flex;
-    justify-content: flex-end;
-    margin: 0 0 8px;
-}
-.matrix-values-toggle {
-    border: 1px solid rgba(95,141,255,0.45);
-    background: rgba(15, 27, 60, 0.72);
-    color: #d9e5ff;
-    border-radius: 999px;
-    padding: 6px 12px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-.matrix-values-toggle:hover {
-    border-color: rgba(110,170,255,0.72);
-}
-.matrix-values-grid.is-compact:not(.expanded) {
     max-height: 232px;
     overflow-y: auto;
     padding-right: 4px;
     margin-bottom: 16px;
-}
-.matrix-values-grid.expanded {
-    max-height: none;
-    overflow: visible;
-    padding-right: 0;
 }
 .matrix-val-card {
     background: rgba(13,11,20,0.8);
@@ -2818,9 +2792,7 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
 @media (max-width: 600px) {
     .matrix-form-row { flex-direction: column; }
     .matrix-values-grid { grid-template-columns: repeat(2, 1fr); }
-    .matrix-values-grid.is-compact:not(.expanded) { max-height: 186px; }
-    .matrix-values-controls { margin-bottom: 6px; }
-    .matrix-values-toggle { font-size: 11px; padding: 5px 10px; }
+    .matrix-values-grid { max-height: 186px; }
     .matrix-svg { max-width: 340px; }
     .matrix-person-header { flex-direction: column; gap: 4px; text-align: center; }
     .matrix-date-meta { width: 100%; }
