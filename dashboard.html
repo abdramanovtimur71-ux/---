@@ -761,6 +761,7 @@
                             <input type="text" id="spinnerMonth" class="spinner-input" inputmode="numeric" maxlength="2" placeholder="ММ" aria-label="Месяц">
                             <span class="spinner-sep">.</span>
                             <input type="text" id="spinnerYear" class="spinner-input" inputmode="numeric" maxlength="4" placeholder="ГГГГ" aria-label="Год">
+                            <button type="button" id="matrixDatePickerBtn" class="matrix-date-picker-btn" aria-label="Открыть календарь">📅</button>
                         </div>
                         <input type="date" id="matrixDate" class="matrix-input matrix-input-date matrix-date-native">
                         <div class="matrix-date-meta">
@@ -2665,6 +2666,18 @@ function initMatrixDateInput() {
     dateInput.addEventListener('change', syncSpinnerFromDate);
     syncSpinnerFromDate();
     updateMatrixAgePreview();
+
+    const pickerBtn = document.getElementById('matrixDatePickerBtn');
+    if (pickerBtn) {
+        pickerBtn.addEventListener('click', () => {
+            if (typeof dateInput.showPicker === 'function') {
+                dateInput.showPicker();
+            } else {
+                dateInput.focus();
+                dateInput.click();
+            }
+        });
+    }
 }
 
 // Инициализация при загрузке
