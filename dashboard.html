@@ -1942,28 +1942,18 @@ function initMatrixProgressionDots() {
         60: matrixCalc.G ?? readPoint('mvGnum', 6),
         70: matrixCalc.Z ?? readPoint('mvZnum', 5),
     };
-    const edgeValuesByAge = {
-        0:  [6, 7, 15, 8, 7, 17, 8],
-        10: [19, 10, 11, 19, 3, 11, 21],
-        20: [10, 18, 8, 8, 14, 6, 22],
-        30: [9, 11, 6, 22, 5, 10, 16],
-        40: [12, 6, 6, 18, 21, 3, 15],
-        50: [15, 3, 21, 18, 6, 6, 12],
-        60: [5, 17, 10, 11, 9, 16, 21],
-        70: [14, 9, 4, 22, 7, 12, 11],
-    };
-    const buildEdgeFormula = (leftAge) => {
-        const values = edgeValuesByAge[leftAge];
-        if (!values) return {};
+    const buildEdgeFormula = (left, right) => {
+        const mid = reduceArcana(left + right);
+        const point23 = reduceArcana(left + mid);
         return {
-            1: null,       // 1-2 скрыта как раньше
-            2: values[0],  // 2-3
-            3: values[1],  // 3-4
-            4: values[2],  // 4-5
-            5: values[3],  // 5 лет
-            6: values[4],  // 6-7
-            7: values[5],  // 7-8
-            8: values[6],  // 8-9
+            1: reduceArcana(left + point23), // 1-2
+            2: point23,                      // 2-3
+            3: reduceArcana(point23 + mid),  // 3-4
+            4: null,                         // 4-5 скрыта
+            5: mid,                          // 5 лет
+            6: point23,                      // 6-7
+            7: reduceArcana(right + mid),    // 7-8
+            8: mid,                          // 8-9
         };
     };
     const ns = 'http://www.w3.org/2000/svg';
@@ -1975,7 +1965,11 @@ function initMatrixProgressionDots() {
         const v1 = verts[i];
         const v2 = verts[(i + 1) % 8];
         const dx = v2.x - v1.x, dy = v2.y - v1.y;
-        const edgeFormula = buildEdgeFormula(v1.age);
+        const leftPoint = pointByAge[v1.age];
+        const rightPoint = pointByAge[v2.age];
+        const edgeFormula = (leftPoint != null && rightPoint != null)
+            ? buildEdgeFormula(leftPoint, rightPoint)
+            : {};
         // Направление наружу от центра через середину ребра
         const mx = (v1.x + v2.x) / 2 - CX;
         const my = (v1.y + v2.y) / 2 - CY;
