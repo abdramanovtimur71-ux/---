@@ -826,6 +826,9 @@
                 </div>
 
                 <!-- Таблица значений -->
+                <div class="matrix-values-controls">
+                    <button type="button" class="matrix-values-toggle" id="matrixValuesToggle" style="display:none">Показать все</button>
+                </div>
                 <div class="matrix-values-grid" id="matrixValuesGrid"></div>
 
                 <!-- Детальные интерпретации -->
@@ -2586,6 +2589,33 @@ function syncMatrixDateFromSelects() {
     renderMatrixWheels();
 }
 
+function updateMatrixValuesGridCompactState() {
+    const grid = document.getElementById('matrixValuesGrid');
+    const toggle = document.getElementById('matrixValuesToggle');
+    if (!grid || !toggle) return;
+    const shouldCompact = grid.children.length > 8;
+    grid.classList.toggle('is-compact', shouldCompact);
+    if (!shouldCompact) {
+        grid.classList.remove('expanded');
+        toggle.style.display = 'none';
+        return;
+    }
+    toggle.style.display = 'inline-flex';
+    toggle.textContent = grid.classList.contains('expanded') ? 'Свернуть список' : 'Показать все';
+}
+
+function bindMatrixValuesGridToggle() {
+    const grid = document.getElementById('matrixValuesGrid');
+    const toggle = document.getElementById('matrixValuesToggle');
+    if (!grid || !toggle || toggle.dataset.bound === '1') return;
+    toggle.dataset.bound = '1';
+    toggle.addEventListener('click', () => {
+        grid.classList.toggle('expanded');
+        updateMatrixValuesGridCompactState();
+    });
+    window.addEventListener('resize', updateMatrixValuesGridCompactState, { passive: true });
+}
+
 function adjustMatrixDateField(field, delta) {
     const currentYear = new Date().getFullYear();
     if (field === 'day') {
@@ -2606,6 +2636,7 @@ function initMatrixDateSelects() {
     const wheelRoots = document.querySelectorAll('.matrix-timer-wheel[data-field]');
     if (!dateInput || wheelRoots.length === 0 || dateInput.dataset.enhanced === '1') return;
     dateInput.dataset.enhanced = '1';
+    bindMatrixValuesGridToggle();
 
     const parsed = parseMatrixDateValue(dateInput.value);
     const now = new Date();
@@ -2821,6 +2852,7 @@ function calcMatrix() {
             <div class="mvc-key">${arc.key}</div>
         </div>`;
     }).join('');
+    updateMatrixValuesGridCompactState();
 
     // Интерпретации для главных точек
     const mainKeys = ['A','B','V','G','D','E','Zh','I','Z'];
