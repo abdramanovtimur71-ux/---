@@ -3970,6 +3970,15 @@ body {
 .constellation-line {
     stroke: rgba(95,141,255,0.2);
     stroke-width: 0.4;
+    stroke-dasharray: 12 8;
+    stroke-dashoffset: 22;
+    animation: constellationFlow 6s linear infinite;
+    animation-delay: var(--ld, 0s);
+}
+.constellation-line.active-route {
+    stroke: rgba(245,203,104,0.56);
+    stroke-width: 0.55;
+    filter: drop-shadow(0 0 4px rgba(245,203,104,0.45));
 }
 .constellation-star {
     position: absolute;
@@ -3982,6 +3991,7 @@ body {
 .constellation-star.active {
     background: var(--gold-l);
     box-shadow: 0 0 10px rgba(202,161,96,0.55);
+    animation: starPulseSoft 2.4s ease-in-out infinite;
 }
 .constellation-meta {
     position: absolute;
@@ -3994,4 +4004,38 @@ body {
     border-radius: 10px;
     border: 1px solid rgba(95,141,255,0.14);
     background: rgba(5,11,28,0.72);
+}
+
+#page-matrix .matrix-visual-wrap {
+    --mx: 50%;
+    --my: 50%;
+    position: relative;
+    overflow: hidden;
+}
+#page-matrix .matrix-visual-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at var(--mx) var(--my), rgba(95,141,255,0.26) 0%, rgba(245,203,104,0.11) 18%, rgba(0,0,0,0) 46%);
+    opacity: 0.72;
+    transition: opacity 220ms ease;
+    mix-blend-mode: screen;
+}
+
+@keyframes constellationFlow {
+    from { stroke-dashoffset: 22; }
+    to { stroke-dashoffset: -22; }
+}
+@keyframes starPulseSoft {
+    0%,100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.28); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .constellation-line,
+    .constellation-star.active {
+        animation: none !important;
+    }
 }

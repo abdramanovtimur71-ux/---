@@ -370,6 +370,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Темы и UI
         initializeTheme();
+        initAtmosphereModes();
+        initHeroNebulaCanvas();
 
         // Первая навигационная ссылка активна
         const firstNavLink = document.querySelector('.nav-link');
@@ -1418,7 +1420,7 @@ document.addEventListener('DOMContentLoaded', setupProfileMenuInteractions);
    ============================================ */
 
 // Переключение между светлой и темной темой
-const THEMES = ['ritual', 'oracle'];
+const THEMES = ['ritual', 'lunar', 'oracle'];
 
 function applyTheme(theme) {
     const html = document.documentElement;
@@ -1445,6 +1447,10 @@ function updateThemeIcon(theme) {
         const themeState = {
             ritual: {
                 icon: '☾',
+                title: 'Переключить тему: Lunar Mist'
+            },
+            lunar: {
+                icon: '🌙',
                 title: 'Переключить тему: Crystal Oracle'
             },
             oracle: {
@@ -1470,6 +1476,82 @@ function initializeTheme() {
     }
 
     applyTheme('ritual');
+}
+
+function applyAtmosphere(atmo) {
+    const allowed = ['ritual', 'lunar', 'oracle'];
+    const safe = allowed.includes(atmo) ? atmo : 'ritual';
+    document.body.setAttribute('data-atmo', safe);
+    localStorage.setItem('atmo', safe);
+    document.querySelectorAll('.atmo-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.atmo === safe);
+    });
+}
+
+function initAtmosphereModes() {
+    const root = document.getElementById('atmoSwitcher');
+    if (!root) return;
+    root.querySelectorAll('.atmo-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            applyAtmosphere(btn.dataset.atmo || 'ritual');
+        });
+    });
+    applyAtmosphere(localStorage.getItem('atmo') || 'ritual');
+}
+
+function initHeroNebulaCanvas() {
+    if (window.matchMedia('(max-width: 900px)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const canvas = document.getElementById('heroNebulaCanvas');
+    const hero = document.querySelector('.hero');
+    if (!canvas || !hero) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let w = 0;
+    let h = 0;
+    const blobs = Array.from({ length: 8 }, (_, i) => ({
+        x: Math.random(),
+        y: Math.random(),
+        r: 120 + Math.random() * 210,
+        dx: (Math.random() - 0.5) * 0.0006,
+        dy: (Math.random() - 0.5) * 0.0006,
+        hue: i % 3 === 0 ? 42 : (i % 3 === 1 ? 218 : 258),
+        a: 0.08 + Math.random() * 0.07
+    }));
+
+    const resize = () => {
+        const rect = hero.getBoundingClientRect();
+        w = Math.max(1, Math.floor(rect.width));
+        h = Math.max(1, Math.floor(rect.height));
+        canvas.width = w;
+        canvas.height = h;
+    };
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    const draw = () => {
+        ctx.clearRect(0, 0, w, h);
+        blobs.forEach((b) => {
+            b.x += b.dx;
+            b.y += b.dy;
+            if (b.x < 0 || b.x > 1) b.dx *= -1;
+            if (b.y < 0 || b.y > 1) b.dy *= -1;
+
+            const gx = b.x * w;
+            const gy = b.y * h;
+            const g = ctx.createRadialGradient(gx, gy, 0, gx, gy, b.r);
+            g.addColorStop(0, `hsla(${b.hue}, 85%, 65%, ${b.a})`);
+            g.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = g;
+            ctx.beginPath();
+            ctx.arc(gx, gy, b.r, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    };
+    requestAnimationFrame(draw);
 }
 
 // Инициализация темы при загрузке страницы

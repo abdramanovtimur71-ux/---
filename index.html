@@ -62,7 +62,7 @@
     }
     </script>
 
-    <link rel="stylesheet" href="styles_dark.css?v=20260624pro8">
+    <link rel="stylesheet" href="styles_dark.css?v=20260624pro9">
 </head>
 <body>
     <!-- Пропустить навигацию (доступность) -->
@@ -73,6 +73,11 @@
     <div class="mystic-fog" aria-hidden="true">
         <div class="mystic-fog-a"></div>
         <div class="mystic-fog-b"></div>
+    </div>
+    <div class="atmo-switcher" id="atmoSwitcher" aria-label="Режим атмосферы">
+        <button class="atmo-btn active" data-atmo="ritual" type="button">Ritual</button>
+        <button class="atmo-btn" data-atmo="lunar" type="button">Lunar</button>
+        <button class="atmo-btn" data-atmo="oracle" type="button">Oracle</button>
     </div>
 
     <!-- Прелоадер -->
@@ -157,6 +162,7 @@
 
     <!-- Герой -->
     <section id="home" class="hero">
+        <canvas class="hero-nebula-canvas" id="heroNebulaCanvas" aria-hidden="true"></canvas>
         <!-- Мистический сигил -->
         <div class="hero-sigil" aria-hidden="true"></div>
         <!-- Декоративные руны -->

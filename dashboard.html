@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260624phase6">
+    <link rel="stylesheet" href="dashboard.css?v=20260624phase7">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -948,6 +948,7 @@ function updateSessionConstellation(upcomingCount, pastCount) {
     if (!root) return;
     const total = Math.max(0, (upcomingCount || 0) + (pastCount || 0));
     const lit = Math.min(24, total);
+    const activeLines = Math.min(12, Math.max(1, Math.floor(lit / 2)));
     const stars = Array.from({ length: 24 }, (_, i) => {
         const active = i < lit;
         const left = 8 + (i % 6) * 16 + (Math.random() * 4 - 2);
@@ -960,7 +961,8 @@ function updateSessionConstellation(upcomingCount, pastCount) {
         const y1 = 20 + Math.floor(i / 6) * 20;
         const x2 = x1 + 12;
         const y2 = y1 + (i % 2 ? 10 : -10);
-        return `<line x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%" class="constellation-line"/>`;
+        const active = i < activeLines ? ' active-route' : '';
+        return `<line x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%" class="constellation-line${active}" style="--ld:${(i * 0.14).toFixed(2)}s"/>`;
     }).join('');
 
     root.innerHTML = `
@@ -968,6 +970,20 @@ function updateSessionConstellation(upcomingCount, pastCount) {
         ${stars}
         <div class="constellation-meta">Сеансов: <strong>${total}</strong> · Активных звёзд: <strong>${lit}</strong></div>
     `;
+}
+
+function initMatrixPortalHover() {
+    const wrap = document.querySelector('#page-matrix .matrix-visual-wrap');
+    if (!wrap) return;
+    wrap.addEventListener('mousemove', (e) => {
+        const r = wrap.getBoundingClientRect();
+        wrap.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        wrap.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
+    wrap.addEventListener('mouseleave', () => {
+        wrap.style.setProperty('--mx', '50%');
+        wrap.style.setProperty('--my', '50%');
+    });
 }
 
 function updateLunarProgress(accepted, capacity, trainingState) {
@@ -2010,6 +2026,7 @@ window.addEventListener('DOMContentLoaded', () => {
     initKpiMouseGlow();
     initCountUp();
     initCosmicParticles();
+    initMatrixPortalHover();
     setTimeout(hideRitualLoader, 900);
 });
 
@@ -3014,6 +3031,7 @@ function calcMatrix() {
 
     document.getElementById('matrixResult').style.display = 'block';
     initMatrixArcanaTooltips();
+    initMatrixPortalHover();
     document.getElementById('matrixResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
