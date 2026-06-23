@@ -4223,3 +4223,30 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
         animation: none !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════
+   PHASE 10 — ULTRA VISIBLE DASHBOARD BOOST
+   ═══════════════════════════════════════════════════ */
+body[data-motion="cinema"] .topbar {
+    box-shadow: 0 10px 44px rgba(0,0,0,0.54), 0 0 56px rgba(95,141,255,0.16) !important;
+}
+body[data-motion="cinema"] .topbar-title {
+    text-shadow: 0 0 18px rgba(245,203,104,0.32), 0 0 34px rgba(95,141,255,0.22);
+}
+body[data-motion="cinema"] .kpi-card:hover,
+body[data-motion="cinema"] .card:hover,
+body[data-motion="cinema"] .session-item:hover {
+    transform: translateY(-11px) scale(1.01) !important;
+    box-shadow: 0 30px 62px rgba(0,0,0,0.56), 0 0 44px rgba(95,141,255,0.28), 0 0 24px rgba(245,203,104,0.16) !important;
+}
+body[data-motion="cinema"] .constellation-star.active {
+    animation-duration: 1.9s !important;
+    box-shadow: 0 0 14px rgba(202,161,96,0.72), 0 0 32px rgba(95,141,255,0.24);
+}
+body[data-motion="cinema"] .constellation-line.active-route {
+    stroke-width: 0.78 !important;
+}
+body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
+    opacity: 1 !important;
+    filter: saturate(1.35) brightness(1.08) !important;
+}

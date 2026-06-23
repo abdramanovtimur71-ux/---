@@ -7533,3 +7533,61 @@ body[data-motion="cinema"] :is(.btn-primary, .btn-secondary, .submit-btn, .cta-b
         transition: none !important;
     }
 }
+
+/* ==========================================================
+   PHASE 10 — ULTRA VISIBLE COSMIC BOOST
+   ========================================================== */
+.hero-title {
+    animation: heroTitlePulse 4.6s ease-in-out infinite;
+    text-shadow: 0 0 20px rgba(95,141,255,0.24), 0 0 34px rgba(212,174,92,0.18);
+}
+.hero-title-sub {
+    animation: heroSubShimmer 6.2s ease-in-out infinite;
+    background-size: 220% 100%;
+}
+.hero-eyebrow {
+    animation: heroEyebrowFloat 3.8s ease-in-out infinite;
+}
+@keyframes heroTitlePulse {
+    0%, 100% { filter: brightness(1); transform: translateY(0); }
+    50% { filter: brightness(1.15); transform: translateY(-2px); }
+}
+@keyframes heroSubShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+@keyframes heroEyebrowFloat {
+    0%, 100% { transform: translateY(0); opacity: 0.88; }
+    50% { transform: translateY(-3px); opacity: 1; }
+}
+
+.hero-orbit-tarot .orbit-tarot {
+    filter: saturate(1.15) drop-shadow(0 0 16px rgba(95,141,255,0.28));
+}
+.hero-orbit-tarot .orbit-tarot:hover {
+    transform: translateY(-10px) scale(1.08) rotate(var(--rot)) !important;
+    box-shadow: 0 24px 46px rgba(0,0,0,0.52), 0 0 34px rgba(212,174,92,0.30) !important;
+}
+
+body[data-motion="cinema"] .hero-nebula-canvas { opacity: 0.62 !important; }
+body[data-motion="cinema"] .hero::before { animation-duration: 9s !important; }
+body[data-motion="cinema"] .hero-rune { opacity: 0.3 !important; }
+body[data-motion="cinema"] .hero-title {
+    text-shadow: 0 0 24px rgba(95,141,255,0.35), 0 0 46px rgba(212,174,92,0.28);
+}
+body[data-motion="cinema"] :is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card):hover {
+    transform: translateY(-10px) scale(1.01) !important;
+    box-shadow: 0 28px 64px rgba(0,0,0,0.52), 0 0 38px rgba(95,141,255,0.24), inset 0 1px 0 rgba(255,255,255,0.10) !important;
+}
+body[data-motion="cinema"] :is(.btn-primary, .btn-secondary, .submit-btn, .cta-button, .plan-btn):hover {
+    transform: translateY(-5px) scale(1.02) !important;
+    box-shadow: 0 0 40px rgba(95,141,255,0.28), 0 18px 36px rgba(0,0,0,0.40) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-title,
+    .hero-title-sub,
+    .hero-eyebrow {
+        animation: none !important;
+    }
+}

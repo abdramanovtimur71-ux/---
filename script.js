@@ -1567,14 +1567,15 @@ function applyMotionLevel(level) {
 
 function initMotionModes() {
     const root = document.getElementById('motionSwitcher');
+    const preferred = localStorage.getItem('motionLevel') || 'cinema';
     if (!root) {
-        applyMotionLevel(localStorage.getItem('motionLevel') || 'normal');
+        applyMotionLevel(preferred);
         return;
     }
     root.querySelectorAll('.motion-btn').forEach((btn) => {
         btn.addEventListener('click', () => applyMotionLevel(btn.dataset.motion || 'normal'));
     });
-    applyMotionLevel(localStorage.getItem('motionLevel') || 'normal');
+    applyMotionLevel(preferred);
 }
 
 // Инициализация темы при загрузке страницы

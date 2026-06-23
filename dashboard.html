@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрица-Судбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260624phase9">
+    <link rel="stylesheet" href="dashboard.css?v=20260624phase10">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -2015,7 +2015,7 @@ function initMatrixProgressionDots() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    applyDashboardMotionLevel(localStorage.getItem('motionLevel') || 'normal');
+    applyDashboardMotionLevel(localStorage.getItem('motionLevel') || 'cinema');
     initRitualLoader();
     checkAuth();
     loadUser();
