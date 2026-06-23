@@ -298,43 +298,6 @@ function initButtonRipple() {
     });
 }
 
-/** Магический курсор (desktop only, respects reduced-motion) */
-function initMysticCursor() {
-    if (window.matchMedia('(max-width: 900px)').matches) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const orb = document.getElementById('mysticCursor');
-    const trail = document.getElementById('mysticCursorTrail');
-    if (!orb || !trail) return;
-
-    let tx = window.innerWidth * 0.5;
-    let ty = window.innerHeight * 0.5;
-    let x = tx;
-    let y = ty;
-    let tx2 = tx;
-    let ty2 = ty;
-    let x2 = tx2;
-    let y2 = ty2;
-
-    document.addEventListener('mousemove', (e) => {
-        tx = e.clientX;
-        ty = e.clientY;
-        tx2 = e.clientX;
-        ty2 = e.clientY;
-    }, { passive: true });
-
-    const tick = () => {
-        x += (tx - x) * 0.25;
-        y += (ty - y) * 0.25;
-        x2 += (tx2 - x2) * 0.12;
-        y2 += (ty2 - y2) * 0.12;
-        orb.style.transform = `translate(${x}px, ${y}px)`;
-        trail.style.transform = `translate(${x2}px, ${y2}px)`;
-        requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-}
-
 /** Параллакс hero-слоёв для глубины */
 function initHeroLayerParallax() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -385,7 +348,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initShootingStars();
         initCosmicReveal();
         initButtonRipple();
-        initMysticCursor();
         initHeroLayerParallax();
 
         // Навигация и скролл
