@@ -6433,3 +6433,142 @@ section::after {
 .guest-reviews::before, .public-content::before {
     display: none !important;
 }
+
+/* ==========================================================
+   MYSTIC COSMIC PROFESSIONAL TUNING (Matrix of Destiny)
+   ========================================================== */
+:root {
+    --mx-bg: #030712;
+    --mx-surface: rgba(8, 16, 36, 0.72);
+    --mx-surface-soft: rgba(10, 20, 44, 0.62);
+    --mx-border: rgba(127, 146, 206, 0.16);
+    --mx-border-strong: rgba(214, 181, 111, 0.26);
+    --mx-gold-soft: #d9bd7f;
+    --mx-lilac-soft: #9faee8;
+}
+
+body {
+    background:
+        radial-gradient(ellipse 120% 65% at 50% -12%, rgba(67, 95, 190, 0.14) 0%, transparent 58%),
+        radial-gradient(ellipse 70% 55% at 6% 28%, rgba(113, 88, 192, 0.11) 0%, transparent 62%),
+        radial-gradient(ellipse 68% 48% at 96% 70%, rgba(50, 86, 174, 0.12) 0%, transparent 60%),
+        var(--mx-bg) !important;
+}
+
+/* единый ритм секций */
+section {
+    padding-top: 104px !important;
+    padding-bottom: 104px !important;
+}
+
+.hero,
+.about,
+.process,
+.mediumship,
+.session-planner,
+.booking,
+.credentials,
+.testimonials,
+.blog,
+.public-content,
+.faq,
+.guest-reviews,
+.contact {
+    background: transparent !important;
+}
+
+/* мягкие стеклянные поверхности вместо резкого свечения */
+.about-stat,
+.about-feat-card,
+.mediumship-card,
+.process-step,
+.planner-form-card,
+.planner-result-card,
+.credential-card,
+.testimonial-card,
+.blog-card,
+.faq-item,
+.info-card,
+.public-item,
+.guest-item,
+.contact-form-wrap,
+.contact-details,
+.booking-form {
+    background:
+        linear-gradient(155deg, var(--mx-surface) 0%, var(--mx-surface-soft) 100%) !important;
+    border: 1px solid var(--mx-border) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 10px 28px rgba(0, 0, 0, 0.34) !important;
+    backdrop-filter: blur(10px) saturate(1.1);
+    -webkit-backdrop-filter: blur(10px) saturate(1.1);
+    transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease) !important;
+}
+
+.about-feat-card:hover,
+.mediumship-card:hover,
+.process-step:hover,
+.credential-card:hover,
+.testimonial-card:hover,
+.blog-card:hover,
+.faq-item:hover,
+.info-card:hover,
+.guest-item:hover,
+.public-item:hover {
+    transform: translateY(-4px) !important;
+    border-color: var(--mx-border-strong) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 16px 34px rgba(0, 0, 0, 0.42) !important;
+}
+
+/* типографика в стиле "мистика + премиум" */
+.section-title,
+.hero-title {
+    background: linear-gradient(120deg, #f9f6ff 0%, var(--mx-gold-soft) 48%, #d9e1ff 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: none !important;
+}
+
+.section-label {
+    color: var(--mx-gold-soft) !important;
+    border-color: rgba(214, 181, 111, 0.24) !important;
+    background: rgba(20, 26, 45, 0.58) !important;
+    box-shadow: none !important;
+}
+
+.hero-eyebrow,
+.section-subtitle,
+.kpi-change,
+.topbar-sub,
+.logo-subtitle {
+    color: var(--mx-lilac-soft) !important;
+}
+
+/* спокойные акценты для кнопок */
+.btn-primary,
+.submit-btn {
+    background: linear-gradient(135deg, #4d67b0 0%, #3b589d 55%, #5e76bf 100%) !important;
+    border: 1px solid rgba(137, 163, 232, 0.3) !important;
+    box-shadow: 0 8px 22px rgba(44, 74, 150, 0.34) !important;
+    animation: none !important;
+}
+
+.btn-primary:hover,
+.submit-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 26px rgba(38, 66, 136, 0.4) !important;
+}
+
+.btn-secondary,
+.btn-outline {
+    border-color: rgba(214, 181, 111, 0.24) !important;
+}
+
+/* футер в единой теме */
+.footer {
+    background: rgba(2, 6, 14, 0.9) !important;
+    border-top-color: rgba(120, 138, 194, 0.2) !important;
+}
