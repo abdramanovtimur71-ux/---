@@ -7387,3 +7387,149 @@ section {
     --mx: 50%;
     --my: 50%;
 }
+
+/* ==========================================================
+   PHASE 3 — COSMIC ANIMATION MASTER LAYER
+   ========================================================== */
+:root {
+    --fx-fast: 170ms;
+    --fx-mid: 340ms;
+    --fx-slow: 620ms;
+    --fx-ambient: 11.5s;
+    --fx-ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body {
+    --scroll-ratio: 0;
+}
+
+.navbar {
+    transition: background-color var(--fx-mid) var(--fx-ease-premium), border-color var(--fx-mid) var(--fx-ease-premium), box-shadow var(--fx-mid) var(--fx-ease-premium);
+}
+.navbar.scrolled {
+    background: rgba(4, 8, 20, 0.94) !important;
+    border-bottom-color: rgba(212, 174, 92, 0.22) !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.44), 0 0 34px rgba(95, 141, 255, 0.12) !important;
+}
+.nav-link {
+    transition: color var(--fx-fast) var(--fx-ease-premium), text-shadow var(--fx-fast) var(--fx-ease-premium) !important;
+}
+.nav-link.active {
+    text-shadow: 0 0 12px rgba(212, 174, 92, 0.36), 0 0 24px rgba(95, 141, 255, 0.16);
+}
+
+section {
+    position: relative;
+}
+section.cosmic-inview::before {
+    animation: sectionHaloBreath calc(var(--fx-ambient) + 2s) ease-in-out infinite;
+}
+@keyframes sectionHaloBreath {
+    0%, 100% { filter: blur(14px); opacity: 0.42; }
+    50% { filter: blur(18px); opacity: 0.72; }
+}
+
+:is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card) {
+    transform-style: preserve-3d;
+    transition: transform var(--fx-mid) var(--fx-ease-premium), box-shadow var(--fx-mid) var(--fx-ease-premium), border-color var(--fx-mid) var(--fx-ease-premium) !important;
+}
+:is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(125deg, transparent 30%, rgba(255,255,255,0.08) 49%, transparent 68%);
+    transform: translateX(-130%);
+    transition: transform 0.75s var(--fx-ease-premium);
+}
+:is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card):hover::before {
+    transform: translateX(130%);
+}
+
+:is(.btn-primary, .btn-secondary, .submit-btn, .cta-button, .plan-btn) {
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--fx-fast) var(--fx-ease-premium), box-shadow var(--fx-fast) var(--fx-ease-premium) !important;
+}
+:is(.btn-primary, .btn-secondary, .submit-btn, .cta-button, .plan-btn)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.04) 36%, transparent 64%);
+    transition: opacity var(--fx-fast) var(--fx-ease-premium);
+}
+:is(.btn-primary, .btn-secondary, .submit-btn, .cta-button, .plan-btn):hover::before {
+    opacity: 1;
+}
+:is(.btn-primary, .btn-secondary, .submit-btn, .cta-button, .plan-btn):active {
+    transform: translateY(1px) scale(0.985);
+}
+
+.hero::after {
+    animation-duration: calc(8s + var(--scroll-ratio) * 8s) !important;
+}
+.hero-orbit-tarot .orbit-tarot {
+    animation-timing-function: var(--fx-ease-premium), ease-in-out, ease-in-out !important;
+}
+.hero-tarot-scene .tarot-scene-card {
+    animation-duration: calc(8.4s + var(--scroll-ratio) * 2s) !important;
+}
+
+footer,
+.footer {
+    position: relative;
+}
+footer::before,
+.footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(1px 1px at 12% 28%, rgba(255,255,255,0.2) 0%, transparent 0%),
+        radial-gradient(1px 1px at 38% 68%, rgba(255,255,255,0.16) 0%, transparent 0%),
+        radial-gradient(1.5px 1.5px at 76% 32%, rgba(212,174,92,0.26) 0%, transparent 0%);
+    opacity: 0.65;
+    animation: footerStarDrift 15s ease-in-out infinite alternate;
+}
+@keyframes footerStarDrift {
+    0% { transform: translateY(0); opacity: 0.48; }
+    100% { transform: translateY(-8px); opacity: 0.76; }
+}
+
+body[data-motion="soft"] :is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card):hover {
+    transform: translateY(-2px) !important;
+}
+body[data-motion="soft"] :is(.btn-primary, .btn-secondary, .submit-btn, .cta-button, .plan-btn):hover {
+    transform: translateY(-1px) !important;
+}
+body[data-motion="cinema"] :is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card):hover {
+    transform: translateY(-7px) !important;
+    box-shadow: 0 20px 48px rgba(0,0,0,0.46), 0 0 32px rgba(95,141,255,0.20) !important;
+}
+body[data-motion="cinema"] :is(.btn-primary, .btn-secondary, .submit-btn, .cta-button, .plan-btn):hover {
+    transform: translateY(-4px) scale(1.01) !important;
+}
+
+@media (max-width: 900px) {
+    :is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card):hover {
+        transform: translateY(-2px) !important;
+    }
+    .nav-link.active {
+        text-shadow: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .navbar,
+    .nav-link,
+    section.cosmic-inview::before,
+    :is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card)::before,
+    footer::before,
+    .footer::before {
+        animation: none !important;
+        transition: none !important;
+    }
+}

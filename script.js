@@ -1796,3 +1796,46 @@ window.addEventListener('scroll', () => {
         });
     }
 }, { passive: true });
+
+/* ============================================
+   COSMIC INTERACTION LAYER — global polish
+   ============================================ */
+function initCosmicInteractionLayer() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const updateScrollRatio = () => {
+        const root = document.documentElement;
+        const max = Math.max(1, root.scrollHeight - window.innerHeight);
+        const ratio = Math.min(1, Math.max(0, window.scrollY / max));
+        document.body.style.setProperty('--scroll-ratio', ratio.toFixed(4));
+    };
+    updateScrollRatio();
+    window.addEventListener('scroll', updateScrollRatio, { passive: true });
+
+    const sections = document.querySelectorAll('section');
+    if (sections.length && 'IntersectionObserver' in window) {
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('cosmic-inview');
+                }
+            });
+        }, { threshold: 0.22 });
+        sections.forEach((section) => sectionObserver.observe(section));
+    }
+
+    const interactive = document.querySelectorAll(
+        '.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .faq-item, .process-step, .shop-card, .btn-primary, .btn-secondary, .submit-btn, .cta-button'
+    );
+    interactive.forEach((el) => {
+        el.addEventListener('mousemove', (e) => {
+            const r = el.getBoundingClientRect();
+            const x = ((e.clientX - r.left) / r.width) * 100;
+            const y = ((e.clientY - r.top) / r.height) * 100;
+            el.style.setProperty('--mx', `${x.toFixed(2)}%`);
+            el.style.setProperty('--my', `${y.toFixed(2)}%`);
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initCosmicInteractionLayer);

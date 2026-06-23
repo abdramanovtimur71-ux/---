@@ -4065,3 +4065,161 @@ body[data-motion="cinema"] .kpi-card:hover,
 body[data-motion="cinema"] .session-item:hover {
     transform: translateY(-6px) !important;
 }
+
+/* ═══════════════════════════════════════════════════
+   PHASE 9 — DASHBOARD COSMIC MOTION SYSTEM
+   ═══════════════════════════════════════════════════ */
+:root {
+    --dash-fx-fast: 160ms;
+    --dash-fx-mid: 320ms;
+    --dash-fx-slow: 620ms;
+    --dash-ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.topbar {
+    backdrop-filter: blur(24px) saturate(1.35) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(1.35) !important;
+    transition: border-color var(--dash-fx-mid) var(--dash-ease-premium), box-shadow var(--dash-fx-mid) var(--dash-ease-premium);
+}
+.topbar-actions .topbar-back,
+.topbar-actions .theme-toggle-btn {
+    transition: transform var(--dash-fx-fast) var(--dash-ease-premium), box-shadow var(--dash-fx-fast) var(--dash-ease-premium), border-color var(--dash-fx-fast) var(--dash-ease-premium) !important;
+}
+.topbar-actions .topbar-back:hover,
+.topbar-actions .theme-toggle-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 24px rgba(95,141,255,0.24);
+}
+
+.page-header,
+.kpi-card,
+.card,
+.session-item,
+.plan-option,
+.profile-service-sheet {
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--dash-fx-mid) var(--dash-ease-premium), border-color var(--dash-fx-mid) var(--dash-ease-premium), box-shadow var(--dash-fx-mid) var(--dash-ease-premium) !important;
+}
+.page-header::before,
+.kpi-card::before,
+.card::before,
+.session-item::before,
+.plan-option::before,
+.profile-service-sheet::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(125deg, transparent 28%, rgba(255,255,255,0.07) 48%, transparent 70%);
+    transform: translateX(-140%);
+    transition: transform 0.8s var(--dash-ease-premium);
+}
+.kpi-card:hover::before,
+.card:hover::before,
+.session-item:hover::before,
+.plan-option:hover::before,
+.profile-service-sheet:hover::before {
+    transform: translateX(130%);
+}
+
+.kpi-card::after,
+.card::after,
+.session-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(95,141,255,0.18) 0%, rgba(245,203,104,0.10) 24%, transparent 58%);
+    opacity: 0;
+    transition: opacity var(--dash-fx-mid) var(--dash-ease-premium);
+}
+.kpi-card:hover::after,
+.card:hover::after,
+.session-item:hover::after {
+    opacity: 1;
+}
+
+.btn,
+.btn-primary,
+.btn-gold,
+.plan-btn {
+    transition: transform var(--dash-fx-fast) var(--dash-ease-premium), box-shadow var(--dash-fx-fast) var(--dash-ease-premium) !important;
+}
+.btn:active,
+.btn-primary:active,
+.btn-gold:active,
+.plan-btn:active {
+    transform: translateY(1px) scale(0.985);
+}
+
+.session-constellation {
+    box-shadow: inset 0 0 0 1px rgba(95,141,255,0.05), 0 14px 30px rgba(0,0,0,0.30);
+}
+.constellation-line.active-route {
+    animation-duration: 4.4s !important;
+}
+.constellation-meta {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+#page-matrix .matrix-visual-wrap::after {
+    transition: opacity var(--dash-fx-mid) var(--dash-ease-premium), filter var(--dash-fx-mid) var(--dash-ease-premium);
+    filter: saturate(1.08);
+}
+#page-matrix .matrix-visual-wrap:hover::after {
+    opacity: 0.9;
+    filter: saturate(1.22);
+}
+
+body[data-motion="soft"] .topbar-actions .topbar-back:hover,
+body[data-motion="soft"] .topbar-actions .theme-toggle-btn:hover {
+    transform: none;
+    box-shadow: none;
+}
+body[data-motion="soft"] .kpi-card:hover,
+body[data-motion="soft"] .card:hover,
+body[data-motion="soft"] .session-item:hover {
+    transform: translateY(-2px) !important;
+}
+body[data-motion="soft"] #page-matrix .matrix-visual-wrap::after {
+    opacity: 0.38 !important;
+}
+
+body[data-motion="cinema"] .kpi-card:hover,
+body[data-motion="cinema"] .card:hover,
+body[data-motion="cinema"] .session-item:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 26px 52px rgba(0,0,0,0.50), 0 0 34px rgba(95,141,255,0.25) !important;
+}
+body[data-motion="cinema"] .constellation-line.active-route {
+    animation-duration: 2.8s !important;
+}
+body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
+    opacity: 0.96 !important;
+}
+
+@media (max-width: 900px) {
+    .kpi-card:hover,
+    .card:hover,
+    .session-item:hover {
+        transform: translateY(-2px) !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .topbar-actions .topbar-back,
+    .topbar-actions .theme-toggle-btn,
+    .page-header::before,
+    .kpi-card::before,
+    .card::before,
+    .session-item::before,
+    .plan-option::before,
+    .profile-service-sheet::before,
+    .constellation-line,
+    .constellation-star.active {
+        transition: none !important;
+        animation: none !important;
+    }
+}
