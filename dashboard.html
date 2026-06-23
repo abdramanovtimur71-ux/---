@@ -5,9 +5,16 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260624phase3">
+    <link rel="stylesheet" href="dashboard.css?v=20260624phase4">
 </head>
 <body>
+  <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
+      <div class="ritual-loader-inner">
+          <div class="ritual-loader-rings"></div>
+          <div class="ritual-loader-core">☽</div>
+          <div class="ritual-loader-text">Открываем гримуар...</div>
+      </div>
+  </div>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
   <canvas id="starsCanvas" class="stars-canvas" aria-hidden="true"></canvas>
   <div class="nebula-orb nebula-orb-1" aria-hidden="true"></div>
@@ -323,6 +330,13 @@
                 <div class="card-title">Прошедшие сеансы <span>Архив</span></div>
                 <div class="session-list" id="sessionsPastList">
                     <div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Загрузка...</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Карта пути <span>Личное созвездие</span></div>
+                <div class="session-constellation" id="sessionConstellation">
+                    <div class="constellation-hint">Созвездие строится по вашим сеансам</div>
                 </div>
             </div>
         </div>
@@ -916,6 +930,46 @@ async function loadTrainingStatus() {
     }
 }
 
+function initRitualLoader() {
+    const loader = document.getElementById('ritualLoader');
+    if (!loader) return;
+    requestAnimationFrame(() => loader.classList.add('active'));
+}
+
+function hideRitualLoader() {
+    const loader = document.getElementById('ritualLoader');
+    if (!loader) return;
+    loader.classList.remove('active');
+    setTimeout(() => loader.remove(), 500);
+}
+
+function updateSessionConstellation(upcomingCount, pastCount) {
+    const root = document.getElementById('sessionConstellation');
+    if (!root) return;
+    const total = Math.max(0, (upcomingCount || 0) + (pastCount || 0));
+    const lit = Math.min(24, total);
+    const stars = Array.from({ length: 24 }, (_, i) => {
+        const active = i < lit;
+        const left = 8 + (i % 6) * 16 + (Math.random() * 4 - 2);
+        const top = 16 + Math.floor(i / 6) * 20 + (Math.random() * 4 - 2);
+        return `<span class="constellation-star${active ? ' active' : ''}" style="left:${left}%;top:${top}%"></span>`;
+    }).join('');
+
+    const lines = Array.from({ length: 12 }, (_, i) => {
+        const x1 = 10 + (i % 6) * 16;
+        const y1 = 20 + Math.floor(i / 6) * 20;
+        const x2 = x1 + 12;
+        const y2 = y1 + (i % 2 ? 10 : -10);
+        return `<line x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%" class="constellation-line"/>`;
+    }).join('');
+
+    root.innerHTML = `
+        <svg class="constellation-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg>
+        ${stars}
+        <div class="constellation-meta">Сеансов: <strong>${total}</strong> · Активных звёзд: <strong>${lit}</strong></div>
+    `;
+}
+
 function updateLunarProgress(accepted, capacity, trainingState) {
     const icon = document.getElementById('lunarPhaseIcon');
     const title = document.getElementById('lunarPhaseTitle');
@@ -1473,6 +1527,7 @@ async function loadSessions() {
                 ? data.past.map(i => renderSessionItem(i, false)).join('')
                 : '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">История пуста</div>';
         }
+        updateSessionConstellation(data.upcoming.length, data.past.length);
 
         // Уведомление сверху
         if (notifyEl) {
@@ -1489,6 +1544,7 @@ async function loadSessions() {
         const err = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Сервер недоступен</div>';
         if (upcomingEl) upcomingEl.innerHTML = err;
         if (pastEl)     pastEl.innerHTML     = err;
+        updateSessionConstellation(0, 0);
     }
 }
 
@@ -1524,6 +1580,7 @@ async function loadOverviewSessions() {
         // KPI "Всего сеансов"
         const kpiEl = document.querySelector('.kpi-value.purple');
         if (kpiEl) kpiEl.textContent = data.upcoming.length + data.past.length;
+        updateSessionConstellation(data.upcoming.length, data.past.length);
     } catch { /* тихо */ }
 }
 
@@ -1923,6 +1980,7 @@ function initMatrixProgressionDots() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    initRitualLoader();
     checkAuth();
     loadUser();
     loadTrainingStatus();
@@ -1952,6 +2010,7 @@ window.addEventListener('DOMContentLoaded', () => {
     initKpiMouseGlow();
     initCountUp();
     initCosmicParticles();
+    setTimeout(hideRitualLoader, 900);
 });
 
 /* ═══════════════════════════════════════════════════
