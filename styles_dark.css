@@ -5483,3 +5483,239 @@ section::after {
         radial-gradient(1px 1px at 75% 65%, rgba(196,162,74,0.14) 0%, transparent 0%),
         radial-gradient(1px 1px at 90% 35%, rgba(255,255,255,0.09) 0%, transparent 0%);
 }
+
+/* ═══════════════════════════════════════════════════════
+   ✦ NAVBAR COSMIC ULTRA UPGRADE ✦
+   Glassmorphism · Particle trail · Nebula glow · Hover FX
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Navbar — полный glassmorphism с туманностью ── */
+.navbar {
+    background:
+        linear-gradient(180deg, rgba(4,6,18,0.97) 0%, rgba(3,5,14,0.93) 100%) !important;
+    backdrop-filter: blur(28px) saturate(1.6) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(1.6) !important;
+    border-bottom: 1px solid rgba(130,100,205,0.18) !important;
+    box-shadow:
+        0 4px 40px rgba(0,0,0,0.55),
+        0 1px 0 rgba(255,255,255,0.04) !important;
+}
+
+/* ── Navbar — световая аура сверху ────────────── */
+.navbar::after {
+    content: '';
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: -1px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(138,109,192,0.6), rgba(212,174,92,0.5), rgba(138,109,192,0.6), transparent);
+    animation: navTopAurora 4s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes navTopAurora {
+    0%,100% { opacity: 0.4; transform: scaleX(0.88); }
+    50%     { opacity: 1.0; transform: scaleX(1.0); filter: blur(0.5px); }
+}
+
+/* ── nav-links контейнер — живая туманность ──── */
+.nav-links {
+    background: linear-gradient(
+        145deg,
+        rgba(10,16,40,0.75) 0%,
+        rgba(7,11,28,0.65) 100%
+    ) !important;
+    border: 1px solid rgba(138,109,192,0.28) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.07),
+        inset 0 -1px 0 rgba(138,109,192,0.12),
+        0 8px 32px rgba(0,0,0,0.40),
+        0 0 40px rgba(138,109,192,0.08) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── nav-links — шлейф блика слева направо ──── */
+.nav-links::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+    border-radius: 999px;
+    animation: navPillSweep 7s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+@keyframes navPillSweep {
+    0%   { left: -45%; opacity: 0; }
+    12%  { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { left: 105%; opacity: 0; }
+}
+
+/* ── Nav link hover — полный cosmic эффект ───── */
+.nav-link {
+    letter-spacing: 0.9px !important;
+    font-size: 11.5px !important;
+}
+.nav-link:hover {
+    color: #ffffff !important;
+    background: linear-gradient(
+        145deg,
+        rgba(138,109,192,0.22) 0%,
+        rgba(34,52,95,0.18) 100%
+    ) !important;
+    box-shadow:
+        0 0 20px rgba(138,109,192,0.20),
+        inset 0 1px 0 rgba(255,255,255,0.10) !important;
+    transform: translateY(-2px) !important;
+    text-shadow: 0 0 12px rgba(138,109,192,0.50);
+}
+.nav-link:hover::after {
+    background: linear-gradient(90deg, var(--purple-l), var(--gold), var(--purple-l)) !important;
+    transform: scaleX(1) !important;
+    box-shadow: 0 0 8px rgba(212,174,92,0.40);
+}
+
+/* ── Active link — золотая орбита ─────────────── */
+.nav-link.active {
+    color: #fce8a0 !important;
+    background: linear-gradient(
+        145deg,
+        rgba(212,174,92,0.24) 0%,
+        rgba(100,70,20,0.28) 100%
+    ) !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(212,174,92,0.38),
+        0 0 22px rgba(212,174,92,0.18),
+        0 0 50px rgba(212,174,92,0.08) !important;
+    text-shadow: 0 0 14px rgba(212,174,92,0.45) !important;
+}
+.nav-link.active::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 999px;
+    border: 1px solid rgba(212,174,92,0.22);
+    animation: activeOrbit 2.6s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes activeOrbit {
+    0%,100% { opacity: 0.3; transform: scale(1); }
+    50%     { opacity: 0.8; transform: scale(1.05); box-shadow: 0 0 12px rgba(212,174,92,0.20); }
+}
+
+/* ── Logo — пульсирующий shimmer ──────────────── */
+.logo-text {
+    background: linear-gradient(
+        120deg,
+        #FFFFFF 0%,
+        #F4EEFF 20%,
+        #E8D080 45%,
+        #F4EEFF 70%,
+        #FFFFFF 100%
+    ) !important;
+    background-size: 220% 100% !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: logoShimmer 4.5s ease-in-out infinite !important;
+}
+@keyframes logoShimmer {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ── nav-oracle — космическая капсула ─────────── */
+.nav-oracle {
+    background: linear-gradient(
+        145deg,
+        rgba(10,16,42,0.80) 0%,
+        rgba(6,10,26,0.70) 100%
+    ) !important;
+    border: 1px solid rgba(138,109,192,0.30) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        0 0 28px rgba(138,109,192,0.16),
+        0 8px 24px rgba(0,0,0,0.34) !important;
+    animation: oraclePulse 5s ease-in-out infinite !important;
+}
+@keyframes oraclePulse {
+    0%,100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 22px rgba(138,109,192,0.14), 0 8px 24px rgba(0,0,0,0.34); }
+    50%     { box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 0 40px rgba(138,109,192,0.28), 0 0 60px rgba(212,174,92,0.08), 0 8px 28px rgba(0,0,0,0.40); }
+}
+
+/* ── nav-card — светящиеся карты таро ─────────── */
+.nav-card {
+    border-color: rgba(212,174,92,0.45) !important;
+    box-shadow:
+        0 0 14px rgba(138,109,192,0.30),
+        inset 0 1px 0 rgba(255,255,255,0.10) !important;
+    animation: cardFloat 4s ease-in-out infinite, navCardGlow 2.8s ease-in-out infinite !important;
+}
+.nav-card:nth-child(3) {
+    animation: cardFloat 4s ease-in-out infinite 1s, navCardGlow 2.8s ease-in-out infinite 0.8s !important;
+}
+@keyframes navCardGlow {
+    0%,100% {
+        box-shadow: 0 0 12px rgba(138,109,192,0.24), inset 0 1px 0 rgba(255,255,255,0.08);
+        border-color: rgba(212,174,92,0.35);
+    }
+    50% {
+        box-shadow: 0 0 26px rgba(212,174,92,0.38), 0 0 48px rgba(138,109,192,0.22), inset 0 1px 0 rgba(255,255,255,0.16);
+        border-color: rgba(212,174,92,0.70);
+    }
+}
+
+/* ── Theme toggle — красная планета ──────────── */
+.theme-toggle {
+    border-radius: 50% !important;
+    animation: themePlanetBreath 3.6s ease-in-out infinite !important;
+}
+@keyframes themePlanetBreath {
+    0%,100% {
+        transform: scale(1);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.38),
+            inset 0 1px 0 rgba(255,255,255,0.12),
+            inset 0 -8px 20px rgba(120,12,24,0.34);
+    }
+    50% {
+        transform: scale(1.04);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.45),
+            0 0 28px rgba(188,25,42,0.28),
+            inset 0 1px 0 rgba(255,255,255,0.18),
+            inset 0 -10px 24px rgba(150,16,30,0.42);
+    }
+}
+
+/* ── Scroll progress bar — cosmic gradient ───── */
+.scroll-progress {
+    background: linear-gradient(
+        90deg,
+        rgba(138,109,192,0.9),
+        rgba(212,174,92,0.95),
+        rgba(255,255,255,0.85),
+        rgba(212,174,92,0.95),
+        rgba(138,109,192,0.9)
+    ) !important;
+    box-shadow: 0 0 16px rgba(212,174,92,0.55), 0 0 40px rgba(138,109,192,0.30) !important;
+    height: 2px !important;
+    background-size: 200% 100% !important;
+    animation: progressShimmer 3s linear infinite !important;
+}
+@keyframes progressShimmer {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* ── Hamburger icon — cosmic bars ────────────── */
+.nav-hamburger span {
+    background: linear-gradient(90deg, var(--purple-l), var(--gold)) !important;
+    box-shadow: 0 0 6px rgba(138,109,192,0.30);
+    transition: var(--tr);
+}
+.nav-hamburger:hover span {
+    box-shadow: 0 0 12px rgba(212,174,92,0.50);
+}
