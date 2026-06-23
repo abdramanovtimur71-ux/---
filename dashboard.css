@@ -2937,3 +2937,260 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     opacity: 0.42;
     mix-blend-mode: screen;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ✦ DASHBOARD COSMIC UPGRADE — v2  
+   Glassmorphism · Scroll-reveal · Shooting stars · Glow effects
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Мерцающие звёзды — глобальный слой ─────── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        radial-gradient(1px 1px at 8% 9%,  rgba(255,255,255,0.60) 0%, transparent 0%),
+        radial-gradient(1px 1px at 19% 5%,  rgba(255,255,255,0.45) 0%, transparent 0%),
+        radial-gradient(1.5px 1.5px at 24% 32%, rgba(245,203,104,0.55) 0%, transparent 0%),
+        radial-gradient(1px 1px at 33% 19%, rgba(255,255,255,0.40) 0%, transparent 0%),
+        radial-gradient(1px 1px at 44% 6%,  rgba(255,255,255,0.55) 0%, transparent 0%),
+        radial-gradient(2px 2px at 54% 15%, rgba(95,141,255,0.60) 0%, transparent 0%),
+        radial-gradient(1px 1px at 63% 39%, rgba(255,255,255,0.38) 0%, transparent 0%),
+        radial-gradient(1px 1px at 71% 8%,  rgba(255,255,255,0.52) 0%, transparent 0%),
+        radial-gradient(1.5px 1.5px at 77% 26%, rgba(245,203,104,0.48) 0%, transparent 0%),
+        radial-gradient(1px 1px at 85% 12%, rgba(255,255,255,0.42) 0%, transparent 0%),
+        radial-gradient(1px 1px at 91% 36%, rgba(255,255,255,0.58) 0%, transparent 0%),
+        radial-gradient(1px 1px at 96% 7%,  rgba(255,255,255,0.48) 0%, transparent 0%),
+        radial-gradient(1px 1px at 6%  43%, rgba(255,255,255,0.33) 0%, transparent 0%),
+        radial-gradient(1px 1px at 15% 56%, rgba(255,255,255,0.28) 0%, transparent 0%),
+        radial-gradient(1px 1px at 29% 65%, rgba(245,203,104,0.38) 0%, transparent 0%),
+        radial-gradient(1.5px 1.5px at 41% 52%, rgba(95,141,255,0.52) 0%, transparent 0%),
+        radial-gradient(1px 1px at 51% 73%, rgba(255,255,255,0.33) 0%, transparent 0%),
+        radial-gradient(1px 1px at 59% 62%, rgba(255,255,255,0.48) 0%, transparent 0%),
+        radial-gradient(1px 1px at 66% 80%, rgba(255,255,255,0.38) 0%, transparent 0%),
+        radial-gradient(2px 2px at 74% 55%, rgba(95,141,255,0.58) 0%, transparent 0%),
+        radial-gradient(1px 1px at 81% 70%, rgba(255,255,255,0.43) 0%, transparent 0%),
+        radial-gradient(1px 1px at 88% 86%, rgba(245,203,104,0.33) 0%, transparent 0%),
+        radial-gradient(1px 1px at 93% 57%, rgba(255,255,255,0.48) 0%, transparent 0%),
+        radial-gradient(1px 1px at 12% 81%, rgba(95,141,255,0.38) 0%, transparent 0%),
+        radial-gradient(1px 1px at 36% 90%, rgba(255,255,255,0.28) 0%, transparent 0%),
+        radial-gradient(1px 1px at 60% 94%, rgba(255,255,255,0.33) 0%, transparent 0%);
+    animation: dashStarTwinkle 7s ease-in-out infinite alternate;
+    opacity: 0.72;
+}
+@keyframes dashStarTwinkle {
+    0%   { opacity: 0.50; }
+    50%  { opacity: 0.72; }
+    100% { opacity: 0.90; }
+}
+
+/* ── Падающие звёзды ─────────────────────────── */
+.shooting-star {
+    position: fixed;
+    width: 2px; height: 2px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.92);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    animation: dashShootMove var(--ss-dur,2.5s) linear var(--ss-delay,0s) infinite;
+}
+.shooting-star::after {
+    content: '';
+    position: absolute;
+    top: 50%; right: 0;
+    transform: translateY(-50%) scaleX(-1);
+    width: clamp(70px,12vw,160px);
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.70), rgba(95,141,255,0.4), transparent);
+    border-radius: 999px;
+}
+@keyframes dashShootMove {
+    0%   { opacity: 0;   transform: translate(0,0) rotate(-22deg); }
+    5%   { opacity: 1; }
+    80%  { opacity: 0.4; }
+    100% { opacity: 0;   transform: translate(-32vw, 48vh) rotate(-22deg); }
+}
+
+/* ── Scroll-reveal ───────────────────────────── */
+.d-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+    will-change: opacity, transform;
+}
+.d-reveal.revealed { opacity: 1; transform: translateY(0); }
+.d-stagger .d-reveal:nth-child(1) { transition-delay: 0.04s; }
+.d-stagger .d-reveal:nth-child(2) { transition-delay: 0.10s; }
+.d-stagger .d-reveal:nth-child(3) { transition-delay: 0.16s; }
+.d-stagger .d-reveal:nth-child(4) { transition-delay: 0.22s; }
+.d-stagger .d-reveal:nth-child(5) { transition-delay: 0.28s; }
+.d-stagger .d-reveal:nth-child(6) { transition-delay: 0.34s; }
+
+/* ── Glassmorphism для карточек ──────────────── */
+.kpi-card,
+.card,
+.session-item,
+.plan-option,
+.profile-service-sheet {
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    background: linear-gradient(
+        145deg,
+        rgba(11, 22, 58, 0.88) 0%,
+        rgba(6, 13, 34, 0.80) 100%
+    ) !important;
+    border-color: rgba(95, 141, 255, 0.18) !important;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        inset 0 0 0 1px rgba(95,141,255,0.06) !important;
+}
+.kpi-card:hover,
+.card:hover,
+.session-item:hover {
+    border-color: rgba(245, 203, 104, 0.28) !important;
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.60),
+        0 0 40px rgba(95, 141, 255, 0.22),
+        inset 0 1px 0 rgba(255,255,255,0.10) !important;
+}
+
+/* ── KPI числа — пульс ───────────────────────── */
+.kpi-value {
+    position: relative;
+}
+.kpi-value::after {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(95,141,255,0.10) 0%, transparent 70%);
+    animation: kpiAura 3.8s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes kpiAura {
+    0%,100% { opacity: 0.5; transform: scale(0.9); }
+    50%     { opacity: 1.0; transform: scale(1.2); }
+}
+
+/* ── Кнопки — cosmic gradient + ripple ──────── */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: var(--tr);
+}
+.btn-primary,
+.btn.btn-primary {
+    background: linear-gradient(135deg, #1a3a90, #2c5ab0, #4070d0) !important;
+    background-size: 200% 200% !important;
+    animation: dashBtnShift 5s ease infinite;
+}
+@keyframes dashBtnShift {
+    0%,100% { background-position: 0% 50%; }
+    50%     { background-position: 100% 50%; }
+}
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.22) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+.btn:hover::before { opacity: 1; }
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 40px rgba(95,141,255,0.45), 0 10px 28px rgba(0,0,0,0.4) !important;
+}
+.plan-btn,
+.btn-gold {
+    background: linear-gradient(135deg, rgba(180,130,40,0.9), rgba(220,170,60,0.85)) !important;
+}
+.plan-btn:hover {
+    box-shadow: 0 0 38px rgba(245,203,104,0.45), 0 10px 26px rgba(0,0,0,0.38) !important;
+}
+
+/* ── Sidebar — тонкая звёздная аура ─────────── */
+.sidebar {
+    box-shadow: 28px 0 70px rgba(0,0,0,0.34), 0 0 60px rgba(95,141,255,0.06) !important;
+}
+.sidebar-link.active {
+    background: linear-gradient(90deg, rgba(30,60,160,0.38), rgba(245,203,104,0.12)) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 0 20px rgba(95,141,255,0.12) !important;
+}
+
+/* ── Topbar — aurora border ──────────────────── */
+.topbar {
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(90deg, transparent, rgba(95,141,255,0.38), rgba(245,203,104,0.30), rgba(95,141,255,0.38), transparent) 1;
+}
+.topbar::before {
+    background: linear-gradient(90deg, transparent 0%, rgba(245,203,104,0.20) 25%, rgba(95,141,255,0.40) 50%, rgba(245,203,104,0.20) 75%, transparent 100%) !important;
+    animation: dashTopbarAurora 5s ease-in-out infinite !important;
+}
+@keyframes dashTopbarAurora {
+    0%,100% { opacity: 0.35; }
+    50%     { opacity: 0.85; }
+}
+
+/* ── Page header — enhanced glow ────────────── */
+.page-header {
+    background: linear-gradient(
+        135deg,
+        rgba(12,28,72,0.92) 0%,
+        rgba(7,18,46,0.88) 100%
+    ) !important;
+    border-color: rgba(95,141,255,0.22) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,0.30), 0 0 30px rgba(95,141,255,0.10), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+}
+
+/* ── Session status badges — glow ───────────── */
+.status-upcoming {
+    animation: statusPulse 3s ease-in-out infinite;
+}
+@keyframes statusPulse {
+    0%,100% { box-shadow: 0 0 12px rgba(138,109,192,0.12); }
+    50%     { box-shadow: 0 0 22px rgba(138,109,192,0.32); }
+}
+
+/* ── Заголовки страниц — gradient shimmer ────── */
+.page-header h1 {
+    background: linear-gradient(135deg, #f3f7ff 0%, #e8d8a0 50%, #b8c8ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleShimmer 5s ease-in-out infinite;
+    background-size: 200% 200%;
+}
+@keyframes titleShimmer {
+    0%,100% { background-position: 0% 50%; }
+    50%     { background-position: 100% 50%; }
+}
+
+/* ── Card sections — тонкие звёзды фона ─────── */
+.content {
+    background-image:
+        radial-gradient(1px 1px at 5% 15%,  rgba(255,255,255,0.10) 0%, transparent 0%),
+        radial-gradient(1px 1px at 22% 72%, rgba(255,255,255,0.08) 0%, transparent 0%),
+        radial-gradient(1px 1px at 55% 12%, rgba(255,255,255,0.09) 0%, transparent 0%),
+        radial-gradient(1px 1px at 78% 58%, rgba(245,203,104,0.12) 0%, transparent 0%),
+        radial-gradient(1px 1px at 93% 30%, rgba(255,255,255,0.08) 0%, transparent 0%);
+    background-attachment: fixed;
+}
+
+/* ── Sidebar logo hover glow ─────────────────── */
+.sidebar-logo:hover .sidebar-logo-text {
+    filter: drop-shadow(0 0 14px rgba(245,203,104,0.50));
+}
+
+/* ── Matrix page — cosmic aura on date picker ── */
+.matrix-timer-wheel {
+    box-shadow: 0 0 30px rgba(95,141,255,0.12), inset 0 0 20px rgba(95,141,255,0.05) !important;
+}
+.matrix-timer-wheel::after {
+    box-shadow: 0 0 10px rgba(245,203,104,0.25), 0 0 30px rgba(95,141,255,0.12) !important;
+}

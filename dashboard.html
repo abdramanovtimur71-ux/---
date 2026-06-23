@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="dashboard.css?v=20260503cosmic">
 </head>
 <body>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
@@ -1982,6 +1982,11 @@ window.addEventListener('DOMContentLoaded', () => {
         : (localStorage.getItem('dashboard_page') || 'overview');
     const link = document.querySelector('[onclick*="' + savedPage + '"]');
     showPage(savedPage, link);
+
+    // Космический дизайн
+    initDashShootingStars();
+    initDashReveal();
+    initDashButtonRipple();
 });
 
 /* ═══════════════════════════════════════════════════
@@ -3122,6 +3127,49 @@ function bookMatrixSession() {
   init();
   draw();
 })();
+
+/* ── Shooting stars ─────────────────────────────────────────────── */
+function initDashShootingStars() {
+    const count = 5;
+    for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+        star.style.left  = (10 + Math.random() * 80) + 'vw';
+        star.style.top   = (Math.random() * 45) + 'vh';
+        star.style.setProperty('--ss-dur',   (2.2 + Math.random() * 2.5) + 's');
+        star.style.setProperty('--ss-delay', (Math.random() * 16) + 's');
+        document.body.appendChild(star);
+    }
+}
+
+/* ── Scroll-reveal ──────────────────────────────────────────────── */
+function initDashReveal() {
+    const selectors = ['.kpi-card', '.card', '.session-item', '.plan-option', '.profile-service-sheet'];
+    selectors.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => el.classList.add('d-reveal'));
+    });
+    // stagger на grid-контейнерах
+    ['.grid-4', '.grid-3', '.grid-2', '.plan-options', '.profile-services-grid'].forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => el.classList.add('d-stagger'));
+    });
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); }
+        });
+    }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.d-reveal').forEach(el => obs.observe(el));
+}
+
+/* ── Button ripple ──────────────────────────────────────────────── */
+function initDashButtonRipple() {
+    document.querySelectorAll('.btn, .plan-btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const r = btn.getBoundingClientRect();
+            btn.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+            btn.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
+        });
+    });
+}
 </script>
 
 </body>
