@@ -343,6 +343,7 @@ function initHeroLayerParallax() {
     if (!hero) return;
 
     const layers = [
+        { el: hero.querySelector('.hero-orbit-tarot'), depth: 18 },
         { el: hero.querySelector('.hero-tarot-scene'), depth: 16 },
         { el: hero.querySelector('.hero-tarot'), depth: 11 },
         { el: hero.querySelector('.hero-candles'), depth: 9 },
