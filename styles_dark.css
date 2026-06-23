@@ -6217,3 +6217,22 @@ section::after {
     0%,100% { opacity: 0.4; }
     50%     { opacity: 1.0; box-shadow: 0 0 12px rgba(202,161,96,0.25); }
 }
+
+/* ── Уменьшить яркость about-stat карточек ────── */
+.about-stat {
+    background:
+        linear-gradient(160deg, rgba(8,16,40,0.85) 0%, rgba(3,7,18,0.92) 100%) !important;
+    border: 1px solid rgba(95,141,255,0.10) !important;
+    box-shadow: none !important;
+}
+.about-stat:hover {
+    border-color: rgba(202,161,96,0.22) !important;
+    transform: scale(1.03) !important;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.35) !important;
+}
+.about-stat-num {
+    animation: none !important;
+    text-shadow: none !important;
+    color: var(--gold) !important;
+    opacity: 0.85 !important;
+}
