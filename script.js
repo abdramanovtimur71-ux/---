@@ -380,6 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lazyLoad();
         initMysticParticles();
         initCardAura();
+        initUnifiedAuraTracking();
         initShootingStars();
         initCosmicReveal();
         initButtonRipple();
@@ -613,6 +614,22 @@ function initCardAura() {
             card.style.setProperty('--card-mx', x);
             card.style.setProperty('--card-my', y);
         });
+    });
+}
+
+// Универсальный трекинг курсора для мягкой ауры карточек
+function initUnifiedAuraTracking() {
+    const cards = document.querySelectorAll(
+        '.about-feat-card, .mediumship-card, .process-step, .credential-card, .testimonial-card, .blog-card, .faq-item, .info-card, .guest-item, .public-item, .shop-card'
+    );
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%';
+            const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1) + '%';
+            card.style.setProperty('--mx', x);
+            card.style.setProperty('--my', y);
+        }, { passive: true });
     });
 }
 

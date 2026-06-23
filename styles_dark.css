@@ -6705,3 +6705,137 @@ section {
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================================
+   PHASE 2 — UNIFIED PREMIUM CARDS & SECTION RHYTHM
+   ========================================================== */
+:root {
+    --u-surface-a: rgba(10, 18, 42, 0.70);
+    --u-surface-b: rgba(7, 13, 31, 0.66);
+    --u-border: rgba(127, 146, 206, 0.15);
+    --u-border-hover: rgba(214, 181, 111, 0.24);
+}
+
+/* Единый ритм секций */
+section {
+    padding-top: 98px !important;
+    padding-bottom: 98px !important;
+}
+
+/* Единый профессиональный стиль карточек */
+.about-stat,
+.about-feat-card,
+.mediumship-card,
+.process-step,
+.planner-form-card,
+.planner-result-card,
+.credential-card,
+.testimonial-card,
+.blog-card,
+.faq-item,
+.info-card,
+.public-item,
+.guest-item,
+.contact-form-wrap,
+.contact-details,
+.booking-form,
+.shop-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px !important;
+    border: 1px solid var(--u-border) !important;
+    background: linear-gradient(155deg, var(--u-surface-a) 0%, var(--u-surface-b) 100%) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 10px 26px rgba(0,0,0,0.34) !important;
+    backdrop-filter: blur(10px) saturate(1.06);
+    -webkit-backdrop-filter: blur(10px) saturate(1.06);
+    transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease) !important;
+}
+
+/* Мягкая внутренняя аура при наведении */
+.about-feat-card::after,
+.mediumship-card::after,
+.process-step::after,
+.credential-card::after,
+.testimonial-card::after,
+.blog-card::after,
+.faq-item::after,
+.info-card::after,
+.guest-item::after,
+.public-item::after,
+.shop-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(173, 146, 232, 0.12) 0%, rgba(173, 146, 232, 0.04) 30%, transparent 65%);
+    transition: opacity 0.25s var(--ease);
+}
+
+.about-feat-card:hover,
+.mediumship-card:hover,
+.process-step:hover,
+.credential-card:hover,
+.testimonial-card:hover,
+.blog-card:hover,
+.faq-item:hover,
+.info-card:hover,
+.guest-item:hover,
+.public-item:hover,
+.shop-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: var(--u-border-hover) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 14px 30px rgba(0,0,0,0.40) !important;
+}
+
+.about-feat-card:hover::after,
+.mediumship-card:hover::after,
+.process-step:hover::after,
+.credential-card:hover::after,
+.testimonial-card:hover::after,
+.blog-card:hover::after,
+.faq-item:hover::after,
+.info-card:hover::after,
+.guest-item:hover::after,
+.public-item:hover::after,
+.shop-card:hover::after {
+    opacity: 1;
+}
+
+/* Подчистка избыточных ярких линий у старых слоев */
+.mediumship-card::before,
+.process-step::before,
+.blog-card::before,
+.testimonial-card::before {
+    opacity: 0.18 !important;
+}
+
+/* Чуть чище текст на карточках */
+.mediumship-card p,
+.process-step p,
+.testimonial-text,
+.blog-card p,
+.faq-answer-inner,
+.shop-card p {
+    color: #a9b3d1 !important;
+}
+
+/* Трекинг позиции курсора для ауры */
+.about-feat-card,
+.mediumship-card,
+.process-step,
+.credential-card,
+.testimonial-card,
+.blog-card,
+.faq-item,
+.info-card,
+.guest-item,
+.public-item,
+.shop-card {
+    --mx: 50%;
+    --my: 50%;
+}
