@@ -7159,6 +7159,71 @@ body[data-motion="cinema"] :is(.mediumship-card, .info-card, .testimonial-card, 
     }
 }
 
+/* ── Hero cards: stronger animations ─────────────────────── */
+.hero-orbit-tarot .orbit-tarot {
+    animation:
+        orbitTarotFloat var(--dur, 7.2s) ease-in-out infinite,
+        orbitTarotAura calc(var(--dur, 7.2s) + 2s) ease-in-out infinite,
+        orbitTarotTilt calc(var(--dur, 7.2s) + 1.2s) ease-in-out infinite !important;
+    transform-origin: 50% 62%;
+}
+
+@keyframes orbitTarotTilt {
+    0%, 100% { transform: translateY(0) rotate(var(--rot)) rotateX(0deg); }
+    25% { transform: translateY(-4px) rotate(calc(var(--rot) - 1deg)) rotateX(3deg); }
+    50% { transform: translateY(-9px) rotate(calc(var(--rot) + 1.4deg)) rotateX(0deg); }
+    75% { transform: translateY(-4px) rotate(calc(var(--rot) - 0.8deg)) rotateX(-3deg); }
+}
+
+.hero-tarot-scene .tarot-scene-card {
+    will-change: transform, filter;
+    animation: sceneCardDrift 8.8s ease-in-out infinite !important;
+}
+.hero-tarot-scene .tsc-1 { --scene-rot: -14deg; animation-delay: 0.25s !important; }
+.hero-tarot-scene .tsc-2 { --scene-rot: 6deg; animation-delay: 1.2s !important; }
+.hero-tarot-scene .tsc-3 { --scene-rot: 16deg; animation-delay: 2.1s !important; }
+
+@keyframes sceneCardDrift {
+    0%, 100% { transform: translateY(0) rotate(var(--scene-rot, -8deg)); filter: brightness(1); }
+    50% { transform: translateY(-10px) rotate(calc(var(--scene-rot, -8deg) + 2deg)); filter: brightness(1.08); }
+}
+
+.hero-tarot .tarot-card {
+    will-change: transform, box-shadow;
+    animation: leftDeckFloat 7.8s ease-in-out infinite !important;
+}
+.hero-tarot .card-back {
+    --deck-transform: rotate(-22deg) translateX(6px);
+    animation-delay: 0.2s !important;
+}
+.hero-tarot .card-mid {
+    --deck-transform: rotate(-8deg) translateX(12px);
+    animation-delay: 0.9s !important;
+}
+.hero-tarot .card-front {
+    --deck-transform: rotate(4deg) translateX(0px);
+    animation-delay: 1.5s !important;
+}
+
+@keyframes leftDeckFloat {
+    0%, 100% {
+        transform: var(--deck-transform);
+        box-shadow: 0 18px 36px rgba(0,0,0,0.45), 0 0 22px rgba(212,174,92,0.16);
+    }
+    50% {
+        transform: var(--deck-transform) translateY(-8px);
+        box-shadow: 0 24px 40px rgba(0,0,0,0.48), 0 0 28px rgba(95,141,255,0.24);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-orbit-tarot .orbit-tarot,
+    .hero-tarot-scene .tarot-scene-card,
+    .hero-tarot .tarot-card {
+        animation: none !important;
+    }
+}
+
 /* ==========================================================
    PHASE 2 — UNIFIED PREMIUM CARDS & SECTION RHYTHM
    ========================================================== */
