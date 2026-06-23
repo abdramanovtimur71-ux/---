@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Личный кабинет — Матрицы Судьбы</title>
+    <title>Личный кабинет — Матрица-Судбы</title>
     <link rel="stylesheet" href="dashboard.css?v=20260624phase8">
 </head>
 <body>
@@ -28,8 +28,8 @@
 <!-- ─── БОКОВОЕ МЕНЮ ─────────────────────────────── -->
 <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
-        <span class="sidebar-logo-text">Матрицы Судьбы</span>
-        <span class="sidebar-logo-sub">Матрицы Судьбы · Нумеролог</span>
+        <span class="sidebar-logo-text">Матрица-Судбы</span>
+        <span class="sidebar-logo-sub">Матрица-Судбы · Нумеролог</span>
     </a>
 
     <div class="sidebar-user">
@@ -51,7 +51,7 @@
 
         <div class="sidebar-section-label">Сеансы</div>
         <a href="#" class="sidebar-link" onclick="showPage('matrix', this); closeSidebar()">
-            <span class="sidebar-icon">✺</span> Матрицы Судьбы
+            <span class="sidebar-icon">✺</span> Матрица-Судбы
             <span class="sidebar-badge new-badge">NEW</span>
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('consultations', this); closeSidebar()">
@@ -601,7 +601,7 @@
         <div id="page-matrix" class="page">
             <span class="page-label">Нумерология судьбы</span>
             <div class="page-header">
-                <h1>🔮 Матрица Судьбы</h1>
+                <h1>🔮 Матрица-Судбы</h1>
                 <p>Расчёт матрицы по дате рождения</p>
             </div>
 
@@ -3059,7 +3059,7 @@ function copyMatrixResult() {
     const name = document.getElementById('matrixPersonName').textContent;
     const date = document.getElementById('matrixPersonDate').textContent;
     const cards = document.querySelectorAll('.matrix-val-card');
-    let text = `Матрица Судьбы — ${name} (${date})\n${'─'.repeat(40)}\n`;
+    let text = `Матрица-Судбы — ${name} (${date})\n${'─'.repeat(40)}\n`;
     cards.forEach(c => {
         const pos = c.querySelector('.mvc-pos').textContent;
         const num = c.querySelector('.mvc-num').textContent;
