@@ -7058,6 +7058,21 @@ section:not(.hero) > .container > .section-subtitle {
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 10px 24px rgba(0,0,0,0.30);
 }
+.motion-switcher {
+    position: fixed;
+    right: 14px;
+    bottom: 58px;
+    z-index: 1300;
+    display: inline-flex;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 999px;
+    border: 1px solid rgba(127,146,206,0.26);
+    background: rgba(5, 10, 24, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.30);
+}
 .atmo-btn {
     border: 1px solid rgba(127,146,206,0.26);
     background: rgba(255,255,255,0.03);
@@ -7074,11 +7089,33 @@ section:not(.hero) > .container > .section-subtitle {
     color: var(--t1);
     border-color: rgba(212,174,92,0.38);
 }
+.motion-btn {
+    border: 1px solid rgba(127,146,206,0.26);
+    background: rgba(255,255,255,0.03);
+    color: var(--t2);
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: var(--tr);
+}
+.motion-btn:hover {
+    color: var(--t1);
+    border-color: rgba(212,174,92,0.38);
+}
 .atmo-btn.active {
     color: var(--t1);
     border-color: rgba(212,174,92,0.54);
     background: linear-gradient(135deg, rgba(95,141,255,0.20), rgba(212,174,92,0.18));
     box-shadow: 0 0 16px rgba(95,141,255,0.18);
+}
+.motion-btn.active {
+    color: var(--t1);
+    border-color: rgba(95,141,255,0.58);
+    background: linear-gradient(135deg, rgba(95,141,255,0.22), rgba(95,141,255,0.14));
+    box-shadow: 0 0 16px rgba(95,141,255,0.20);
 }
 
 body[data-atmo="ritual"] .hero-nebula-canvas { opacity: 0.22; }
@@ -7087,9 +7124,33 @@ body[data-atmo="oracle"] .hero-nebula-canvas { opacity: 0.34; }
 body[data-atmo="lunar"] .mystic-fog { opacity: 0.82; }
 body[data-atmo="oracle"] .mystic-vignette { opacity: 0.76; }
 
+body[data-motion="soft"] .hero-nebula-canvas { opacity: 0.14 !important; }
+body[data-motion="soft"] .hero-rune,
+body[data-motion="soft"] .hstar,
+body[data-motion="soft"] .orbit-tarot {
+    animation-duration: 18s !important;
+}
+body[data-motion="soft"] :is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .public-item, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card) {
+    transition-duration: 160ms !important;
+}
+body[data-motion="cinema"] .hero-nebula-canvas { opacity: 0.48 !important; }
+body[data-motion="cinema"] .hero-rune,
+body[data-motion="cinema"] .hstar,
+body[data-motion="cinema"] .orbit-tarot {
+    animation-duration: 6.5s !important;
+}
+body[data-motion="cinema"] :is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .public-item, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card):hover {
+    transform: translateY(-6px) !important;
+}
+
 @media (max-width: 760px) {
     .atmo-switcher {
         bottom: 10px;
+        right: 10px;
+        transform: scale(0.92);
+    }
+    .motion-switcher {
+        bottom: 52px;
         right: 10px;
         transform: scale(0.92);
     }

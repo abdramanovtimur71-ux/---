@@ -4039,3 +4039,29 @@ body {
         animation: none !important;
     }
 }
+
+body[data-motion="soft"] .constellation-line,
+body[data-motion="soft"] .constellation-star.active {
+    animation-duration: 9s !important;
+}
+body[data-motion="soft"] #page-matrix .matrix-visual-wrap::after {
+    opacity: 0.42 !important;
+}
+body[data-motion="soft"] .card,
+body[data-motion="soft"] .kpi-card,
+body[data-motion="soft"] .session-item {
+    transition-duration: 160ms !important;
+}
+
+body[data-motion="cinema"] .constellation-line,
+body[data-motion="cinema"] .constellation-star.active {
+    animation-duration: 3.5s !important;
+}
+body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
+    opacity: 0.9 !important;
+}
+body[data-motion="cinema"] .card:hover,
+body[data-motion="cinema"] .kpi-card:hover,
+body[data-motion="cinema"] .session-item:hover {
+    transform: translateY(-6px) !important;
+}

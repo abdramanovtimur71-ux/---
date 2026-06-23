@@ -371,6 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Темы и UI
         initializeTheme();
         initAtmosphereModes();
+        initMotionModes();
         initHeroNebulaCanvas();
 
         // Первая навигационная ссылка активна
@@ -1421,6 +1422,7 @@ document.addEventListener('DOMContentLoaded', setupProfileMenuInteractions);
 
 // Переключение между светлой и темной темой
 const THEMES = ['ritual', 'lunar', 'oracle'];
+const MOTION_LEVELS = ['soft', 'normal', 'cinema'];
 
 function applyTheme(theme) {
     const html = document.documentElement;
@@ -1552,6 +1554,27 @@ function initHeroNebulaCanvas() {
         requestAnimationFrame(draw);
     };
     requestAnimationFrame(draw);
+}
+
+function applyMotionLevel(level) {
+    const safe = MOTION_LEVELS.includes(level) ? level : 'normal';
+    document.body.setAttribute('data-motion', safe);
+    localStorage.setItem('motionLevel', safe);
+    document.querySelectorAll('.motion-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.motion === safe);
+    });
+}
+
+function initMotionModes() {
+    const root = document.getElementById('motionSwitcher');
+    if (!root) {
+        applyMotionLevel(localStorage.getItem('motionLevel') || 'normal');
+        return;
+    }
+    root.querySelectorAll('.motion-btn').forEach((btn) => {
+        btn.addEventListener('click', () => applyMotionLevel(btn.dataset.motion || 'normal'));
+    });
+    applyMotionLevel(localStorage.getItem('motionLevel') || 'normal');
 }
 
 // Инициализация темы при загрузке страницы
