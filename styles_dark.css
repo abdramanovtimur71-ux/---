@@ -6236,3 +6236,127 @@ section::after {
     color: var(--gold) !important;
     opacity: 0.85 !important;
 }
+
+/* ════════════════════════════════════════
+   GLOBAL BRIGHTNESS REDUCTION — softer cosmic
+   ════════════════════════════════════════ */
+
+/* Убираем яркие анимации свечения со всех карточек */
+.mediumship-card, .process-step, .credential-card,
+.testimonial-card, .blog-card, .about-feat-card,
+.info-card, .faq-item, .planner-form-card,
+.planner-result-card, .guest-item, .contact-form-wrap {
+    background:
+        linear-gradient(160deg, rgba(7,14,38,0.90) 0%, rgba(3,7,18,0.95) 100%) !important;
+    border-color: rgba(95,141,255,0.09) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.40) !important;
+}
+
+/* Hover — деликатное поднятие без яркого glow */
+.mediumship-card:hover, .process-step:hover, .credential-card:hover,
+.testimonial-card:hover, .blog-card:hover, .about-feat-card:hover,
+.info-card:hover, .faq-item:hover, .planner-form-card:hover,
+.guest-item:hover {
+    border-color: rgba(202,161,96,0.20) !important;
+    box-shadow: 0 16px 36px rgba(0,0,0,0.48) !important;
+    transform: translateY(-5px) !important;
+}
+
+/* Иконки — убираем яркий float */
+.card-icon, .step-icon, .credential-icon, .info-icon {
+    animation: none !important;
+    filter: none !important;
+    text-shadow: none !important;
+}
+
+/* Connector между шагами — тихий */
+.process-connector {
+    animation: none !important;
+    opacity: 0.40 !important;
+    text-shadow: none !important;
+}
+
+/* Номера шагов — без pulse */
+.step-num, .feat-num {
+    animation: none !important;
+    text-shadow: none !important;
+    opacity: 0.70 !important;
+}
+
+/* Звёзды отзывов — без glow */
+.testimonial-stars {
+    animation: none !important;
+    text-shadow: none !important;
+}
+
+/* Аватар автора — без glow */
+.author-avatar {
+    animation: none !important;
+    box-shadow: none !important;
+}
+
+/* read-more — без glow */
+.read-more {
+    animation: none !important;
+    text-shadow: none !important;
+}
+
+/* FAQ icon — тихий */
+.faq-icon {
+    animation: none !important;
+    text-shadow: none !important;
+}
+
+/* Section label — тонкий badge */
+.section-label {
+    animation: none !important;
+    box-shadow: 0 0 8px rgba(202,161,96,0.06) !important;
+}
+
+/* Section title — без shimmer */
+.section-title {
+    animation: none !important;
+    background: linear-gradient(90deg, #f0eaff 0%, #e8d080 60%, #d4c8f5 100%) !important;
+    background-size: 100% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+/* Верхние линии карточек — тусклее */
+.mediumship-card::before, .process-step::before,
+.testimonial-card::before, .blog-card::before {
+    opacity: 0.30 !important;
+    animation: none !important;
+}
+.credential-card::after {
+    opacity: 0.25 !important;
+    animation: none !important;
+}
+
+/* Section separators — тусклее */
+.about::before, .process::before, .mediumship::before,
+.booking::before, .testimonials::before, .credentials::before,
+.blog::before, .faq::before, .contact::before,
+.guest-reviews::before, .public-content::before {
+    animation: none !important;
+    opacity: 0.30 !important;
+}
+
+/* About tags — тусклее */
+.about-tag {
+    border-color: rgba(95,141,255,0.12) !important;
+    background: rgba(95,141,255,0.06) !important;
+}
+
+/* Submit btn — спокойный */
+.submit-btn {
+    animation: none !important;
+    box-shadow: 0 8px 20px rgba(30,60,160,0.28) !important;
+}
+
+/* Hero trust strip — спокойный */
+.hero-trust-strip span {
+    border-color: rgba(95,141,255,0.14) !important;
+    background: rgba(4,10,26,0.70) !important;
+}
