@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260503cosmicv3">
+    <link rel="stylesheet" href="dashboard.css?v=20260624phase3">
 </head>
 <body>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
@@ -407,6 +407,13 @@
                     </div>
                     <div class="plan-price-display">
                         <div><span class="price" id="currentPlanPrice">75 000</span><span class="currency"> ₸</span></div>
+                    </div>
+                    <div class="lunar-progress" id="lunarProgress">
+                        <div class="lunar-phase-icon" id="lunarPhaseIcon">🌑</div>
+                        <div class="lunar-phase-meta">
+                            <div class="lunar-phase-title" id="lunarPhaseTitle">Новолуние</div>
+                            <div class="lunar-phase-sub" id="lunarPhaseSub">Начало пути</div>
+                        </div>
                     </div>
                 </div>
                 <div class="plan-features-row">
@@ -881,6 +888,7 @@ function loadUser() {
     document.getElementById('overviewPlanCard').textContent = 'Статус: ' + trainingLabel;
     document.getElementById('currentPlanName').textContent = 'Программа «Практик Матрицы»';
     document.getElementById('currentPlanPrice').textContent = trainingPrice;
+    updateLunarProgress(null, 25, trainingState);
 }
 
 async function loadTrainingStatus() {
@@ -902,8 +910,54 @@ async function loadTrainingStatus() {
         document.getElementById('trainingPageProgress').style.width = progress + '%';
         document.getElementById('trainingProgressText').textContent = accepted + ' из ' + capacity + ' мест занято';
         document.getElementById('trainingPageProgressText').textContent = accepted + ' из ' + capacity + ' мест занято';
+        updateLunarProgress(accepted, capacity, localStorage.getItem('trainingState') || 'not_paid');
     } catch (error) {
         showNotify('Не удалось загрузить статус обучения', 'error');
+    }
+}
+
+function updateLunarProgress(accepted, capacity, trainingState) {
+    const icon = document.getElementById('lunarPhaseIcon');
+    const title = document.getElementById('lunarPhaseTitle');
+    const sub = document.getElementById('lunarPhaseSub');
+    if (!icon || !title || !sub) return;
+
+    if (trainingState === 'not_paid') {
+        icon.textContent = '🌑';
+        title.textContent = 'Новолуние';
+        sub.textContent = 'Начало пути';
+        return;
+    }
+    if (trainingState === 'waitlist') {
+        icon.textContent = '🌘';
+        title.textContent = 'Убывающая луна';
+        sub.textContent = 'Лист ожидания';
+        return;
+    }
+
+    if (typeof accepted === 'number' && typeof capacity === 'number' && capacity > 0) {
+        const p = accepted / capacity;
+        if (p < 0.25) {
+            icon.textContent = '🌒';
+            title.textContent = 'Растущая луна';
+            sub.textContent = 'Вход в практику';
+        } else if (p < 0.5) {
+            icon.textContent = '🌓';
+            title.textContent = 'Первая четверть';
+            sub.textContent = 'Активный рост';
+        } else if (p < 0.75) {
+            icon.textContent = '🌔';
+            title.textContent = 'Прибывающая луна';
+            sub.textContent = 'Углубление знаний';
+        } else {
+            icon.textContent = '🌕';
+            title.textContent = 'Полнолуние';
+            sub.textContent = 'Сильный уровень';
+        }
+    } else {
+        icon.textContent = '🌒';
+        title.textContent = 'Растущая луна';
+        sub.textContent = 'Путь ученика';
     }
 }
 
@@ -2738,6 +2792,10 @@ function calcMatrix() {
             <div class="mvc-num">${p.val}</div>
             <div class="mvc-arcana">${arc.name}</div>
             <div class="mvc-key">${arc.key}</div>
+            <div class="mvc-tooltip">
+                <div class="mvc-tooltip-title">${p.val} — ${escapeMatrixHtml(arc.name)}</div>
+                <div class="mvc-tooltip-text">${escapeMatrixHtml(arc.desc)}</div>
+            </div>
         </div>`;
     }).join('');
 
@@ -2896,6 +2954,7 @@ function calcMatrix() {
     setMatrixExtraSection('talents');
 
     document.getElementById('matrixResult').style.display = 'block';
+    initMatrixArcanaTooltips();
     document.getElementById('matrixResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -2915,6 +2974,19 @@ function copyMatrixResult() {
 
 function bookMatrixSession() {
     showPage('booking', document.querySelector('[onclick*="booking"]'));
+}
+
+function initMatrixArcanaTooltips() {
+    document.querySelectorAll('.matrix-val-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const r = card.getBoundingClientRect();
+            card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+            card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+        });
+        card.addEventListener('click', () => {
+            card.classList.toggle('tip-open');
+        });
+    });
 }
 </script>
 

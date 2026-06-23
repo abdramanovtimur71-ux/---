@@ -3578,3 +3578,99 @@ body {
     0%,100% { box-shadow: 0 0 0 rgba(245,203,104,0); }
     50%     { box-shadow: 0 0 10px rgba(245,203,104,0.40); }
 }
+
+/* ── Phase 3: lunar progress + matrix holographic hints ─────────── */
+.lunar-progress {
+    min-width: 188px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(212,174,92,0.22);
+    background: linear-gradient(150deg, rgba(11,24,62,0.86) 0%, rgba(5,11,28,0.92) 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 10px 24px rgba(0,0,0,0.28);
+}
+.lunar-phase-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: radial-gradient(circle, rgba(202,161,96,0.16) 0%, rgba(95,141,255,0.08) 65%, transparent 100%);
+    border: 1px solid rgba(202,161,96,0.26);
+}
+.lunar-phase-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t1);
+    line-height: 1.2;
+}
+.lunar-phase-sub {
+    font-size: 11px;
+    color: var(--t3);
+}
+
+.matrix-val-card {
+    position: relative;
+    --mx: 50%;
+    --my: 50%;
+    overflow: visible !important;
+}
+.matrix-val-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle at var(--mx) var(--my), rgba(95,141,255,0.14) 0%, rgba(202,161,96,0.06) 35%, transparent 70%);
+    transition: opacity 0.25s ease;
+    border-radius: inherit;
+}
+.matrix-val-card:hover::after,
+.matrix-val-card.tip-open::after {
+    opacity: 1;
+}
+.mvc-tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    transform: translateX(-50%) translateY(6px);
+    width: min(340px, calc(100vw - 32px));
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(202,161,96,0.22);
+    background: linear-gradient(160deg, rgba(9,20,52,0.94) 0%, rgba(5,11,28,0.97) 100%);
+    box-shadow: 0 18px 42px rgba(0,0,0,0.45), 0 0 28px rgba(95,141,255,0.12);
+    color: var(--t2);
+    z-index: 25;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.22s ease;
+}
+.matrix-val-card:hover .mvc-tooltip,
+.matrix-val-card.tip-open .mvc-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+.mvc-tooltip-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    color: var(--gold-l);
+    margin-bottom: 4px;
+}
+.mvc-tooltip-text {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+@media (max-width: 820px) {
+    .lunar-progress {
+        min-width: 100%;
+        margin-top: 8px;
+    }
+}
