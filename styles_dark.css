@@ -7591,3 +7591,39 @@ body[data-motion="cinema"] :is(.btn-primary, .btn-secondary, .submit-btn, .cta-b
         animation: none !important;
     }
 }
+
+/* ==========================================================
+   PHASE 11 — TEXT VISIBILITY SAFETY LAYER
+   ========================================================== */
+.hero-title,
+.hero-title-sub,
+.logo-text,
+.drawer-logo-text,
+.footer-brand .logo-text {
+    color: #f3f6ff !important;
+}
+
+.hero-title {
+    background-image: linear-gradient(120deg, #f9f6ff 0%, #e6d2a7 48%, #d9e1ff 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.hero-title-sub {
+    background: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: currentColor !important;
+    color: #cfd9f8 !important;
+    text-shadow: 0 0 12px rgba(95,141,255,0.22);
+}
+
+.logo-text,
+.drawer-logo-text,
+.footer-brand .logo-text {
+    background-image: linear-gradient(135deg, #f8f3ff 0%, #e5c68a 52%, #c7d6ff 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}

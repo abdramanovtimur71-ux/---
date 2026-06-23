@@ -4250,3 +4250,25 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     opacity: 1 !important;
     filter: saturate(1.35) brightness(1.08) !important;
 }
+
+/* ═══════════════════════════════════════════════════
+   PHASE 11 — TEXT VISIBILITY SAFETY LAYER
+   ═══════════════════════════════════════════════════ */
+.sidebar-logo-text,
+.topbar-title {
+    color: #f3f7ff !important;
+}
+
+.sidebar-logo-text {
+    background-image: linear-gradient(135deg, #f8f3ff 0%, #e8d080 52%, #bdd0ff 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.topbar-title {
+    background-image: linear-gradient(120deg, #f3f7ff 0%, #e8d080 50%, #b8c8ff 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
