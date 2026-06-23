@@ -298,6 +298,76 @@ function initButtonRipple() {
     });
 }
 
+/** Магический курсор (desktop only, respects reduced-motion) */
+function initMysticCursor() {
+    if (window.matchMedia('(max-width: 900px)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const orb = document.getElementById('mysticCursor');
+    const trail = document.getElementById('mysticCursorTrail');
+    if (!orb || !trail) return;
+
+    let tx = window.innerWidth * 0.5;
+    let ty = window.innerHeight * 0.5;
+    let x = tx;
+    let y = ty;
+    let tx2 = tx;
+    let ty2 = ty;
+    let x2 = tx2;
+    let y2 = ty2;
+
+    document.addEventListener('mousemove', (e) => {
+        tx = e.clientX;
+        ty = e.clientY;
+        tx2 = e.clientX;
+        ty2 = e.clientY;
+    }, { passive: true });
+
+    const tick = () => {
+        x += (tx - x) * 0.25;
+        y += (ty - y) * 0.25;
+        x2 += (tx2 - x2) * 0.12;
+        y2 += (ty2 - y2) * 0.12;
+        orb.style.transform = `translate(${x}px, ${y}px)`;
+        trail.style.transform = `translate(${x2}px, ${y2}px)`;
+        requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+}
+
+/** Параллакс hero-слоёв для глубины */
+function initHeroLayerParallax() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+
+    const layers = [
+        { el: hero.querySelector('.hero-tarot-scene'), depth: 16 },
+        { el: hero.querySelector('.hero-tarot'), depth: 11 },
+        { el: hero.querySelector('.hero-candles'), depth: 9 },
+        { el: hero.querySelector('.hero-side-candles'), depth: 7 },
+        { el: hero.querySelector('.hero-stars'), depth: 5 },
+    ].filter(item => item.el);
+
+    hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        const rx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        const ry = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+        layers.forEach(({ el, depth }) => {
+            const tx = rx * depth;
+            const ty = ry * depth;
+            el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+        });
+    }, { passive: true });
+
+    hero.addEventListener('mouseleave', () => {
+        layers.forEach(({ el }) => {
+            el.style.transform = 'translate3d(0, 0, 0)';
+        });
+    });
+}
+
 // Инициализация всех функций при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(() => {
@@ -313,6 +383,8 @@ document.addEventListener('DOMContentLoaded', () => {
         initShootingStars();
         initCosmicReveal();
         initButtonRipple();
+        initMysticCursor();
+        initHeroLayerParallax();
 
         // Навигация и скролл
         updateActiveNav();
@@ -1636,4 +1708,3 @@ window.addEventListener('scroll', () => {
         });
     }
 }, { passive: true });
-
