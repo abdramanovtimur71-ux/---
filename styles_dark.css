@@ -3548,10 +3548,47 @@ body {
     background: linear-gradient(145deg, rgba(14,20,46,0.52), rgba(10,14,32,0.4));
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
     gap: 6px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+.nav-links::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(110deg, transparent 0%, rgba(212,174,92,0.09) 45%, transparent 100%);
+    transform: translateX(-120%);
+    animation: navLinksSweep 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+@keyframes navLinksSweep {
+    0%, 25% { transform: translateX(-120%); }
+    55%, 100% { transform: translateX(120%); }
+}
+.nav-links li {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: navLinkReveal 0.55s var(--ease) forwards;
+}
+.nav-links li:nth-child(1) { animation-delay: 0.03s; }
+.nav-links li:nth-child(2) { animation-delay: 0.07s; }
+.nav-links li:nth-child(3) { animation-delay: 0.11s; }
+.nav-links li:nth-child(4) { animation-delay: 0.15s; }
+.nav-links li:nth-child(5) { animation-delay: 0.19s; }
+.nav-links li:nth-child(6) { animation-delay: 0.23s; }
+.nav-links li:nth-child(7) { animation-delay: 0.27s; }
+@keyframes navLinkReveal {
+    to { opacity: 1; transform: translateY(0); }
 }
 .nav-link {
     padding: 9px 14px;
     border-radius: 999px;
+    transform: translateY(0);
+    transition: color 0.25s var(--ease), background 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease) !important;
 }
 .nav-link::after {
     bottom: 2px;
@@ -3563,6 +3600,7 @@ body {
 .nav-link:hover {
     color: #f7f4ff;
     background: linear-gradient(145deg, rgba(108, 80, 189, 0.16), rgba(34, 52, 95, 0.14));
+    transform: translateY(-1px);
 }
 .nav-link:hover::after {
     opacity: 1;
@@ -3571,6 +3609,16 @@ body {
     color: #f7d788;
     background: linear-gradient(145deg, rgba(212,174,92,0.2), rgba(78,53,18,0.24));
     box-shadow: inset 0 0 0 1px rgba(212,174,92,0.32), 0 0 18px rgba(212,174,92,0.12);
+    text-shadow: 0 0 10px rgba(212,174,92,0.28);
+    animation: navActiveGlow 3.6s ease-in-out infinite;
+}
+@keyframes navActiveGlow {
+    0%, 100% { box-shadow: inset 0 0 0 1px rgba(212,174,92,0.32), 0 0 18px rgba(212,174,92,0.12); }
+    50% { box-shadow: inset 0 0 0 1px rgba(232,198,123,0.46), 0 0 22px rgba(212,174,92,0.24); }
+}
+.nav-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(232,198,123,0.5), 0 0 0 5px rgba(76,56,118,0.35);
 }
 .nav-oracle {
     border: 1px solid rgba(130,100,205,0.26);
