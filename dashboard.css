@@ -3838,6 +3838,113 @@ body {
     }
 }
 
+/* ==========================================================
+   PHASE SYSTEM v6 — premium polish (dashboard)
+   ========================================================== */
+:root {
+    --dash-pro-glow-blue: rgba(95,141,255,0.20);
+    --dash-pro-glow-gold: rgba(245,203,104,0.18);
+}
+
+.topbar {
+    backdrop-filter: blur(24px) saturate(1.08);
+    -webkit-backdrop-filter: blur(24px) saturate(1.08);
+}
+
+.page-header h1,
+.topbar-title {
+    letter-spacing: 0.45px;
+    text-shadow: 0 0 22px rgba(95,141,255,0.18), 0 0 10px rgba(245,203,104,0.12);
+}
+
+.card,
+.kpi-card,
+.session-item,
+.plan-option,
+.profile-service-sheet,
+.profile-shop-card,
+.matrix-extra-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before,
+.kpi-card::before,
+.session-item::before,
+.plan-option::before,
+.profile-service-sheet::before,
+.profile-shop-card::before,
+.matrix-extra-card::before {
+    content: '';
+    position: absolute;
+    inset: -30% -120%;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 42%, rgba(255,255,255,0.09) 50%, transparent 58%);
+    opacity: 0;
+    transform: translateX(-28%);
+}
+
+.card:hover::before,
+.kpi-card:hover::before,
+.session-item:hover::before,
+.plan-option:hover::before,
+.profile-service-sheet:hover::before,
+.profile-shop-card:hover::before,
+.matrix-extra-card:hover::before {
+    opacity: 1;
+    animation: dashSheenSweep 1.1s ease-out;
+}
+
+@keyframes dashSheenSweep {
+    from { transform: translateX(-32%); }
+    to { transform: translateX(32%); }
+}
+
+.btn,
+.btn-primary,
+.btn-gold,
+.plan-btn {
+    position: relative;
+    overflow: hidden;
+}
+.btn::after,
+.btn-primary::after,
+.btn-gold::after,
+.plan-btn::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    border: 1px solid rgba(255,255,255,0.08);
+    opacity: 0.7;
+    pointer-events: none;
+}
+.btn:hover,
+.btn-primary:hover,
+.btn-gold:hover,
+.plan-btn:hover {
+    box-shadow: 0 0 34px var(--dash-pro-glow-blue), 0 16px 34px rgba(0,0,0,0.34) !important;
+}
+.btn:active,
+.btn-primary:active,
+.btn-gold:active,
+.plan-btn:active {
+    transform: translateY(-1px) scale(0.99) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card::before,
+    .kpi-card::before,
+    .session-item::before,
+    .plan-option::before,
+    .profile-service-sheet::before,
+    .profile-shop-card::before,
+    .matrix-extra-card::before {
+        animation: none !important;
+        opacity: 0 !important;
+    }
+}
+
 .session-constellation {
     position: relative;
     min-height: 220px;

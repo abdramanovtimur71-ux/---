@@ -6898,6 +6898,124 @@ section:not(.hero) > .container > .section-subtitle {
 }
 
 /* ==========================================================
+   PHASE SYSTEM v6 — premium polish (main site)
+   ========================================================== */
+:root {
+    --pro-glow-blue: rgba(95,141,255,0.20);
+    --pro-glow-gold: rgba(212,174,92,0.18);
+    --pro-border-soft: rgba(157, 177, 236, 0.20);
+}
+
+.mystic-vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    background-image:
+        radial-gradient(1px 1px at 14% 18%, rgba(255,255,255,0.32) 0%, transparent 100%),
+        radial-gradient(1px 1px at 78% 26%, rgba(212,174,92,0.32) 0%, transparent 100%),
+        radial-gradient(1px 1px at 62% 74%, rgba(95,141,255,0.34) 0%, transparent 100%),
+        radial-gradient(1px 1px at 28% 82%, rgba(255,255,255,0.24) 0%, transparent 100%);
+    animation: premiumGrainMove 16s linear infinite;
+}
+
+@keyframes premiumGrainMove {
+    0% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(1.5%, -1.2%, 0); }
+    100% { transform: translate3d(0, 0, 0); }
+}
+
+.section-title {
+    letter-spacing: 1.2px !important;
+    text-shadow: 0 0 28px rgba(95,141,255,0.10), 0 0 14px rgba(212,174,92,0.10);
+}
+.section-title::before {
+    content: '✦';
+    display: block;
+    font-size: 12px;
+    letter-spacing: 0;
+    color: rgba(212,174,92,0.58);
+    margin: 0 auto 10px;
+    text-shadow: 0 0 14px rgba(212,174,92,0.28);
+}
+
+.hero-inner::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    transform: translateX(-50%);
+    width: min(720px, 82vw);
+    height: 280px;
+    background: radial-gradient(ellipse at center, rgba(95,141,255,0.14) 0%, rgba(212,174,92,0.05) 32%, transparent 72%);
+    filter: blur(14px);
+    pointer-events: none;
+    z-index: -1;
+    animation: heroHaloBreath 9s ease-in-out infinite;
+}
+@keyframes heroHaloBreath {
+    0%, 100% { opacity: 0.58; transform: translateX(-50%) scale(1); }
+    50% { opacity: 0.84; transform: translateX(-50%) scale(1.05); }
+}
+
+:is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .public-item, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card) {
+    overflow: hidden;
+    border-color: var(--pro-border-soft) !important;
+}
+:is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .public-item, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card)::before {
+    content: '';
+    position: absolute;
+    inset: -30% -120%;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 42%, rgba(255,255,255,0.09) 50%, transparent 58%);
+    transform: translateX(-28%);
+    opacity: 0;
+}
+:is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .public-item, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card):hover::before {
+    opacity: 1;
+    animation: cardSheenSweep 1.15s ease-out;
+}
+
+@keyframes cardSheenSweep {
+    from { transform: translateX(-32%); }
+    to { transform: translateX(32%); }
+}
+
+:is(.btn-primary, .btn-secondary, .submit-btn, .cta-button, .plan-btn) {
+    position: relative;
+    overflow: hidden;
+}
+:is(.btn-primary, .btn-secondary, .submit-btn, .cta-button, .plan-btn)::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    border: 1px solid rgba(255,255,255,0.08);
+    opacity: 0.7;
+    transition: opacity 220ms ease;
+}
+:is(.btn-primary, .submit-btn, .cta-button, .plan-btn) {
+    box-shadow: 0 0 0 rgba(95,141,255,0), 0 12px 30px rgba(0,0,0,0.26) !important;
+}
+:is(.btn-primary, .submit-btn, .cta-button, .plan-btn):hover {
+    box-shadow: 0 0 30px var(--pro-glow-blue), 0 18px 36px rgba(0,0,0,0.34) !important;
+}
+:is(.btn-primary, .submit-btn, .cta-button, .plan-btn):active {
+    transform: translateY(-1px) scale(0.99) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mystic-vignette::after,
+    .hero-inner::before,
+    :is(.mediumship-card, .info-card, .testimonial-card, .credential-card, .blog-card, .public-item, .faq-item, .process-step, .planner-form-card, .planner-result-card, .shop-card)::before {
+        animation: none !important;
+        transform: none !important;
+    }
+}
+
+/* ==========================================================
    PHASE 2 — UNIFIED PREMIUM CARDS & SECTION RHYTHM
    ========================================================== */
 :root {
