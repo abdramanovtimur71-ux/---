@@ -3194,3 +3194,387 @@ body::before {
 .matrix-timer-wheel::after {
     box-shadow: 0 0 10px rgba(245,203,104,0.25), 0 0 30px rgba(95,141,255,0.12) !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ✦ DASHBOARD COSMIC ULTRA v3 — FULL DESIGN ENHANCEMENT ✦
+   Deep space · Aurora sidebar · Orbiting KPIs · Nebula cards
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. Глубокий космический фон ────────────────── */
+body {
+    background-image:
+        radial-gradient(ellipse 80% 55% at 50% -5%, rgba(95,141,255,0.22) 0%, transparent 52%),
+        radial-gradient(ellipse 50% 42% at 8%  22%, rgba(138,109,192,0.18) 0%, transparent 48%),
+        radial-gradient(ellipse 46% 36% at 92% 78%, rgba(60,88,200,0.20) 0%, transparent 52%),
+        radial-gradient(ellipse 62% 44% at 50% 108%, rgba(245,203,104,0.12) 0%, transparent 50%),
+        linear-gradient(180deg, #01020a 0%, #030610 46%, #050914 100%) !important;
+}
+
+/* ── 2. Sidebar — глубокий космос с аурой ────────── */
+.sidebar {
+    background:
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(95,141,255,0.16) 0%, transparent 50%),
+        linear-gradient(180deg, #050b1e 0%, #030710 55%, #020508 100%) !important;
+    border-right: 1px solid rgba(95,141,255,0.22) !important;
+    box-shadow:
+        4px 0 60px rgba(0,0,0,0.65),
+        0 0 80px rgba(95,141,255,0.08),
+        inset -1px 0 0 rgba(255,255,255,0.03) !important;
+}
+
+/* ── Sidebar — пульсирующая линия сверху ─────────── */
+.sidebar-logo {
+    border-bottom: 1px solid rgba(245,203,104,0.16) !important;
+    position: relative;
+}
+.sidebar-logo::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 20%; right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(245,203,104,0.55), transparent);
+    animation: sidebarGoldLine 4s ease-in-out infinite;
+}
+@keyframes sidebarGoldLine {
+    0%,100% { opacity: 0.35; transform: scaleX(0.7); }
+    50%     { opacity: 1.0;  transform: scaleX(1.0); }
+}
+
+/* ── Sidebar links — светящийся hover ────────────── */
+.sidebar-link {
+    border-radius: 12px !important;
+    transition: all 0.28s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.sidebar-link:hover {
+    background: linear-gradient(90deg, rgba(95,141,255,0.18), rgba(245,203,104,0.08)) !important;
+    box-shadow: 0 0 20px rgba(95,141,255,0.12), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+    transform: translateX(6px) !important;
+    color: #eef4ff !important;
+}
+.sidebar-link.active {
+    background: linear-gradient(90deg, rgba(95,141,255,0.28), rgba(245,203,104,0.12)) !important;
+    border-left: 2px solid var(--gold) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.07),
+        0 0 28px rgba(95,141,255,0.18),
+        0 0 50px rgba(245,203,104,0.06) !important;
+}
+.sidebar-link.active .sidebar-icon {
+    text-shadow: 0 0 16px rgba(245,203,104,0.60), 0 0 30px rgba(95,141,255,0.25) !important;
+    animation: iconOrbit 3s ease-in-out infinite !important;
+}
+@keyframes iconOrbit {
+    0%,100% { transform: scale(1) rotate(0deg); }
+    50%     { transform: scale(1.15) rotate(-5deg); }
+}
+
+/* ── Sidebar avatar — cosmic aura ────────────────── */
+.sidebar-avatar {
+    animation: avatarAura 4s ease-in-out infinite !important;
+}
+@keyframes avatarAura {
+    0%,100% {
+        box-shadow: 0 8px 24px rgba(0,0,0,0.38), 0 0 20px rgba(212,174,92,0.18);
+    }
+    50% {
+        box-shadow: 0 8px 28px rgba(0,0,0,0.44), 0 0 38px rgba(212,174,92,0.36), 0 0 60px rgba(95,141,255,0.14);
+    }
+}
+
+/* ── 3. Topbar — aurora glass ────────────────────── */
+.topbar {
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.035) 0%, transparent 100%),
+        rgba(3,6,18,0.95) !important;
+    backdrop-filter: blur(28px) saturate(1.5) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(1.5) !important;
+    border-bottom: 1px solid rgba(95,141,255,0.18) !important;
+    box-shadow:
+        0 4px 40px rgba(0,0,0,0.50),
+        0 0 60px rgba(95,141,255,0.06) !important;
+}
+.topbar-title {
+    background: linear-gradient(120deg, #f3f7ff 0%, #e8d080 50%, #b8c8ff 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: dashTitleShimmer 5s ease-in-out infinite !important;
+}
+@keyframes dashTitleShimmer {
+    0%,100% { background-position: 0% 50%; }
+    50%     { background-position: 100% 50%; }
+}
+
+/* ── 4. KPI карточки — орбитальные планеты ───────── */
+.kpi-card {
+    background:
+        radial-gradient(circle at 15% 15%, rgba(95,141,255,0.14) 0%, transparent 40%),
+        linear-gradient(160deg, rgba(11,24,62,0.92) 0%, rgba(5,11,28,0.96) 100%) !important;
+    border: 1px solid rgba(95,141,255,0.18) !important;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.kpi-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(95,141,255,0.18) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+.kpi-card:hover::after { opacity: 1; }
+.kpi-card:hover {
+    border-color: rgba(245,203,104,0.35) !important;
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow:
+        0 28px 55px rgba(0,0,0,0.55),
+        0 0 50px rgba(95,141,255,0.20),
+        0 0 80px rgba(245,203,104,0.08) !important;
+}
+/* Топ-полоса с анимацией */
+.kpi-card::before {
+    background: linear-gradient(90deg, var(--gold-l), rgba(95,141,255,0.8), var(--gold-l)) !important;
+    animation: kpiTopBar 3s ease-in-out infinite !important;
+    background-size: 200% 100% !important;
+}
+@keyframes kpiTopBar {
+    0%,100% { background-position: 0% 50%; opacity: 0.6; }
+    50%     { background-position: 100% 50%; opacity: 1.0; }
+}
+.kpi-value {
+    position: relative;
+    z-index: 1;
+    font-size: 38px !important;
+    animation: kpiValuePulse 4s ease-in-out infinite !important;
+}
+@keyframes kpiValuePulse {
+    0%,100% { filter: brightness(1); }
+    50%     { filter: brightness(1.18) drop-shadow(0 0 8px currentColor); }
+}
+.kpi-label { position: relative; z-index: 1; }
+.kpi-change { position: relative; z-index: 1; }
+
+/* ── 5. Карточки — glassmorphism + cosmic border ─── */
+.card {
+    background:
+        radial-gradient(circle at 10% 8%, rgba(95,141,255,0.12) 0%, transparent 35%),
+        linear-gradient(160deg, rgba(9,20,52,0.92) 0%, rgba(4,10,26,0.96) 100%) !important;
+    border: 1px solid rgba(95,141,255,0.15) !important;
+    backdrop-filter: blur(22px) saturate(1.4) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(1.4) !important;
+    box-shadow:
+        0 16px 44px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.055),
+        0 0 30px rgba(95,141,255,0.05) !important;
+    transition: all 0.35s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.card:hover {
+    border-color: rgba(245,203,104,0.25) !important;
+    box-shadow:
+        0 24px 60px rgba(0,0,0,0.55),
+        0 0 50px rgba(95,141,255,0.16),
+        inset 0 1px 0 rgba(255,255,255,0.08) !important;
+    transform: translateY(-4px) !important;
+}
+.card-title {
+    background: linear-gradient(90deg, var(--t1) 0%, rgba(245,203,104,0.85) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    border-bottom-color: rgba(245,203,104,0.18) !important;
+}
+
+/* ── 6. Session items — stellar hover ───────────── */
+.session-item {
+    background:
+        linear-gradient(135deg, rgba(9,20,52,0.90) 0%, rgba(4,10,26,0.96) 100%) !important;
+    border: 1px solid rgba(95,141,255,0.12) !important;
+    transition: all 0.30s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.session-item:hover {
+    border-color: rgba(245,203,104,0.28) !important;
+    box-shadow:
+        0 16px 36px rgba(0,0,0,0.45),
+        0 0 35px rgba(95,141,255,0.16),
+        0 0 55px rgba(245,203,104,0.06) !important;
+    transform: translateY(-4px) !important;
+}
+.session-item::before {
+    background: linear-gradient(180deg, var(--gold-l), rgba(95,141,255,0.7)) !important;
+}
+
+/* ── 7. Page header — cosmic nebula ─────────────── */
+.page-header {
+    background:
+        radial-gradient(ellipse 80% 70% at 70% 40%, rgba(95,141,255,0.15) 0%, transparent 58%),
+        radial-gradient(ellipse 55% 60% at 15% 60%, rgba(138,109,192,0.12) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(10,24,66,0.94) 0%, rgba(5,12,34,0.90) 100%) !important;
+    border-color: rgba(95,141,255,0.24) !important;
+    box-shadow:
+        0 16px 44px rgba(0,0,0,0.38),
+        0 0 40px rgba(95,141,255,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.06) !important;
+    animation: pageHeaderFloat 10s ease-in-out infinite !important;
+}
+@keyframes pageHeaderFloat {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-3px); }
+}
+.page-label {
+    animation: labelGlow 3.5s ease-in-out infinite !important;
+}
+@keyframes labelGlow {
+    0%,100% { text-shadow: 0 0 14px rgba(212,174,92,0.12); }
+    50%     { text-shadow: 0 0 28px rgba(212,174,92,0.55), 0 0 50px rgba(95,141,255,0.18); }
+}
+
+/* ── 8. Notification banner ──────────────────────── */
+.dash-notify {
+    background:
+        radial-gradient(circle at 5% 50%, rgba(95,141,255,0.14) 0%, transparent 40%),
+        linear-gradient(90deg, rgba(9,20,52,0.92), rgba(4,10,26,0.96)) !important;
+    border: 1px solid rgba(95,141,255,0.22) !important;
+    border-left: 3px solid var(--gold) !important;
+    backdrop-filter: blur(16px) !important;
+    animation: notifyPulse 4s ease-in-out infinite !important;
+}
+@keyframes notifyPulse {
+    0%,100% { box-shadow: 0 8px 28px rgba(0,0,0,0.28), 0 0 0 rgba(245,203,104,0); }
+    50%     { box-shadow: 0 8px 36px rgba(0,0,0,0.35), 0 0 24px rgba(245,203,104,0.12); }
+}
+
+/* ── 9. Progress bar — aurora fill ──────────────── */
+.progress-fill {
+    background: linear-gradient(90deg, #5f8dff, #a0c0ff, #5f8dff) !important;
+    background-size: 200% 100% !important;
+    animation: progressAurora 3s linear infinite !important;
+    box-shadow: 0 0 12px rgba(95,141,255,0.50) !important;
+}
+.progress-fill.gold {
+    background: linear-gradient(90deg, var(--gold), var(--gold-l), var(--gold)) !important;
+    box-shadow: 0 0 12px rgba(245,203,104,0.50) !important;
+}
+@keyframes progressAurora {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* ── 10. Plan option cards ───────────────────────── */
+.plan-option {
+    background:
+        radial-gradient(circle at 10% 10%, rgba(95,141,255,0.10) 0%, transparent 42%),
+        linear-gradient(160deg, rgba(10,22,56,0.92) 0%, rgba(5,11,28,0.96) 100%) !important;
+    border-color: rgba(95,141,255,0.15) !important;
+    transition: all 0.32s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.plan-option:hover {
+    border-color: rgba(245,203,104,0.30) !important;
+    transform: translateY(-6px) !important;
+    box-shadow: 0 22px 46px rgba(0,0,0,0.45), 0 0 40px rgba(95,141,255,0.15) !important;
+}
+.plan-option.current {
+    border-color: rgba(245,203,104,0.40) !important;
+    box-shadow:
+        0 0 0 1px rgba(245,203,104,0.14),
+        0 20px 44px rgba(0,0,0,0.40),
+        0 0 50px rgba(245,203,104,0.12) !important;
+    animation: planCurrentPulse 3s ease-in-out infinite !important;
+}
+@keyframes planCurrentPulse {
+    0%,100% { box-shadow: 0 0 0 1px rgba(245,203,104,0.14), 0 18px 40px rgba(0,0,0,0.38), 0 0 40px rgba(245,203,104,0.10); }
+    50%     { box-shadow: 0 0 0 1px rgba(245,203,104,0.30), 0 22px 50px rgba(0,0,0,0.45), 0 0 70px rgba(245,203,104,0.20); }
+}
+
+/* ── 11. Settings toggle ─────────────────────────── */
+.toggle.on {
+    background: linear-gradient(135deg, rgba(95,141,255,0.55), rgba(138,109,192,0.45)) !important;
+    box-shadow: 0 0 20px rgba(95,141,255,0.30) !important;
+}
+
+/* ── 12. Кнопки — enhanced cosmic ───────────────── */
+.btn-primary {
+    background: linear-gradient(135deg, #1a3c95, #3060c0, #4a78d8, #2a50a8) !important;
+    background-size: 300% 300% !important;
+    animation: btnCosmicShift 4s ease infinite, buttonSmolder 4.8s ease-in-out infinite !important;
+    box-shadow: 0 10px 32px rgba(30,60,160,0.40) !important;
+}
+@keyframes btnCosmicShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.btn-primary:hover {
+    box-shadow: 0 0 55px rgba(95,141,255,0.55), 0 14px 36px rgba(0,0,0,0.50) !important;
+    transform: translateY(-4px) !important;
+}
+.btn-gold {
+    background: linear-gradient(135deg, #ffe08e, #f5cb68, #d4a840, #f5cb68) !important;
+    background-size: 300% 300% !important;
+    animation: btnCosmicShift 4s ease infinite !important;
+    box-shadow: 0 10px 28px rgba(245,203,104,0.30) !important;
+}
+.btn-gold:hover {
+    box-shadow: 0 0 50px rgba(245,203,104,0.50), 0 12px 32px rgba(0,0,0,0.45) !important;
+    transform: translateY(-4px) !important;
+}
+
+/* ── 13. Form inputs — cosmic focus ─────────────── */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: rgba(245,203,104,0.50) !important;
+    box-shadow: 0 0 0 3px rgba(245,203,104,0.10), 0 0 20px rgba(95,141,255,0.15) !important;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.02)), rgba(8,18,48,0.95) !important;
+}
+
+/* ── 14. Matrix page — enhanced calc button ──────── */
+#calcMatrix, .btn-primary[onclick*="calcMatrix"], button[onclick*="calcMatrix"] {
+    font-size: 15px !important;
+    letter-spacing: 1.5px !important;
+    padding: 16px 42px !important;
+}
+
+/* ── 15. Page transitions ────────────────────────── */
+.page.active {
+    animation: pageCosmicIn 0.45s cubic-bezier(0.4,0,0.2,1) !important;
+}
+@keyframes pageCosmicIn {
+    from { opacity: 0; transform: translateY(14px) scale(0.99); }
+    to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* ── 16. Scrollbar — cosmic ──────────────────────── */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--purple-l), var(--gold)) !important;
+    box-shadow: 0 0 8px rgba(95,141,255,0.35) !important;
+}
+::-webkit-scrollbar-track {
+    background: rgba(2,5,18,0.80) !important;
+}
+
+/* ── 17. Sidebar section labels ──────────────────── */
+.sidebar-section-label {
+    color: rgba(245,203,104,0.55) !important;
+    letter-spacing: 3px !important;
+    position: relative;
+}
+.sidebar-section-label::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 12px; right: 12px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(95,141,255,0.25), transparent);
+}
+
+/* ── 18. Badge — pulse animation ────────────────── */
+.sidebar-badge {
+    animation: badgePulse 2.5s ease-in-out infinite !important;
+}
+@keyframes badgePulse {
+    0%,100% { box-shadow: 0 0 0 rgba(245,203,104,0); }
+    50%     { box-shadow: 0 0 10px rgba(245,203,104,0.40); }
+}

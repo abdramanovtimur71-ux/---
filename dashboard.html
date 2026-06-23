@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260503cosmic">
+    <link rel="stylesheet" href="dashboard.css?v=20260503cosmicv3">
 </head>
 <body>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
@@ -1987,6 +1987,9 @@ window.addEventListener('DOMContentLoaded', () => {
     initDashShootingStars();
     initDashReveal();
     initDashButtonRipple();
+    initKpiMouseGlow();
+    initCountUp();
+    initCosmicParticles();
 });
 
 /* ═══════════════════════════════════════════════════
@@ -3169,6 +3172,75 @@ function initDashButtonRipple() {
             btn.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
         });
     });
+}
+
+/* ── KPI mouse-glow tracking ────────────────────────────────────── */
+function initKpiMouseGlow() {
+    document.querySelectorAll('.kpi-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const r = card.getBoundingClientRect();
+            card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+            card.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
+        });
+    });
+}
+
+/* ── Count-up animation for KPI numbers ─────────────────────────── */
+function initCountUp() {
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            const el = e.target;
+            const text = el.textContent.trim();
+            const num = parseFloat(text.replace(/[^0-9.]/g,''));
+            if (isNaN(num) || num <= 0 || num > 9999) return;
+            const dur = 1200;
+            const start = performance.now();
+            const isFloat = text.includes('.');
+            const suffix = text.replace(/[0-9.]/g,'');
+            function step(now) {
+                const t = Math.min((now - start) / dur, 1);
+                const ease = 1 - Math.pow(1 - t, 3);
+                const cur = isFloat ? (ease * num).toFixed(1) : Math.round(ease * num);
+                el.textContent = cur + suffix;
+                if (t < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+            obs.unobserve(el);
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.kpi-value').forEach(el => obs.observe(el));
+}
+
+/* ── Floating cosmic particles ──────────────────────────────────── */
+function initCosmicParticles() {
+    const colors = ['rgba(95,141,255,0.7)','rgba(245,203,104,0.7)','rgba(138,109,192,0.6)','rgba(200,230,255,0.55)'];
+    for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.style.cssText = `
+            position:fixed;
+            width:${2 + Math.random()*3}px;
+            height:${2 + Math.random()*3}px;
+            border-radius:50%;
+            background:${colors[i % colors.length]};
+            left:${Math.random()*100}vw;
+            top:${Math.random()*100}vh;
+            pointer-events:none;
+            z-index:0;
+            opacity:${0.3 + Math.random()*0.5};
+            animation: particleDrift ${8 + Math.random()*12}s ease-in-out ${Math.random()*6}s infinite alternate;
+        `;
+        document.body.appendChild(p);
+    }
+    if (!document.getElementById('particleStyle')) {
+        const s = document.createElement('style');
+        s.id = 'particleStyle';
+        s.textContent = `@keyframes particleDrift {
+            from { transform: translate(0,0) scale(1); opacity:0.3; }
+            to   { transform: translate(${Math.random()>0.5?'+':'-'}${20+Math.round(Math.random()*40)}px, ${Math.random()>0.5?'+':'-'}${20+Math.round(Math.random()*40)}px) scale(1.6); opacity:0.7; }
+        }`;
+        document.head.appendChild(s);
+    }
 }
 </script>
 
