@@ -51,14 +51,17 @@ const animateCountUp = () => {
 // Ленивая загрузка анимаций при видимости
 const observeElements = () => {
     const elements = document.querySelectorAll('.fade-in, .slide-in, .about-card, .service-item');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
-                entry.target.style.animation = entry.target.classList.contains('fade-in')
-                    ? 'fadeIn 0.8s ease-out forwards'
-                    : 'slideUp 0.8s ease-out forwards';
+                entry.target.style.animation = reduceMotion
+                    ? 'none'
+                    : (entry.target.classList.contains('fade-in')
+                        ? 'fadeIn var(--anim-medium, 0.65s) ease-out forwards'
+                        : 'slideUp var(--anim-medium, 0.65s) ease-out forwards');
                 observer.unobserve(entry.target);
             }
         });
@@ -193,15 +196,15 @@ const navbarScroll = () => {
 
 // Анимация при наведении на карточки услуг
 const serviceCardHover = () => {
-    const serviceItems = document.querySelectorAll('.service-item');
+    const serviceItems = document.querySelectorAll('.service-item, .mediumship-card');
     
     serviceItems.forEach(item => {
         item.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.05) rotateY(5deg)';
+            this.style.transform = 'translateY(-4px) scale(1.01)';
         });
         
         item.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1) rotateY(0deg)';
+            this.style.transform = 'translateY(0) scale(1)';
         });
     });
 };

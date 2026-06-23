@@ -3734,6 +3734,110 @@ body {
     to { transform: rotate(360deg); }
 }
 
+/* ==========================================================
+   PHASE SYSTEM v5 — единый шаблон кабинета
+   ========================================================== */
+:root {
+    --dash-space-section: clamp(20px, 2.4vw, 32px);
+    --dash-space-card: clamp(18px, 2.1vw, 28px);
+    --dash-radius-card: 18px;
+    --dash-radius-xl: 24px;
+    --dash-anim-micro: 220ms;
+    --dash-anim-medium: 640ms;
+    --dash-anim-ambient: 12s;
+}
+
+.content {
+    padding: var(--dash-space-section) !important;
+}
+
+.page-header {
+    border-radius: var(--dash-radius-xl) !important;
+    padding: 24px 26px 20px !important;
+    margin-bottom: 26px !important;
+}
+
+.card,
+.kpi-card,
+.session-item,
+.plan-option,
+.profile-service-sheet,
+.profile-shop-card,
+.matrix-form-card,
+.matrix-visual-wrap,
+.matrix-extra-card,
+.session-constellation,
+.lunar-progress {
+    border-radius: var(--dash-radius-card) !important;
+    border: 1px solid rgba(95,141,255,0.20) !important;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), transparent 32%),
+        linear-gradient(160deg, rgba(9, 22, 58, 0.84), rgba(6, 14, 34, 0.88)) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        0 16px 34px rgba(0,0,0,0.34),
+        0 0 20px rgba(95,141,255,0.08) !important;
+    transition:
+        transform var(--dash-anim-micro) var(--ease),
+        border-color var(--dash-anim-micro) var(--ease),
+        box-shadow var(--dash-anim-micro) var(--ease);
+}
+
+.card:hover,
+.kpi-card:hover,
+.session-item:hover,
+.plan-option:hover,
+.profile-service-sheet:hover,
+.profile-shop-card:hover,
+.matrix-extra-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(245,203,104,0.30) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.07),
+        0 24px 46px rgba(0,0,0,0.44),
+        0 0 32px rgba(95,141,255,0.14) !important;
+}
+
+.topbar::before,
+.page-header::after,
+.kpi-card::after,
+.lunar-phase-icon,
+.constellation-star.active {
+    animation-duration: var(--dash-anim-ambient) !important;
+}
+
+@media (max-width: 900px) {
+    .page-header {
+        padding: 20px 18px 16px !important;
+    }
+    .card,
+    .kpi-card,
+    .session-item,
+    .plan-option,
+    .profile-service-sheet,
+    .profile-shop-card {
+        padding: var(--dash-space-card) !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page,
+    .card,
+    .kpi-card,
+    .session-item,
+    .plan-option,
+    .profile-service-sheet,
+    .profile-shop-card,
+    .lunar-phase-icon,
+    .constellation-star.active,
+    .topbar::before,
+    .page-header::after {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+    }
+}
+
 .session-constellation {
     position: relative;
     min-height: 220px;
