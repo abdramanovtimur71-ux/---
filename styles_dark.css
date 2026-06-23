@@ -6360,3 +6360,47 @@ section::after {
     border-color: rgba(95,141,255,0.14) !important;
     background: rgba(4,10,26,0.70) !important;
 }
+
+/* ════════════════════════════════════════════════
+   SEAMLESS SECTIONS — единое полотно глубокого космоса
+   ════════════════════════════════════════════════ */
+
+/* Единый фон body — глубокий космос */
+body {
+    background:
+        radial-gradient(ellipse 120% 60% at 50% 0%, rgba(40,60,180,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 50% at 10% 30%, rgba(100,70,200,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 45% at 90% 70%, rgba(50,80,200,0.08) 0%, transparent 55%),
+        #020407 !important;
+}
+
+/* Все секции — прозрачный фон, чтобы виден был body */
+section,
+.hero, .about, .process, .mediumship, .testimonials,
+.session-planner, .credentials, .booking,
+.blog, .faq, .contact, .guest-reviews, .public-content {
+    background: transparent !important;
+}
+
+/* Убираем ::before и ::after переходы что создают резкие края */
+.about::before, .about::after,
+.mediumship::before, .mediumship::after,
+.booking::before,
+.blog::before,
+.contact::before {
+    display: none !important;
+}
+
+/* Убираем section::after звёздный слой (конфликт с hero) */
+section::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Убираем section separators (они создают разрыв) */
+.about::before, .process::before, .mediumship::before,
+.booking::before, .testimonials::before, .credentials::before,
+.blog::before, .faq::before, .contact::before,
+.guest-reviews::before, .public-content::before {
+    display: none !important;
+}
