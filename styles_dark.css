@@ -5041,3 +5041,445 @@ body {
 @media (max-width: 820px) {
     .hero-side-candles { display: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ✦ COSMIC UNIVERSE — FULL DESIGN UPGRADE ✦
+   Starfield · Shooting stars · Scroll-reveal · Nebula sections
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Глобальный звёздный фон (поверх всего сайта) ── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        radial-gradient(1px 1px at 7% 11%, rgba(255,255,255,0.65) 0%, transparent 0%),
+        radial-gradient(1px 1px at 17% 7%,  rgba(255,255,255,0.50) 0%, transparent 0%),
+        radial-gradient(1.5px 1.5px at 23% 34%, rgba(196,162,74,0.55) 0%, transparent 0%),
+        radial-gradient(1px 1px at 32% 21%, rgba(255,255,255,0.45) 0%, transparent 0%),
+        radial-gradient(1px 1px at 43% 5%,  rgba(255,255,255,0.60) 0%, transparent 0%),
+        radial-gradient(2px 2px at 53% 17%, rgba(170,142,222,0.65) 0%, transparent 0%),
+        radial-gradient(1px 1px at 61% 41%, rgba(255,255,255,0.40) 0%, transparent 0%),
+        radial-gradient(1px 1px at 69% 6%,  rgba(255,255,255,0.55) 0%, transparent 0%),
+        radial-gradient(1.5px 1.5px at 75% 27%, rgba(196,162,74,0.50) 0%, transparent 0%),
+        radial-gradient(1px 1px at 83% 14%, rgba(255,255,255,0.45) 0%, transparent 0%),
+        radial-gradient(1px 1px at 89% 37%, rgba(255,255,255,0.60) 0%, transparent 0%),
+        radial-gradient(1px 1px at 95% 8%,  rgba(255,255,255,0.50) 0%, transparent 0%),
+        radial-gradient(1px 1px at 5%  44%, rgba(255,255,255,0.35) 0%, transparent 0%),
+        radial-gradient(1px 1px at 13% 57%, rgba(255,255,255,0.30) 0%, transparent 0%),
+        radial-gradient(1px 1px at 28% 67%, rgba(196,162,74,0.40) 0%, transparent 0%),
+        radial-gradient(1.5px 1.5px at 39% 54%, rgba(170,142,222,0.55) 0%, transparent 0%),
+        radial-gradient(1px 1px at 48% 75%, rgba(255,255,255,0.35) 0%, transparent 0%),
+        radial-gradient(1px 1px at 57% 64%, rgba(255,255,255,0.50) 0%, transparent 0%),
+        radial-gradient(1px 1px at 64% 81%, rgba(255,255,255,0.40) 0%, transparent 0%),
+        radial-gradient(2px 2px at 72% 57%, rgba(138,109,192,0.60) 0%, transparent 0%),
+        radial-gradient(1px 1px at 79% 71%, rgba(255,255,255,0.45) 0%, transparent 0%),
+        radial-gradient(1px 1px at 86% 87%, rgba(196,162,74,0.35) 0%, transparent 0%),
+        radial-gradient(1px 1px at 92% 59%, rgba(255,255,255,0.50) 0%, transparent 0%),
+        radial-gradient(1.5px 1.5px at 11% 82%, rgba(170,142,222,0.40) 0%, transparent 0%),
+        radial-gradient(1px 1px at 34% 91%, rgba(255,255,255,0.30) 0%, transparent 0%),
+        radial-gradient(1px 1px at 58% 95%, rgba(255,255,255,0.35) 0%, transparent 0%),
+        radial-gradient(1px 1px at 81% 92%, rgba(196,162,74,0.30) 0%, transparent 0%),
+        radial-gradient(2px 2px at 44% 88%, rgba(138,109,192,0.40) 0%, transparent 0%);
+    animation: cosmicStarTwinkle 6s ease-in-out infinite alternate;
+}
+@keyframes cosmicStarTwinkle {
+    0%   { opacity: 0.55; }
+    40%  { opacity: 0.80; }
+    100% { opacity: 1; }
+}
+
+/* ── Падающие звёзды (спаун через JS) ─────────── */
+.shooting-star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    animation: shootStarMove var(--ss-dur, 2.5s) linear var(--ss-delay, 0s) infinite;
+}
+.shooting-star::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%) scaleX(-1);
+    width: clamp(80px, 14vw, 180px);
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.75), rgba(196,162,74,0.4), transparent);
+    border-radius: 999px;
+}
+@keyframes shootStarMove {
+    0%   { opacity: 0;   transform: translate(0px, 0px) rotate(-25deg); }
+    4%   { opacity: 1; }
+    80%  { opacity: 0.4; }
+    100% { opacity: 0;   transform: translate(-35vw, 55vh) rotate(-25deg); }
+}
+
+/* ── Scroll-reveal классы ────────────────────── */
+.cosmic-reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+    will-change: opacity, transform;
+}
+.cosmic-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+.cosmic-reveal-scale {
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.cosmic-reveal-scale.revealed {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* Задержки для дочерних элементов stagger */
+.cosmic-stagger .cosmic-reveal:nth-child(1) { transition-delay: 0.05s; }
+.cosmic-stagger .cosmic-reveal:nth-child(2) { transition-delay: 0.13s; }
+.cosmic-stagger .cosmic-reveal:nth-child(3) { transition-delay: 0.21s; }
+.cosmic-stagger .cosmic-reveal:nth-child(4) { transition-delay: 0.29s; }
+.cosmic-stagger .cosmic-reveal:nth-child(5) { transition-delay: 0.37s; }
+.cosmic-stagger .cosmic-reveal:nth-child(6) { transition-delay: 0.45s; }
+
+/* ── Glassmorphism для карточек ──────────────── */
+.mediumship-card,
+.service-item,
+.blog-card,
+.credential-card,
+.interactive-card,
+.info-card,
+.about-feat-card {
+    background: linear-gradient(
+        145deg,
+        rgba(12, 14, 36, 0.88) 0%,
+        rgba(8, 10, 24, 0.80) 100%
+    );
+    backdrop-filter: blur(18px) saturate(1.3);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    border-color: rgba(130, 100, 205, 0.22);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255,255,255,0.07),
+        inset 0 0 0 1px rgba(130,100,205,0.08);
+}
+.mediumship-card:hover,
+.service-item:hover,
+.blog-card:hover {
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.65),
+        0 0 45px rgba(138,109,192,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+    border-color: rgba(175,145,245,0.35);
+}
+.credential-card:hover,
+.interactive-card:hover {
+    box-shadow:
+        0 16px 48px rgba(0,0,0,0.6),
+        0 0 35px rgba(196,162,74,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.10);
+    border-color: rgba(212,174,92,0.36);
+}
+
+/* ── Кнопки — космический ripple-glow ────────── */
+.btn-primary,
+.submit-btn,
+.cta-button,
+.plan-btn {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #3a2a7a, #6040b0, #4a3580) !important;
+    background-size: 200% 200% !important;
+    animation: btnCosmicShift 5s ease infinite;
+}
+@keyframes btnCosmicShift {
+    0%,100% { background-position: 0% 50%; }
+    50%     { background-position: 100% 50%; }
+}
+.btn-primary::before,
+.submit-btn::before,
+.cta-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.22) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+.btn-primary:hover::before,
+.submit-btn:hover::before,
+.cta-button:hover::before {
+    opacity: 1;
+}
+.btn-primary:hover,
+.submit-btn:hover,
+.cta-button:hover {
+    box-shadow: 0 0 60px rgba(138,109,192,0.60), 0 12px 34px rgba(0,0,0,0.50) !important;
+    transform: translateY(-4px);
+}
+.btn-secondary:hover {
+    box-shadow: 0 0 40px rgba(196,162,74,0.40), 0 8px 24px rgba(0,0,0,0.40) !important;
+}
+
+/* ── Section backgrounds — космические туманности ── */
+.services {
+    background:
+        radial-gradient(ellipse 70% 55% at 25% 65%, rgba(138,109,192,0.10) 0%, transparent 58%),
+        radial-gradient(ellipse 50% 40% at 80% 18%, rgba(196,162,74,0.06) 0%, transparent 52%),
+        var(--bg) !important;
+}
+.mediumship {
+    background:
+        radial-gradient(ellipse 85% 65% at 72% 42%, rgba(80,50,160,0.14) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 38% at 12% 72%, rgba(196,162,74,0.07) 0%, transparent 52%),
+        var(--bg2) !important;
+}
+.blog {
+    background:
+        radial-gradient(ellipse 65% 55% at 18% 42%, rgba(138,109,192,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 38% at 88% 68%, rgba(212,174,92,0.07) 0%, transparent 48%),
+        var(--bg) !important;
+}
+.contact {
+    background:
+        radial-gradient(ellipse 75% 65% at 62% 52%, rgba(138,109,192,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 40% at 8% 18%, rgba(196,162,74,0.07) 0%, transparent 52%),
+        var(--bg2) !important;
+}
+.stats {
+    background:
+        radial-gradient(ellipse 85% 100% at 50% 50%, rgba(138,109,192,0.12) 0%, transparent 65%),
+        linear-gradient(135deg, rgba(138,109,192,0.07) 0%, rgba(196,162,74,0.05) 100%);
+    border-top: 1px solid rgba(138,109,192,0.22);
+    border-bottom: 1px solid rgba(138,109,192,0.22);
+}
+
+/* ── Section title — вращающаяся звезда сверху ── */
+.section-title {
+    position: relative;
+    padding-top: 6px;
+}
+.section-title::before {
+    content: '✦';
+    display: block;
+    font-size: 11px;
+    color: var(--gold);
+    opacity: 0.65;
+    margin-bottom: 8px;
+    animation: starSpin 10s linear infinite;
+    line-height: 1;
+}
+@keyframes starSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* ── Scroll-indicator — пульсирующая линия ──── */
+.scroll-line {
+    background: linear-gradient(to bottom, var(--gold), rgba(138,109,192,0.5), transparent) !important;
+    animation: scrollLinePulse 2s ease-in-out infinite !important;
+    box-shadow: 0 0 8px rgba(212,174,92,0.35);
+}
+@keyframes scrollLinePulse {
+    0%,100% { opacity: 0.45; box-shadow: 0 0 6px rgba(212,174,92,0.25); }
+    50%     { opacity: 1;    box-shadow: 0 0 18px rgba(212,174,92,0.60); }
+}
+
+/* ── Stats numbers — космическое свечение ────── */
+.stat-number {
+    position: relative;
+    display: block;
+}
+.stat-number::after {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(196,162,74,0.13) 0%, transparent 70%);
+    animation: statNumAura 3.5s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes statNumAura {
+    0%,100% { opacity: 0.5; transform: scale(0.9); }
+    50%     { opacity: 1.0; transform: scale(1.2); }
+}
+
+/* ── About stat cards — hover glow ───────────── */
+.about-stat:hover .about-stat-num {
+    text-shadow: 0 0 28px rgba(212,174,92,0.55), 0 0 55px rgba(138,109,192,0.28);
+}
+
+/* ── Активная ссылка навигации — кольцо пульса ── */
+.nav-link.active {
+    position: relative;
+}
+.nav-link.active::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 999px;
+    border: 1px solid rgba(212,174,92,0.25);
+    animation: navRingPulse 2.8s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes navRingPulse {
+    0%,100% { opacity: 0.3; transform: scale(1); }
+    50%     { opacity: 0.75; transform: scale(1.06); }
+}
+
+/* ── Преcload — космический кристалл ────────── */
+.preloader-crystal {
+    display: inline-block;
+    animation: crystalSpin 2.5s linear infinite, crystalGlow 1.8s ease-in-out infinite !important;
+}
+@keyframes crystalSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes crystalGlow {
+    0%,100% { filter: drop-shadow(0 0 10px rgba(212,174,92,0.5)); color: var(--gold-l); }
+    50%     { filter: drop-shadow(0 0 30px rgba(212,174,92,0.95)) drop-shadow(0 0 50px rgba(138,109,192,0.5)); color: #fff; }
+}
+
+/* ── Логотип — hover-glow ─────────────────────── */
+.logo:hover .logo-text {
+    filter: drop-shadow(0 0 14px rgba(212,174,92,0.55));
+    transition: filter 0.3s ease;
+}
+
+/* ── Blog cards — золотая верхняя черта при hover */
+.blog-card:hover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-l), var(--purple-l), transparent);
+    opacity: 1;
+    border-radius: 2px 2px 0 0;
+}
+.blog-card { position: relative; overflow: hidden; }
+.blog-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-l), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* ── Contact form — cosmic focus glow ────────── */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: rgba(212,174,92,0.55) !important;
+    box-shadow: 0 0 0 3px rgba(212,174,92,0.10), 0 0 20px rgba(138,109,192,0.15) !important;
+}
+
+/* ── Footer — aurora border top ────────────── */
+.footer {
+    border-top: 1px solid transparent;
+    border-image: linear-gradient(90deg, transparent, rgba(138,109,192,0.5), rgba(212,174,92,0.4), rgba(138,109,192,0.5), transparent) 1;
+    position: relative;
+}
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(138,109,192,0.6) 30%, rgba(212,174,92,0.5) 50%, rgba(138,109,192,0.6) 70%, transparent 100%);
+    animation: footerAurora 6s ease-in-out infinite;
+}
+@keyframes footerAurora {
+    0%,100% { opacity: 0.6; background-position: 0% 50%; }
+    50%     { opacity: 1;   background-position: 100% 50%; }
+}
+
+/* ── Shimmer sweep на карточках services/mediumship ── */
+@keyframes cardSweep {
+    0%   { transform: translateX(-100%) skewX(-10deg); }
+    100% { transform: translateX(200%)  skewX(-10deg); }
+}
+.mediumship-card:hover::after,
+.service-item:hover::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+    animation: cardSweep 0.8s ease forwards;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* ── Секционные рамки — тонкое космическое свечение ── */
+.about, .services, .mediumship, .blog, .contact {
+    position: relative;
+}
+section::after {
+    content: none;
+}
+.about::after,
+.mediumship::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to top, var(--bg), transparent);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Aurora overlay для hero ─────────────────── */
+.hero::before {
+    animation: heroStarDrift 15s ease-in-out infinite alternate;
+}
+@keyframes heroStarDrift {
+    0%   { transform: translate(0, 0)    scale(1); }
+    50%  { transform: translate(8px, -6px) scale(1.03); }
+    100% { transform: translate(-5px, 4px) scale(0.98); }
+}
+
+/* ── Trust strip — hover glow ─────────────────── */
+.hero-trust-strip span {
+    transition: var(--tr);
+}
+.hero-trust-strip span:hover {
+    border-color: rgba(212,174,92,0.45);
+    background: rgba(11,10,15,0.85);
+    box-shadow: 0 0 16px rgba(212,174,92,0.20);
+    transform: translateY(-2px);
+    color: var(--t1);
+}
+
+/* ── Nav oracle — subtle pulsing aura ────────── */
+.nav-oracle {
+    animation: oracleAura 5s ease-in-out infinite;
+}
+@keyframes oracleAura {
+    0%,100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 8px 20px rgba(0,0,0,0.28); }
+    50%     { box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 25px rgba(0,0,0,0.35), 0 0 18px rgba(138,109,192,0.14); }
+}
+
+/* ── Убираем лишнее: перегруженные эффекты ───── */
+/* section-title::after — убираем двойной декор при наличии ::before */
+.section-title::after {
+    display: none;
+}
+
+/* ── Тонкая звёздная сетка на секциях ─────────── */
+.about, .contact, .blog {
+    background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.12) 0%, transparent 0%),
+        radial-gradient(1px 1px at 25% 80%, rgba(255,255,255,0.10) 0%, transparent 0%),
+        radial-gradient(1px 1px at 60% 15%, rgba(255,255,255,0.11) 0%, transparent 0%),
+        radial-gradient(1px 1px at 75% 65%, rgba(196,162,74,0.14) 0%, transparent 0%),
+        radial-gradient(1px 1px at 90% 35%, rgba(255,255,255,0.09) 0%, transparent 0%);
+}

@@ -231,6 +231,73 @@ const lazyLoad = () => {
     images.forEach(img => imageObserver.observe(img));
 };
 
+/* ════════════════════════════════════════════════
+   ✦ COSMIC DESIGN — SHOOTING STARS & SCROLL REVEAL
+   ════════════════════════════════════════════════ */
+
+/** Падающие звёзды — создаём N элементов и добавляем на страницу */
+function initShootingStars() {
+    const count = 6;
+    for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+        star.style.left  = (15 + Math.random() * 75) + 'vw';
+        star.style.top   = (Math.random() * 50) + 'vh';
+        star.style.setProperty('--ss-dur',   (2.2 + Math.random() * 2.8) + 's');
+        star.style.setProperty('--ss-delay', (Math.random() * 14) + 's');
+        document.body.appendChild(star);
+    }
+}
+
+/** Scroll-reveal — добавляем класс .cosmic-reveal к карточкам и запускаем observer */
+function initCosmicReveal() {
+    const selectors = [
+        '.mediumship-card', '.service-item', '.blog-card',
+        '.credential-card', '.about-feat-card', '.about-stat',
+        '.info-card', '.interactive-card', '.booking-info > *',
+        '.portfolio-item', '.guest-item', '.public-item'
+    ];
+
+    selectors.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+            el.classList.add('cosmic-reveal');
+        });
+    });
+
+    // Добавляем stagger к grid-контейнерам
+    const staggerParents = [
+        '.mediumship-content', '.services-grid', '.blog-grid',
+        '.credentials-grid', '.about-stats', '.about-card-stack',
+        '.booking-info', '.portfolio-grid'
+    ];
+    staggerParents.forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el) el.classList.add('cosmic-stagger');
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.cosmic-reveal').forEach(el => observer.observe(el));
+}
+
+/** Кнопки — отслеживаем мышь для позиции ripple */
+function initButtonRipple() {
+    document.querySelectorAll('.btn-primary, .submit-btn, .cta-button, .plan-btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            btn.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100) + '%');
+            btn.style.setProperty('--my', ((e.clientY - rect.top)  / rect.height * 100) + '%');
+        });
+    });
+}
+
 // Инициализация всех функций при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(() => {
@@ -243,6 +310,9 @@ document.addEventListener('DOMContentLoaded', () => {
         lazyLoad();
         initMysticParticles();
         initCardAura();
+        initShootingStars();
+        initCosmicReveal();
+        initButtonRipple();
 
         // Навигация и скролл
         updateActiveNav();
