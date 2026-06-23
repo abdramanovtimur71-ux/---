@@ -6361,6 +6361,35 @@ section::after {
     background: rgba(4,10,26,0.70) !important;
 }
 
+/* ── Navbar fit fix: не обрезать последний пункт ── */
+.navbar .container {
+    gap: 12px !important;
+}
+.nav-links {
+    gap: 4px !important;
+    padding: 6px 8px !important;
+    overflow: visible !important;
+}
+.nav-link {
+    padding: 7px 10px !important;
+    font-size: 11px !important;
+    letter-spacing: 0.65px !important;
+    white-space: nowrap !important;
+}
+.nav-link.active::before {
+    inset: -2px !important;
+}
+@media (max-width: 1260px) {
+    .nav-link {
+        padding: 6px 9px !important;
+        font-size: 10.5px !important;
+        letter-spacing: 0.55px !important;
+    }
+    .nav-links {
+        gap: 2px !important;
+    }
+}
+
 /* ════════════════════════════════════════════════
    SEAMLESS SECTIONS — единое полотно глубокого космоса
    ════════════════════════════════════════════════ */
