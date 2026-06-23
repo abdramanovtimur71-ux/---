@@ -62,6 +62,9 @@
         <a href="#" class="sidebar-link" onclick="showPage('subscription', this); closeSidebar()">
             <span class="sidebar-icon">◇</span> Обучение
         </a>
+        <a href="#" class="sidebar-link" onclick="showPage('shop', this); closeSidebar()">
+            <span class="sidebar-icon">✺</span> Магазин
+        </a>
         <a href="#" class="sidebar-link" onclick="showPage('messages', this); closeSidebar()">
             <span class="sidebar-icon">✉</span> Сообщения
             <span class="sidebar-badge unread-badge" id="unreadBadge" style="display:none">0</span>
@@ -266,6 +269,123 @@
                 </div>
             </div>
 
+        </div>
+
+        <!-- ─── СТРАНИЦА: МАГАЗИН ────────────────── -->
+        <div id="page-shop" class="page">
+            <span class="page-label">Артефакты и наборы</span>
+            <div class="page-header">
+                <h1>Магазин</h1>
+                <p>Подборка ритуальных предметов и личных артефактов для заказа в кабинете</p>
+            </div>
+
+            <div class="card profile-services-card-shell">
+                <div class="profile-services-stage profile-shop-stage">
+                    <div class="profile-services-heading profile-shop-heading">
+                        <span class="profile-services-kicker">Личные артефакты</span>
+                        <h2>Магазин</h2>
+                        <div class="profile-services-ribbon">Защитные предметы, ритуальные наборы и личные талисманы для заказа</div>
+                    </div>
+
+                    <div class="profile-shop-grid">
+                    <article class="profile-shop-card">
+                        <img src="images/shop-ritual.jpg" alt="Кукла-оберег ручной работы" class="profile-shop-image" loading="lazy">
+                        <div class="profile-shop-body">
+                            <h3>Кукла-оберег</h3>
+                            <p>Защитный артефакт для дома и личного пространства, собранный вручную под намерение владельца.</p>
+                            <div class="profile-shop-meta">
+                                <span>Ручная работа</span>
+                                <span>Индивидуальная настройка</span>
+                            </div>
+                            <div class="profile-shop-controls">
+                                <span class="profile-shop-controls-label">Количество</span>
+                                <div class="profile-shop-qty" aria-label="Выбор количества">
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
+                                    <span class="profile-shop-qty-value" data-qty-value>1</span>
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="profile-shop-bottom">
+                                <strong>15 000 ₸</strong>
+                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Кукла-оберег', 15000)">Оплатить</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="profile-shop-card">
+                        <img src="images/privorot.jpg" alt="Программные свечи" class="profile-shop-image" loading="lazy">
+                        <div class="profile-shop-body">
+                            <h3>Программные свечи</h3>
+                            <p>Свечи с программированием намерения для очищения, привлечения и усиления энергетики пространства.</p>
+                            <div class="profile-shop-meta">
+                                <span>Свечи и атрибуты</span>
+                                <span>Инструкция внутри</span>
+                            </div>
+                            <div class="profile-shop-controls">
+                                <span class="profile-shop-controls-label">Количество</span>
+                                <div class="profile-shop-qty" aria-label="Выбор количества">
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
+                                    <span class="profile-shop-qty-value" data-qty-value>1</span>
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="profile-shop-bottom">
+                                <strong>12 000 ₸</strong>
+                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Программные свечи', 12000)">Оплатить</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="profile-shop-card">
+                        <img src="images/privorot.jpg" alt="Чистка" class="profile-shop-image" loading="lazy">
+                        <div class="profile-shop-body">
+                            <h3>Чистка</h3>
+                            <p>Энергетическое очищение пространства или человека от негативных программ, сглазов и блоков.</p>
+                            <div class="profile-shop-meta">
+                                <span>Онлайн / Офлайн</span>
+                                <span>Индивидуально</span>
+                            </div>
+                            <div class="profile-shop-controls">
+                                <span class="profile-shop-controls-label">Количество</span>
+                                <div class="profile-shop-qty" aria-label="Выбор количества">
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
+                                    <span class="profile-shop-qty-value" data-qty-value>1</span>
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="profile-shop-bottom">
+                                <strong>15 000 ₸</strong>
+                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Чистка', 15000)">Оплатить</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="profile-shop-card">
+                        <img src="images/shop-ritual.jpg" alt="Амулет силы" class="profile-shop-image" loading="lazy">
+                        <div class="profile-shop-body">
+                            <h3>Амулет силы</h3>
+                            <p>Талисман на внутреннюю устойчивость, фокус и спокойствие в период перемен и эмоциональной нагрузки.</p>
+                            <div class="profile-shop-meta">
+                                <span>Для личного ношения</span>
+                                <span>Освящённая настройка</span>
+                            </div>
+                            <div class="profile-shop-controls">
+                                <span class="profile-shop-controls-label">Количество</span>
+                                <div class="profile-shop-qty" aria-label="Выбор количества">
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
+                                    <span class="profile-shop-qty-value" data-qty-value>1</span>
+                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="profile-shop-bottom">
+                                <strong>9 000 ₸</strong>
+                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Амулет силы', 9000)">Оплатить</button>
+                            </div>
+                        </div>
+                    </article>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- ─── СТРАНИЦА: СЕАНСЫ ─────────────────── -->
@@ -783,6 +903,10 @@
     <a class="mob-nav-item" onclick="showPage('sessions', null); setMobNav(this)" href="#">
         <span class="mob-nav-icon">☽</span>
         <span class="mob-nav-label">Сеансы</span>
+    </a>
+    <a class="mob-nav-item" onclick="showPage('shop', null); setMobNav(this)" href="#">
+        <span class="mob-nav-icon">✺</span>
+        <span class="mob-nav-label">Магазин</span>
     </a>
     <a class="mob-nav-item" onclick="showPage('messages', null); setMobNav(this)" href="#">
         <span class="mob-nav-icon">✉</span>
