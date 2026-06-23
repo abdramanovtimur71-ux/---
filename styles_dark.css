@@ -6572,3 +6572,89 @@ section {
     background: rgba(2, 6, 14, 0.9) !important;
     border-top-color: rgba(120, 138, 194, 0.2) !important;
 }
+
+/* ── Main site shop section ───────────────────────── */
+.shop {
+    background: transparent !important;
+}
+.shop-grid {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+.shop-card {
+    padding: 22px;
+    border-radius: 18px;
+    background: linear-gradient(160deg, rgba(10, 20, 44, 0.72) 0%, rgba(7, 14, 32, 0.66) 100%);
+    border: 1px solid rgba(127, 146, 206, 0.16);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 10px 28px rgba(0,0,0,0.34);
+}
+.shop-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+.shop-card h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--t1);
+    margin-bottom: 8px;
+    font-size: 21px;
+}
+.shop-card p {
+    font-size: 14px;
+    color: var(--t2);
+    line-height: 1.65;
+    margin-bottom: 12px;
+}
+.shop-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.shop-meta span {
+    font-size: 10px;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    border: 1px solid rgba(127, 146, 206, 0.18);
+    border-radius: 999px;
+    padding: 5px 9px;
+    color: var(--mx-gold-soft);
+    background: rgba(95,141,255,0.06);
+}
+.shop-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+.shop-bottom strong {
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
+    color: var(--mx-gold-soft);
+}
+.shop-bottom .btn-outline.btn-sm {
+    text-decoration: none;
+}
+
+/* Поджимаем navbar для +1 пункта "Магазин" */
+.nav-link {
+    padding: 6px 8px !important;
+    font-size: 10.4px !important;
+    letter-spacing: 0.5px !important;
+}
+.nav-links {
+    gap: 2px !important;
+    padding: 6px 7px !important;
+}
+
+@media (max-width: 1160px) {
+    .shop-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 760px) {
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
+}
