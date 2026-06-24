@@ -368,8 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
         checkLoginStatus();
         setupProfileMenuInteractions();
 
-        // Темы и UI
-        initializeTheme();
+        // UI
         initAtmosphereModes();
         initMotionModes();
         initHeroNebulaCanvas();
@@ -1416,69 +1415,7 @@ function getDailyAdvice() {
 document.addEventListener('DOMContentLoaded', checkLoginStatus);
 document.addEventListener('DOMContentLoaded', setupProfileMenuInteractions);
 
-/* ============================================
-   ПЕРЕКЛЮЧЕНИЕ ТЕМ
-   ============================================ */
-
-// Переключение между светлой и темной темой
-const THEMES = ['ritual', 'lunar', 'oracle'];
 const MOTION_LEVELS = ['soft', 'normal', 'cinema'];
-
-function applyTheme(theme) {
-    const html = document.documentElement;
-    const safeTheme = THEMES.includes(theme) ? theme : 'ritual';
-
-    html.setAttribute('data-theme', safeTheme);
-    localStorage.setItem('theme', safeTheme);
-    updateThemeIcon(safeTheme);
-}
-
-function toggleTheme() {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme') || 'ritual';
-    const currentIndex = THEMES.indexOf(currentTheme);
-    const newTheme = THEMES[(currentIndex + 1) % THEMES.length];
-
-    applyTheme(newTheme);
-}
-
-// Обновление иконки переключателя
-function updateThemeIcon(theme) {
-    const toggle = document.getElementById('themeToggle');
-    if (toggle) {
-        const themeState = {
-            ritual: {
-                icon: '☾',
-                title: 'Переключить тему: Lunar Mist'
-            },
-            lunar: {
-                icon: '🌙',
-                title: 'Переключить тему: Crystal Oracle'
-            },
-            oracle: {
-                icon: '🔮',
-                title: 'Переключить тему: Ritual Night'
-            }
-        };
-
-        const current = themeState[theme] || themeState.ritual;
-        toggle.textContent = current.icon;
-        toggle.title = current.title;
-        toggle.setAttribute('aria-label', current.title);
-    }
-}
-
-// Инициализация темы при загрузке
-function initializeTheme() {
-    const savedTheme = localStorage.getItem('theme');
-
-    if (savedTheme && THEMES.includes(savedTheme)) {
-        applyTheme(savedTheme);
-        return;
-    }
-
-    applyTheme('ritual');
-}
 
 function applyAtmosphere(atmo) {
     const allowed = ['ritual', 'lunar', 'oracle'];
@@ -1576,20 +1513,6 @@ function initMotionModes() {
         btn.addEventListener('click', () => applyMotionLevel(btn.dataset.motion || 'normal'));
     });
     applyMotionLevel(preferred);
-}
-
-// Инициализация темы при загрузке страницы
-document.addEventListener('DOMContentLoaded', () => {
-    initializeTheme();
-});
-
-// Отслеживание изменений системной темы
-if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-            applyTheme(e.matches ? 'dark' : 'ritual');
-        }
-    });
 }
 
 /* ============================================
