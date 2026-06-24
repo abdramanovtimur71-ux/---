@@ -4011,25 +4011,32 @@ body {
     --my: 50%;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(95,141,255,0.20);
-    border-radius: 20px;
+    border: 1px solid rgba(95,141,255,0.28);
+    outline: 1px solid rgba(245,203,104,0.18);
+    outline-offset: 6px;
+    border-radius: 22px;
     background:
-        radial-gradient(circle at 50% 18%, rgba(95,141,255,0.12) 0%, transparent 36%),
-        radial-gradient(circle at 50% 82%, rgba(245,203,104,0.07) 0%, transparent 34%),
+        radial-gradient(circle at 50% 18%, rgba(95,141,255,0.18) 0%, transparent 36%),
+        radial-gradient(circle at 50% 82%, rgba(245,203,104,0.10) 0%, transparent 34%),
         linear-gradient(160deg, rgba(7,14,34,0.96) 0%, rgba(3,7,18,0.98) 100%);
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.05),
-        0 24px 54px rgba(0,0,0,0.42),
-        0 0 36px rgba(95,141,255,0.10);
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 0 0 1px rgba(245,203,104,0.10),
+        0 28px 72px rgba(0,0,0,0.48),
+        0 0 54px rgba(95,141,255,0.16);
+    backdrop-filter: saturate(1.08) blur(2px);
 }
 #page-matrix .matrix-visual-wrap::before {
     content: '';
     position: absolute;
-    inset: 12px;
+    inset: 10px;
     pointer-events: none;
-    border-radius: 16px;
-    background: radial-gradient(circle at var(--mx) var(--my), rgba(95,141,255,0.12) 0%, rgba(245,203,104,0.05) 24%, transparent 60%);
-    opacity: 0.75;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background:
+        radial-gradient(circle at var(--mx) var(--my), rgba(95,141,255,0.18) 0%, rgba(245,203,104,0.08) 20%, transparent 58%),
+        linear-gradient(135deg, rgba(245,203,104,0.10) 0%, transparent 18%, transparent 82%, rgba(95,141,255,0.10) 100%);
+    opacity: 0.9;
     mix-blend-mode: screen;
 }
 #page-matrix .matrix-visual-wrap::after {
@@ -4038,15 +4045,18 @@ body {
     inset: 0;
     pointer-events: none;
     background:
-        radial-gradient(circle at var(--mx) var(--my), rgba(95,141,255,0.26) 0%, rgba(245,203,104,0.11) 18%, rgba(0,0,0,0) 46%);
-    opacity: 0.56;
+        radial-gradient(circle at var(--mx) var(--my), rgba(95,141,255,0.30) 0%, rgba(245,203,104,0.14) 18%, rgba(0,0,0,0) 46%),
+        linear-gradient(135deg, rgba(245,203,104,0.09) 0%, transparent 24%, transparent 76%, rgba(95,141,255,0.12) 100%);
+    opacity: 0.72;
     transition: opacity 220ms ease;
     mix-blend-mode: screen;
 }
 #page-matrix .matrix-svg {
     position: relative;
     z-index: 1;
-    filter: drop-shadow(0 18px 36px rgba(0,0,0,0.42));
+    filter:
+        drop-shadow(0 0 18px rgba(245,203,104,0.16))
+        drop-shadow(0 18px 36px rgba(0,0,0,0.42));
 }
 #page-matrix .matrix-svg image {
     filter: saturate(1.03) contrast(1.04);
