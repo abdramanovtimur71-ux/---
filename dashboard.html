@@ -2037,6 +2037,7 @@ function initMatrixProgressionDots() {
     const g = document.createElementNS(ns, 'g');
     g.setAttribute('id', 'progressionDotsGroup');
     g.setAttribute('pointer-events', 'none');
+    const highlightedValues = new Set([5, 20, 10, 18, 3, 6, 21, 12, 13, 22]);
 
     for (let i = 0; i < 8; i++) {
         const v1 = verts[i];
@@ -2073,6 +2074,20 @@ function initMatrixProgressionDots() {
             dot.setAttribute('stroke-width', '1.2');
             dot.setAttribute('filter', 'url(#mxGlowSm)');
             g.appendChild(dot);
+
+            if (highlightedValues.has(value)) {
+                const ring = document.createElementNS(ns, 'circle');
+                ring.setAttribute('cx', outX.toFixed(1));
+                ring.setAttribute('cy', outY.toFixed(1));
+                ring.setAttribute('r', '15');
+                ring.setAttribute('fill', 'none');
+                ring.setAttribute('stroke', value % 2 === 0 ? 'rgba(95,141,255,0.70)' : 'rgba(245,203,104,0.72)');
+                ring.setAttribute('stroke-width', '1.4');
+                ring.setAttribute('stroke-dasharray', '2 4');
+                ring.setAttribute('filter', 'url(#mxGlowSm)');
+                ring.setAttribute('class', 'matrix-progression-ring');
+                g.appendChild(ring);
+            }
 
             const txt = document.createElementNS(ns, 'text');
             txt.setAttribute('x', outX.toFixed(1));
