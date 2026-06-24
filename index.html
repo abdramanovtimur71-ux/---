@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Матрица-Судьбы — Нумерология & Матрица-Судьбы</title>
-    <meta name="description" content="Матрица-Судьбы — нумерология, расчёт матрицы по дате рождения. Расчёт матрицы по дате рождения, энергетическое очищение, таро. Запись онлайн.">
-    <meta name="keywords" content="экстрасенс, таро, рейки, астрология, энергетическое очищение, гадание, духовная консультация">
+    <meta name="description" content="Матрица-Судьбы — нумерология и расчёт матрицы по дате рождения. Узнайте предназначение, путь души, кармические задачи и финансовый канал. Онлайн-разбор.">
+    <meta name="keywords" content="матрица судьбы, нумерология, расчёт матрицы, дата рождения, путь души, 22 аркана, кармические задачи, финансовый канал, предназначение">
     <meta name="author" content="Матрица-Судьбы">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://abdramanovtimur71-ux.github.io/---/">
@@ -62,7 +62,7 @@
     }
     </script>
 
-    <link rel="stylesheet" href="styles_dark.css?v=20260624pro22">
+    <link rel="stylesheet" href="styles_dark.css?v=20260625r1">
 </head>
 <body>
     <!-- Пропустить навигацию (доступность) -->
@@ -142,7 +142,7 @@
         <div class="drawer-header">
             <div class="drawer-logo">
                 <span class="drawer-logo-text">Матрица-Судьбы</span>
-                <span class="drawer-logo-sub">Экстрасенс · Нумеролог</span>
+                <span class="drawer-logo-sub">Нумеролог · Матрица Судьбы</span>
             </div>
             <button class="drawer-close" onclick="toggleMobileMenu()" aria-label="Закрыть меню">✕</button>
         </div>
@@ -289,28 +289,18 @@
         </div>
         <div class="hero-inner container">
             <div class="hero-content">
-                <h1 class="hero-title">Матрица-Судьбы<br><span class="hero-title-sub">Код вашей даты рождения</span></h1>
-                <div class="hero-destiny-panel" aria-label="Ключевые элементы матрицы судьбы">
-                    <div class="hero-destiny-copy">
-                        <div class="hero-destiny-label">Карта вашей судьбы</div>
-                        <p>Чистый, понятный разбор: числа, задачи, ресурсы и путь — без лишнего шума.</p>
-                    </div>
-                    <div class="hero-destiny-core">
-                        <div class="hero-destiny-orb" aria-hidden="true">
-                            <span class="hero-destiny-orb-ring"></span>
-                            <span class="hero-destiny-orb-core">11</span>
-                        </div>
-                    </div>
-                    <div class="hero-destiny-matrix" aria-hidden="true">
-                        <span class="destiny-chip">Дата рождения</span>
-                        <span class="destiny-chip">Матрица 22 арканов</span>
-                        <span class="destiny-chip">Путь души</span>
-                        <span class="destiny-chip">Ресурсы и задачи</span>
-                    </div>
+                <span class="hero-kicker">Нумерология · Матрица Судьбы</span>
+                <h1 class="hero-title">Матрица-Судьбы<br><span class="hero-title-sub">Расшифруй код своей даты</span></h1>
+                <p class="hero-desc">Узнайте предназначение, таланты и жизненный путь через точный расчёт Матрицы Судьбы по вашей дате рождения.</p>
+                <div class="hero-destiny-chips">
+                    <span class="destiny-chip">22 аркана</span>
+                    <span class="destiny-chip">Путь Души</span>
+                    <span class="destiny-chip">Финансовый канал</span>
+                    <span class="destiny-chip">Кармические задачи</span>
                 </div>
                 <div class="hero-actions">
-                    <button class="btn-primary" onclick="scrollToSection('#about')">Получить разбор</button>
-                    <button class="btn-secondary" onclick="scrollToSection('#booking')">Узнать об обучении</button>
+                    <button class="btn-primary" onclick="scrollToSection('#booking')">Получить разбор</button>
+                    <button class="btn-secondary" onclick="scrollToSection('#about')">Узнать подробнее</button>
                 </div>
                 <div class="hero-trust-strip">
                     <span>✦ Конфиденциально</span>
@@ -318,12 +308,46 @@
                     <span>✦ Ответ в день обращения</span>
                 </div>
             </div>
-            <div class="hero-portrait-wrap" aria-hidden="true" style="display:none">
-                <div class="hero-portrait-frame">
-                    <div class="hpf-glow"></div>
-                    <div class="hpf-ring hpf-ring1" aria-hidden="true"></div>
-                    <div class="hpf-ring hpf-ring2" aria-hidden="true"></div>
-                    <div class="hpf-badge">✦ 15 лет практики ✦</div>
+            <div class="hero-viz-col" aria-hidden="true">
+                <div class="hero-matrix-viz">
+                    <svg class="matrix-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#D4AE5C" stop-opacity="0.3"/>
+                                <stop offset="100%" stop-color="#8A6DC0" stop-opacity="0"/>
+                            </radialGradient>
+                            <filter id="nodeGlowFilter" x="-60%" y="-60%" width="220%" height="220%">
+                                <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                            </filter>
+                        </defs>
+                        <circle cx="150" cy="150" r="118" fill="url(#coreGlow)"/>
+                        <polygon class="m-oct" points="150,18 242,58 282,150 242,242 150,282 58,242 18,150 58,58"/>
+                        <polygon class="m-inner-diamond" points="150,65 235,150 150,235 65,150"/>
+                        <line class="m-axis" x1="150" y1="18" x2="150" y2="282"/>
+                        <line class="m-axis" x1="18" y1="150" x2="282" y2="150"/>
+                        <line class="m-diag" x1="58" y1="58" x2="242" y2="242"/>
+                        <line class="m-diag" x1="242" y1="58" x2="58" y2="242"/>
+                        <line class="m-radial" x1="150" y1="65" x2="150" y2="150"/>
+                        <line class="m-radial" x1="235" y1="150" x2="150" y2="150"/>
+                        <line class="m-radial" x1="150" y1="235" x2="150" y2="150"/>
+                        <line class="m-radial" x1="65" y1="150" x2="150" y2="150"/>
+                        <circle class="m-node-cardinal" cx="150" cy="18" r="9" filter="url(#nodeGlowFilter)" style="animation-delay:0s"/>
+                        <circle class="m-node-cardinal" cx="282" cy="150" r="9" filter="url(#nodeGlowFilter)" style="animation-delay:1.25s"/>
+                        <circle class="m-node-cardinal" cx="150" cy="282" r="9" filter="url(#nodeGlowFilter)" style="animation-delay:2.5s"/>
+                        <circle class="m-node-cardinal" cx="18" cy="150" r="9" filter="url(#nodeGlowFilter)" style="animation-delay:3.75s"/>
+                        <circle class="m-node-diag" cx="242" cy="58" r="6"/>
+                        <circle class="m-node-diag" cx="242" cy="242" r="6" style="animation-delay:1.75s"/>
+                        <circle class="m-node-diag" cx="58" cy="242" r="6" style="animation-delay:3.5s"/>
+                        <circle class="m-node-diag" cx="58" cy="58" r="6" style="animation-delay:5.25s"/>
+                        <circle class="m-node-inner" cx="150" cy="65" r="11" filter="url(#nodeGlowFilter)" style="animation-delay:0.5s"/>
+                        <circle class="m-node-inner" cx="235" cy="150" r="11" filter="url(#nodeGlowFilter)" style="animation-delay:2s"/>
+                        <circle class="m-node-inner" cx="150" cy="235" r="11" filter="url(#nodeGlowFilter)" style="animation-delay:3.5s"/>
+                        <circle class="m-node-inner" cx="65" cy="150" r="11" filter="url(#nodeGlowFilter)" style="animation-delay:5s"/>
+                        <circle class="m-center-ring" cx="150" cy="150" r="40"/>
+                        <circle class="m-center-node" cx="150" cy="150" r="26" filter="url(#nodeGlowFilter)"/>
+                        <text class="m-center-text" x="150" y="150" text-anchor="middle" dominant-baseline="central">22</text>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -352,11 +376,11 @@
                     <p>Матрица-Судьбы — это уникальная нумерологическая система, которая раскрывает скрытые коды вашей судьбы через дату рождения. Она объединяет знания нумерологии, энергетики и таро для точной диагностики личности и предназначения.</p>
                     <p>Каждый расчёт — это индивидуальная карта, открывающая таланты, кармические задачи, финансовый канал и ключевые жизненные программы.</p>
                     <div>
-                        <span class="about-tag">Таро</span>
-                        <span class="about-tag">Духовные практики</span>
-                        <span class="about-tag">Рейки</span>
-                        <span class="about-tag">Астрология</span>
-                        <span class="about-tag">Энергетика</span>
+                        <span class="about-tag">Матрица Судьбы</span>
+                        <span class="about-tag">Нумерология</span>
+                        <span class="about-tag">22 аркана</span>
+                        <span class="about-tag">Путь Души</span>
+                        <span class="about-tag">Кармические задачи</span>
                     </div>
                 </div>
                 <div class="about-card-stack">
@@ -413,12 +437,12 @@
                         <label>Тип услуги</label>
                         <select id="bookingService" required>
                             <option value="">Выберите услугу</option>
-                            <option value="tarot">Таро Чтение</option>
-                            <option value="spirits">Контакт с Духами</option>
-                            <option value="cleaning">Энергетическое Очищение</option>
-                            <option value="astro">Астрологическая Консультация</option>
-                            <option value="reiki">Рейки Исцеление</option>
-                            <option value="coaching">Духовное Наставничество</option>
+                            <option value="full">Полный разбор Матрицы Судьбы</option>
+                            <option value="express">Экспресс-разбор (ключевые числа)</option>
+                            <option value="relations">Разбор отношений (совместимость)</option>
+                            <option value="child">Детский разбор (для родителей)</option>
+                            <option value="finance">Финансовый канал</option>
+                            <option value="karma">Карма и кармические задачи</option>
                         </select>
                     </div>
                 </div>
@@ -473,60 +497,60 @@
             <div class="testimonials-slider">
                 <div class="testimonial-card fade-in">
                     <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">«Мастер помогла мне разобраться в моей жизни. После первого сеанса по матрице судьбы я получила ясность в принятии важного решения. Спасибо за профессионализм и теплоту.»</p>
+                    <p class="testimonial-text">«Разбор Матрицы Судьбы перевернул моё понимание себя. Узнала о финансовом канале и кармических задачах — это дало мне направление и уверенность в решениях.»</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">М</div>
                         <div>
                             <p class="author-name">Марина П.</p>
-                            <p class="author-service">Таро Чтение</p>
+                            <p class="author-service">Полный разбор Матрицы</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="testimonial-card fade-in">
                     <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">«Контакт с моей бабушкой прошёл по-настоящему волшебно. Я чувствовала её присутствие. Мастер Матриц Судьбы обладает настоящим даром. Рекомендую всем.»</p>
+                    <p class="testimonial-text">«Экспресс-разбор показал мне числа, которые объяснили многолетние повторяющиеся ситуации в жизни. Теперь понимаю свои программы и умею с ними работать.»</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">А</div>
                         <div>
                             <p class="author-name">Анна К.</p>
-                            <p class="author-service">Контакт с Духами</p>
+                            <p class="author-service">Экспресс-разбор</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="testimonial-card fade-in">
                     <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">«После сеанса энергетического очищения я почувствовала себя совершенно обновлённой. Исчезли головные боли и депрессия. Благодарна Розе от всего сердца.»</p>
+                    <p class="testimonial-text">«Заказала детский разбор для сына — теперь понимаю его таланты и задачи. Подход к воспитанию полностью изменился. Благодарна за такую глубину.»</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">О</div>
                         <div>
                             <p class="author-name">Ольга М.</p>
-                            <p class="author-service">Энергетическое Очищение</p>
+                            <p class="author-service">Детский разбор</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="testimonial-card fade-in">
                     <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">«За 2 месяца подписки “Мудрый” моя тревожность снизилась, появилась структура и уверенность. Очень сильная поддержка и бережный подход.»</p>
+                    <p class="testimonial-text">«Разбор совместимости с партнёром открыл нам слабые и сильные стороны союза. Стали лучше понимать друг друга, конфликты ушли в прошлое.»</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">Е</div>
                         <div>
                             <p class="author-name">Ержан Т.</p>
-                            <p class="author-service">Подписка “Мудрый”</p>
+                            <p class="author-service">Разбор отношений</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="testimonial-card fade-in">
                     <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">«Я пришла в тяжёлый период, и уже после первой консультации получила конкретный план действий. Результат ощутим и в личной жизни, и в работе.»</p>
+                    <p class="testimonial-text">«Проработка кармических задач через матрицу — это то, что мне было нужно. После разбора появилась ясность в карьере и личной жизни. Результат ощутим.»</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">Д</div>
                         <div>
                             <p class="author-name">Динара С.</p>
-                            <p class="author-service">Комплекс: Таро + Рейки</p>
+                            <p class="author-service">Карма и задачи</p>
                         </div>
                     </div>
                 </div>
