@@ -2698,19 +2698,20 @@ span.hero-eyebrow,
     position: relative;
     z-index: 1;
     display: grid;
-    gap: 16px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px 22px;
     align-items: center;
-    max-width: 720px;
+    max-width: 650px;
     margin: 18px auto 22px;
-    padding: 22px 24px 20px;
-    border-radius: 28px;
+    padding: 20px 22px 18px;
+    border-radius: 26px;
     background:
-        radial-gradient(circle at 50% 0%, rgba(138,109,192,0.14) 0%, transparent 42%),
-        linear-gradient(145deg, rgba(8, 9, 20, 0.82), rgba(10, 12, 24, 0.56));
-    border: 1px solid rgba(212, 174, 92, 0.18);
+        radial-gradient(circle at 50% 0%, rgba(138,109,192,0.10) 0%, transparent 38%),
+        linear-gradient(145deg, rgba(8, 9, 20, 0.84), rgba(10, 12, 24, 0.58));
+    border: 1px solid rgba(212, 174, 92, 0.16);
     box-shadow:
         inset 0 1px 0 rgba(255,255,255,0.05),
-        0 30px 70px rgba(0,0,0,0.24);
+        0 24px 60px rgba(0,0,0,0.24);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
 }
@@ -2718,15 +2719,14 @@ span.hero-eyebrow,
 .hero-destiny-core {
     position: relative;
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 18px 20px;
     align-items: center;
+    justify-items: center;
 }
 
 .hero-destiny-orb {
     position: relative;
-    width: 96px;
-    height: 96px;
+    width: 88px;
+    height: 88px;
     border-radius: 50%;
     display: grid;
     place-items: center;
@@ -2741,7 +2741,7 @@ span.hero-eyebrow,
 
 .hero-destiny-orb-ring {
     position: absolute;
-    inset: -13px;
+    inset: -11px;
     border-radius: 50%;
     border: 1px solid rgba(212,174,92,0.18);
     animation: destinyRingSpin 16s linear infinite;
@@ -2749,7 +2749,7 @@ span.hero-eyebrow,
 
 .hero-destiny-orb-core {
     font-family: 'Cinzel', serif;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 700;
     color: #f4edff;
     text-shadow: 0 0 18px rgba(212,174,92,0.24);
@@ -2757,12 +2757,12 @@ span.hero-eyebrow,
 
 .hero-destiny-copy {
     min-width: 0;
-    text-align: center;
+    text-align: left;
 }
 
 .hero-destiny-label {
     font-family: 'Cinzel', serif;
-    font-size: 17px;
+    font-size: 16px;
     color: var(--t1);
     letter-spacing: 1px;
     margin-bottom: 6px;
@@ -2770,43 +2770,20 @@ span.hero-eyebrow,
 
 .hero-destiny-copy p {
     color: var(--t2);
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.6;
-    max-width: 520px;
-    margin: 0 auto;
+    max-width: 390px;
 }
 
 .hero-destiny-matrix {
     grid-column: 1 / -1;
     display: flex;
-    justify-content: center;
-    gap: 10px;
+    justify-content: flex-start;
+    gap: 8px;
     flex-wrap: wrap;
     margin-top: 2px;
+    align-items: center;
 }
-
-.hero-destiny-rings {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: flex-start;
-}
-
-.destiny-node {
-    padding: 10px 12px;
-    border-radius: 16px;
-    border: 1px solid rgba(212,174,92,0.16);
-    background: rgba(11, 13, 22, 0.74);
-    color: var(--t1);
-    font-size: 11px;
-    letter-spacing: 0.7px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 18px rgba(138,109,192,0.07);
-    animation: destinyFloat 5.2s ease-in-out infinite;
-}
-
-.dn-2 { animation-delay: 0.4s; }
-.dn-3 { animation-delay: 0.8s; }
-.dn-4 { animation-delay: 1.2s; }
 
 .destiny-chip {
     padding: 9px 14px;
@@ -2825,43 +2802,6 @@ span.hero-eyebrow,
 .destiny-chip:nth-child(3) { animation-delay: 1.2s; }
 .destiny-chip:nth-child(4) { animation-delay: 1.8s; }
 
-.hero-destiny-stats {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-.destiny-stat {
-    padding: 14px 14px 12px;
-    border-radius: 18px;
-    border: 1px solid rgba(138,109,192,0.16);
-    background: linear-gradient(145deg, rgba(10, 12, 22, 0.72), rgba(8, 10, 18, 0.52));
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
-    text-align: center;
-    transition: transform 0.24s var(--ease), box-shadow 0.24s var(--ease);
-}
-
-.destiny-stat span {
-    display: block;
-    font-family: 'Cinzel', serif;
-    font-size: 18px;
-    color: var(--gold-l);
-    margin-bottom: 6px;
-}
-
-.destiny-stat p {
-    font-size: 11px;
-    letter-spacing: 0.7px;
-    text-transform: uppercase;
-    color: var(--t2);
-}
-
-.destiny-stat:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 0 26px rgba(212,174,92,0.12);
-}
-
 @keyframes destinyFloat {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-4px); }
@@ -2879,29 +2819,22 @@ span.hero-eyebrow,
 
 @media (max-width: 768px) {
     .hero-destiny-panel {
+        grid-template-columns: 1fr;
         padding: 18px 16px 16px;
         gap: 14px;
     }
 
     .hero-destiny-core {
-        grid-template-columns: 1fr;
         justify-items: center;
-        gap: 14px;
     }
 
     .hero-destiny-copy p {
         max-width: 100%;
-    }
-
-    .hero-destiny-rings {
-        justify-content: center;
-    }
-
-    .hero-destiny-stats {
-        grid-template-columns: 1fr;
+        text-align: center;
     }
 
     .hero-destiny-matrix {
+        justify-content: center;
         gap: 8px;
     }
 }
