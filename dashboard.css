@@ -2451,93 +2451,17 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     font-variant-numeric: tabular-nums;
 }
 
-.matrix-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 18px;
-}
-
-.matrix-legend-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(132,190,255,0.16);
-    background: rgba(8, 15, 34, 0.62);
-    color: #cfe0ff;
-    font-size: 11px;
-    letter-spacing: 0.2px;
-}
-
-.matrix-legend-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-    box-shadow: 0 0 10px currentColor;
-}
-.matrix-legend-dot.purple { color: var(--purple-l); background: var(--purple-l); }
-.matrix-legend-dot.gold { color: var(--gold-l); background: var(--gold-l); }
-.matrix-legend-dot.red { color: var(--red); background: var(--red); }
-.matrix-legend-dot.blue { color: #5f8dff; background: #5f8dff; }
-
 .matrix-visual-wrap {
     display: flex;
     justify-content: center;
-    margin-bottom: 34px;
-    padding: 16px;
-    border-radius: 24px;
-    border: 1px solid rgba(132,190,255,0.16);
-    background:
-        radial-gradient(circle at 50% 35%, rgba(95,141,255,0.10) 0%, transparent 34%),
-        linear-gradient(155deg, rgba(10,14,30,0.82), rgba(18,28,54,0.62));
-    box-shadow: 0 24px 56px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.05);
-    overflow: hidden;
-    position: relative;
+    margin-bottom: 32px;
 }
 .matrix-svg {
     width: 100%;
     max-width: 620px;
     height: auto;
-    filter: drop-shadow(0 10px 34px rgba(0,0,0,0.24));
-    border-radius: 14px;
-}
-.matrix-svg text {
-    paint-order: stroke fill;
-    stroke: rgba(4, 10, 22, 0.85);
-    stroke-width: 2px;
-    stroke-linejoin: round;
-    font-variant-numeric: tabular-nums;
-}
-
-#page-matrix .matrix-visual-wrap::before {
-    content: '';
-    position: absolute;
-    inset: 10px;
-    border-radius: 18px;
-    border: 1px solid rgba(245,203,104,0.10);
-    pointer-events: none;
-}
-#page-matrix .matrix-visual-wrap:hover {
-    border-color: rgba(245,203,104,0.30);
-    box-shadow: 0 28px 64px rgba(0,0,0,0.38), 0 0 26px rgba(95,141,255,0.12), inset 0 1px 0 rgba(255,255,255,0.05);
-}
-
-@media (max-width: 700px) {
-    .matrix-legend {
-        justify-content: center;
-    }
-
-    .matrix-visual-wrap {
-        padding: 12px;
-        border-radius: 18px;
-    }
-
-    .matrix-svg {
-        max-width: 100%;
-    }
+    filter: drop-shadow(0 8px 32px rgba(0,0,0,0.18));
+    border-radius: 12px;
 }
 
 .matrix-values-accordion {
