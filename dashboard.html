@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрица-Судбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260624phase12">
+    <link rel="stylesheet" href="dashboard.css?v=20260624phase13">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -644,6 +644,13 @@
                     <span id="matrixPersonName" class="matrix-person-name"></span>
                     <span id="matrixPersonDate" class="matrix-person-date"></span>
                     <span id="matrixPersonAge" class="matrix-person-age"></span>
+                </div>
+
+                <div class="matrix-legend" aria-label="Легенда матрицы">
+                    <span class="matrix-legend-chip"><i class="matrix-legend-dot purple"></i>Линия личности</span>
+                    <span class="matrix-legend-chip"><i class="matrix-legend-dot gold"></i>Центр и ресурс</span>
+                    <span class="matrix-legend-chip"><i class="matrix-legend-dot red"></i>Род и периоды</span>
+                    <span class="matrix-legend-chip"><i class="matrix-legend-dot blue"></i>Внутренний путь</span>
                 </div>
 
                 <!-- Визуальная матрица (SVG) — тёмная тема -->
@@ -2062,7 +2069,7 @@ function initMatrixProgressionDots() {
             txt.setAttribute('y', outY.toFixed(1));
             txt.setAttribute('text-anchor', 'middle');
             txt.setAttribute('dominant-baseline', 'middle');
-            txt.setAttribute('fill', 'rgba(255,255,255,0.50)');
+            txt.setAttribute('fill', 'rgba(255,255,255,0.62)');
             txt.setAttribute('font-size', '12');
             txt.setAttribute('font-weight', '700');
             txt.setAttribute('font-family', 'sans-serif');
