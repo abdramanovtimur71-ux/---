@@ -2064,6 +2064,16 @@ function initMatrixProgressionDots() {
             let outX = x + px * 50;
             let outY = y + py * 50;
 
+            const dot = document.createElementNS(ns, 'circle');
+            dot.setAttribute('cx', outX.toFixed(1));
+            dot.setAttribute('cy', outY.toFixed(1));
+            dot.setAttribute('r', '9.5');
+            dot.setAttribute('fill', 'rgba(9, 15, 32, 0.88)');
+            dot.setAttribute('stroke', i % 2 === 0 ? 'rgba(95,141,255,0.42)' : 'rgba(212,174,92,0.40)');
+            dot.setAttribute('stroke-width', '1.2');
+            dot.setAttribute('filter', 'url(#mxGlowSm)');
+            g.appendChild(dot);
+
             const txt = document.createElementNS(ns, 'text');
             txt.setAttribute('x', outX.toFixed(1));
             txt.setAttribute('y', outY.toFixed(1));
