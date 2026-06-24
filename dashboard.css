@@ -4017,20 +4017,20 @@ body {
     outline-offset: 5px;
     border-radius: 24px;
     background:
-        radial-gradient(circle at 50% 50%, rgba(95,141,255,0.10) 0%, rgba(95,141,255,0.04) 18%, transparent 55%),
-        radial-gradient(circle at 18% 12%, rgba(245,203,104,0.08) 0%, transparent 18%),
-        radial-gradient(circle at 82% 18%, rgba(138,109,192,0.08) 0%, transparent 20%),
+        radial-gradient(circle at 50% 50%, rgba(95,141,255,0.08) 0%, rgba(95,141,255,0.03) 18%, transparent 55%),
+        radial-gradient(circle at 18% 12%, rgba(245,203,104,0.06) 0%, transparent 18%),
+        radial-gradient(circle at 82% 18%, rgba(138,109,192,0.06) 0%, transparent 20%),
         radial-gradient(circle at 22% 78%, rgba(255,255,255,0.03) 0 1px, transparent 1.8px),
         radial-gradient(circle at 74% 28%, rgba(255,255,255,0.03) 0 1px, transparent 1.8px),
         radial-gradient(circle at 63% 71%, rgba(255,255,255,0.02) 0 1px, transparent 1.8px),
-        linear-gradient(160deg, rgba(16,28,58,0.90) 0%, rgba(8,14,30,0.94) 100%);
+        linear-gradient(160deg, rgba(23,39,78,0.88) 0%, rgba(11,17,34,0.92) 100%);
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.08),
         0 0 0 1px rgba(95,141,255,0.08),
-        0 24px 56px rgba(0,0,0,0.34),
-        0 0 38px rgba(95,141,255,0.12),
-        0 0 56px rgba(245,203,104,0.06);
-    backdrop-filter: saturate(1.16) blur(2px);
+        0 18px 42px rgba(0,0,0,0.24),
+        0 0 28px rgba(95,141,255,0.10),
+        0 0 36px rgba(245,203,104,0.05);
+    backdrop-filter: saturate(1.18) blur(1.5px);
 }
 #page-matrix .matrix-visual-wrap::before {
     content: '';
@@ -4040,14 +4040,14 @@ body {
     border-radius: 20px;
     border: 1px solid rgba(255,255,255,0.08);
     background:
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 18%, transparent 36%),
-        radial-gradient(circle at var(--mx) var(--my), rgba(95,141,255,0.18) 0%, rgba(95,141,255,0.05) 18%, transparent 44%),
-        radial-gradient(circle at 50% 50%, transparent 55%, rgba(245,203,104,0.16) 56%, transparent 58%),
-        radial-gradient(circle at 26% 26%, rgba(255,255,255,0.18) 0 1px, transparent 1.8px),
-        radial-gradient(circle at 78% 22%, rgba(255,255,255,0.14) 0 1px, transparent 1.8px),
-        radial-gradient(circle at 72% 76%, rgba(255,255,255,0.12) 0 1px, transparent 1.8px),
-        linear-gradient(135deg, rgba(245,203,104,0.08) 0%, transparent 22%, transparent 78%, rgba(95,141,255,0.08) 100%);
-    opacity: 0.74;
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 18%, transparent 36%),
+        radial-gradient(circle at var(--mx) var(--my), rgba(95,141,255,0.16) 0%, rgba(95,141,255,0.05) 18%, transparent 44%),
+        radial-gradient(circle at 50% 50%, transparent 55%, rgba(245,203,104,0.12) 56%, transparent 58%),
+        radial-gradient(circle at 26% 26%, rgba(255,255,255,0.16) 0 1px, transparent 1.8px),
+        radial-gradient(circle at 78% 22%, rgba(255,255,255,0.12) 0 1px, transparent 1.8px),
+        radial-gradient(circle at 72% 76%, rgba(255,255,255,0.10) 0 1px, transparent 1.8px),
+        linear-gradient(135deg, rgba(245,203,104,0.06) 0%, transparent 22%, transparent 78%, rgba(95,141,255,0.06) 100%);
+    opacity: 0.58;
     mix-blend-mode: screen;
     transform: scale(1.02);
     animation: matrixAuraBreath 9s ease-in-out infinite, matrixAuraDrift 34s linear infinite;
@@ -4058,39 +4058,39 @@ body {
     inset: 0;
     pointer-events: none;
     background:
-        radial-gradient(circle at 50% 50%, rgba(245,203,104,0.08) 0%, transparent 20%),
-        radial-gradient(circle at 50% 50%, rgba(95,141,255,0.12) 0%, transparent 44%),
-        radial-gradient(circle at 20% 80%, rgba(95,141,255,0.08) 0%, transparent 16%),
-        radial-gradient(circle at 80% 20%, rgba(245,203,104,0.08) 0%, transparent 16%),
-        radial-gradient(circle at 34% 22%, rgba(255,255,255,0.08) 0 1px, transparent 1.8px),
-        radial-gradient(circle at 67% 66%, rgba(255,255,255,0.08) 0 1px, transparent 1.8px),
-        linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 25%, transparent 75%, rgba(255,255,255,0.02) 100%);
-    opacity: 0.36;
+        radial-gradient(circle at 50% 50%, rgba(245,203,104,0.06) 0%, transparent 20%),
+        radial-gradient(circle at 50% 50%, rgba(95,141,255,0.08) 0%, transparent 44%),
+        radial-gradient(circle at 20% 80%, rgba(95,141,255,0.06) 0%, transparent 16%),
+        radial-gradient(circle at 80% 20%, rgba(245,203,104,0.06) 0%, transparent 16%),
+        radial-gradient(circle at 34% 22%, rgba(255,255,255,0.06) 0 1px, transparent 1.8px),
+        radial-gradient(circle at 67% 66%, rgba(255,255,255,0.06) 0 1px, transparent 1.8px),
+        linear-gradient(135deg, rgba(255,255,255,0.015) 0%, transparent 25%, transparent 75%, rgba(255,255,255,0.015) 100%);
+    opacity: 0.26;
     transition: opacity 220ms ease, filter 220ms ease;
     mix-blend-mode: screen;
     animation: matrixStarTwinkle 7s ease-in-out infinite;
 }
 #page-matrix .matrix-visual-wrap:hover::after {
-    opacity: 0.48;
+    opacity: 0.34;
 }
 #page-matrix .matrix-svg {
     position: relative;
     z-index: 1;
     filter:
-        drop-shadow(0 0 18px rgba(245,203,104,0.20))
-        drop-shadow(0 0 24px rgba(95,141,255,0.10))
-        drop-shadow(0 18px 28px rgba(0,0,0,0.28))
-        contrast(1.03)
-        saturate(1.08)
-        brightness(1.12);
+        drop-shadow(0 0 14px rgba(245,203,104,0.16))
+        drop-shadow(0 0 18px rgba(95,141,255,0.08))
+        drop-shadow(0 14px 22px rgba(0,0,0,0.20))
+        contrast(1.02)
+        saturate(1.04)
+        brightness(1.18);
 }
 #page-matrix .matrix-svg image {
-    filter: brightness(1.16) saturate(1.06) contrast(1.03);
+    filter: brightness(1.28) saturate(1.03) contrast(1.02);
 }
 #page-matrix .matrix-svg text {
     text-shadow:
-        0 0 5px rgba(255,255,255,0.14),
-        0 0 12px rgba(95,141,255,0.12);
+        0 0 4px rgba(255,255,255,0.10),
+        0 0 10px rgba(95,141,255,0.10);
 }
 
 @keyframes constellationFlow {
