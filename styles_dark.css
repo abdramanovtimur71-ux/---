@@ -1292,16 +1292,25 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 
 /* ─── ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ ───────────────────────── */
 .user-profile {
-    position: fixed; top: 64px; right: 86px;
-    background: var(--card2); border: 1px solid var(--br);
-    border-radius: 999px; padding: 8px;
-    min-width: 58px; z-index: 1001;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card2);
+    border: 1px solid var(--br);
+    border-radius: 999px;
+    padding: 4px;
+    min-width: 58px;
+    z-index: 1001;
     box-shadow: var(--shadow);
-    animation: scaleIn 0.25s var(--ease);
+    flex-shrink: 0;
 }
 .user-profile.open {
     border-radius: var(--r2);
     min-width: 220px;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 8px;
 }
 .profile-avatar {
     width: 40px; height: 40px; border-radius: 50%;
@@ -1313,6 +1322,15 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
 .profile-menu {
     display: none;
     margin-top: 8px;
+    width: 100%;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: var(--card2);
+    border: 1px solid var(--br);
+    border-radius: var(--r2);
+    padding: 8px;
+    box-shadow: var(--shadow);
 }
 .user-profile.open .profile-menu {
     display: block;

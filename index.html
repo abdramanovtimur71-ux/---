@@ -118,6 +118,18 @@
             </button>
             <div class="nav-actions">
                 <button class="login-btn" onclick="openLoginModal()">Личный кабинет</button>
+                <div id="userProfile" class="user-profile hidden">
+                    <div class="profile-avatar" id="profileAvatar" onclick="toggleProfileMenu(event)">A</div>
+                    <div class="profile-menu">
+                        <a href="dashboard.html" class="profile-link">◈ Мой кабинет</a>
+                        <a href="dashboard.html#profile" class="profile-link">✦ Профиль</a>
+                        <a href="dashboard.html#sessions" class="profile-link">☽ Мои сеансы</a>
+                        <a href="dashboard.html#subscription" class="profile-link">⬡ Подписка</a>
+                        <a href="dashboard.html#settings" class="profile-link">⚙ Настройки</a>
+                        <hr>
+                        <a href="#" class="profile-link" onclick="logout()">→ Выйти</a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -277,7 +289,6 @@
         </div>
         <div class="hero-inner container">
             <div class="hero-content">
-                <span class="hero-eyebrow">Доверьтесь высшим силам</span>
                 <h1 class="hero-title">Матрица-Судьбы<br><span class="hero-title-sub">Нумерология & Матрица-Судьбы</span></h1>
                 <div class="hero-actions">
                     <button class="btn-primary" onclick="scrollToSection('#about')">Получить разбор</button>
@@ -755,20 +766,6 @@
         </div>
     </div>
 
-    <!-- Профиль пользователя (дропдаун) -->
-    <div id="userProfile" class="user-profile hidden">
-        <div class="profile-avatar" id="profileAvatar" onclick="toggleProfileMenu(event)">A</div>
-        <div class="profile-menu">
-            <a href="dashboard.html" class="profile-link">◈ Мой кабинет</a>
-            <a href="dashboard.html#profile" class="profile-link">✦ Профиль</a>
-            <a href="dashboard.html#sessions" class="profile-link">☽ Мои сеансы</a>
-            <a href="dashboard.html#subscription" class="profile-link">⬡ Подписка</a>
-            <a href="dashboard.html#settings" class="profile-link">⚙ Настройки</a>
-            <hr>
-            <a href="#" class="profile-link" onclick="logout()">→ Выйти</a>
-        </div>
-    </div>
-
     <!-- Плавающие кнопки -->
     <div class="fab-group" aria-label="Быстрая связь">
     </div>
@@ -1023,4 +1020,3 @@
     </script>
 </body>
 </html>
-
