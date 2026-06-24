@@ -2512,17 +2512,6 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     font-variant-numeric: tabular-nums;
 }
 
-.matrix-progression-ring {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: progressionPulse 2.8s ease-in-out infinite;
-}
-
-@keyframes progressionPulse {
-    0%, 100% { opacity: 0.58; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.12); }
-}
-
 #page-matrix .matrix-visual-wrap::before {
     content: '';
     position: absolute;

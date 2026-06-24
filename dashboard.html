@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрица-Судбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260624phase13">
+    <link rel="stylesheet" href="dashboard.css?v=20260624phase14">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -2064,30 +2064,6 @@ function initMatrixProgressionDots() {
             // Арканы выводим ДАЛЕКО СНАРУЖИ (в обратную сторону)
             let outX = x + px * 50;
             let outY = y + py * 50;
-
-            const dot = document.createElementNS(ns, 'circle');
-            dot.setAttribute('cx', outX.toFixed(1));
-            dot.setAttribute('cy', outY.toFixed(1));
-            dot.setAttribute('r', '9.5');
-            dot.setAttribute('fill', 'rgba(9, 15, 32, 0.88)');
-            dot.setAttribute('stroke', i % 2 === 0 ? 'rgba(95,141,255,0.42)' : 'rgba(212,174,92,0.40)');
-            dot.setAttribute('stroke-width', '1.2');
-            dot.setAttribute('filter', 'url(#mxGlowSm)');
-            g.appendChild(dot);
-
-            if (highlightedValues.has(value)) {
-                const ring = document.createElementNS(ns, 'circle');
-                ring.setAttribute('cx', outX.toFixed(1));
-                ring.setAttribute('cy', outY.toFixed(1));
-                ring.setAttribute('r', '15');
-                ring.setAttribute('fill', 'none');
-                ring.setAttribute('stroke', value % 2 === 0 ? 'rgba(95,141,255,0.70)' : 'rgba(245,203,104,0.72)');
-                ring.setAttribute('stroke-width', '1.4');
-                ring.setAttribute('stroke-dasharray', '2 4');
-                ring.setAttribute('filter', 'url(#mxGlowSm)');
-                ring.setAttribute('class', 'matrix-progression-ring');
-                g.appendChild(ring);
-            }
 
             const txt = document.createElementNS(ns, 'text');
             txt.setAttribute('x', outX.toFixed(1));
