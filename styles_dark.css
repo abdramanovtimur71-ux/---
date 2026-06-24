@@ -2688,6 +2688,53 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     border-color: rgba(212,174,92,0.5);
 }
 
+span.hero-eyebrow,
+.theme-toggle {
+    display: none !important;
+}
+
+/* ─── HERO DESTINY MATRIX ───────────────────────── */
+.hero-destiny-matrix {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 18px 0 22px;
+}
+
+.destiny-chip {
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(212,174,92,0.24);
+    background: linear-gradient(145deg, rgba(12,12,24,0.72), rgba(8,9,18,0.52));
+    color: var(--t2);
+    font-size: 11px;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 24px rgba(138,109,192,0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: destinyFloat 4.8s ease-in-out infinite;
+}
+
+.destiny-chip:nth-child(2) { animation-delay: 0.6s; }
+.destiny-chip:nth-child(3) { animation-delay: 1.2s; }
+
+@keyframes destinyFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+.hero-destiny-matrix::before {
+    content: '◈';
+    color: rgba(212,174,92,0.68);
+    align-self: center;
+    margin-right: 4px;
+    animation: starTwinkle 2.5s ease-in-out infinite;
+}
+
 /* ─── BLOG CARD IMPROVED ────────────────────────── */
 .blog-card {
     transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), transform 0.3s var(--ease) !important;
