@@ -2889,7 +2889,7 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
         0 0 12px rgba(95,141,255,0.12);
 }
 #page-matrix .matrix-svg image {
-    filter: brightness(1.02) saturate(1.14) contrast(1.08) hue-rotate(6deg);
+    filter: brightness(1.03) saturate(1.06) contrast(1.07);
 }
 #page-matrix .matrix-values-grid .matrix-val-card,
 #page-matrix .matrix-interp-item,
