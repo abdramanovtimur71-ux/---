@@ -2880,7 +2880,6 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
         brightness(1.03);
 }
 #page-matrix .matrix-svg text {
-    fill: rgba(240,244,255,0.94) !important;
     paint-order: stroke fill;
     stroke: rgba(4,7,16,0.50);
     stroke-width: 1.35px;
@@ -2888,19 +2887,6 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
         0 0 3px rgba(255,255,255,0.10),
         0 0 8px rgba(245,203,104,0.12),
         0 0 12px rgba(95,141,255,0.12);
-}
-#page-matrix .matrix-svg #progressionDotsGroup text {
-    fill: rgba(236,241,255,0.88) !important;
-    stroke: rgba(2,5,14,0.72) !important;
-    stroke-width: 1px;
-}
-#page-matrix .matrix-svg #mvAinCnum,
-#page-matrix .matrix-svg #mvBinCnum,
-#page-matrix .matrix-svg #mvRnum,
-#page-matrix .matrix-svg #mvSnum,
-#page-matrix .matrix-svg #mvVinCnum {
-    fill: rgba(26,32,56,0.94) !important;
-    stroke: rgba(255,255,255,0.40) !important;
 }
 #page-matrix .matrix-svg image {
     filter: none;
@@ -4080,14 +4066,14 @@ body {
         radial-gradient(circle at 34% 22%, rgba(255,255,255,0.07) 0 1px, transparent 1.8px),
         radial-gradient(circle at 67% 66%, rgba(255,255,255,0.07) 0 1px, transparent 1.8px),
         radial-gradient(circle at var(--mx) var(--my), rgba(95,141,255,0.20) 0%, rgba(245,203,104,0.10) 18%, rgba(0,0,0,0) 46%);
-    opacity: 0.28;
+    opacity: 0.46;
     transition: opacity 220ms ease, filter 220ms ease;
     mix-blend-mode: screen;
     filter: saturate(1.10);
     animation: matrixStarTwinkle 7s ease-in-out infinite;
 }
 #page-matrix .matrix-visual-wrap:hover::after {
-    opacity: 0.38;
+    opacity: 0.64;
     filter: saturate(1.24);
 }
 
@@ -4251,7 +4237,7 @@ body[data-motion="cinema"] .session-item:hover {
     filter: saturate(1.08);
 }
 #page-matrix .matrix-visual-wrap:hover::after {
-    opacity: 0.48;
+    opacity: 0.9;
     filter: saturate(1.22);
 }
 
@@ -4266,7 +4252,7 @@ body[data-motion="soft"] .session-item:hover {
     transform: translateY(-2px) !important;
 }
 body[data-motion="soft"] #page-matrix .matrix-visual-wrap::after {
-    opacity: 0.24 !important;
+    opacity: 0.42 !important;
 }
 
 body[data-motion="cinema"] .kpi-card:hover,
@@ -4279,7 +4265,7 @@ body[data-motion="cinema"] .constellation-line.active-route {
     animation-duration: 2.8s !important;
 }
 body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
-    opacity: 0.58 !important;
+    opacity: 0.98 !important;
 }
 
 @media (max-width: 900px) {
