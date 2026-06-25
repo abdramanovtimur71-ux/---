@@ -2889,7 +2889,7 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
         0 0 12px rgba(95,141,255,0.12);
 }
 #page-matrix .matrix-svg image {
-    filter: brightness(1.03) saturate(1.06) contrast(1.07);
+    filter: none;
 }
 #page-matrix .matrix-values-grid .matrix-val-card,
 #page-matrix .matrix-interp-item,
@@ -4339,44 +4339,4 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     -webkit-background-clip: text !important;
     background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
-}
-
-/* ═══════════════════════════════════════════════════
-   PHASE 12 — COSMIC TEMPLATE TEXT VISIBILITY FIX
-   Make all SVG text visible on dark cosmic background
-   ═══════════════════════════════════════════════════ */
-#page-matrix .matrix-svg text {
-    fill: rgba(255,255,255,0.82) !important;
-    stroke: rgba(0,0,0,0.55) !important;
-    stroke-width: 1.2px !important;
-    paint-order: stroke fill !important;
-}
-#page-matrix .matrix-svg #progressionDotsGroup text {
-    fill: rgba(220,220,255,0.70) !important;
-    font-size: 11px !important;
-    stroke: rgba(0,0,0,0.60) !important;
-    stroke-width: 1px !important;
-}
-#page-matrix .matrix-svg #mvEnum,
-#page-matrix .matrix-svg #mvZhnum,
-#page-matrix .matrix-svg #mvInum,
-#page-matrix .matrix-svg #mvZnum {
-    fill: rgba(200,210,255,0.90) !important;
-}
-#page-matrix .matrix-svg #mvEinNum, #page-matrix .matrix-svg #mvEin2num,
-#page-matrix .matrix-svg #mvZhinNum, #page-matrix .matrix-svg #mvZhin2num,
-#page-matrix .matrix-svg #mvZinNum, #page-matrix .matrix-svg #mvZin2num,
-#page-matrix .matrix-svg #mvIinNum, #page-matrix .matrix-svg #mvIin2num,
-#page-matrix .matrix-svg #mvOnum,  #page-matrix .matrix-svg #mvMnum,
-#page-matrix .matrix-svg #mvNnum,  #page-matrix .matrix-svg #mvGin2num,
-#page-matrix .matrix-svg #mvVin2num {
-    fill: rgba(200,210,255,0.85) !important;
-}
-#page-matrix .matrix-svg #mvAinCnum,
-#page-matrix .matrix-svg #mvBinCnum,
-#page-matrix .matrix-svg #mvRnum,
-#page-matrix .matrix-svg #mvSnum,
-#page-matrix .matrix-svg #mvVinCnum {
-    fill: rgba(40,40,80,0.95) !important;
-    stroke: rgba(0,0,0,0.3) !important;
 }
