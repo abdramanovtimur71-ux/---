@@ -4638,3 +4638,40 @@ body[data-perf="low"] #page-matrix .matrix-svg {
     animation: none !important;
     transform: none !important;
 }
+
+/* ═══════════════════════════════════════════════════
+   PHASE 26 — MATRIX CLARITY BOOST
+   ═══════════════════════════════════════════════════ */
+#page-matrix .matrix-cosmic-veil {
+    opacity: 0.14 !important;
+    filter: none !important;
+    animation: none !important;
+}
+
+#page-matrix .matrix-visual-wrap::before,
+#page-matrix .matrix-visual-wrap::after {
+    opacity: 0.18 !important;
+}
+
+#page-matrix .matrix-svg {
+    animation: none !important;
+    transform: none !important;
+    filter:
+        drop-shadow(0 8px 18px rgba(0,0,0,0.30))
+        contrast(1.14)
+        saturate(1.03)
+        brightness(1.04) !important;
+}
+
+#page-matrix .matrix-svg image {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    filter: contrast(1.16) brightness(1.03) saturate(1.02) !important;
+}
+
+#page-matrix .matrix-svg text {
+    stroke-width: 1.2px !important;
+    text-shadow:
+        0 0 1px rgba(255,255,255,0.62),
+        0 0 3px rgba(0,0,0,0.45) !important;
+}
