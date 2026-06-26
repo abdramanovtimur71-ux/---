@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрица-Судбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260626phase18">
+    <link rel="stylesheet" href="dashboard.css?v=20260624phase15">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -107,6 +107,10 @@
         </div>
         <div class="topbar-actions">
             <button class="topbar-back" id="dashMotionBtn" onclick="cycleDashboardMotion()">Motion: Normal</button>
+            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleDashTheme()" aria-label="Сменить тему">
+                <span id="themeToggleIcon">☀️</span>
+                <span class="theme-label" id="themeToggleLabel">Светлая</span>
+            </button>
             <a href="index.html" class="topbar-back">← На сайт</a>
         </div>
     </header>
@@ -647,7 +651,7 @@
                   <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
 
                     <!-- Шаблон матрицы как фон -->
-                    <image href="matrix-template-clean.png?v=21" x="0" y="0" width="876" height="768"/>
+                    <image href="matrix-template-clean.png?v=16" x="0" y="0" width="876" height="768"/>
 
                     <!-- ════ ЧИСЛА ПОВЕРХ ШАБЛОНА (точные координаты по пикселям) ════ -->
 
