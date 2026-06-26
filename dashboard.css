@@ -4578,25 +4578,6 @@ body[data-motion="soft"] #page-matrix .matrix-svg #mvDnum {
         brightness(1.01);
 }
 
-[data-theme="light"] #page-matrix .matrix-svg .matrix-template-base {
-    opacity: 0.985;
-    filter:
-        saturate(1.08)
-        contrast(1.07)
-        brightness(1.02)
-        sepia(0.08)
-        hue-rotate(-6deg)
-        drop-shadow(0 0 6px rgba(214,176,108,0.10));
-}
-
-[data-theme="light"] #page-matrix .matrix-svg .matrix-template-wash-radial {
-    opacity: 0.34;
-}
-
-[data-theme="light"] #page-matrix .matrix-svg .matrix-template-wash-linear {
-    opacity: 0.28;
-}
-
 [data-theme="light"] #page-matrix .matrix-svg text {
     stroke: rgba(255,255,255,0.76);
     text-shadow:
@@ -4649,117 +4630,11 @@ body[data-perf="low"] #page-matrix .matrix-svg {
         brightness(1.02) !important;
 }
 
-/* ═══════════════════════════════════════════════════
-   PHASE 14 — MATRIX TEMPLATE COSMIC TUNING
-   ═══════════════════════════════════════════════════ */
-#page-matrix .matrix-svg .matrix-template-base {
-    transform-origin: 50% 50%;
-    transform-box: fill-box;
-    opacity: 0.95;
-    mix-blend-mode: multiply;
-    filter:
-        saturate(1.22)
-        contrast(1.22)
-        brightness(0.86)
-        sepia(0.22)
-        hue-rotate(16deg)
-        drop-shadow(0 0 12px rgba(95,141,255,0.26))
-        drop-shadow(0 0 18px rgba(191,154,255,0.18))
-        drop-shadow(0 0 12px rgba(245,203,104,0.14));
-    animation: matrixTemplatePulse 10s ease-in-out infinite, matrixTemplateShift 26s ease-in-out infinite alternate;
-    transition: filter 260ms var(--dash-ease-premium), opacity 240ms var(--dash-ease-premium);
-}
-
-#page-matrix .matrix-svg .matrix-template-wash {
-    pointer-events: none;
-    mix-blend-mode: soft-light;
-    opacity: 0.68;
-    animation: matrixWashPulse 9s ease-in-out infinite;
-}
-
-#page-matrix .matrix-svg .matrix-template-wash-radial {
-    opacity: 0.62;
-    mix-blend-mode: multiply;
-}
-
-#page-matrix .matrix-svg .matrix-template-wash-linear {
-    opacity: 0.5;
-    mix-blend-mode: screen;
-}
-
-#page-matrix .matrix-visual-wrap:hover .matrix-svg .matrix-template-base {
-    opacity: 1;
-    filter:
-        saturate(1.3)
-        contrast(1.26)
-        brightness(0.9)
-        sepia(0.25)
-        hue-rotate(20deg)
-        drop-shadow(0 0 14px rgba(95,141,255,0.28))
-        drop-shadow(0 0 22px rgba(191,154,255,0.2))
-        drop-shadow(0 0 14px rgba(245,203,104,0.16));
-}
-
-#page-matrix .matrix-visual-wrap:hover .matrix-svg .matrix-template-wash-radial {
-    opacity: 0.72;
-}
-
-#page-matrix .matrix-visual-wrap:hover .matrix-svg .matrix-template-wash-linear {
-    opacity: 0.58;
-}
-
-@keyframes matrixTemplatePulse {
-    0%, 100% {
-        opacity: 0.965;
-        transform: translate3d(0, 0, 0) scale(1);
-    }
-    50% {
-        opacity: 1;
-        transform: translate3d(0, -1px, 0) scale(1.006);
-    }
-}
-
-@keyframes matrixTemplateShift {
-    0% {
-        filter:
-            saturate(1.14)
-            contrast(1.12)
-            brightness(0.95)
-            sepia(0.12)
-            hue-rotate(4deg)
-            drop-shadow(0 0 8px rgba(95,141,255,0.20))
-            drop-shadow(0 0 13px rgba(191,154,255,0.14))
-            drop-shadow(0 0 8px rgba(245,203,104,0.10));
-    }
-    100% {
-        filter:
-            saturate(1.22)
-            contrast(1.16)
-            brightness(0.99)
-            sepia(0.16)
-            hue-rotate(12deg)
-            drop-shadow(0 0 12px rgba(95,141,255,0.24))
-            drop-shadow(0 0 18px rgba(191,154,255,0.18))
-            drop-shadow(0 0 12px rgba(245,203,104,0.14));
-    }
-}
-
-@keyframes matrixWashPulse {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 0.72; }
-}
-
-body[data-perf="low"] #page-matrix .matrix-svg .matrix-template-base,
-body[data-perf="low"] #page-matrix .matrix-svg .matrix-template-wash,
-body[data-motion="soft"] #page-matrix .matrix-svg .matrix-template-base,
-body[data-motion="soft"] #page-matrix .matrix-svg .matrix-template-wash {
+/* Matrix template reset to original clean look */
+#page-matrix .matrix-svg image {
+    opacity: 1 !important;
+    mix-blend-mode: normal !important;
+    filter: none !important;
     animation: none !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    #page-matrix .matrix-svg .matrix-template-base,
-    #page-matrix .matrix-svg .matrix-template-wash {
-        animation: none !important;
-        transform: none !important;
-    }
+    transform: none !important;
 }

@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрица-Судбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260626phase22">
+    <link rel="stylesheet" href="dashboard.css?v=20260626phase23">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -646,24 +646,9 @@
                 <div class="matrix-visual-wrap">
                   <div class="matrix-cosmic-veil" aria-hidden="true"></div>
                   <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
-                    <defs>
-                      <radialGradient id="matrixCosmicWash" cx="50%" cy="48%" r="62%">
-                        <stop offset="0%" stop-color="#8f64dc" stop-opacity="0.22"/>
-                        <stop offset="42%" stop-color="#5f8dff" stop-opacity="0.14"/>
-                        <stop offset="100%" stop-color="#0a1c44" stop-opacity="0.26"/>
-                      </radialGradient>
-                      <linearGradient id="matrixCosmicSweep" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#5f8dff" stop-opacity="0.18"/>
-                        <stop offset="45%" stop-color="#1a2858" stop-opacity="0.08"/>
-                        <stop offset="70%" stop-color="#e0b45e" stop-opacity="0.11"/>
-                        <stop offset="100%" stop-color="#101c3a" stop-opacity="0.16"/>
-                      </linearGradient>
-                    </defs>
 
                     <!-- Шаблон матрицы как фон -->
-                    <image class="matrix-template-base" href="matrix-template-clean.png?v=21" x="0" y="0" width="876" height="768"/>
-                    <rect class="matrix-template-wash matrix-template-wash-radial" x="0" y="0" width="876" height="768" fill="url(#matrixCosmicWash)"/>
-                    <rect class="matrix-template-wash matrix-template-wash-linear" x="0" y="0" width="876" height="768" fill="url(#matrixCosmicSweep)"/>
+                    <image href="matrix-template-clean.png?v=21" x="0" y="0" width="876" height="768"/>
 
                     <!-- ════ ЧИСЛА ПОВЕРХ ШАБЛОНА (точные координаты по пикселям) ════ -->
 
