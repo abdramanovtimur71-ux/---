@@ -4578,6 +4578,17 @@ body[data-motion="soft"] #page-matrix .matrix-svg #mvDnum {
         brightness(1.01);
 }
 
+[data-theme="light"] #page-matrix .matrix-svg image {
+    opacity: 0.985;
+    filter:
+        saturate(1.08)
+        contrast(1.07)
+        brightness(1.02)
+        sepia(0.08)
+        hue-rotate(-6deg)
+        drop-shadow(0 0 6px rgba(214,176,108,0.10));
+}
+
 [data-theme="light"] #page-matrix .matrix-svg text {
     stroke: rgba(255,255,255,0.76);
     text-shadow:
@@ -4628,4 +4639,85 @@ body[data-perf="low"] #page-matrix .matrix-svg {
         contrast(1.04)
         saturate(1.02)
         brightness(1.02) !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   PHASE 14 — MATRIX TEMPLATE COSMIC TUNING
+   ═══════════════════════════════════════════════════ */
+#page-matrix .matrix-svg image {
+    transform-origin: 50% 50%;
+    transform-box: fill-box;
+    opacity: 0.975;
+    filter:
+        saturate(1.18)
+        contrast(1.14)
+        brightness(0.96)
+        sepia(0.14)
+        hue-rotate(8deg)
+        drop-shadow(0 0 10px rgba(95,141,255,0.22))
+        drop-shadow(0 0 16px rgba(191,154,255,0.16))
+        drop-shadow(0 0 10px rgba(245,203,104,0.12));
+    animation: matrixTemplatePulse 10s ease-in-out infinite, matrixTemplateShift 26s ease-in-out infinite alternate;
+    transition: filter 260ms var(--dash-ease-premium), opacity 240ms var(--dash-ease-premium);
+}
+
+#page-matrix .matrix-visual-wrap:hover .matrix-svg image {
+    opacity: 1;
+    filter:
+        saturate(1.24)
+        contrast(1.17)
+        brightness(0.98)
+        sepia(0.16)
+        hue-rotate(11deg)
+        drop-shadow(0 0 12px rgba(95,141,255,0.26))
+        drop-shadow(0 0 20px rgba(191,154,255,0.18))
+        drop-shadow(0 0 12px rgba(245,203,104,0.14));
+}
+
+@keyframes matrixTemplatePulse {
+    0%, 100% {
+        opacity: 0.965;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translate3d(0, -1px, 0) scale(1.006);
+    }
+}
+
+@keyframes matrixTemplateShift {
+    0% {
+        filter:
+            saturate(1.14)
+            contrast(1.12)
+            brightness(0.95)
+            sepia(0.12)
+            hue-rotate(4deg)
+            drop-shadow(0 0 8px rgba(95,141,255,0.20))
+            drop-shadow(0 0 13px rgba(191,154,255,0.14))
+            drop-shadow(0 0 8px rgba(245,203,104,0.10));
+    }
+    100% {
+        filter:
+            saturate(1.22)
+            contrast(1.16)
+            brightness(0.99)
+            sepia(0.16)
+            hue-rotate(12deg)
+            drop-shadow(0 0 12px rgba(95,141,255,0.24))
+            drop-shadow(0 0 18px rgba(191,154,255,0.18))
+            drop-shadow(0 0 12px rgba(245,203,104,0.14));
+    }
+}
+
+body[data-perf="low"] #page-matrix .matrix-svg image,
+body[data-motion="soft"] #page-matrix .matrix-svg image {
+    animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #page-matrix .matrix-svg image {
+        animation: none !important;
+        transform: none !important;
+    }
 }
