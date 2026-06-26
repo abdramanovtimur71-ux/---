@@ -2478,7 +2478,7 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
 }
 .matrix-svg {
     width: 100%;
-    max-width: 620px;
+    max-width: 860px;
     height: auto;
     filter: drop-shadow(0 8px 32px rgba(0,0,0,0.18));
     border-radius: 12px;
@@ -4703,12 +4703,20 @@ body[data-perf="low"] #page-matrix .matrix-svg {
 #page-matrix .matrix-svg #progressionDotsGroup text {
     fill: #ffffff !important;
     stroke: rgba(4, 8, 18, 1) !important;
-    stroke-width: 2.4px !important;
-    font-size: 14px !important;
+    stroke-width: 2.8px !important;
+    font-size: 15px !important;
     font-weight: 900 !important;
     paint-order: stroke fill !important;
     letter-spacing: 0 !important;
     text-shadow:
         0 0 2px rgba(0,0,0,0.88),
         0 0 5px rgba(0,0,0,0.56) !important;
+}
+
+@media (max-width: 1400px) {
+    .matrix-svg { max-width: 780px; }
+}
+
+@media (max-width: 1100px) {
+    .matrix-svg { max-width: 700px; }
 }
