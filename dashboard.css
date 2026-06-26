@@ -4578,7 +4578,7 @@ body[data-motion="soft"] #page-matrix .matrix-svg #mvDnum {
         brightness(1.01);
 }
 
-[data-theme="light"] #page-matrix .matrix-svg image {
+[data-theme="light"] #page-matrix .matrix-svg .matrix-template-base {
     opacity: 0.985;
     filter:
         saturate(1.08)
@@ -4587,6 +4587,14 @@ body[data-motion="soft"] #page-matrix .matrix-svg #mvDnum {
         sepia(0.08)
         hue-rotate(-6deg)
         drop-shadow(0 0 6px rgba(214,176,108,0.10));
+}
+
+[data-theme="light"] #page-matrix .matrix-svg .matrix-template-wash-radial {
+    opacity: 0.34;
+}
+
+[data-theme="light"] #page-matrix .matrix-svg .matrix-template-wash-linear {
+    opacity: 0.28;
 }
 
 [data-theme="light"] #page-matrix .matrix-svg text {
@@ -4644,34 +4652,60 @@ body[data-perf="low"] #page-matrix .matrix-svg {
 /* ═══════════════════════════════════════════════════
    PHASE 14 — MATRIX TEMPLATE COSMIC TUNING
    ═══════════════════════════════════════════════════ */
-#page-matrix .matrix-svg image {
+#page-matrix .matrix-svg .matrix-template-base {
     transform-origin: 50% 50%;
     transform-box: fill-box;
-    opacity: 0.975;
+    opacity: 0.95;
+    mix-blend-mode: multiply;
     filter:
-        saturate(1.18)
-        contrast(1.14)
-        brightness(0.96)
-        sepia(0.14)
-        hue-rotate(8deg)
-        drop-shadow(0 0 10px rgba(95,141,255,0.22))
-        drop-shadow(0 0 16px rgba(191,154,255,0.16))
-        drop-shadow(0 0 10px rgba(245,203,104,0.12));
+        saturate(1.22)
+        contrast(1.22)
+        brightness(0.86)
+        sepia(0.22)
+        hue-rotate(16deg)
+        drop-shadow(0 0 12px rgba(95,141,255,0.26))
+        drop-shadow(0 0 18px rgba(191,154,255,0.18))
+        drop-shadow(0 0 12px rgba(245,203,104,0.14));
     animation: matrixTemplatePulse 10s ease-in-out infinite, matrixTemplateShift 26s ease-in-out infinite alternate;
     transition: filter 260ms var(--dash-ease-premium), opacity 240ms var(--dash-ease-premium);
 }
 
-#page-matrix .matrix-visual-wrap:hover .matrix-svg image {
+#page-matrix .matrix-svg .matrix-template-wash {
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+    opacity: 0.68;
+    animation: matrixWashPulse 9s ease-in-out infinite;
+}
+
+#page-matrix .matrix-svg .matrix-template-wash-radial {
+    opacity: 0.62;
+    mix-blend-mode: multiply;
+}
+
+#page-matrix .matrix-svg .matrix-template-wash-linear {
+    opacity: 0.5;
+    mix-blend-mode: screen;
+}
+
+#page-matrix .matrix-visual-wrap:hover .matrix-svg .matrix-template-base {
     opacity: 1;
     filter:
-        saturate(1.24)
-        contrast(1.17)
-        brightness(0.98)
-        sepia(0.16)
-        hue-rotate(11deg)
-        drop-shadow(0 0 12px rgba(95,141,255,0.26))
-        drop-shadow(0 0 20px rgba(191,154,255,0.18))
-        drop-shadow(0 0 12px rgba(245,203,104,0.14));
+        saturate(1.3)
+        contrast(1.26)
+        brightness(0.9)
+        sepia(0.25)
+        hue-rotate(20deg)
+        drop-shadow(0 0 14px rgba(95,141,255,0.28))
+        drop-shadow(0 0 22px rgba(191,154,255,0.2))
+        drop-shadow(0 0 14px rgba(245,203,104,0.16));
+}
+
+#page-matrix .matrix-visual-wrap:hover .matrix-svg .matrix-template-wash-radial {
+    opacity: 0.72;
+}
+
+#page-matrix .matrix-visual-wrap:hover .matrix-svg .matrix-template-wash-linear {
+    opacity: 0.58;
 }
 
 @keyframes matrixTemplatePulse {
@@ -4710,13 +4744,21 @@ body[data-perf="low"] #page-matrix .matrix-svg {
     }
 }
 
-body[data-perf="low"] #page-matrix .matrix-svg image,
-body[data-motion="soft"] #page-matrix .matrix-svg image {
+@keyframes matrixWashPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.72; }
+}
+
+body[data-perf="low"] #page-matrix .matrix-svg .matrix-template-base,
+body[data-perf="low"] #page-matrix .matrix-svg .matrix-template-wash,
+body[data-motion="soft"] #page-matrix .matrix-svg .matrix-template-base,
+body[data-motion="soft"] #page-matrix .matrix-svg .matrix-template-wash {
     animation: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    #page-matrix .matrix-svg image {
+    #page-matrix .matrix-svg .matrix-template-base,
+    #page-matrix .matrix-svg .matrix-template-wash {
         animation: none !important;
         transform: none !important;
     }
