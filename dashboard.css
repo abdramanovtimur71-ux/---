@@ -4675,3 +4675,40 @@ body[data-perf="low"] #page-matrix .matrix-svg {
         0 0 1px rgba(255,255,255,0.62),
         0 0 3px rgba(0,0,0,0.45) !important;
 }
+
+/* ═══════════════════════════════════════════════════
+   PHASE 27 — MATRIX NUMBERS LEGIBILITY
+   ═══════════════════════════════════════════════════ */
+#page-matrix .matrix-svg text {
+    text-rendering: geometricPrecision;
+    paint-order: stroke fill;
+    letter-spacing: 0;
+}
+
+#page-matrix .matrix-svg text[fill="#fff"] {
+    stroke: rgba(5, 9, 18, 0.98) !important;
+    stroke-width: 2.15px !important;
+    text-shadow:
+        0 0 1px rgba(255,255,255,0.58),
+        0 0 4px rgba(0,0,0,0.48) !important;
+}
+
+#page-matrix .matrix-svg text[fill="#333"],
+#page-matrix .matrix-svg text[fill="#555"] {
+    stroke: rgba(255, 255, 255, 0.96) !important;
+    stroke-width: 1.7px !important;
+    text-shadow: 0 0 1px rgba(0,0,0,0.22) !important;
+}
+
+#page-matrix .matrix-svg #progressionDotsGroup text {
+    fill: #ffffff !important;
+    stroke: rgba(4, 8, 18, 1) !important;
+    stroke-width: 2.4px !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    paint-order: stroke fill !important;
+    letter-spacing: 0 !important;
+    text-shadow:
+        0 0 2px rgba(0,0,0,0.88),
+        0 0 5px rgba(0,0,0,0.56) !important;
+}
