@@ -2881,12 +2881,27 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
 }
 #page-matrix .matrix-svg text {
     paint-order: stroke fill;
-    stroke: rgba(4,7,16,0.50);
-    stroke-width: 1.35px;
+    stroke: rgba(6,10,22,0.82);
+    stroke-width: 1.6px;
     text-shadow:
-        0 0 3px rgba(255,255,255,0.10),
-        0 0 8px rgba(245,203,104,0.12),
-        0 0 12px rgba(95,141,255,0.12);
+        0 0 1px rgba(255,255,255,0.75),
+        0 0 3px rgba(0,0,0,0.55),
+        0 0 8px rgba(95,141,255,0.14);
+}
+#page-matrix .matrix-svg #progressionDotsGroup text {
+    fill: rgba(248,250,255,0.98) !important;
+    stroke: rgba(3,6,16,0.92) !important;
+    stroke-width: 1.2px;
+}
+#page-matrix .matrix-svg #mvAinNum,
+#page-matrix .matrix-svg #mvBinNum,
+#page-matrix .matrix-svg #mvAinCnum,
+#page-matrix .matrix-svg #mvBinCnum,
+#page-matrix .matrix-svg #mvRnum,
+#page-matrix .matrix-svg #mvSnum {
+    fill: rgba(24,30,54,0.96) !important;
+    stroke: rgba(255,255,255,0.58) !important;
+    stroke-width: 1px;
 }
 #page-matrix .matrix-svg image {
     filter: none;
