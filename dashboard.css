@@ -2478,7 +2478,7 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
 }
 .matrix-svg {
     width: 100%;
-    max-width: 720px;
+    max-width: 980px;
     height: auto;
     filter: drop-shadow(0 8px 32px rgba(0,0,0,0.18));
     border-radius: 12px;
