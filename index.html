@@ -62,7 +62,7 @@
     }
     </script>
 
-    <link rel="stylesheet" href="styles_dark.css?v=20260625r2">
+    <link rel="stylesheet" href="styles_dark.css?v=20260627m1">
 </head>
 <body>
     <!-- Пропустить навигацию (доступность) -->
@@ -195,43 +195,121 @@
             </div>
             <div class="hero-viz-col" aria-hidden="true">
                 <div class="hero-matrix-viz">
-                    <svg class="matrix-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="matrix-svg" viewBox="-18 -18 336 336" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stop-color="#D4AE5C" stop-opacity="0.3"/>
-                                <stop offset="100%" stop-color="#8A6DC0" stop-opacity="0"/>
+                            <radialGradient id="mgBg" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#D4AE5C" stop-opacity="0.18"/>
+                                <stop offset="60%" stop-color="#7B4FC7" stop-opacity="0.07"/>
+                                <stop offset="100%" stop-color="#050507" stop-opacity="0"/>
                             </radialGradient>
-                            <filter id="nodeGlowFilter" x="-60%" y="-60%" width="220%" height="220%">
-                                <feGaussianBlur stdDeviation="3.5" result="blur"/>
-                                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                            <filter id="mgGlow" x="-60%" y="-60%" width="220%" height="220%">
+                                <feGaussianBlur stdDeviation="3" result="b"/>
+                                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
                             </filter>
+                            <filter id="mgGlowLg" x="-100%" y="-100%" width="300%" height="300%">
+                                <feGaussianBlur stdDeviation="7" result="b"/>
+                                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                            </filter>
+                            <marker id="mgArrB" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                                <polygon points="0 0, 7 3.5, 0 7" fill="rgba(74,144,217,0.9)"/>
+                            </marker>
+                            <marker id="mgArrR" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                                <polygon points="0 0, 7 3.5, 0 7" fill="rgba(192,57,43,0.9)"/>
+                            </marker>
                         </defs>
-                        <circle cx="150" cy="150" r="118" fill="url(#coreGlow)"/>
-                        <polygon class="m-oct" points="150,18 242,58 282,150 242,242 150,282 58,242 18,150 58,58"/>
-                        <polygon class="m-inner-diamond" points="150,65 235,150 150,235 65,150"/>
-                        <line class="m-axis" x1="150" y1="18" x2="150" y2="282"/>
-                        <line class="m-axis" x1="18" y1="150" x2="282" y2="150"/>
-                        <line class="m-diag" x1="58" y1="58" x2="242" y2="242"/>
-                        <line class="m-diag" x1="242" y1="58" x2="58" y2="242"/>
-                        <line class="m-radial" x1="150" y1="65" x2="150" y2="150"/>
-                        <line class="m-radial" x1="235" y1="150" x2="150" y2="150"/>
-                        <line class="m-radial" x1="150" y1="235" x2="150" y2="150"/>
-                        <line class="m-radial" x1="65" y1="150" x2="150" y2="150"/>
-                        <circle class="m-node-cardinal" cx="150" cy="18" r="9" filter="url(#nodeGlowFilter)" style="animation-delay:0s"/>
-                        <circle class="m-node-cardinal" cx="282" cy="150" r="9" filter="url(#nodeGlowFilter)" style="animation-delay:1.25s"/>
-                        <circle class="m-node-cardinal" cx="150" cy="282" r="9" filter="url(#nodeGlowFilter)" style="animation-delay:2.5s"/>
-                        <circle class="m-node-cardinal" cx="18" cy="150" r="9" filter="url(#nodeGlowFilter)" style="animation-delay:3.75s"/>
-                        <circle class="m-node-diag" cx="242" cy="58" r="6"/>
-                        <circle class="m-node-diag" cx="242" cy="242" r="6" style="animation-delay:1.75s"/>
-                        <circle class="m-node-diag" cx="58" cy="242" r="6" style="animation-delay:3.5s"/>
-                        <circle class="m-node-diag" cx="58" cy="58" r="6" style="animation-delay:5.25s"/>
-                        <circle class="m-node-inner" cx="150" cy="65" r="11" filter="url(#nodeGlowFilter)" style="animation-delay:0.5s"/>
-                        <circle class="m-node-inner" cx="235" cy="150" r="11" filter="url(#nodeGlowFilter)" style="animation-delay:2s"/>
-                        <circle class="m-node-inner" cx="150" cy="235" r="11" filter="url(#nodeGlowFilter)" style="animation-delay:3.5s"/>
-                        <circle class="m-node-inner" cx="65" cy="150" r="11" filter="url(#nodeGlowFilter)" style="animation-delay:5s"/>
-                        <circle class="m-center-ring" cx="150" cy="150" r="40"/>
-                        <circle class="m-center-node" cx="150" cy="150" r="26" filter="url(#nodeGlowFilter)"/>
-                        <text class="m-center-text" x="150" y="150" text-anchor="middle" dominant-baseline="central">22</text>
+
+                        <!-- Background glow -->
+                        <circle cx="150" cy="150" r="148" fill="url(#mgBg)"/>
+
+                        <!-- ── STRUCTURE LINES ── -->
+                        <!-- Cross (vertical + horizontal) -->
+                        <line class="mg-cross" x1="150" y1="20" x2="150" y2="280"/>
+                        <line class="mg-cross" x1="20" y1="150" x2="280" y2="150"/>
+                        <!-- Diagonals through outer square corners -->
+                        <line class="mg-cross" x1="60" y1="60" x2="240" y2="240"/>
+                        <line class="mg-cross" x1="240" y1="60" x2="60" y2="240"/>
+                        <!-- Inner square -->
+                        <polygon class="mg-is" points="102,102 198,102 198,198 102,198"/>
+                        <!-- Inner diamond -->
+                        <polygon class="mg-id" points="150,76 224,150 150,224 76,150"/>
+                        <!-- Big inscribed circle -->
+                        <circle class="mg-circ" cx="150" cy="150" r="74"/>
+                        <!-- Outer square -->
+                        <polygon class="mg-os" points="60,60 240,60 240,240 60,240"/>
+                        <!-- Outer diamond -->
+                        <polygon class="mg-od" points="150,20 280,150 150,280 20,150"/>
+
+                        <!-- ── MASCULINE / FEMININE LINES ── -->
+                        <line class="mg-arrow-m" x1="66" y1="233" x2="192" y2="109" marker-end="url(#mgArrB)"/>
+                        <line class="mg-arrow-f" x1="234" y1="233" x2="108" y2="109" marker-end="url(#mgArrR)"/>
+
+                        <!-- Arrow text labels (rotated along arrows) -->
+                        <text class="mg-alabel" transform="translate(113,192) rotate(-53)">линия мужского рода</text>
+                        <text class="mg-alabel mg-alabel-r" transform="translate(188,192) rotate(53)">линия женского рода</text>
+
+                        <!-- ЗОНА КОМФОРТА + $ -->
+                        <text class="mg-zone" x="158" y="176">ЗОНА</text>
+                        <text class="mg-zone" x="158" y="188">КОМФОРТА</text>
+                        <text class="mg-dollar" x="185" y="182">$</text>
+
+                        <!-- ── OUTER DIAMOND NODES (cardinal directions) ── -->
+                        <!-- Top: purple, 10 -->
+                        <circle class="mn mn-purple" cx="150" cy="20" r="14" filter="url(#mgGlow)" style="animation-delay:0s"/>
+                        <text class="mt" x="150" y="20">10</text>
+                        <!-- Right: dark-red, 6 -->
+                        <circle class="mn mn-red" cx="280" cy="150" r="14" filter="url(#mgGlow)" style="animation-delay:1.4s"/>
+                        <text class="mt" x="280" y="150">6</text>
+                        <!-- Bottom: dark-red, 6 -->
+                        <circle class="mn mn-red" cx="150" cy="280" r="14" filter="url(#mgGlow)" style="animation-delay:2.8s"/>
+                        <text class="mt" x="150" y="280">6</text>
+                        <!-- Left: purple, 17 -->
+                        <circle class="mn mn-purple" cx="20" cy="150" r="14" filter="url(#mgGlow)" style="animation-delay:4.2s"/>
+                        <text class="mt" x="20" y="150">17</text>
+
+                        <!-- ── OUTER SQUARE NODES (diagonal corners) ── -->
+                        <!-- TL: dark, 9 -->
+                        <circle class="mn mn-dark" cx="60" cy="60" r="14" style="animation-delay:0.7s"/>
+                        <text class="mt mt-gold" x="60" y="60">9</text>
+                        <!-- TR: dark, 16 -->
+                        <circle class="mn mn-dark" cx="240" cy="60" r="14" style="animation-delay:2.1s"/>
+                        <text class="mt mt-gold" x="240" y="60">16</text>
+                        <!-- BR: dark, 12 -->
+                        <circle class="mn mn-dark" cx="240" cy="240" r="14" style="animation-delay:3.5s"/>
+                        <text class="mt mt-gold" x="240" y="240">12</text>
+                        <!-- BL: dark, 5 -->
+                        <circle class="mn mn-dark" cx="60" cy="240" r="14" style="animation-delay:4.9s"/>
+                        <text class="mt mt-gold" x="60" y="240">5</text>
+
+                        <!-- ── INNER DIAMOND NODES ── -->
+                        <!-- Top inner: light-blue, 5 -->
+                        <circle class="mn mn-blue" cx="150" cy="76" r="12" filter="url(#mgGlow)" style="animation-delay:0.5s"/>
+                        <text class="mt" x="150" y="76">5</text>
+                        <!-- Right inner: orange-gold, 6 -->
+                        <circle class="mn mn-orange" cx="224" cy="150" r="12" style="animation-delay:1.9s"/>
+                        <text class="mt" x="224" y="150">6</text>
+                        <!-- Bottom inner: orange, 18 -->
+                        <circle class="mn mn-orange" cx="150" cy="224" r="12" filter="url(#mgGlow)" style="animation-delay:3.3s"/>
+                        <text class="mt" x="150" y="224">18</text>
+                        <!-- Left inner: cyan, 11 -->
+                        <circle class="mn mn-cyan" cx="76" cy="150" r="12" filter="url(#mgGlow)" style="animation-delay:4.7s"/>
+                        <text class="mt" x="76" y="150">11</text>
+
+                        <!-- ── INNER SQUARE NODES (small) ── -->
+                        <circle class="mn mn-sm" cx="102" cy="102" r="10"/>
+                        <text class="mt mt-sm" x="102" y="102">3</text>
+                        <circle class="mn mn-sm" cx="198" cy="102" r="10"/>
+                        <text class="mt mt-sm" x="198" y="102">8</text>
+                        <circle class="mn mn-sm" cx="198" cy="198" r="10"/>
+                        <text class="mt mt-sm" x="198" y="198">22</text>
+                        <circle class="mn mn-sm" cx="102" cy="198" r="10"/>
+                        <text class="mt mt-sm" x="102" y="198">17</text>
+
+                        <!-- ── CENTER ── -->
+                        <circle class="mg-center-ring" cx="150" cy="150" r="34"/>
+                        <circle class="mn mn-center-out" cx="150" cy="150" r="27" filter="url(#mgGlowLg)"/>
+                        <circle class="mn mn-center" cx="150" cy="150" r="22"/>
+                        <text class="mt mt-center" x="150" y="150">12</text>
+                        <text class="mt mt-sub" x="150" y="163">д</text>
                     </svg>
                 </div>
             </div>
