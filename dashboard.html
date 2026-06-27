@@ -2038,7 +2038,7 @@ function initMatrixProgressionDots() {
     document.getElementById('progressionDotsGroup')?.remove();
     const matrixCalc = window.__matrixCalc || {};
 
-    // Вершины октагона в порядке возрастания возраста (по координатам шаблона)
+    // Вершины октагона
     const verts = [
         {x: 118, y: 380, age: 0},   // А — 0 лет
         {x: 213, y: 153, age: 10},  // Е — 10 лет
@@ -2055,34 +2055,33 @@ function initMatrixProgressionDots() {
         return Number.isFinite(value) && value > 0 ? value : fallback;
     };
     const pointByAge = {
-        0: matrixCalc.A ?? readPoint('mvAnum', 17),
-        10: matrixCalc.E ?? readPoint('mvEnum', 9),
-        20: matrixCalc.B ?? readPoint('mvBnum', 10),
+        0:  matrixCalc.A  ?? readPoint('mvAnum',  17),
+        10: matrixCalc.E  ?? readPoint('mvEnum',   9),
+        20: matrixCalc.B  ?? readPoint('mvBnum',  10),
         30: matrixCalc.Zh ?? readPoint('mvZhnum', 16),
-        40: matrixCalc.V ?? readPoint('mvVnum', 6),
-        50: matrixCalc.I ?? readPoint('mvInum', 12),
-        60: matrixCalc.G ?? readPoint('mvGnum', 6),
-        70: matrixCalc.Z ?? readPoint('mvZnum', 5),
+        40: matrixCalc.V  ?? readPoint('mvVnum',   6),
+        50: matrixCalc.I  ?? readPoint('mvInum',  12),
+        60: matrixCalc.G  ?? readPoint('mvGnum',   6),
+        70: matrixCalc.Z  ?? readPoint('mvZnum',   5),
     };
-    const buildEdgeFormula = (left, right) => {
-        const mid = reduceArcana(left + right);
-        const point23 = reduceArcana(left + mid);
-        const point78 = reduceArcana(right + mid);
-        const point12 = reduceArcana(left + point23);
-        const point34 = reduceArcana(point23 + mid);
-        const point67 = reduceArcana(mid + point78);
-        const point89 = reduceArcana(point78 + right);
-        return {
-            1: null,                         // 1-2 скрыта как раньше
-            2: point12,
-            3: point23,
-            4: point34,
-            5: mid,                          // 5 лет = left + right
-            6: point67,
-            7: point78,
-            8: point89,
-        };
+
+    // Формула прогрессий для ребра: 8 значений (позиции 1–8)
+    // pos5 = reduce(L+R), pos3 = reduce(L+p5), pos7 = reduce(R+p5)
+    // pos2 = reduce(L+p3), pos4 = reduce(p3+p5), pos6 = reduce(p5+p7), pos8 = reduce(p7+R)
+    // pos1 = reduce(L+p2)
+    const buildEdge = (L, R) => {
+        const p5 = reduceArcana(L + R);
+        const p3 = reduceArcana(L + p5);
+        const p7 = reduceArcana(R + p5);
+        const p2 = reduceArcana(L + p3);
+        const p4 = reduceArcana(p3 + p5);
+        const p6 = reduceArcana(p5 + p7);
+        const p8 = reduceArcana(p7 + R);
+        const p1 = reduceArcana(L + p2);
+        // positions 1..8 mapped to t = 1/10 .. 8/10
+        return [p1, p2, p3, p4, p5, p6, p7, p8];
     };
+
     const ns = 'http://www.w3.org/2000/svg';
     const g = document.createElementNS(ns, 'g');
     g.setAttribute('id', 'progressionDotsGroup');
@@ -2092,41 +2091,59 @@ function initMatrixProgressionDots() {
         const v1 = verts[i];
         const v2 = verts[(i + 1) % 8];
         const dx = v2.x - v1.x, dy = v2.y - v1.y;
-        const leftPoint = pointByAge[v1.age];
-        const rightPoint = pointByAge[v2.age];
-        const edgeFormula = (leftPoint != null && rightPoint != null)
-            ? buildEdgeFormula(leftPoint, rightPoint)
-            : {};
-        // Направление наружу от центра через середину ребра
+        const L = pointByAge[v1.age];
+        const R = pointByAge[v2.age];
+        if (L == null || R == null) continue;
+
+        const values = buildEdge(L, R);
+
+        // Вектор наружу от центра через середину ребра
         const mx = (v1.x + v2.x) / 2 - CX;
         const my = (v1.y + v2.y) / 2 - CY;
         const mlen = Math.sqrt(mx * mx + my * my);
         const px = mx / mlen, py = my / mlen;
 
-        for (let j = 1; j <= 9; j++) {
-            const t = j / 10;
+        for (let j = 0; j < 8; j++) {
+            const t = (j + 1) / 10;  // 0.1, 0.2, ..., 0.8
             const x = v1.x + dx * t;
             const y = v1.y + dy * t;
-            const value = edgeFormula[j];
-            if (value == null) continue;
+            const value = values[j];
+            if (!value) continue;
 
-            // Арканы выводим ДАЛЕКО СНАРУЖИ (в обратную сторону)
-            let outX = x + px * 50;
-            let outY = y + py * 50;
+            // Отступ наружу (дальше от центра)
+            const outX = x + px * 64;
+            const outY = y + py * 64;
 
+            // Маленькая точка на ребре
+            const dot = document.createElementNS(ns, 'circle');
+            dot.setAttribute('cx', x.toFixed(1));
+            dot.setAttribute('cy', y.toFixed(1));
+            dot.setAttribute('r', '2.5');
+            dot.setAttribute('fill', 'rgba(200,168,69,0.5)');
+            g.appendChild(dot);
+
+            // Тонкая линия точка → число
+            const ln = document.createElementNS(ns, 'line');
+            ln.setAttribute('x1', x.toFixed(1));
+            ln.setAttribute('y1', y.toFixed(1));
+            ln.setAttribute('x2', outX.toFixed(1));
+            ln.setAttribute('y2', outY.toFixed(1));
+            ln.setAttribute('stroke', 'rgba(200,168,69,0.18)');
+            ln.setAttribute('stroke-width', '0.8');
+            g.appendChild(ln);
+
+            // Число
             const txt = document.createElementNS(ns, 'text');
             txt.setAttribute('x', outX.toFixed(1));
             txt.setAttribute('y', outY.toFixed(1));
             txt.setAttribute('text-anchor', 'middle');
             txt.setAttribute('dominant-baseline', 'middle');
-            txt.setAttribute('fill', '#ccc');
-            txt.setAttribute('font-size', '12');
+            txt.setAttribute('fill', '#d0d8f0');
+            txt.setAttribute('font-size', '12.5');
             txt.setAttribute('font-weight', '700');
             txt.setAttribute('font-family', 'sans-serif');
             txt.textContent = String(value);
             g.appendChild(txt);
-
-
         }
     }
     svg.appendChild(g);
