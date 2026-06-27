@@ -2483,6 +2483,30 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     filter: drop-shadow(0 8px 32px rgba(0,0,0,0.18));
     border-radius: 12px;
 }
+.matrix-main-template {
+    display: block;
+    width: 100%;
+    max-width: 620px;
+    height: auto;
+    border-radius: 16px;
+    position: relative;
+    z-index: 2;
+    filter:
+        drop-shadow(0 0 12px rgba(191,154,255,0.14))
+        drop-shadow(0 0 18px rgba(95,141,255,0.08))
+        drop-shadow(0 18px 36px rgba(0,0,0,0.42))
+        contrast(1.03)
+        saturate(1.02);
+}
+.matrix-svg-hidden-template {
+    position: absolute;
+    inset: 0;
+    width: 1px !important;
+    height: 1px !important;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+}
 
 .matrix-values-accordion {
     margin-bottom: 16px;
@@ -2973,6 +2997,7 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     .mii-plus, .mii-minus { font-size: 12px; }
     .mii-detail > summary { font-size: 12px; padding: 8px 0; }
     .matrix-svg { max-width: 340px; }
+    .matrix-main-template { max-width: 340px; }
     .matrix-person-header { flex-direction: column; gap: 4px; text-align: center; }
     .matrix-date-meta { width: 100%; }
     .matrix-person-age { margin-left: 0; }
