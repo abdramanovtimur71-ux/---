@@ -62,7 +62,7 @@
     }
     </script>
 
-    <link rel="stylesheet" href="styles_dark.css?v=20260627m1">
+    <link rel="stylesheet" href="styles_dark.css?v=20260627m2">
 </head>
 <body>
     <!-- Пропустить навигацию (доступность) -->
@@ -255,60 +255,52 @@
                         <!-- ── OUTER DIAMOND NODES (cardinal directions) ── -->
                         <!-- Top: purple, 10 -->
                         <circle class="mn mn-purple" cx="150" cy="20" r="14" filter="url(#mgGlow)" style="animation-delay:0s"/>
-                        <text class="mt" x="150" y="20">10</text>
+                        <text id="mn-top" class="mt" x="150" y="20">10</text>
                         <!-- Right: dark-red, 6 -->
                         <circle class="mn mn-red" cx="280" cy="150" r="14" filter="url(#mgGlow)" style="animation-delay:1.4s"/>
-                        <text class="mt" x="280" y="150">6</text>
+                        <text id="mn-right" class="mt" x="280" y="150">6</text>
                         <!-- Bottom: dark-red, 6 -->
                         <circle class="mn mn-red" cx="150" cy="280" r="14" filter="url(#mgGlow)" style="animation-delay:2.8s"/>
-                        <text class="mt" x="150" y="280">6</text>
+                        <text id="mn-bot" class="mt" x="150" y="280">6</text>
                         <!-- Left: purple, 17 -->
                         <circle class="mn mn-purple" cx="20" cy="150" r="14" filter="url(#mgGlow)" style="animation-delay:4.2s"/>
-                        <text class="mt" x="20" y="150">17</text>
+                        <text id="mn-left" class="mt" x="20" y="150">17</text>
 
                         <!-- ── OUTER SQUARE NODES (diagonal corners) ── -->
-                        <!-- TL: dark, 9 -->
                         <circle class="mn mn-dark" cx="60" cy="60" r="14" style="animation-delay:0.7s"/>
-                        <text class="mt mt-gold" x="60" y="60">9</text>
-                        <!-- TR: dark, 16 -->
+                        <text id="mn-tl" class="mt mt-gold" x="60" y="60">9</text>
                         <circle class="mn mn-dark" cx="240" cy="60" r="14" style="animation-delay:2.1s"/>
-                        <text class="mt mt-gold" x="240" y="60">16</text>
-                        <!-- BR: dark, 12 -->
+                        <text id="mn-tr" class="mt mt-gold" x="240" y="60">16</text>
                         <circle class="mn mn-dark" cx="240" cy="240" r="14" style="animation-delay:3.5s"/>
-                        <text class="mt mt-gold" x="240" y="240">12</text>
-                        <!-- BL: dark, 5 -->
+                        <text id="mn-br" class="mt mt-gold" x="240" y="240">12</text>
                         <circle class="mn mn-dark" cx="60" cy="240" r="14" style="animation-delay:4.9s"/>
-                        <text class="mt mt-gold" x="60" y="240">5</text>
+                        <text id="mn-bl" class="mt mt-gold" x="60" y="240">5</text>
 
                         <!-- ── INNER DIAMOND NODES ── -->
-                        <!-- Top inner: light-blue, 5 -->
                         <circle class="mn mn-blue" cx="150" cy="76" r="12" filter="url(#mgGlow)" style="animation-delay:0.5s"/>
-                        <text class="mt" x="150" y="76">5</text>
-                        <!-- Right inner: orange-gold, 6 -->
+                        <text id="mn-itop" class="mt" x="150" y="76">5</text>
                         <circle class="mn mn-orange" cx="224" cy="150" r="12" style="animation-delay:1.9s"/>
-                        <text class="mt" x="224" y="150">6</text>
-                        <!-- Bottom inner: orange, 18 -->
+                        <text id="mn-iright" class="mt" x="224" y="150">6</text>
                         <circle class="mn mn-orange" cx="150" cy="224" r="12" filter="url(#mgGlow)" style="animation-delay:3.3s"/>
-                        <text class="mt" x="150" y="224">18</text>
-                        <!-- Left inner: cyan, 11 -->
+                        <text id="mn-ibot" class="mt" x="150" y="224">18</text>
                         <circle class="mn mn-cyan" cx="76" cy="150" r="12" filter="url(#mgGlow)" style="animation-delay:4.7s"/>
-                        <text class="mt" x="76" y="150">11</text>
+                        <text id="mn-ileft" class="mt" x="76" y="150">11</text>
 
                         <!-- ── INNER SQUARE NODES (small) ── -->
                         <circle class="mn mn-sm" cx="102" cy="102" r="10"/>
-                        <text class="mt mt-sm" x="102" y="102">3</text>
+                        <text id="mn-s1" class="mt mt-sm" x="102" y="102">3</text>
                         <circle class="mn mn-sm" cx="198" cy="102" r="10"/>
-                        <text class="mt mt-sm" x="198" y="102">8</text>
+                        <text id="mn-s2" class="mt mt-sm" x="198" y="102">8</text>
                         <circle class="mn mn-sm" cx="198" cy="198" r="10"/>
-                        <text class="mt mt-sm" x="198" y="198">22</text>
+                        <text id="mn-s3" class="mt mt-sm" x="198" y="198">22</text>
                         <circle class="mn mn-sm" cx="102" cy="198" r="10"/>
-                        <text class="mt mt-sm" x="102" y="198">17</text>
+                        <text id="mn-s4" class="mt mt-sm" x="102" y="198">17</text>
 
                         <!-- ── CENTER ── -->
                         <circle class="mg-center-ring" cx="150" cy="150" r="34"/>
                         <circle class="mn mn-center-out" cx="150" cy="150" r="27" filter="url(#mgGlowLg)"/>
                         <circle class="mn mn-center" cx="150" cy="150" r="22"/>
-                        <text class="mt mt-center" x="150" y="150">12</text>
+                        <text id="mn-center" class="mt mt-center" x="150" y="150">12</text>
                         <text class="mt mt-sub" x="150" y="163">д</text>
                     </svg>
                 </div>
@@ -1021,6 +1013,78 @@
                 input.focus();
             }
         };
+    })();
+    </script>
+
+    <!-- Matrix number animation -->
+    <script>
+    (function(){
+        // Arcana pool 1-22
+        const pool = Array.from({length:22},(_,i)=>i+1);
+        // Node config: id, initial, effect (fade|flip|scale|blur)
+        const nodes = [
+            {id:'mn-top',    val:10, fx:'flip'},
+            {id:'mn-right',  val:6,  fx:'scale'},
+            {id:'mn-bot',    val:6,  fx:'fade'},
+            {id:'mn-left',   val:17, fx:'flip'},
+            {id:'mn-tl',     val:9,  fx:'blur'},
+            {id:'mn-tr',     val:16, fx:'fade'},
+            {id:'mn-br',     val:12, fx:'scale'},
+            {id:'mn-bl',     val:5,  fx:'blur'},
+            {id:'mn-itop',   val:5,  fx:'scale'},
+            {id:'mn-iright', val:6,  fx:'fade'},
+            {id:'mn-ibot',   val:18, fx:'flip'},
+            {id:'mn-ileft',  val:11, fx:'blur'},
+            {id:'mn-s1',     val:3,  fx:'fade'},
+            {id:'mn-s2',     val:8,  fx:'scale'},
+            {id:'mn-s3',     val:22, fx:'flip'},
+            {id:'mn-s4',     val:17, fx:'blur'},
+            {id:'mn-center', val:12, fx:'scale'},
+        ];
+
+        // CSS for SVG text transitions
+        const style = document.createElement('style');
+        style.textContent = `
+            .mn-fx-fade { transition: opacity 0.55s ease; }
+            .mn-fx-fade.mn-out { opacity: 0; }
+            .mn-fx-scale { transition: font-size 0.35s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.35s; }
+            .mn-fx-scale.mn-out { opacity: 0; font-size: 4px !important; }
+            .mn-fx-flip { transition: letter-spacing 0.3s ease, opacity 0.3s; }
+            .mn-fx-flip.mn-out { opacity: 0; letter-spacing: 8px; }
+            .mn-fx-blur { transition: opacity 0.45s, filter 0.45s; }
+            .mn-fx-blur.mn-out { opacity: 0; filter: blur(6px); }
+        `;
+        document.head.appendChild(style);
+
+        function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+        function animNode(node){
+            const el = document.getElementById(node.id);
+            if(!el) return;
+            const fx = node.fx;
+            el.classList.add('mn-fx-'+fx);
+
+            // out
+            el.classList.add('mn-out');
+            setTimeout(()=>{
+                // pick new number different from current
+                let next;
+                do { next = rand(pool); } while(next === node.val);
+                node.val = next;
+                el.textContent = next;
+                el.classList.remove('mn-out');
+            }, fx==='scale'?380:fx==='flip'?320:500);
+        }
+
+        // Stagger initial delays then repeat with varied intervals
+        nodes.forEach((n,i)=>{
+            const base = 3000 + i * 700;
+            const repeat = 4000 + Math.random()*6000;
+            setTimeout(function run(){
+                animNode(n);
+                setTimeout(run, repeat + Math.random()*4000);
+            }, base);
+        });
     })();
     </script>
 </body>
