@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрица-Судбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260627m9">
+    <link rel="stylesheet" href="dashboard.css?v=20260627m14">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -646,17 +646,81 @@
                 <div class="matrix-visual-wrap">
                   <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
                     <defs>
-                      <radialGradient id="mxBg" cx="50%" cy="50%" r="58%">
-                        <stop offset="0%" stop-color="#1a1050"/>
-                        <stop offset="65%" stop-color="#09091e"/>
-                        <stop offset="100%" stop-color="#05050f"/>
+                      <!-- === BACKGROUNDS === -->
+                      <radialGradient id="mxBg" cx="50%" cy="40%" r="70%">
+                        <stop offset="0%" stop-color="#28106a"/>
+                        <stop offset="50%" stop-color="#0e082e"/>
+                        <stop offset="100%" stop-color="#040310"/>
                       </radialGradient>
+                      <radialGradient id="mxNeb1" cx="28%" cy="22%" r="48%">
+                        <stop offset="0%" stop-color="#7020b0" stop-opacity="0.30"/>
+                        <stop offset="100%" stop-color="#7020b0" stop-opacity="0"/>
+                      </radialGradient>
+                      <radialGradient id="mxNeb2" cx="72%" cy="75%" r="42%">
+                        <stop offset="0%" stop-color="#1040c0" stop-opacity="0.22"/>
+                        <stop offset="100%" stop-color="#1040c0" stop-opacity="0"/>
+                      </radialGradient>
+                      <radialGradient id="mxNeb3" cx="76%" cy="18%" r="36%">
+                        <stop offset="0%" stop-color="#40a0c0" stop-opacity="0.14"/>
+                        <stop offset="100%" stop-color="#40a0c0" stop-opacity="0"/>
+                      </radialGradient>
+                      <radialGradient id="mxCenterAura" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#9050d0" stop-opacity="0.42"/>
+                        <stop offset="55%" stop-color="#6030a0" stop-opacity="0.14"/>
+                        <stop offset="100%" stop-color="#6030a0" stop-opacity="0"/>
+                      </radialGradient>
+                      <!-- === PLANETARY SPHERE GRADIENTS === -->
+                      <radialGradient id="mxGP" cx="35%" cy="28%" r="65%" gradientUnits="objectBoundingBox">
+                        <stop offset="0%" stop-color="#c878ff"/>
+                        <stop offset="42%" stop-color="#6820c8"/>
+                        <stop offset="100%" stop-color="#28086a"/>
+                      </radialGradient>
+                      <radialGradient id="mxGR" cx="35%" cy="28%" r="65%" gradientUnits="objectBoundingBox">
+                        <stop offset="0%" stop-color="#ff8080"/>
+                        <stop offset="42%" stop-color="#b82020"/>
+                        <stop offset="100%" stop-color="#520808"/>
+                      </radialGradient>
+                      <radialGradient id="mxGS" cx="35%" cy="28%" r="65%" gradientUnits="objectBoundingBox">
+                        <stop offset="0%" stop-color="#ffffff"/>
+                        <stop offset="42%" stop-color="#cac0e4"/>
+                        <stop offset="100%" stop-color="#8080a8"/>
+                      </radialGradient>
+                      <radialGradient id="mxGG" cx="35%" cy="28%" r="65%" gradientUnits="objectBoundingBox">
+                        <stop offset="0%" stop-color="#ffe898"/>
+                        <stop offset="42%" stop-color="#d09428"/>
+                        <stop offset="100%" stop-color="#624010"/>
+                      </radialGradient>
+                      <radialGradient id="mxGB" cx="35%" cy="28%" r="65%" gradientUnits="objectBoundingBox">
+                        <stop offset="0%" stop-color="#80c8ff"/>
+                        <stop offset="42%" stop-color="#2060c8"/>
+                        <stop offset="100%" stop-color="#08183c"/>
+                      </radialGradient>
+                      <radialGradient id="mxGO" cx="35%" cy="28%" r="65%" gradientUnits="objectBoundingBox">
+                        <stop offset="0%" stop-color="#ffc060"/>
+                        <stop offset="42%" stop-color="#d06418"/>
+                        <stop offset="100%" stop-color="#602010"/>
+                      </radialGradient>
+                      <radialGradient id="mxGW" cx="35%" cy="28%" r="65%" gradientUnits="objectBoundingBox">
+                        <stop offset="0%" stop-color="#ffffff"/>
+                        <stop offset="50%" stop-color="#e0d8f4"/>
+                        <stop offset="100%" stop-color="#a095c4"/>
+                      </radialGradient>
+                      <radialGradient id="mxGD" cx="35%" cy="28%" r="65%" gradientUnits="objectBoundingBox">
+                        <stop offset="0%" stop-color="#ffe898"/>
+                        <stop offset="45%" stop-color="#d09428"/>
+                        <stop offset="100%" stop-color="#5a380e"/>
+                      </radialGradient>
+                      <!-- === FILTERS === -->
                       <filter id="mxGlow" x="-60%" y="-60%" width="220%" height="220%">
-                        <feGaussianBlur stdDeviation="5" result="b"/>
+                        <feGaussianBlur stdDeviation="6" result="b"/>
                         <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
                       </filter>
                       <filter id="mxGlowSm" x="-50%" y="-50%" width="200%" height="200%">
-                        <feGaussianBlur stdDeviation="3" result="b"/>
+                        <feGaussianBlur stdDeviation="3.5" result="b"/>
+                        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                      </filter>
+                      <filter id="mxGlowXs" x="-40%" y="-40%" width="180%" height="180%">
+                        <feGaussianBlur stdDeviation="2" result="b"/>
                         <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
                       </filter>
                       <marker id="mxArrB" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
@@ -667,8 +731,53 @@
                       </marker>
                     </defs>
 
-                    <!-- ── Background ── -->
+                    <!-- ── Background layers ── -->
                     <rect x="0" y="0" width="876" height="768" fill="url(#mxBg)" rx="12"/>
+                    <rect x="0" y="0" width="876" height="768" fill="url(#mxNeb1)" rx="12"/>
+                    <rect x="0" y="0" width="876" height="768" fill="url(#mxNeb2)" rx="12"/>
+                    <rect x="0" y="0" width="876" height="768" fill="url(#mxNeb3)" rx="12"/>
+
+                    <!-- Stars -->
+                    <g opacity="0.82">
+                      <circle cx="45" cy="38" r="1" fill="#fff"/>
+                      <circle cx="112" cy="72" r="1.2" fill="#fff" opacity="0.8"/>
+                      <circle cx="195" cy="28" r="0.8" fill="#fff"/>
+                      <circle cx="308" cy="62" r="1" fill="#fff" opacity="0.9"/>
+                      <circle cx="478" cy="22" r="1.3" fill="#fff"/>
+                      <circle cx="598" cy="48" r="0.9" fill="#fff" opacity="0.7"/>
+                      <circle cx="718" cy="33" r="1.1" fill="#fff"/>
+                      <circle cx="818" cy="68" r="0.8" fill="#fff" opacity="0.8"/>
+                      <circle cx="78" cy="195" r="0.9" fill="#fff" opacity="0.6"/>
+                      <circle cx="158" cy="278" r="1" fill="#fff" opacity="0.5"/>
+                      <circle cx="748" cy="148" r="1" fill="#fff" opacity="0.7"/>
+                      <circle cx="802" cy="252" r="0.8" fill="#fff"/>
+                      <circle cx="848" cy="188" r="1.2" fill="#fff" opacity="0.6"/>
+                      <circle cx="28" cy="348" r="0.9" fill="#fff" opacity="0.5"/>
+                      <circle cx="842" cy="342" r="1" fill="#fff" opacity="0.6"/>
+                      <circle cx="378" cy="14" r="0.8" fill="#fff"/>
+                      <circle cx="558" cy="18" r="1" fill="#fff" opacity="0.7"/>
+                      <circle cx="668" cy="38" r="0.9" fill="#fff" opacity="0.8"/>
+                      <circle cx="240" cy="95" r="0.7" fill="#fff" opacity="0.5"/>
+                      <circle cx="440" cy="38" r="1.1" fill="#fff" opacity="0.8"/>
+                      <circle cx="145" cy="50" r="1.5" fill="#e8e0ff" opacity="0.9" filter="url(#mxGlowXs)"/>
+                      <circle cx="698" cy="88" r="1.5" fill="#e8f0ff" opacity="0.9" filter="url(#mxGlowXs)"/>
+                      <circle cx="58" cy="150" r="1.4" fill="#ffe8e0" opacity="0.8" filter="url(#mxGlowXs)"/>
+                      <circle cx="818" cy="298" r="1.4" fill="#e0f0ff" opacity="0.7" filter="url(#mxGlowXs)"/>
+                      <circle cx="340" cy="48" r="1.2" fill="#f0e8ff" opacity="0.8" filter="url(#mxGlowXs)"/>
+                      <circle cx="520" cy="35" r="0.9" fill="#fff" opacity="0.6"/>
+                      <circle cx="90" cy="120" r="0.8" fill="#fff" opacity="0.5"/>
+                      <circle cx="780" cy="180" r="0.9" fill="#fff" opacity="0.6"/>
+                    </g>
+
+                    <!-- Mountain silhouette — back -->
+                    <path d="M0,638 Q55,592 135,610 Q192,570 268,542 Q325,560 366,530 Q405,554 440,520 Q475,554 514,530 Q555,560 612,542 Q688,570 744,610 Q824,592 876,638 L876,768 L0,768Z"
+                      fill="#07041a" opacity="0.92"/>
+                    <path d="M0,690 Q85,654 185,664 Q262,644 342,654 Q382,644 440,652 Q498,644 538,654 Q618,644 698,664 Q798,654 876,690 L876,768 L0,768Z"
+                      fill="#060314" opacity="0.72"/>
+
+                    <!-- Central aura glow -->
+                    <circle cx="440" cy="384" r="192" fill="url(#mxCenterAura)" opacity="0.78"/>
+                    <circle cx="440" cy="384" r="150" fill="none" stroke="#9060d0" stroke-width="0.7" opacity="0.28" stroke-dasharray="5,10"/>
 
                     <!-- ══ STRUCTURAL LINES ══ -->
                     <!-- Outer octagon А-Е-Б-Ж-В-И-Г-З -->
@@ -706,55 +815,125 @@
                     <text transform="translate(510,428) rotate(52)" fill="#c03030" font-size="9.5"
                       font-family="sans-serif" opacity="0.9" letter-spacing="0.5">линия женского рода</text>
 
-                    <!-- ══ NODE CIRCLES (colored — NO numbers) ══ -->
+                    <!-- ══ MEDITATION FIGURE ══ -->
+                    <!-- Outer aura rings around figure -->
+                    <circle cx="440" cy="370" r="98" fill="rgba(100,40,180,0.06)" stroke="#8040c0" stroke-width="0.7" opacity="0.5" stroke-dasharray="3,7"/>
+                    <circle cx="440" cy="370" r="80" fill="rgba(100,40,180,0.06)" stroke="#6030a0" stroke-width="0.5" opacity="0.38" stroke-dasharray="2,9"/>
+                    <!-- Crown halo -->
+                    <circle cx="440" cy="278" r="38" fill="rgba(180,80,255,0.08)" stroke="#b050e8" stroke-width="0.9" opacity="0.58"/>
+                    <!-- Head -->
+                    <ellipse cx="440" cy="280" rx="21" ry="25" fill="rgba(18,8,48,0.90)" stroke="#9060d0" stroke-width="1.6"/>
+                    <!-- Neck -->
+                    <path d="M433,305 L447,305 L445,322 L435,322Z" fill="rgba(18,8,48,0.90)" stroke="#7850b8" stroke-width="0.9"/>
+                    <!-- Body / torso -->
+                    <path d="M420,322 Q404,330 399,352 Q394,378 397,405 Q400,424 414,436 Q427,444 440,445 Q453,444 466,436 Q480,424 483,405 Q486,378 481,352 Q476,330 460,322 Q450,316 440,315 Q430,316 420,322Z"
+                      fill="rgba(18,8,48,0.90)" stroke="#7050b2" stroke-width="1.4"/>
+                    <!-- Left arm -->
+                    <path d="M402,350 Q382,363 372,385 Q364,403 368,422 Q373,432 383,434"
+                      fill="none" stroke="#7050b2" stroke-width="8" stroke-linecap="round"/>
+                    <!-- Right arm -->
+                    <path d="M478,350 Q498,363 508,385 Q516,403 512,422 Q507,432 497,434"
+                      fill="none" stroke="#7050b2" stroke-width="8" stroke-linecap="round"/>
+                    <!-- Left hand -->
+                    <ellipse cx="383" cy="436" rx="10" ry="7" fill="rgba(18,8,48,0.90)" stroke="#7050b2" stroke-width="1.2"/>
+                    <!-- Right hand -->
+                    <ellipse cx="497" cy="436" rx="10" ry="7" fill="rgba(18,8,48,0.90)" stroke="#7050b2" stroke-width="1.2"/>
+                    <!-- Left leg (lotus) -->
+                    <path d="M415,445 Q392,456 373,468 Q359,478 361,490 Q367,500 383,496 Q403,493 420,482 Q434,470 440,462"
+                      fill="rgba(18,8,48,0.90)" stroke="#7050b2" stroke-width="1.3"/>
+                    <!-- Right leg (lotus) -->
+                    <path d="M465,445 Q488,456 507,468 Q521,478 519,490 Q513,500 497,496 Q477,493 460,482 Q446,470 440,462"
+                      fill="rgba(18,8,48,0.90)" stroke="#7050b2" stroke-width="1.3"/>
+                    <!-- Meditation cushion glow -->
+                    <ellipse cx="440" cy="498" rx="62" ry="12" fill="rgba(120,50,200,0.16)" stroke="rgba(160,80,240,0.22)" stroke-width="0.8"/>
+
+                    <!-- ══ CHAKRA SYSTEM ══ -->
+                    <!-- Spine line -->
+                    <line x1="440" y1="256" x2="440" y2="448" stroke="rgba(200,140,255,0.22)" stroke-width="2.5"/>
+                    <!-- 7. Sahasrara — crown, violet -->
+                    <circle cx="440" cy="256" r="9" fill="#c040ff" opacity="0.96" filter="url(#mxGlowSm)"/>
+                    <!-- 6. Ajna — third eye, indigo -->
+                    <circle cx="440" cy="279" r="7" fill="#5040e0" opacity="0.96" filter="url(#mxGlowSm)"/>
+                    <!-- 5. Vishuddha — throat, cyan -->
+                    <circle cx="440" cy="306" r="7" fill="#00aaee" opacity="0.96" filter="url(#mxGlowSm)"/>
+                    <!-- 4. Anahata — heart, green -->
+                    <circle cx="440" cy="344" r="9" fill="#00d060" opacity="0.96" filter="url(#mxGlowSm)"/>
+                    <!-- 3. Manipura — solar plexus, yellow -->
+                    <circle cx="440" cy="375" r="7" fill="#f0c000" opacity="0.96" filter="url(#mxGlowSm)"/>
+                    <!-- 2. Svadhisthana — sacral, orange -->
+                    <circle cx="440" cy="404" r="6" fill="#f07020" opacity="0.96" filter="url(#mxGlowSm)"/>
+                    <!-- 1. Muladhara — root, red -->
+                    <circle cx="440" cy="432" r="6" fill="#e02020" opacity="0.96" filter="url(#mxGlowSm)"/>
+
+                    <!-- ══ NODE CIRCLES (planetary spheres) ══ -->
                     <!-- А (0 лет) — large purple -->
-                    <circle cx="118" cy="380" r="40" fill="#4a1280" stroke="#9860d8" stroke-width="2.5" filter="url(#mxGlow)"/>
+                    <circle cx="118" cy="380" r="40" fill="url(#mxGP)" stroke="#b060ff" stroke-width="2" filter="url(#mxGlow)"/>
+                    <ellipse cx="104" cy="366" rx="10" ry="6.5" fill="rgba(255,255,255,0.30)" opacity="0.8"/>
                     <!-- Б (20 лет) — large purple -->
-                    <circle cx="440" cy="56" r="40" fill="#4a1280" stroke="#9860d8" stroke-width="2.5" filter="url(#mxGlow)"/>
-                    <!-- В (40 лет) — large dark red -->
-                    <circle cx="764" cy="380" r="40" fill="#7a1515" stroke="#c04545" stroke-width="2.5" filter="url(#mxGlow)"/>
-                    <!-- Г (60 лет) — large dark red -->
-                    <circle cx="440" cy="704" r="40" fill="#7a1515" stroke="#c04545" stroke-width="2.5" filter="url(#mxGlow)"/>
-                    <!-- Е (10 лет) — gray corner -->
-                    <circle cx="213" cy="153" r="29" fill="#ccc8e0" stroke="#9988bb" stroke-width="2"/>
-                    <!-- Ж (30 лет) — gray corner -->
-                    <circle cx="669" cy="153" r="29" fill="#ccc8e0" stroke="#9988bb" stroke-width="2"/>
-                    <!-- И (50 лет) — gray corner -->
-                    <circle cx="669" cy="609" r="29" fill="#ccc8e0" stroke="#9988bb" stroke-width="2"/>
-                    <!-- З (70 лет) — gray corner -->
-                    <circle cx="213" cy="609" r="29" fill="#ccc8e0" stroke="#9988bb" stroke-width="2"/>
-                    <!-- А_in2 — blue/cyan satellite -->
-                    <circle cx="179" cy="381" r="20" fill="#1a3a6a" stroke="#5599d4" stroke-width="2" filter="url(#mxGlowSm)"/>
+                    <circle cx="440" cy="56" r="40" fill="url(#mxGP)" stroke="#b060ff" stroke-width="2" filter="url(#mxGlow)"/>
+                    <ellipse cx="426" cy="42" rx="10" ry="6.5" fill="rgba(255,255,255,0.30)" opacity="0.8"/>
+                    <!-- В (40 лет) — large red -->
+                    <circle cx="764" cy="380" r="40" fill="url(#mxGR)" stroke="#ff5555" stroke-width="2" filter="url(#mxGlow)"/>
+                    <ellipse cx="750" cy="366" rx="10" ry="6.5" fill="rgba(255,255,255,0.28)" opacity="0.8"/>
+                    <!-- Г (60 лет) — large red -->
+                    <circle cx="440" cy="704" r="40" fill="url(#mxGR)" stroke="#ff5555" stroke-width="2" filter="url(#mxGlow)"/>
+                    <ellipse cx="426" cy="690" rx="10" ry="6.5" fill="rgba(255,255,255,0.28)" opacity="0.8"/>
+                    <!-- Е (10 лет) — silver -->
+                    <circle cx="213" cy="153" r="29" fill="url(#mxGS)" stroke="#d0c8e8" stroke-width="1.8" filter="url(#mxGlowSm)"/>
+                    <ellipse cx="202" cy="142" rx="7.5" ry="5" fill="rgba(255,255,255,0.45)" opacity="0.8"/>
+                    <!-- Ж (30 лет) — silver -->
+                    <circle cx="669" cy="153" r="29" fill="url(#mxGS)" stroke="#d0c8e8" stroke-width="1.8" filter="url(#mxGlowSm)"/>
+                    <ellipse cx="658" cy="142" rx="7.5" ry="5" fill="rgba(255,255,255,0.45)" opacity="0.8"/>
+                    <!-- И (50 лет) — silver -->
+                    <circle cx="669" cy="609" r="29" fill="url(#mxGS)" stroke="#d0c8e8" stroke-width="1.8" filter="url(#mxGlowSm)"/>
+                    <ellipse cx="658" cy="598" rx="7.5" ry="5" fill="rgba(255,255,255,0.45)" opacity="0.8"/>
+                    <!-- З (70 лет) — silver -->
+                    <circle cx="213" cy="609" r="29" fill="url(#mxGS)" stroke="#d0c8e8" stroke-width="1.8" filter="url(#mxGlowSm)"/>
+                    <ellipse cx="202" cy="598" rx="7.5" ry="5" fill="rgba(255,255,255,0.45)" opacity="0.8"/>
+                    <!-- А_in2 — blue satellite -->
+                    <circle cx="179" cy="381" r="20" fill="url(#mxGB)" stroke="#5599d4" stroke-width="1.8" filter="url(#mxGlowSm)"/>
+                    <ellipse cx="170" cy="372" rx="5" ry="3.5" fill="rgba(255,255,255,0.38)" opacity="0.8"/>
                     <!-- А_in — white satellite -->
-                    <circle cx="227" cy="381" r="18" fill="#e0dce8" stroke="#b090c8" stroke-width="1.5"/>
+                    <circle cx="227" cy="381" r="18" fill="url(#mxGW)" stroke="#c0b0d8" stroke-width="1.5"/>
+                    <ellipse cx="219" cy="373" rx="5" ry="3" fill="rgba(255,255,255,0.48)" opacity="0.85"/>
                     <!-- Б_in2 — blue satellite -->
-                    <circle cx="441" cy="121" r="20" fill="#1a3a6a" stroke="#5599d4" stroke-width="2" filter="url(#mxGlowSm)"/>
+                    <circle cx="441" cy="121" r="20" fill="url(#mxGB)" stroke="#5599d4" stroke-width="1.8" filter="url(#mxGlowSm)"/>
+                    <ellipse cx="432" cy="112" rx="5" ry="3.5" fill="rgba(255,255,255,0.38)" opacity="0.8"/>
                     <!-- Б_in — white satellite -->
-                    <circle cx="441" cy="164" r="18" fill="#e0dce8" stroke="#b090c8" stroke-width="1.5"/>
+                    <circle cx="441" cy="164" r="18" fill="url(#mxGW)" stroke="#c0b0d8" stroke-width="1.5"/>
+                    <ellipse cx="433" cy="156" rx="5" ry="3" fill="rgba(255,255,255,0.48)" opacity="0.85"/>
                     <!-- В_in / Л — orange -->
-                    <circle cx="658" cy="381" r="20" fill="#6e3408" stroke="#d47820" stroke-width="2" filter="url(#mxGlowSm)"/>
+                    <circle cx="658" cy="381" r="20" fill="url(#mxGO)" stroke="#d47820" stroke-width="1.8" filter="url(#mxGlowSm)"/>
+                    <ellipse cx="649" cy="372" rx="5" ry="3.5" fill="rgba(255,255,255,0.32)" opacity="0.8"/>
                     <!-- В_in2 — light gray -->
-                    <circle cx="703" cy="381" r="17" fill="#ccc8e0" stroke="#9988bb" stroke-width="1.5"/>
+                    <circle cx="703" cy="381" r="17" fill="url(#mxGW)" stroke="#b0a8c8" stroke-width="1.4"/>
+                    <ellipse cx="695" cy="373" rx="4.5" ry="3" fill="rgba(255,255,255,0.42)" opacity="0.8"/>
                     <!-- К — orange axis node -->
-                    <circle cx="441" cy="598" r="23" fill="#6e3408" stroke="#d47820" stroke-width="2.5" filter="url(#mxGlowSm)"/>
+                    <circle cx="441" cy="598" r="23" fill="url(#mxGO)" stroke="#d47820" stroke-width="2" filter="url(#mxGlowSm)"/>
+                    <ellipse cx="431" cy="588" rx="6" ry="4" fill="rgba(255,255,255,0.32)" opacity="0.8"/>
                     <!-- Г_in2 — small satellite -->
-                    <circle cx="441" cy="641" r="14" fill="#ccc8e0" stroke="#9988bb" stroke-width="1.5"/>
-                    <!-- Inner square nodes: Е_in, Ж_in, И_in, З_in -->
-                    <circle cx="287" cy="227" r="17" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.5"/>
-                    <circle cx="595" cy="227" r="17" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.5"/>
-                    <circle cx="595" cy="535" r="17" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.5"/>
-                    <circle cx="287" cy="535" r="17" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.5"/>
-                    <!-- Inner companions: Ein2, Zhin2, Zin2, Iin2 -->
-                    <circle cx="256" cy="196" r="13" fill="#c8c4d4" stroke="#aaa" stroke-width="1"/>
-                    <circle cx="626" cy="196" r="13" fill="#c8c4d4" stroke="#aaa" stroke-width="1"/>
-                    <circle cx="256" cy="566" r="13" fill="#c8c4d4" stroke="#aaa" stroke-width="1"/>
-                    <circle cx="625" cy="566" r="13" fill="#c8c4d4" stroke="#aaa" stroke-width="1"/>
+                    <circle cx="441" cy="641" r="14" fill="url(#mxGW)" stroke="#b0a0c8" stroke-width="1.3"/>
+                    <!-- Inner square nodes -->
+                    <circle cx="287" cy="227" r="17" fill="url(#mxGW)" stroke="#c8a845" stroke-width="1.5"/>
+                    <ellipse cx="279" cy="219" rx="4.5" ry="3" fill="rgba(255,255,255,0.45)" opacity="0.8"/>
+                    <circle cx="595" cy="227" r="17" fill="url(#mxGW)" stroke="#c8a845" stroke-width="1.5"/>
+                    <ellipse cx="587" cy="219" rx="4.5" ry="3" fill="rgba(255,255,255,0.45)" opacity="0.8"/>
+                    <circle cx="595" cy="535" r="17" fill="url(#mxGW)" stroke="#c8a845" stroke-width="1.5"/>
+                    <ellipse cx="587" cy="527" rx="4.5" ry="3" fill="rgba(255,255,255,0.45)" opacity="0.8"/>
+                    <circle cx="287" cy="535" r="17" fill="url(#mxGW)" stroke="#c8a845" stroke-width="1.5"/>
+                    <ellipse cx="279" cy="527" rx="4.5" ry="3" fill="rgba(255,255,255,0.45)" opacity="0.8"/>
+                    <!-- Inner companions -->
+                    <circle cx="256" cy="196" r="13" fill="url(#mxGS)" stroke="#aaa" stroke-width="1"/>
+                    <circle cx="626" cy="196" r="13" fill="url(#mxGS)" stroke="#aaa" stroke-width="1"/>
+                    <circle cx="256" cy="566" r="13" fill="url(#mxGS)" stroke="#aaa" stroke-width="1"/>
+                    <circle cx="625" cy="566" r="13" fill="url(#mxGS)" stroke="#aaa" stroke-width="1"/>
                     <!-- О, М, Н diagonal nodes -->
-                    <circle cx="592" cy="469" r="14" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.2"/>
-                    <circle cx="541" cy="482" r="14" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.2"/>
-                    <circle cx="529" cy="532" r="14" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.2"/>
-                    <!-- Center Д — golden -->
-                    <circle cx="440" cy="384" r="50" fill="#7a5010" stroke="#d4ae5c" stroke-width="3" filter="url(#mxGlow)"/>
+                    <circle cx="592" cy="469" r="14" fill="url(#mxGW)" stroke="#c8a845" stroke-width="1.2"/>
+                    <circle cx="541" cy="482" r="14" fill="url(#mxGW)" stroke="#c8a845" stroke-width="1.2"/>
+                    <circle cx="529" cy="532" r="14" fill="url(#mxGW)" stroke="#c8a845" stroke-width="1.2"/>
+                    <!-- Center Д — golden, semi-transparent so chakras stay visible -->
+                    <circle cx="440" cy="384" r="50" fill="url(#mxGD)" stroke="#e0b858" stroke-width="2.5" filter="url(#mxGlow)" opacity="0.82"/>
+                    <ellipse cx="422" cy="366" rx="13" ry="8" fill="rgba(255,255,255,0.22)" opacity="0.75"/>
                     <circle cx="440" cy="384" r="55" fill="none" stroke="#d4ae5c" stroke-width="1" opacity="0.38"/>
 
                     <!-- ══ STATIC LABELS ══ -->
@@ -846,9 +1025,9 @@
                     <text id="mvIin2num" x="625" y="566" text-anchor="middle" dominant-baseline="middle" fill="#444" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Точки ближе к центру (white circles) -->
-                    <circle cx="334" cy="381" r="18" fill="#fff" stroke="#c8a845" stroke-width="2"/>
+                    <circle cx="334" cy="381" r="18" fill="url(#mxGW)" stroke="#c8a845" stroke-width="2"/>
                     <text id="mvAinCnum" x="334" y="381" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <circle cx="441" cy="308" r="18" fill="#fff" stroke="#c8a845" stroke-width="2"/>
+                    <circle cx="441" cy="308" r="18" fill="url(#mxGW)" stroke="#c8a845" stroke-width="2"/>
                     <text id="mvBinCnum" x="441" y="308" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
                     <text id="mvVinCnum" x="511" y="345" text-anchor="middle" dominant-baseline="middle" fill="#ccc" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- К — centre of axis (already has orange circle) -->
@@ -863,9 +1042,9 @@
                     <text id="mvNnum" x="529" y="532" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Р и С — на линии В от центра -->
-                    <circle cx="500" cy="384" r="18" fill="#fff" stroke="#c8a845" stroke-width="1.5"/>
+                    <circle cx="500" cy="384" r="18" fill="url(#mxGW)" stroke="#c8a845" stroke-width="1.5"/>
                     <text id="mvRnum" x="500" y="384" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <circle cx="540" cy="384" r="18" fill="#fff" stroke="#c8a845" stroke-width="1.5"/>
+                    <circle cx="540" cy="384" r="18" fill="url(#mxGW)" stroke="#c8a845" stroke-width="1.5"/>
                     <text id="mvSnum" x="540" y="384" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
 
                   </svg>
