@@ -2478,7 +2478,7 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
 }
 .matrix-svg {
     width: 100%;
-    max-width: 680px;
+    max-width: 720px;
     height: auto;
     filter: drop-shadow(0 8px 32px rgba(0,0,0,0.18));
     border-radius: 12px;
@@ -2891,16 +2891,19 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
 #page-matrix .matrix-svg {
     display: block;
     margin: 0 auto;
-    border-radius: 16px;
+    border-radius: 18px;
     position: relative;
     z-index: 1;
+    box-shadow:
+        0 0 0 1px rgba(160,120,255,0.18),
+        0 0 40px rgba(120,60,220,0.30),
+        0 30px 60px rgba(0,0,0,0.65);
     filter:
-        drop-shadow(0 0 18px rgba(180,120,255,0.35))
-        drop-shadow(0 0 32px rgba(95,141,255,0.20))
-        drop-shadow(0 24px 48px rgba(0,0,0,0.55))
-        contrast(1.10)
-        saturate(1.10)
-        brightness(1.05);
+        drop-shadow(0 0 22px rgba(180,120,255,0.38))
+        drop-shadow(0 0 40px rgba(95,141,255,0.22))
+        contrast(1.08)
+        saturate(1.12)
+        brightness(1.04);
 }
 #page-matrix .matrix-svg text {
     paint-order: stroke fill;

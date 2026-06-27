@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрица-Судбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260627m11">
+    <link rel="stylesheet" href="dashboard.css?v=20260627m12">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -646,78 +646,143 @@
                 <div class="matrix-visual-wrap">
                   <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
                     <defs>
-                     <!-- Background gradient — deep cosmic purple/indigo -->
-                     <radialGradient id="mxBg" cx="50%" cy="50%" r="70%">
-                       <stop offset="0%"   stop-color="#200850"/>
-                       <stop offset="35%"  stop-color="#0e0430"/>
-                       <stop offset="70%"  stop-color="#060218"/>
-                       <stop offset="100%" stop-color="#010008"/>
+                     <!-- Deep space background — black with subtle indigo -->
+                     <radialGradient id="mxBg" cx="50%" cy="45%" r="75%">
+                       <stop offset="0%"   stop-color="#0a0428"/>
+                       <stop offset="30%"  stop-color="#04021a"/>
+                       <stop offset="65%"  stop-color="#020108"/>
+                       <stop offset="100%" stop-color="#000000"/>
                      </radialGradient>
-                     <!-- Nebula overlay -->
-                     <radialGradient id="mxNebula" cx="60%" cy="35%" r="55%">
-                       <stop offset="0%"   stop-color="#4a1898" stop-opacity="0.45"/>
-                       <stop offset="50%"  stop-color="#1a0860" stop-opacity="0.18"/>
+                     <!-- Nebula clouds — soft purple/magenta -->
+                     <radialGradient id="mxNebula" cx="65%" cy="28%" r="50%">
+                       <stop offset="0%"   stop-color="#6020c0" stop-opacity="0.42"/>
+                       <stop offset="45%"  stop-color="#2a0880" stop-opacity="0.18"/>
                        <stop offset="100%" stop-color="#000" stop-opacity="0"/>
                      </radialGradient>
-                     <radialGradient id="mxNebula2" cx="30%" cy="70%" r="50%">
-                       <stop offset="0%"   stop-color="#082060" stop-opacity="0.38"/>
-                       <stop offset="60%"  stop-color="#040828" stop-opacity="0.12"/>
+                     <radialGradient id="mxNebula2" cx="22%" cy="75%" r="50%">
+                       <stop offset="0%"   stop-color="#0840a0" stop-opacity="0.42"/>
+                       <stop offset="50%"  stop-color="#041848" stop-opacity="0.15"/>
                        <stop offset="100%" stop-color="#000" stop-opacity="0"/>
                      </radialGradient>
-                     <!-- Node gradients — vivid, deep -->
-                     <radialGradient id="gradPurple" cx="32%" cy="28%" r="70%">
-                       <stop offset="0%"   stop-color="#e080ff"/>
-                       <stop offset="35%"  stop-color="#9020e0"/>
-                       <stop offset="70%"  stop-color="#4a0898"/>
-                       <stop offset="100%" stop-color="#1a0040"/>
+                     <radialGradient id="mxNebula3" cx="80%" cy="80%" r="40%">
+                       <stop offset="0%"   stop-color="#a02060" stop-opacity="0.25"/>
+                       <stop offset="100%" stop-color="#000" stop-opacity="0"/>
                      </radialGradient>
-                     <radialGradient id="gradRed" cx="32%" cy="28%" r="70%">
-                       <stop offset="0%"   stop-color="#ff8888"/>
-                       <stop offset="35%"  stop-color="#e02020"/>
-                       <stop offset="70%"  stop-color="#880808"/>
-                       <stop offset="100%" stop-color="#300000"/>
+                     <!-- Milky Way streak -->
+                     <linearGradient id="mxMilky" x1="0%" y1="20%" x2="100%" y2="80%">
+                       <stop offset="0%"  stop-color="#fff" stop-opacity="0"/>
+                       <stop offset="40%" stop-color="#a890ff" stop-opacity="0.08"/>
+                       <stop offset="55%" stop-color="#c8b0ff" stop-opacity="0.14"/>
+                       <stop offset="70%" stop-color="#a890ff" stop-opacity="0.08"/>
+                       <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+                     </linearGradient>
+
+                     <!-- ════ PLANETARY SPHERE GRADIENTS ════ -->
+                     <!-- Purple — like a violet gas giant -->
+                     <radialGradient id="gradPurple" cx="30%" cy="25%" r="75%">
+                       <stop offset="0%"   stop-color="#ffd0ff"/>
+                       <stop offset="18%"  stop-color="#d878ff"/>
+                       <stop offset="45%"  stop-color="#7818c8"/>
+                       <stop offset="78%"  stop-color="#28005a"/>
+                       <stop offset="100%" stop-color="#08001a"/>
                      </radialGradient>
-                     <radialGradient id="gradGold" cx="32%" cy="28%" r="70%">
-                       <stop offset="0%"   stop-color="#fff088"/>
-                       <stop offset="30%"  stop-color="#f0c020"/>
-                       <stop offset="65%"  stop-color="#b06000"/>
-                       <stop offset="100%" stop-color="#502800"/>
+                     <!-- Red — molten/Mars-like -->
+                     <radialGradient id="gradRed" cx="30%" cy="25%" r="75%">
+                       <stop offset="0%"   stop-color="#ffdcc0"/>
+                       <stop offset="18%"  stop-color="#ff6060"/>
+                       <stop offset="48%"  stop-color="#c81818"/>
+                       <stop offset="78%"  stop-color="#480404"/>
+                       <stop offset="100%" stop-color="#180000"/>
                      </radialGradient>
-                     <radialGradient id="gradOrange" cx="32%" cy="28%" r="70%">
-                       <stop offset="0%"   stop-color="#ffc060"/>
-                       <stop offset="35%"  stop-color="#e07010"/>
-                       <stop offset="70%"  stop-color="#903010"/>
-                       <stop offset="100%" stop-color="#401000"/>
+                     <!-- Gold — sun-like core -->
+                     <radialGradient id="gradGold" cx="30%" cy="25%" r="80%">
+                       <stop offset="0%"   stop-color="#fffce0"/>
+                       <stop offset="22%"  stop-color="#ffe860"/>
+                       <stop offset="50%"  stop-color="#e09810"/>
+                       <stop offset="80%"  stop-color="#7a3800"/>
+                       <stop offset="100%" stop-color="#2a1000"/>
                      </radialGradient>
-                     <radialGradient id="gradBlue" cx="32%" cy="28%" r="70%">
-                       <stop offset="0%"   stop-color="#88e0ff"/>
-                       <stop offset="35%"  stop-color="#2080e0"/>
-                       <stop offset="70%"  stop-color="#0838a0"/>
-                       <stop offset="100%" stop-color="#010c30"/>
+                     <!-- Orange — ember -->
+                     <radialGradient id="gradOrange" cx="30%" cy="25%" r="75%">
+                       <stop offset="0%"   stop-color="#ffe8c0"/>
+                       <stop offset="20%"  stop-color="#ffaa40"/>
+                       <stop offset="50%"  stop-color="#c85008"/>
+                       <stop offset="80%"  stop-color="#5a1400"/>
+                       <stop offset="100%" stop-color="#1a0400"/>
                      </radialGradient>
-                     <radialGradient id="gradWhite" cx="32%" cy="28%" r="70%">
+                     <!-- Blue — ice planet -->
+                     <radialGradient id="gradBlue" cx="30%" cy="25%" r="75%">
+                       <stop offset="0%"   stop-color="#e0f8ff"/>
+                       <stop offset="20%"  stop-color="#60c0ff"/>
+                       <stop offset="50%"  stop-color="#1850c8"/>
+                       <stop offset="80%"  stop-color="#041848"/>
+                       <stop offset="100%" stop-color="#01040f"/>
+                     </radialGradient>
+                     <!-- White — pearl moon -->
+                     <radialGradient id="gradWhite" cx="30%" cy="25%" r="80%">
                        <stop offset="0%"   stop-color="#ffffff"/>
-                       <stop offset="45%"  stop-color="#e0d8f8"/>
-                       <stop offset="80%"  stop-color="#b0a0d8"/>
-                       <stop offset="100%" stop-color="#7060a8"/>
+                       <stop offset="35%"  stop-color="#f0e8ff"/>
+                       <stop offset="70%"  stop-color="#a898d8"/>
+                       <stop offset="100%" stop-color="#3a2860"/>
                      </radialGradient>
-                     <!-- Specular highlight overlay — 3D glass effect -->
-                     <radialGradient id="gradSpec" cx="30%" cy="22%" r="55%">
-                       <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.88"/>
-                       <stop offset="40%"  stop-color="#ffffff" stop-opacity="0.22"/>
+
+                     <!-- Glass specular: sharp top-left highlight + faint bottom rim -->
+                     <radialGradient id="gradSpec" cx="28%" cy="20%" r="42%">
+                       <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.95"/>
+                       <stop offset="30%"  stop-color="#ffffff" stop-opacity="0.45"/>
+                       <stop offset="60%"  stop-color="#ffffff" stop-opacity="0.08"/>
                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
                      </radialGradient>
-                     <!-- Glow filters -->
-                     <filter id="mxGlow" x="-80%" y="-80%" width="260%" height="260%">
-                       <feGaussianBlur stdDeviation="9" result="b"/>
-                       <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                     <!-- Bottom rim light (subsurface bounce) -->
+                     <radialGradient id="gradRim" cx="72%" cy="82%" r="55%">
+                       <stop offset="0%"   stop-color="#ffffff" stop-opacity="0"/>
+                       <stop offset="70%"  stop-color="#ffffff" stop-opacity="0.10"/>
+                       <stop offset="100%" stop-color="#ffffff" stop-opacity="0.22"/>
+                     </radialGradient>
+
+                     <!-- Atmospheric halos around large planets -->
+                     <radialGradient id="haloPurple" cx="50%" cy="50%" r="50%">
+                       <stop offset="60%"  stop-color="#9040ff" stop-opacity="0"/>
+                       <stop offset="85%"  stop-color="#9040ff" stop-opacity="0.35"/>
+                       <stop offset="100%" stop-color="#9040ff" stop-opacity="0"/>
+                     </radialGradient>
+                     <radialGradient id="haloRed" cx="50%" cy="50%" r="50%">
+                       <stop offset="60%"  stop-color="#ff3040" stop-opacity="0"/>
+                       <stop offset="85%"  stop-color="#ff3040" stop-opacity="0.32"/>
+                       <stop offset="100%" stop-color="#ff3040" stop-opacity="0"/>
+                     </radialGradient>
+                     <radialGradient id="haloGold" cx="50%" cy="50%" r="50%">
+                       <stop offset="55%"  stop-color="#ffd840" stop-opacity="0"/>
+                       <stop offset="80%"  stop-color="#ffd840" stop-opacity="0.40"/>
+                       <stop offset="100%" stop-color="#ff8000" stop-opacity="0"/>
+                     </radialGradient>
+                     <radialGradient id="haloOrange" cx="50%" cy="50%" r="50%">
+                       <stop offset="60%"  stop-color="#ff8030" stop-opacity="0"/>
+                       <stop offset="85%"  stop-color="#ff8030" stop-opacity="0.32"/>
+                       <stop offset="100%" stop-color="#ff8030" stop-opacity="0"/>
+                     </radialGradient>
+                     <radialGradient id="haloBlue" cx="50%" cy="50%" r="50%">
+                       <stop offset="60%"  stop-color="#40a0ff" stop-opacity="0"/>
+                       <stop offset="85%"  stop-color="#40a0ff" stop-opacity="0.32"/>
+                       <stop offset="100%" stop-color="#40a0ff" stop-opacity="0"/>
+                     </radialGradient>
+
+                     <!-- Glow filters — tuned for cosmic feel -->
+                     <filter id="mxGlow" x="-100%" y="-100%" width="300%" height="300%">
+                       <feGaussianBlur stdDeviation="12" result="b1"/>
+                       <feGaussianBlur stdDeviation="4" in="SourceGraphic" result="b2"/>
+                       <feMerge><feMergeNode in="b1"/><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/></feMerge>
                      </filter>
-                     <filter id="mxGlowSm" x="-60%" y="-60%" width="220%" height="220%">
-                       <feGaussianBlur stdDeviation="5" result="b"/>
+                     <filter id="mxGlowSm" x="-80%" y="-80%" width="260%" height="260%">
+                       <feGaussianBlur stdDeviation="6" result="b"/>
                        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
                      </filter>
                      <filter id="mxGlowLine" x="-20%" y="-20%" width="140%" height="140%">
-                       <feGaussianBlur stdDeviation="3" result="b"/>
+                       <feGaussianBlur stdDeviation="3.5" result="b"/>
+                       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                     </filter>
+                     <filter id="mxStarGlow" x="-200%" y="-200%" width="500%" height="500%">
+                       <feGaussianBlur stdDeviation="1.4" result="b"/>
                        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
                      </filter>
                      <marker id="mxArrB" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
@@ -730,11 +795,14 @@
 
                    <!-- ── Background ── -->
                    <rect x="0" y="0" width="876" height="768" fill="url(#mxBg)" rx="12"/>
-                   <!-- Nebula clouds -->
+                   <!-- Nebula clouds (multi-layer) -->
                    <rect x="0" y="0" width="876" height="768" fill="url(#mxNebula)" rx="12"/>
                    <rect x="0" y="0" width="876" height="768" fill="url(#mxNebula2)" rx="12"/>
-                   <!-- Stars — denser and brighter -->
-                   <g opacity="0.9">
+                   <rect x="0" y="0" width="876" height="768" fill="url(#mxNebula3)" rx="12"/>
+                   <!-- Milky way streak — diagonal -->
+                   <polygon points="0,200 876,580 876,640 0,260" fill="url(#mxMilky)" opacity="0.55"/>
+                   <!-- Stars with subtle glow -->
+                   <g opacity="0.95" filter="url(#mxStarGlow)">
                      <circle cx="42" cy="28" r="1.4" fill="#fff"/><circle cx="80" cy="55" r="0.8" fill="#ddf"/>
                      <circle cx="130" cy="18" r="1.5" fill="#fff"/><circle cx="170" cy="42" r="1" fill="#adf"/>
                      <circle cx="230" cy="22" r="1.2" fill="#fff"/><circle cx="300" cy="38" r="0.7" fill="#ccf"/>
@@ -806,83 +874,112 @@
                     <text transform="translate(510,428) rotate(52)" fill="#ff6080" font-size="9.5"
                       font-family="sans-serif" opacity="0.9" letter-spacing="0.5">линия женского рода</text>
 
+                    <!-- ══ ATMOSPHERIC HALOS (behind spheres) ══ -->
+                    <g pointer-events="none">
+                      <!-- А/Б purple halos -->
+                      <circle cx="118" cy="380" r="58" fill="url(#haloPurple)"/>
+                      <circle cx="440" cy="56"  r="58" fill="url(#haloPurple)"/>
+                      <!-- В/Г red halos -->
+                      <circle cx="764" cy="380" r="58" fill="url(#haloRed)"/>
+                      <circle cx="440" cy="704" r="58" fill="url(#haloRed)"/>
+                      <!-- Center sun corona -->
+                      <circle cx="440" cy="384" r="82" fill="url(#haloGold)"/>
+                      <!-- Blue satellites -->
+                      <circle cx="179" cy="381" r="32" fill="url(#haloBlue)"/>
+                      <circle cx="441" cy="121" r="32" fill="url(#haloBlue)"/>
+                      <!-- Orange -->
+                      <circle cx="658" cy="381" r="32" fill="url(#haloOrange)"/>
+                      <circle cx="441" cy="598" r="36" fill="url(#haloOrange)"/>
+                    </g>
+
                     <!-- ══ NODE CIRCLES ══ -->
                     <!-- А (0 лет) — large purple gradient -->
-                    <circle cx="118" cy="380" r="40" fill="url(#gradPurple)" stroke="#d080ff" stroke-width="2.5" filter="url(#mxGlow)"/>
+                    <circle cx="118" cy="380" r="40" fill="url(#gradPurple)" stroke="#e090ff" stroke-width="1.5" filter="url(#mxGlow)"/>
                     <!-- Б (20 лет) — large purple gradient -->
-                    <circle cx="440" cy="56" r="40" fill="url(#gradPurple)" stroke="#d080ff" stroke-width="2.5" filter="url(#mxGlow)"/>
+                    <circle cx="440" cy="56" r="40" fill="url(#gradPurple)" stroke="#e090ff" stroke-width="1.5" filter="url(#mxGlow)"/>
                     <!-- В (40 лет) — large red gradient -->
-                    <circle cx="764" cy="380" r="40" fill="url(#gradRed)" stroke="#ff8080" stroke-width="2.5" filter="url(#mxGlow)"/>
+                    <circle cx="764" cy="380" r="40" fill="url(#gradRed)" stroke="#ff9090" stroke-width="1.5" filter="url(#mxGlow)"/>
                     <!-- Г (60 лет) — large red gradient -->
-                    <circle cx="440" cy="704" r="40" fill="url(#gradRed)" stroke="#ff8080" stroke-width="2.5" filter="url(#mxGlow)"/>
+                    <circle cx="440" cy="704" r="40" fill="url(#gradRed)" stroke="#ff9090" stroke-width="1.5" filter="url(#mxGlow)"/>
                     <!-- Е (10 лет) — white/lavender -->
-                    <circle cx="213" cy="153" r="29" fill="url(#gradWhite)" stroke="#c0a8e8" stroke-width="2"/>
+                    <circle cx="213" cy="153" r="29" fill="url(#gradWhite)" stroke="#d0c0f0" stroke-width="1.2"/>
                     <!-- Ж (30 лет) -->
-                    <circle cx="669" cy="153" r="29" fill="url(#gradWhite)" stroke="#c0a8e8" stroke-width="2"/>
+                    <circle cx="669" cy="153" r="29" fill="url(#gradWhite)" stroke="#d0c0f0" stroke-width="1.2"/>
                     <!-- И (50 лет) -->
-                    <circle cx="669" cy="609" r="29" fill="url(#gradWhite)" stroke="#c0a8e8" stroke-width="2"/>
+                    <circle cx="669" cy="609" r="29" fill="url(#gradWhite)" stroke="#d0c0f0" stroke-width="1.2"/>
                     <!-- З (70 лет) -->
-                    <circle cx="213" cy="609" r="29" fill="url(#gradWhite)" stroke="#c0a8e8" stroke-width="2"/>
+                    <circle cx="213" cy="609" r="29" fill="url(#gradWhite)" stroke="#d0c0f0" stroke-width="1.2"/>
                     <!-- А_in2 — blue satellite -->
-                    <circle cx="179" cy="381" r="20" fill="url(#gradBlue)" stroke="#80d0ff" stroke-width="2" filter="url(#mxGlowSm)"/>
+                    <circle cx="179" cy="381" r="20" fill="url(#gradBlue)" stroke="#a0e0ff" stroke-width="1.2" filter="url(#mxGlowSm)"/>
                     <!-- А_in — white satellite -->
-                    <circle cx="227" cy="381" r="18" fill="url(#gradWhite)" stroke="#c0a8e8" stroke-width="1.5"/>
+                    <circle cx="227" cy="381" r="18" fill="url(#gradWhite)" stroke="#d0c0f0" stroke-width="1"/>
                     <!-- Б_in2 — blue satellite -->
-                    <circle cx="441" cy="121" r="20" fill="url(#gradBlue)" stroke="#80d0ff" stroke-width="2" filter="url(#mxGlowSm)"/>
+                    <circle cx="441" cy="121" r="20" fill="url(#gradBlue)" stroke="#a0e0ff" stroke-width="1.2" filter="url(#mxGlowSm)"/>
                     <!-- Б_in — white satellite -->
-                    <circle cx="441" cy="164" r="18" fill="url(#gradWhite)" stroke="#c0a8e8" stroke-width="1.5"/>
+                    <circle cx="441" cy="164" r="18" fill="url(#gradWhite)" stroke="#d0c0f0" stroke-width="1"/>
                     <!-- В_in / Л — orange gradient -->
-                    <circle cx="658" cy="381" r="20" fill="url(#gradOrange)" stroke="#ffb060" stroke-width="2" filter="url(#mxGlowSm)"/>
+                    <circle cx="658" cy="381" r="20" fill="url(#gradOrange)" stroke="#ffc880" stroke-width="1.2" filter="url(#mxGlowSm)"/>
                     <!-- В_in2 — white satellite -->
-                    <circle cx="703" cy="381" r="17" fill="url(#gradWhite)" stroke="#c0a8e8" stroke-width="1.5"/>
+                    <circle cx="703" cy="381" r="17" fill="url(#gradWhite)" stroke="#d0c0f0" stroke-width="1"/>
                     <!-- К — orange axis node -->
-                    <circle cx="441" cy="598" r="23" fill="url(#gradOrange)" stroke="#ffb060" stroke-width="2.5" filter="url(#mxGlowSm)"/>
+                    <circle cx="441" cy="598" r="23" fill="url(#gradOrange)" stroke="#ffc880" stroke-width="1.5" filter="url(#mxGlowSm)"/>
                     <!-- Г_in2 -->
-                    <circle cx="441" cy="641" r="14" fill="url(#gradWhite)" stroke="#c0a8e8" stroke-width="1.5"/>
+                    <circle cx="441" cy="641" r="14" fill="url(#gradWhite)" stroke="#d0c0f0" stroke-width="1"/>
                     <!-- Inner square nodes -->
-                    <circle cx="287" cy="227" r="17" fill="url(#gradWhite)" stroke="#c8b060" stroke-width="1.5"/>
-                    <circle cx="595" cy="227" r="17" fill="url(#gradWhite)" stroke="#c8b060" stroke-width="1.5"/>
-                    <circle cx="595" cy="535" r="17" fill="url(#gradWhite)" stroke="#c8b060" stroke-width="1.5"/>
-                    <circle cx="287" cy="535" r="17" fill="url(#gradWhite)" stroke="#c8b060" stroke-width="1.5"/>
+                    <circle cx="287" cy="227" r="17" fill="url(#gradWhite)" stroke="#e8c880" stroke-width="1.2"/>
+                    <circle cx="595" cy="227" r="17" fill="url(#gradWhite)" stroke="#e8c880" stroke-width="1.2"/>
+                    <circle cx="595" cy="535" r="17" fill="url(#gradWhite)" stroke="#e8c880" stroke-width="1.2"/>
+                    <circle cx="287" cy="535" r="17" fill="url(#gradWhite)" stroke="#e8c880" stroke-width="1.2"/>
                     <!-- Inner companions -->
-                    <circle cx="256" cy="196" r="13" fill="url(#gradWhite)" stroke="#a090c0" stroke-width="1"/>
-                    <circle cx="626" cy="196" r="13" fill="url(#gradWhite)" stroke="#a090c0" stroke-width="1"/>
-                    <circle cx="256" cy="566" r="13" fill="url(#gradWhite)" stroke="#a090c0" stroke-width="1"/>
-                    <circle cx="625" cy="566" r="13" fill="url(#gradWhite)" stroke="#a090c0" stroke-width="1"/>
+                    <circle cx="256" cy="196" r="13" fill="url(#gradWhite)" stroke="#b0a0d0" stroke-width="0.8"/>
+                    <circle cx="626" cy="196" r="13" fill="url(#gradWhite)" stroke="#b0a0d0" stroke-width="0.8"/>
+                    <circle cx="256" cy="566" r="13" fill="url(#gradWhite)" stroke="#b0a0d0" stroke-width="0.8"/>
+                    <circle cx="625" cy="566" r="13" fill="url(#gradWhite)" stroke="#b0a0d0" stroke-width="0.8"/>
                     <!-- О, М, Н diagonal nodes -->
-                    <circle cx="592" cy="469" r="14" fill="url(#gradWhite)" stroke="#c8b060" stroke-width="1.2"/>
-                    <circle cx="541" cy="482" r="14" fill="url(#gradWhite)" stroke="#c8b060" stroke-width="1.2"/>
-                    <circle cx="529" cy="532" r="14" fill="url(#gradWhite)" stroke="#c8b060" stroke-width="1.2"/>
-                    <!-- Center Д — golden gradient -->
-                    <circle cx="440" cy="384" r="50" fill="url(#gradGold)" stroke="#ffe880" stroke-width="3" filter="url(#mxGlow)"/>
-                    <circle cx="440" cy="384" r="55" fill="none" stroke="#ffe060" stroke-width="1.2" opacity="0.5"/>
-                    <!-- 3D specular highlights on all nodes -->
+                    <circle cx="592" cy="469" r="14" fill="url(#gradWhite)" stroke="#e8c880" stroke-width="1"/>
+                    <circle cx="541" cy="482" r="14" fill="url(#gradWhite)" stroke="#e8c880" stroke-width="1"/>
+                    <circle cx="529" cy="532" r="14" fill="url(#gradWhite)" stroke="#e8c880" stroke-width="1"/>
+                    <!-- Center Д — golden gradient (sun) -->
+                    <circle cx="440" cy="384" r="50" fill="url(#gradGold)" stroke="#ffe880" stroke-width="2" filter="url(#mxGlow)"/>
+                    <circle cx="440" cy="384" r="58" fill="none" stroke="#ffd060" stroke-width="0.8" opacity="0.4"/>
+                    <circle cx="440" cy="384" r="64" fill="none" stroke="#ffb040" stroke-width="0.5" opacity="0.25"/>
+
+                    <!-- ══ 3D SPECULAR HIGHLIGHTS ══ -->
                     <g opacity="1" pointer-events="none">
-                      <!-- А/Б purple nodes -->
+                      <!-- Bottom rim light layer (subsurface bounce) -->
+                      <circle cx="118" cy="380" r="40" fill="url(#gradRim)"/>
+                      <circle cx="440" cy="56"  r="40" fill="url(#gradRim)"/>
+                      <circle cx="764" cy="380" r="40" fill="url(#gradRim)"/>
+                      <circle cx="440" cy="704" r="40" fill="url(#gradRim)"/>
+                      <circle cx="440" cy="384" r="50" fill="url(#gradRim)"/>
+                      <circle cx="213" cy="153" r="29" fill="url(#gradRim)"/>
+                      <circle cx="669" cy="153" r="29" fill="url(#gradRim)"/>
+                      <circle cx="669" cy="609" r="29" fill="url(#gradRim)"/>
+                      <circle cx="213" cy="609" r="29" fill="url(#gradRim)"/>
+                      <circle cx="179" cy="381" r="20" fill="url(#gradRim)"/>
+                      <circle cx="441" cy="121" r="20" fill="url(#gradRim)"/>
+                      <circle cx="658" cy="381" r="20" fill="url(#gradRim)"/>
+                      <circle cx="441" cy="598" r="23" fill="url(#gradRim)"/>
+                    </g>
+                    <g opacity="1" pointer-events="none">
+                      <!-- Sharp top-left highlights -->
                       <circle cx="118" cy="380" r="40" fill="url(#gradSpec)"/>
                       <circle cx="440" cy="56"  r="40" fill="url(#gradSpec)"/>
-                      <!-- В/Г red nodes -->
                       <circle cx="764" cy="380" r="40" fill="url(#gradSpec)"/>
                       <circle cx="440" cy="704" r="40" fill="url(#gradSpec)"/>
-                      <!-- Center gold -->
                       <circle cx="440" cy="384" r="50" fill="url(#gradSpec)"/>
-                      <!-- Corner Е/Ж/З/И -->
                       <circle cx="213" cy="153" r="29" fill="url(#gradSpec)"/>
                       <circle cx="669" cy="153" r="29" fill="url(#gradSpec)"/>
                       <circle cx="669" cy="609" r="29" fill="url(#gradSpec)"/>
                       <circle cx="213" cy="609" r="29" fill="url(#gradSpec)"/>
-                      <!-- Blue satellites -->
                       <circle cx="179" cy="381" r="20" fill="url(#gradSpec)"/>
                       <circle cx="441" cy="121" r="20" fill="url(#gradSpec)"/>
-                      <!-- Orange nodes -->
                       <circle cx="658" cy="381" r="20" fill="url(#gradSpec)"/>
                       <circle cx="441" cy="598" r="23" fill="url(#gradSpec)"/>
-                      <!-- White satellites -->
                       <circle cx="227" cy="381" r="18" fill="url(#gradSpec)"/>
                       <circle cx="441" cy="164" r="18" fill="url(#gradSpec)"/>
                       <circle cx="703" cy="381" r="17" fill="url(#gradSpec)"/>
                       <circle cx="441" cy="641" r="14" fill="url(#gradSpec)"/>
-                      <!-- Inner square + small nodes -->
                       <circle cx="287" cy="227" r="17" fill="url(#gradSpec)"/>
                       <circle cx="595" cy="227" r="17" fill="url(#gradSpec)"/>
                       <circle cx="595" cy="535" r="17" fill="url(#gradSpec)"/>
@@ -894,7 +991,6 @@
                       <circle cx="592" cy="469" r="14" fill="url(#gradSpec)"/>
                       <circle cx="541" cy="482" r="14" fill="url(#gradSpec)"/>
                       <circle cx="529" cy="532" r="14" fill="url(#gradSpec)"/>
-                      <!-- Center ring nodes -->
                       <circle cx="334" cy="381" r="18" fill="url(#gradSpec)"/>
                       <circle cx="441" cy="308" r="18" fill="url(#gradSpec)"/>
                       <circle cx="500" cy="384" r="18" fill="url(#gradSpec)"/>
