@@ -7884,11 +7884,11 @@ body[data-motion="cinema"] .info-card:hover .info-icon {
 }
 
 .hero-matrix-viz {
-    width: min(460px, 46vw);
+    width: min(580px, 52vw);
     aspect-ratio: 1;
     position: relative;
     animation: matrixVizFloat 9s ease-in-out infinite;
-    filter: drop-shadow(0 0 36px rgba(138,109,192,0.28));
+    filter: drop-shadow(0 0 44px rgba(138,109,192,0.32));
 }
 
 @keyframes matrixVizFloat {
@@ -8137,7 +8137,7 @@ body[data-motion="cinema"] .info-card:hover .info-icon {
     }
     .hero-viz-col { order: -1; }
     .hero-matrix-viz {
-        width: min(300px, 75vw) !important;
+        width: min(360px, 78vw) !important;
     }
     .hero-content {
         text-align: center !important;
@@ -8151,7 +8151,7 @@ body[data-motion="cinema"] .info-card:hover .info-icon {
 }
 
 @media (max-width: 560px) {
-    .hero-matrix-viz { width: min(240px, 80vw) !important; }
+    .hero-matrix-viz { width: min(280px, 82vw) !important; }
     .hero-title { font-size: clamp(26px, 8vw, 38px); }
     .hero-desc { font-size: 13.5px; }
     .btn-primary, .btn-secondary { width: 100% !important; }
