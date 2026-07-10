@@ -2483,6 +2483,19 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     filter: drop-shadow(0 8px 32px rgba(0,0,0,0.18));
     border-radius: 12px;
 }
+.matrix-svg .mx-stars circle {
+    animation: mxStarBlink 4s ease-in-out infinite;
+}
+.matrix-svg .mx-stars circle:nth-child(3n) { animation-duration: 5.5s; animation-delay: -1.2s; }
+.matrix-svg .mx-stars circle:nth-child(3n+1) { animation-duration: 6.5s; animation-delay: -2.4s; }
+@keyframes mxStarBlink {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.9; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .matrix-svg .mx-stars circle { animation: none; }
+    .matrix-svg * { animation-duration: 0s !important; }
+}
 
 .matrix-values-accordion {
     margin-bottom: 16px;

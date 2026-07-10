@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрица-Судбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260710m2">
+    <link rel="stylesheet" href="dashboard.css?v=20260710m3">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -715,7 +715,7 @@
                     <rect x="0" y="0" width="876" height="768" fill="url(#mxGrid)" rx="12"/>
 
                     <!-- Starfield -->
-                    <g fill="#ffffff">
+                    <g class="mx-stars" fill="#ffffff">
                       <circle cx="60" cy="70" r="1" opacity="0.7"/>
                       <circle cx="150" cy="42" r="0.8" opacity="0.5"/>
                       <circle cx="300" cy="90" r="1.1" opacity="0.8"/>
@@ -740,13 +740,29 @@
                       <path d="M852 714 L852 744 L822 744"/>
                     </g>
 
-                    <!-- Central HUD rings -->
-                    <circle cx="440" cy="384" r="196" fill="url(#mxCore)"/>
-                    <circle cx="440" cy="384" r="150" fill="none" stroke="#4aa8e0" stroke-width="0.7" opacity="0.30"/>
-                    <circle cx="440" cy="384" r="150" fill="none" stroke="#7fe6ff" stroke-width="1.4" opacity="0.22"
-                      stroke-dasharray="2,26"/>
-                    <circle cx="440" cy="384" r="120" fill="none" stroke="#8a45d8" stroke-width="0.6" opacity="0.28"
-                      stroke-dasharray="5,7"/>
+                    <!-- Central cosmic portal (animated) -->
+                    <circle cx="440" cy="384" r="196" fill="url(#mxCore)">
+                      <animate attributeName="opacity" values="0.75;1;0.75" dur="6s" repeatCount="indefinite"/>
+                    </circle>
+                    <!-- Tick ring (slow rotation) -->
+                    <circle cx="440" cy="384" r="172" fill="none" stroke="#7fbfe0" stroke-width="6"
+                      stroke-dasharray="1.5 15" opacity="0.22">
+                      <animateTransform attributeName="transform" type="rotate"
+                        from="0 440 384" to="360 440 384" dur="80s" repeatCount="indefinite"/>
+                    </circle>
+                    <!-- Outer dashed ring (CW) -->
+                    <circle cx="440" cy="384" r="150" fill="none" stroke="#7fe6ff" stroke-width="1.2" opacity="0.28"
+                      stroke-dasharray="3 22">
+                      <animateTransform attributeName="transform" type="rotate"
+                        from="0 440 384" to="360 440 384" dur="46s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="440" cy="384" r="150" fill="none" stroke="#4aa8e0" stroke-width="0.6" opacity="0.22"/>
+                    <!-- Inner dashed ring (CCW) -->
+                    <circle cx="440" cy="384" r="120" fill="none" stroke="#b58cff" stroke-width="0.8" opacity="0.32"
+                      stroke-dasharray="6 8">
+                      <animateTransform attributeName="transform" type="rotate"
+                        from="360 440 384" to="0 440 384" dur="34s" repeatCount="indefinite"/>
+                    </circle>
 
                     <!-- ══ STRUCTURAL LINES (cool, crisp) ══ -->
                     <!-- Outer octagon -->
@@ -774,11 +790,19 @@
                     <line x1="440" y1="384" x2="592" y2="490" stroke="#e0aa3e" stroke-width="0.8"
                       stroke-dasharray="4,4" opacity="0.42"/>
 
-                    <!-- ══ MASCULINE / FEMININE LINES ══ -->
+                    <!-- ══ MASCULINE / FEMININE LINES (flowing energy) ══ -->
                     <line x1="230" y1="572" x2="616" y2="204" stroke="#4aa8e0" stroke-width="2"
-                      opacity="0.85" marker-end="url(#mxArrB)"/>
+                      opacity="0.75" marker-end="url(#mxArrB)"/>
+                    <line x1="230" y1="572" x2="616" y2="204" stroke="#bfe9ff" stroke-width="2"
+                      opacity="0.9" stroke-dasharray="2 26" stroke-linecap="round">
+                      <animate attributeName="stroke-dashoffset" from="0" to="-56" dur="1.6s" repeatCount="indefinite"/>
+                    </line>
                     <line x1="653" y1="572" x2="267" y2="204" stroke="#e05555" stroke-width="2"
-                      opacity="0.85" marker-end="url(#mxArrR)"/>
+                      opacity="0.75" marker-end="url(#mxArrR)"/>
+                    <line x1="653" y1="572" x2="267" y2="204" stroke="#ffc2c2" stroke-width="2"
+                      opacity="0.9" stroke-dasharray="2 26" stroke-linecap="round">
+                      <animate attributeName="stroke-dashoffset" from="0" to="-56" dur="1.6s" repeatCount="indefinite"/>
+                    </line>
                     <text transform="translate(374,428) rotate(-52)" fill="#7fc4ee" font-size="9.5"
                       font-family="sans-serif" opacity="0.9" letter-spacing="0.5">линия мужского рода</text>
                     <text transform="translate(510,428) rotate(52)" fill="#f08a8a" font-size="9.5"
@@ -838,6 +862,10 @@
                     <circle cx="541" cy="482" r="14" fill="url(#gLight)" stroke="#8fb0d8" stroke-width="1"/>
                     <circle cx="529" cy="532" r="14" fill="url(#gLight)" stroke="#8fb0d8" stroke-width="1"/>
                     <!-- Center Д -->
+                    <circle cx="440" cy="384" r="70" fill="none" stroke="#f0cf7c" stroke-width="0.8" opacity="0.25">
+                      <animate attributeName="r" values="60;76;60" dur="4.5s" repeatCount="indefinite"/>
+                      <animate attributeName="opacity" values="0.35;0;0.35" dur="4.5s" repeatCount="indefinite"/>
+                    </circle>
                     <circle cx="440" cy="384" r="50" fill="url(#gGold)" stroke="#f0cf7c" stroke-width="2.2" filter="url(#mxGlow)"/>
                     <ellipse cx="423" cy="367" rx="15" ry="9" fill="#ffffff" opacity="0.28"/>
                     <circle cx="440" cy="384" r="56" fill="none" stroke="#f0cf7c" stroke-width="0.8" opacity="0.4"/>
@@ -881,68 +909,68 @@
                     <!-- Д — золотой, ЦЕНТР -->
                     <text id="mvDnum" x="440" y="384" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="32" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Е (10 лет) -->
-                    <text id="mvEnum" x="213" y="153" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvEnum" x="213" y="153" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Ж (30 лет) -->
-                    <text id="mvZhnum" x="669" y="153" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZhnum" x="669" y="153" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- И (50 лет) -->
-                    <text id="mvInum" x="669" y="609" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvInum" x="669" y="609" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- З (70 лет) -->
-                    <text id="mvZnum" x="213" y="609" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZnum" x="213" y="609" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- А_in — белый спутник -->
-                    <text id="mvAinNum" x="227" y="381" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvAinNum" x="227" y="381" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- А_in2 — синий спутник -->
                     <text id="mvAin2num" x="179" y="381" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Б_in — белый спутник -->
-                    <text id="mvBinNum" x="441" y="164" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvBinNum" x="441" y="164" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Б_in2 — синий спутник -->
                     <text id="mvBin2num" x="441" y="121" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- В_in / Л — оранжевый -->
                     <text id="mvVinNum" x="658" y="381" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- В_in2 — серый -->
-                    <text id="mvVin2num" x="703" y="381" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvVin2num" x="703" y="381" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Г_in -->
-                    <text id="mvGinNum" x="413" y="617" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvGinNum" x="413" y="617" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Г_in2 -->
-                    <text id="mvGin2num" x="441" y="641" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvGin2num" x="441" y="641" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Е_in -->
-                    <text id="mvEinNum" x="287" y="227" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvEinNum" x="287" y="227" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Е_in2 -->
-                    <text id="mvEin2num" x="256" y="196" text-anchor="middle" dominant-baseline="middle" fill="#444" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvEin2num" x="256" y="196" text-anchor="middle" dominant-baseline="middle" fill="#26304d" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Ж_in -->
-                    <text id="mvZhinNum" x="595" y="227" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZhinNum" x="595" y="227" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Ж_in2 -->
-                    <text id="mvZhin2num" x="626" y="196" text-anchor="middle" dominant-baseline="middle" fill="#444" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZhin2num" x="626" y="196" text-anchor="middle" dominant-baseline="middle" fill="#26304d" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- З_in -->
-                    <text id="mvZinNum" x="287" y="535" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZinNum" x="287" y="535" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- З_in2 -->
-                    <text id="mvZin2num" x="256" y="566" text-anchor="middle" dominant-baseline="middle" fill="#444" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZin2num" x="256" y="566" text-anchor="middle" dominant-baseline="middle" fill="#26304d" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- И_in -->
-                    <text id="mvIinNum" x="595" y="535" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvIinNum" x="595" y="535" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- И_in2 -->
-                    <text id="mvIin2num" x="625" y="566" text-anchor="middle" dominant-baseline="middle" fill="#444" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvIin2num" x="625" y="566" text-anchor="middle" dominant-baseline="middle" fill="#26304d" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Точки ближе к центру (white circles) -->
                     <circle cx="334" cy="381" r="18" fill="#fff" stroke="#c8a845" stroke-width="2"/>
-                    <text id="mvAinCnum" x="334" y="381" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvAinCnum" x="334" y="381" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
                     <circle cx="441" cy="308" r="18" fill="#fff" stroke="#c8a845" stroke-width="2"/>
-                    <text id="mvBinCnum" x="441" y="308" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvBinCnum" x="441" y="308" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
                     <text id="mvVinCnum" x="511" y="345" text-anchor="middle" dominant-baseline="middle" fill="#ccc" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- К — centre of axis (already has orange circle) -->
                     <text id="mvKnum" x="441" y="598" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- П (same position as Ж_in, overlapping intentionally) -->
-                    <text id="mvPnum" x="595" y="210" text-anchor="middle" dominant-baseline="middle" fill="#444" font-size="11" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvPnum" x="595" y="210" text-anchor="middle" dominant-baseline="middle" fill="#26304d" font-size="11" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- О, М, Н — три узла на пунктирной диагонали -->
-                    <text id="mvOnum" x="592" y="469" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <text id="mvMnum" x="541" y="482" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <text id="mvNnum" x="529" y="532" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvOnum" x="592" y="469" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvMnum" x="541" y="482" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvNnum" x="529" y="532" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Р и С — на линии В от центра -->
                     <circle cx="500" cy="384" r="18" fill="#fff" stroke="#c8a845" stroke-width="1.5"/>
-                    <text id="mvRnum" x="500" y="384" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvRnum" x="500" y="384" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
                     <circle cx="540" cy="384" r="18" fill="#fff" stroke="#c8a845" stroke-width="1.5"/>
-                    <text id="mvSnum" x="540" y="384" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvSnum" x="540" y="384" text-anchor="middle" dominant-baseline="middle" fill="#182038" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
 
                   </svg>
                 </div>
@@ -2192,8 +2220,8 @@ function initMatrixProgressionDots() {
             const dot = document.createElementNS(ns, 'circle');
             dot.setAttribute('cx', x.toFixed(1));
             dot.setAttribute('cy', y.toFixed(1));
-            dot.setAttribute('r', '2.5');
-            dot.setAttribute('fill', 'rgba(200,168,69,0.5)');
+            dot.setAttribute('r', '2');
+            dot.setAttribute('fill', 'rgba(240,207,124,0.75)');
             g.appendChild(dot);
 
             // Тонкая линия точка → число
@@ -2202,8 +2230,8 @@ function initMatrixProgressionDots() {
             ln.setAttribute('y1', y.toFixed(1));
             ln.setAttribute('x2', outX.toFixed(1));
             ln.setAttribute('y2', outY.toFixed(1));
-            ln.setAttribute('stroke', 'rgba(200,168,69,0.18)');
-            ln.setAttribute('stroke-width', '0.8');
+            ln.setAttribute('stroke', 'rgba(127,191,224,0.16)');
+            ln.setAttribute('stroke-width', '0.7');
             g.appendChild(ln);
 
             // Число
@@ -2212,9 +2240,9 @@ function initMatrixProgressionDots() {
             txt.setAttribute('y', outY.toFixed(1));
             txt.setAttribute('text-anchor', 'middle');
             txt.setAttribute('dominant-baseline', 'middle');
-            txt.setAttribute('fill', '#d0d8f0');
-            txt.setAttribute('font-size', '12.5');
-            txt.setAttribute('font-weight', '700');
+            txt.setAttribute('fill', '#cdd9f4');
+            txt.setAttribute('font-size', '12');
+            txt.setAttribute('font-weight', '600');
             txt.setAttribute('font-family', 'sans-serif');
             txt.textContent = String(value);
             g.appendChild(txt);
