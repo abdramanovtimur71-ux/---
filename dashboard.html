@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрица-Судбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260710m5">
+    <link rel="stylesheet" href="dashboard.css?v=20260710m6">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -2116,8 +2116,8 @@ function initMatrixProgressionDots() {
             const dot = document.createElementNS(ns, 'circle');
             dot.setAttribute('cx', x.toFixed(1));
             dot.setAttribute('cy', y.toFixed(1));
-            dot.setAttribute('r', '2.5');
-            dot.setAttribute('fill', 'rgba(200,168,69,0.5)');
+            dot.setAttribute('r', '1.8');
+            dot.setAttribute('fill', 'rgba(40,40,40,0.72)');
             g.appendChild(dot);
 
             // Тонкая линия точка → число
@@ -2126,8 +2126,8 @@ function initMatrixProgressionDots() {
             ln.setAttribute('y1', y.toFixed(1));
             ln.setAttribute('x2', outX.toFixed(1));
             ln.setAttribute('y2', outY.toFixed(1));
-            ln.setAttribute('stroke', 'rgba(200,168,69,0.18)');
-            ln.setAttribute('stroke-width', '0.8');
+            ln.setAttribute('stroke', 'rgba(60,60,60,0.28)');
+            ln.setAttribute('stroke-width', '0.65');
             g.appendChild(ln);
 
             // Число
@@ -2136,8 +2136,8 @@ function initMatrixProgressionDots() {
             txt.setAttribute('y', outY.toFixed(1));
             txt.setAttribute('text-anchor', 'middle');
             txt.setAttribute('dominant-baseline', 'middle');
-            txt.setAttribute('fill', '#d0d8f0');
-            txt.setAttribute('font-size', '12.5');
+            txt.setAttribute('fill', '#111');
+            txt.setAttribute('font-size', '12');
             txt.setAttribute('font-weight', '700');
             txt.setAttribute('font-family', 'sans-serif');
             txt.textContent = String(value);

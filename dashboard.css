@@ -4373,3 +4373,33 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
 }
+
+/* Matrix light-classic lock (match reference) */
+#page-matrix .matrix-visual-wrap {
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 12px !important;
+}
+#page-matrix .matrix-visual-wrap::before,
+#page-matrix .matrix-visual-wrap::after {
+    content: none !important;
+    animation: none !important;
+}
+#page-matrix .matrix-svg {
+    background: #f3f3f3 !important;
+    border-radius: 12px !important;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.08)) !important;
+}
+#page-matrix .matrix-svg text {
+    stroke: none !important;
+    text-shadow: none !important;
+}
+#page-matrix .matrix-svg #progressionDotsGroup text {
+    fill: #111 !important;
+    stroke: none !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
