@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрица-Судбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260710m4">
+    <link rel="stylesheet" href="dashboard.css?v=20260710m5">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -647,9 +647,9 @@
                   <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
                     <defs>
                       <radialGradient id="mxBg" cx="50%" cy="50%" r="58%">
-                        <stop offset="0%" stop-color="#1a1050"/>
-                        <stop offset="65%" stop-color="#09091e"/>
-                        <stop offset="100%" stop-color="#05050f"/>
+                       <stop offset="0%" stop-color="#fafafa"/>
+                       <stop offset="65%" stop-color="#f2f2f5"/>
+                       <stop offset="100%" stop-color="#e8e8ee"/>
                       </radialGradient>
                       <filter id="mxGlow" x="-60%" y="-60%" width="220%" height="220%">
                         <feGaussianBlur stdDeviation="5" result="b"/>
@@ -673,28 +673,28 @@
                     <!-- ══ STRUCTURAL LINES ══ -->
                     <!-- Outer octagon А-Е-Б-Ж-В-И-Г-З -->
                     <polygon points="118,380 213,153 440,56 669,153 764,380 669,609 440,704 213,609"
-                      fill="none" stroke="#c8a845" stroke-width="1.8" opacity="0.7"/>
+                      fill="none" stroke="#444" stroke-width="2" opacity="1"/>
                     <!-- Outer square Е-Ж-И-З -->
                     <polygon points="213,153 669,153 669,609 213,609"
-                      fill="none" stroke="#c8a845" stroke-width="1.5" opacity="0.6"/>
+                      fill="none" stroke="#444" stroke-width="1.5" opacity="0.9"/>
                     <!-- Cross: А→В horizontal, Б→Г vertical -->
-                    <line x1="118" y1="380" x2="764" y2="380" stroke="#c8a845" stroke-width="1" opacity="0.35"/>
-                    <line x1="440" y1="56" x2="440" y2="704" stroke="#c8a845" stroke-width="1" opacity="0.35"/>
+                    <line x1="118" y1="380" x2="764" y2="380" stroke="#555" stroke-width="1" opacity="0.6"/>
+                    <line x1="440" y1="56" x2="440" y2="704" stroke="#555" stroke-width="1" opacity="0.6"/>
                     <!-- Diagonals Е→И and Ж→З -->
-                    <line x1="213" y1="153" x2="669" y2="609" stroke="#c8a845" stroke-width="1" opacity="0.32"/>
-                    <line x1="669" y1="153" x2="213" y2="609" stroke="#c8a845" stroke-width="1" opacity="0.32"/>
+                    <line x1="213" y1="153" x2="669" y2="609" stroke="#555" stroke-width="1" opacity="0.5"/>
+                    <line x1="669" y1="153" x2="213" y2="609" stroke="#555" stroke-width="1" opacity="0.5"/>
                     <!-- Inner square (Ein nodes) -->
                     <polygon points="287,227 595,227 595,535 287,535"
-                      fill="none" stroke="#c8a845" stroke-width="1.5" opacity="0.58"/>
+                      fill="none" stroke="#555" stroke-width="1.5" opacity="0.8"/>
                     <!-- Inner diamond (near-center nodes) -->
                     <polygon points="441,308 548,384 441,460 334,384"
-                      fill="none" stroke="#c8a845" stroke-width="1.2" opacity="0.48"/>
+                      fill="none" stroke="#555" stroke-width="1.2" opacity="0.7"/>
                     <!-- Inner dashed circle -->
-                    <circle cx="441" cy="384" r="95" fill="none" stroke="#c8a845" stroke-width="1"
-                      stroke-dasharray="6,5" opacity="0.32"/>
+                    <circle cx="441" cy="384" r="95" fill="none" stroke="#666" stroke-width="1"
+                      stroke-dasharray="6,5" opacity="0.5"/>
                     <!-- Pulsed О-М-Н dashed line -->
-                    <line x1="440" y1="384" x2="592" y2="490" stroke="#c8a845" stroke-width="1"
-                      stroke-dasharray="4,4" opacity="0.4"/>
+                    <line x1="440" y1="384" x2="592" y2="490" stroke="#666" stroke-width="1"
+                      stroke-dasharray="4,4" opacity="0.6"/>
 
                     <!-- ══ MASCULINE / FEMININE LINES ══ -->
                     <line x1="230" y1="572" x2="616" y2="204" stroke="#4a90d9" stroke-width="2.2"
@@ -708,89 +708,89 @@
 
                     <!-- ══ NODE CIRCLES (colored — NO numbers) ══ -->
                     <!-- А (0 лет) — large purple -->
-                    <circle cx="118" cy="380" r="40" fill="#4a1280" stroke="#9860d8" stroke-width="2.5" filter="url(#mxGlow)"/>
+                    <circle cx="118" cy="380" r="40" fill="#7b1fa2" stroke="#333" stroke-width="2.5"/>
                     <!-- Б (20 лет) — large purple -->
-                    <circle cx="440" cy="56" r="40" fill="#4a1280" stroke="#9860d8" stroke-width="2.5" filter="url(#mxGlow)"/>
+                    <circle cx="440" cy="56" r="40" fill="#7b1fa2" stroke="#333" stroke-width="2.5"/>
                     <!-- В (40 лет) — large dark red -->
-                    <circle cx="764" cy="380" r="40" fill="#7a1515" stroke="#c04545" stroke-width="2.5" filter="url(#mxGlow)"/>
+                    <circle cx="764" cy="380" r="40" fill="#c62828" stroke="#333" stroke-width="2.5"/>
                     <!-- Г (60 лет) — large dark red -->
-                    <circle cx="440" cy="704" r="40" fill="#7a1515" stroke="#c04545" stroke-width="2.5" filter="url(#mxGlow)"/>
-                    <!-- Е (10 лет) — gray corner -->
-                    <circle cx="213" cy="153" r="29" fill="#ccc8e0" stroke="#9988bb" stroke-width="2"/>
-                    <!-- Ж (30 лет) — gray corner -->
-                    <circle cx="669" cy="153" r="29" fill="#ccc8e0" stroke="#9988bb" stroke-width="2"/>
-                    <!-- И (50 лет) — gray corner -->
-                    <circle cx="669" cy="609" r="29" fill="#ccc8e0" stroke="#9988bb" stroke-width="2"/>
-                    <!-- З (70 лет) — gray corner -->
-                    <circle cx="213" cy="609" r="29" fill="#ccc8e0" stroke="#9988bb" stroke-width="2"/>
+                    <circle cx="440" cy="704" r="40" fill="#c62828" stroke="#333" stroke-width="2.5"/>
+                    <!-- Е (10 лет) — white corner -->
+                    <circle cx="213" cy="153" r="29" fill="#fff" stroke="#444" stroke-width="2"/>
+                    <!-- Ж (30 лет) — white corner -->
+                    <circle cx="669" cy="153" r="29" fill="#fff" stroke="#444" stroke-width="2"/>
+                    <!-- И (50 лет) — white corner -->
+                    <circle cx="669" cy="609" r="29" fill="#fff" stroke="#444" stroke-width="2"/>
+                    <!-- З (70 лет) — white corner -->
+                    <circle cx="213" cy="609" r="29" fill="#fff" stroke="#444" stroke-width="2"/>
                     <!-- А_in2 — blue/cyan satellite -->
-                    <circle cx="179" cy="381" r="20" fill="#1a3a6a" stroke="#5599d4" stroke-width="2" filter="url(#mxGlowSm)"/>
+                    <circle cx="179" cy="381" r="20" fill="#1565c0" stroke="#333" stroke-width="2"/>
                     <!-- А_in — white satellite -->
-                    <circle cx="227" cy="381" r="18" fill="#e0dce8" stroke="#b090c8" stroke-width="1.5"/>
+                    <circle cx="227" cy="381" r="18" fill="#fff" stroke="#777" stroke-width="1.5"/>
                     <!-- Б_in2 — blue satellite -->
-                    <circle cx="441" cy="121" r="20" fill="#1a3a6a" stroke="#5599d4" stroke-width="2" filter="url(#mxGlowSm)"/>
+                    <circle cx="441" cy="121" r="20" fill="#1565c0" stroke="#333" stroke-width="2"/>
                     <!-- Б_in — white satellite -->
-                    <circle cx="441" cy="164" r="18" fill="#e0dce8" stroke="#b090c8" stroke-width="1.5"/>
+                    <circle cx="441" cy="164" r="18" fill="#fff" stroke="#777" stroke-width="1.5"/>
                     <!-- В_in / Л — orange -->
-                    <circle cx="658" cy="381" r="20" fill="#6e3408" stroke="#d47820" stroke-width="2" filter="url(#mxGlowSm)"/>
+                    <circle cx="658" cy="381" r="20" fill="#e65100" stroke="#333" stroke-width="2"/>
                     <!-- В_in2 — light gray -->
-                    <circle cx="703" cy="381" r="17" fill="#ccc8e0" stroke="#9988bb" stroke-width="1.5"/>
+                    <circle cx="703" cy="381" r="17" fill="#fff" stroke="#777" stroke-width="1.5"/>
                     <!-- К — orange axis node -->
-                    <circle cx="441" cy="598" r="23" fill="#6e3408" stroke="#d47820" stroke-width="2.5" filter="url(#mxGlowSm)"/>
+                    <circle cx="441" cy="598" r="23" fill="#e65100" stroke="#333" stroke-width="2.5"/>
                     <!-- Г_in2 — small satellite -->
-                    <circle cx="441" cy="641" r="14" fill="#ccc8e0" stroke="#9988bb" stroke-width="1.5"/>
+                    <circle cx="441" cy="641" r="14" fill="#fff" stroke="#777" stroke-width="1.5"/>
                     <!-- Inner square nodes: Е_in, Ж_in, И_in, З_in -->
-                    <circle cx="287" cy="227" r="17" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.5"/>
-                    <circle cx="595" cy="227" r="17" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.5"/>
-                    <circle cx="595" cy="535" r="17" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.5"/>
-                    <circle cx="287" cy="535" r="17" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.5"/>
+                    <circle cx="287" cy="227" r="17" fill="#fff" stroke="#555" stroke-width="1.5"/>
+                    <circle cx="595" cy="227" r="17" fill="#fff" stroke="#555" stroke-width="1.5"/>
+                    <circle cx="595" cy="535" r="17" fill="#fff" stroke="#555" stroke-width="1.5"/>
+                    <circle cx="287" cy="535" r="17" fill="#fff" stroke="#555" stroke-width="1.5"/>
                     <!-- Inner companions: Ein2, Zhin2, Zin2, Iin2 -->
-                    <circle cx="256" cy="196" r="13" fill="#c8c4d4" stroke="#aaa" stroke-width="1"/>
-                    <circle cx="626" cy="196" r="13" fill="#c8c4d4" stroke="#aaa" stroke-width="1"/>
-                    <circle cx="256" cy="566" r="13" fill="#c8c4d4" stroke="#aaa" stroke-width="1"/>
-                    <circle cx="625" cy="566" r="13" fill="#c8c4d4" stroke="#aaa" stroke-width="1"/>
+                    <circle cx="256" cy="196" r="13" fill="#fff" stroke="#888" stroke-width="1"/>
+                    <circle cx="626" cy="196" r="13" fill="#fff" stroke="#888" stroke-width="1"/>
+                    <circle cx="256" cy="566" r="13" fill="#fff" stroke="#888" stroke-width="1"/>
+                    <circle cx="625" cy="566" r="13" fill="#fff" stroke="#888" stroke-width="1"/>
                     <!-- О, М, Н diagonal nodes -->
-                    <circle cx="592" cy="469" r="14" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.2"/>
-                    <circle cx="541" cy="482" r="14" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.2"/>
-                    <circle cx="529" cy="532" r="14" fill="#d8d4e4" stroke="#c8a845" stroke-width="1.2"/>
+                    <circle cx="592" cy="469" r="14" fill="#fff" stroke="#555" stroke-width="1.2"/>
+                    <circle cx="541" cy="482" r="14" fill="#fff" stroke="#555" stroke-width="1.2"/>
+                    <circle cx="529" cy="532" r="14" fill="#fff" stroke="#555" stroke-width="1.2"/>
                     <!-- Center Д — golden -->
-                    <circle cx="440" cy="384" r="50" fill="#7a5010" stroke="#d4ae5c" stroke-width="3" filter="url(#mxGlow)"/>
-                    <circle cx="440" cy="384" r="55" fill="none" stroke="#d4ae5c" stroke-width="1" opacity="0.38"/>
+                    <circle cx="440" cy="384" r="50" fill="#f5c518" stroke="#333" stroke-width="3"/>
+                    <circle cx="440" cy="384" r="55" fill="none" stroke="#c8a845" stroke-width="1" opacity="0.6"/>
 
                     <!-- ══ STATIC LABELS ══ -->
                     <!-- Main node letter labels -->
-                    <text x="62" y="372" text-anchor="middle" dominant-baseline="middle" fill="#cc88ff" font-size="14" font-weight="bold" font-family="sans-serif">А</text>
-                    <text x="440" y="10" text-anchor="middle" dominant-baseline="middle" fill="#cc88ff" font-size="14" font-weight="bold" font-family="sans-serif">Б</text>
-                    <text x="828" y="372" text-anchor="middle" dominant-baseline="middle" fill="#ff7777" font-size="14" font-weight="bold" font-family="sans-serif">В</text>
-                    <text x="440" y="758" text-anchor="middle" dominant-baseline="middle" fill="#ff7777" font-size="14" font-weight="bold" font-family="sans-serif">Г</text>
+                    <text x="62" y="372" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="14" font-weight="bold" font-family="sans-serif">А</text>
+                    <text x="440" y="10" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">Б</text>
+                    <text x="828" y="372" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="14" font-weight="bold" font-family="sans-serif">В</text>
+                    <text x="440" y="758" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">Г</text>
                     <!-- Corner node labels -->
-                    <text x="172" y="138" text-anchor="middle" fill="#bbb" font-size="12" font-weight="bold" font-family="sans-serif">Е</text>
-                    <text x="708" y="138" text-anchor="middle" fill="#bbb" font-size="12" font-weight="bold" font-family="sans-serif">Ж</text>
-                    <text x="708" y="628" text-anchor="middle" fill="#bbb" font-size="12" font-weight="bold" font-family="sans-serif">И</text>
-                    <text x="172" y="628" text-anchor="middle" fill="#bbb" font-size="12" font-weight="bold" font-family="sans-serif">З</text>
+                    <text x="172" y="138" text-anchor="middle" fill="#444" font-size="12" font-weight="bold" font-family="sans-serif">Е</text>
+                    <text x="708" y="138" text-anchor="middle" fill="#444" font-size="12" font-weight="bold" font-family="sans-serif">Ж</text>
+                    <text x="708" y="628" text-anchor="middle" fill="#444" font-size="12" font-weight="bold" font-family="sans-serif">И</text>
+                    <text x="172" y="628" text-anchor="middle" fill="#444" font-size="12" font-weight="bold" font-family="sans-serif">З</text>
                     <!-- К label -->
-                    <text x="472" y="594" text-anchor="start" fill="#d47820" font-size="12" font-weight="bold" font-family="sans-serif">К</text>
+                    <text x="472" y="594" text-anchor="start" fill="#e65100" font-size="12" font-weight="bold" font-family="sans-serif">К</text>
                     <!-- Age labels -->
-                    <text x="47" y="398" text-anchor="end" fill="#8888aa" font-size="11" font-family="sans-serif">0 лет</text>
-                    <text x="440" y="28" text-anchor="middle" fill="#8888aa" font-size="11" font-family="sans-serif">20 лет</text>
-                    <text x="840" y="398" text-anchor="start" fill="#8888aa" font-size="11" font-family="sans-serif">40 лет</text>
-                    <text x="440" y="758" text-anchor="middle" fill="#8888aa" font-size="9" font-family="sans-serif" dy="10">60 лет</text>
-                    <text x="168" y="122" text-anchor="end" fill="#8888aa" font-size="10" font-family="sans-serif">10 лет</text>
-                    <text x="712" y="122" text-anchor="start" fill="#8888aa" font-size="10" font-family="sans-serif">30 лет</text>
-                    <text x="712" y="642" text-anchor="start" fill="#8888aa" font-size="10" font-family="sans-serif">50 лет</text>
-                    <text x="168" y="642" text-anchor="end" fill="#8888aa" font-size="10" font-family="sans-serif">70 лет</text>
-                    <text x="148" y="494" text-anchor="end" fill="#8888aa" font-size="10" font-family="sans-serif">75 лет</text>
+                    <text x="47" y="398" text-anchor="end" fill="#555" font-size="11" font-family="sans-serif">0 лет</text>
+                    <text x="440" y="28" text-anchor="middle" fill="#555" font-size="11" font-family="sans-serif">20 лет</text>
+                    <text x="840" y="398" text-anchor="start" fill="#555" font-size="11" font-family="sans-serif">40 лет</text>
+                    <text x="440" y="758" text-anchor="middle" fill="#555" font-size="9" font-family="sans-serif" dy="10">60 лет</text>
+                    <text x="168" y="122" text-anchor="end" fill="#555" font-size="10" font-family="sans-serif">10 лет</text>
+                    <text x="712" y="122" text-anchor="start" fill="#555" font-size="10" font-family="sans-serif">30 лет</text>
+                    <text x="712" y="642" text-anchor="start" fill="#555" font-size="10" font-family="sans-serif">50 лет</text>
+                    <text x="168" y="642" text-anchor="end" fill="#555" font-size="10" font-family="sans-serif">70 лет</text>
+                    <text x="148" y="494" text-anchor="end" fill="#555" font-size="10" font-family="sans-serif">75 лет</text>
                     <!-- ЗОНА КОМФОРТА -->
-                    <text x="440" y="450" text-anchor="middle" fill="#d4ae5c" font-size="10" font-family="sans-serif" opacity="0.8" letter-spacing="1">ЗОНА КОМФОРТА</text>
+                    <text x="440" y="450" text-anchor="middle" fill="#888" font-size="10" font-family="sans-serif" opacity="1" letter-spacing="1">ЗОНА КОМФОРТА</text>
                     <!-- $ money symbol -->
-                    <text x="508" y="432" text-anchor="middle" fill="#22cc66" font-size="20" font-weight="bold" font-family="sans-serif">$</text>
+                    <text x="568" y="375" text-anchor="middle" fill="#22aa44" font-size="20" font-weight="bold" font-family="sans-serif">$</text>
                     <!-- ♥ heart -->
                     <text x="416" y="530" text-anchor="middle" fill="#cc2222" font-size="22" font-family="sans-serif">♥</text>
                     <!-- ♂ ♀ symbols -->
-                    <text x="328" y="460" fill="#4a90d9" font-size="14" text-anchor="middle" font-family="sans-serif">♂</text>
+                    <text x="328" y="460" fill="#1565c0" font-size="14" text-anchor="middle" font-family="sans-serif">♂</text>
                     <text x="555" y="460" fill="#c03030" font-size="14" text-anchor="middle" font-family="sans-serif">♀</text>
                     <!-- д subscript near center -->
-                    <text x="440" y="418" text-anchor="middle" fill="#d4ae5c" font-size="11" font-family="sans-serif" opacity="0.85">д</text>
+                    <text x="440" y="418" text-anchor="middle" fill="#666" font-size="11" font-family="sans-serif" opacity="1">д</text>
 
                     <!-- ════ JS-FILLED NUMBERS ════ -->
 
@@ -803,7 +803,7 @@
                     <!-- Г (60 лет) — красный, низ -->
                     <text id="mvGnum" x="440" y="704" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="28" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Д — золотой, ЦЕНТР -->
-                    <text id="mvDnum" x="440" y="384" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="32" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvDnum" x="440" y="384" text-anchor="middle" dominant-baseline="middle" fill="#111" font-size="32" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Е (10 лет) -->
                     <text id="mvEnum" x="213" y="153" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
                     <!-- Ж (30 лет) -->
