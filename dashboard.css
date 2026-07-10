@@ -4409,3 +4409,46 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
 #page-matrix .matrix-svg #mvBinCnum {
     fill: #111 !important;
 }
+
+/* Disable all shimmering/blinking glow effects (local tuning) */
+body::before,
+body::after,
+.main-area::before,
+.nebula-orb,
+.sidebar::before,
+.topbar::before,
+.page-header::after,
+.card::before,
+.card::after,
+.kpi-card::before,
+.kpi-card::after,
+.session-item::before,
+.session-item::after,
+.plan-option::before,
+.profile-service-sheet::before,
+.profile-shop-card::before,
+.matrix-extra-card::before,
+#page-matrix .matrix-visual-wrap::before,
+#page-matrix .matrix-visual-wrap::after,
+.constellation-line,
+.constellation-star.active {
+    animation: none !important;
+    transition: none !important;
+}
+
+.card::before,
+.card::after,
+.kpi-card::before,
+.kpi-card::after,
+.session-item::before,
+.session-item::after,
+.plan-option::before,
+.profile-service-sheet::before,
+.profile-shop-card::before,
+.matrix-extra-card::before,
+#page-matrix .matrix-visual-wrap::before,
+#page-matrix .matrix-visual-wrap::after,
+.topbar::before,
+.page-header::after {
+    content: none !important;
+}
