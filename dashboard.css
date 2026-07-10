@@ -2348,6 +2348,19 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     filter: blur(14px);
     animation: nebulaFloat 20s ease-in-out infinite;
 }
+.matrix-visual-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+        radial-gradient(circle, rgba(255,255,255,0.72) 0 1.2px, transparent 1.3px) 8% 16% / 92px 92px repeat,
+        radial-gradient(circle, rgba(196,221,255,0.56) 0 1px, transparent 1.2px) 24% 68% / 124px 124px repeat,
+        radial-gradient(circle, rgba(255,216,142,0.45) 0 0.9px, transparent 1.1px) 76% 36% / 106px 106px repeat,
+        radial-gradient(circle at center, transparent 52%, rgba(5,7,15,0.32) 100%);
+    opacity: 0.46;
+    animation: matrixStarDrift 24s linear infinite;
+}
 .matrix-svg {
     position: relative;
     z-index: 1;
@@ -2364,8 +2377,22 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
 }
 
 .matrix-template-layer {
-    opacity: 0.95;
-    filter: saturate(1.07) contrast(1.06) brightness(1.03);
+    opacity: 0.96;
+    filter: saturate(1.12) contrast(1.08) brightness(1.05);
+}
+
+.matrix-space-overlay {
+    mix-blend-mode: screen;
+    opacity: 0.92;
+}
+
+.matrix-core-glow {
+    animation: matrixCorePulse 6.5s ease-in-out infinite;
+}
+
+.matrix-core-halo {
+    filter: blur(1.5px);
+    animation: matrixCorePulse 9.2s ease-in-out infinite reverse;
 }
 
 #matrixSvg text {
@@ -2393,6 +2420,17 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
 @keyframes matrixFloat {
     0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
     50% { transform: translate3d(0, -5px, 0) scale(1.004); }
+}
+
+@keyframes matrixStarDrift {
+    0% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(-8px, 6px, 0); }
+    100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes matrixCorePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.02); }
 }
 
 .matrix-values-grid {

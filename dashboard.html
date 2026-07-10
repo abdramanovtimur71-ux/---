@@ -703,21 +703,24 @@
                   <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
                     <defs>
                       <radialGradient id="matrixSpaceTint" cx="50%" cy="50%" r="62%">
-                        <stop offset="0%" stop-color="#7b4fc9" stop-opacity="0.18"/>
-                        <stop offset="55%" stop-color="#2b4ea0" stop-opacity="0.1"/>
-                        <stop offset="100%" stop-color="#070814" stop-opacity="0.55"/>
+                        <stop offset="0%" stop-color="#9772ef" stop-opacity="0.24"/>
+                        <stop offset="22%" stop-color="#6d5fe0" stop-opacity="0.18"/>
+                        <stop offset="55%" stop-color="#2b4ea0" stop-opacity="0.12"/>
+                        <stop offset="78%" stop-color="#101a3f" stop-opacity="0.24"/>
+                        <stop offset="100%" stop-color="#050811" stop-opacity="0.62"/>
                       </radialGradient>
                       <radialGradient id="matrixCoreGlow" cx="50%" cy="50%" r="58%">
-                        <stop offset="0%" stop-color="#ffe08a" stop-opacity="0.55"/>
-                        <stop offset="45%" stop-color="#ffcb5a" stop-opacity="0.24"/>
+                        <stop offset="0%" stop-color="#ffe8a8" stop-opacity="0.66"/>
+                        <stop offset="45%" stop-color="#ffcb5a" stop-opacity="0.34"/>
                         <stop offset="100%" stop-color="#ffcb5a" stop-opacity="0"/>
                       </radialGradient>
                     </defs>
 
                     <!-- Шаблон матрицы как фон -->
                     <image class="matrix-template-layer" href="matrix-template.png" x="0" y="0" width="876" height="768"/>
-                    <rect x="0" y="0" width="876" height="768" fill="url(#matrixSpaceTint)"/>
-                    <circle cx="440" cy="384" r="220" fill="url(#matrixCoreGlow)"/>
+                    <rect class="matrix-space-overlay" x="0" y="0" width="876" height="768" fill="url(#matrixSpaceTint)"/>
+                    <circle class="matrix-core-glow" cx="440" cy="384" r="220" fill="url(#matrixCoreGlow)"/>
+                    <circle class="matrix-core-halo" cx="440" cy="384" r="300" fill="url(#matrixCoreGlow)" opacity="0.22"/>
 
                     <!-- ════ ЧИСЛА ПОВЕРХ ШАБЛОНА (точные координаты по пикселям) ════ -->
 
