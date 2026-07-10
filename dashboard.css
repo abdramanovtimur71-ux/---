@@ -4380,6 +4380,7 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     border: 1px solid rgba(120, 146, 210, 0.4) !important;
     outline: none !important;
     border-radius: 22px !important;
+    overflow: hidden !important;
     background:
         radial-gradient(circle at 12% 14%, rgba(142, 110, 242, 0.18) 0%, transparent 38%),
         radial-gradient(circle at 88% 12%, rgba(225, 177, 78, 0.16) 0%, transparent 32%),
@@ -4403,13 +4404,14 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
         inset 0 0 0 1px rgba(94, 122, 191, 0.16),
         inset 0 24px 42px rgba(255, 255, 255, 0.18) !important;
     filter: none !important;
+    overflow: visible !important;
 }
 #page-matrix .matrix-svg image {
     filter: none;
     opacity: 1;
     transform-box: fill-box;
     transform-origin: center;
-    transform: translate(38px, 14px) scale(1.07);
+    transform: translate(24px, 8px) scale(1.05);
 }
 #page-matrix .matrix-svg text {
     fill: #121b36 !important;
