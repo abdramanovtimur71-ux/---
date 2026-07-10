@@ -4381,10 +4381,10 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     outline: none !important;
     border-radius: 22px !important;
     background:
-        radial-gradient(circle at 12% 14%, rgba(162, 130, 255, 0.16) 0%, transparent 38%),
-        radial-gradient(circle at 88% 12%, rgba(236, 191, 96, 0.14) 0%, transparent 32%),
-        radial-gradient(circle at 50% 90%, rgba(95, 141, 255, 0.12) 0%, transparent 42%),
-        linear-gradient(160deg, #d7e2f9 0%, #cfdcf6 48%, #c7d6f3 100%) !important;
+        radial-gradient(circle at 12% 14%, rgba(142, 110, 242, 0.18) 0%, transparent 38%),
+        radial-gradient(circle at 88% 12%, rgba(225, 177, 78, 0.16) 0%, transparent 32%),
+        radial-gradient(circle at 50% 90%, rgba(75, 122, 234, 0.14) 0%, transparent 42%),
+        linear-gradient(160deg, #c8d6f2 0%, #bfd0ef 48%, #b7caec 100%) !important;
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.72),
         0 18px 36px rgba(8, 18, 44, 0.2),
@@ -4396,7 +4396,7 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     animation: none !important;
 }
 #page-matrix .matrix-svg {
-    background: #eef3ff !important;
+    background: #dfe9fb !important;
     border-radius: 14px !important;
     border: 1px solid rgba(255, 255, 255, 0.75) !important;
     box-shadow:
@@ -4405,11 +4405,11 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     filter: none !important;
 }
 #page-matrix .matrix-svg image {
-    filter: contrast(1.03) saturate(1.04);
-    opacity: 0.98;
+    filter: contrast(1.08) saturate(1.08);
+    opacity: 0.99;
 }
 #page-matrix .matrix-svg text {
-    fill: #1a2340 !important;
+    fill: #121b36 !important;
     stroke: none !important;
     text-shadow: none !important;
     font-family: Inter, sans-serif !important;
@@ -4422,17 +4422,17 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
 }
 #page-matrix .matrix-svg #mvAnum,
 #page-matrix .matrix-svg #mvBnum {
-    fill: #3747a0 !important;
+    fill: #2f3f9a !important;
 }
 #page-matrix .matrix-svg #mvVnum,
 #page-matrix .matrix-svg #mvGnum {
-    fill: #973852 !important;
+    fill: #8f2f49 !important;
 }
 #page-matrix .matrix-svg #mvDnum {
-    fill: #8c6a1f !important;
+    fill: #7d5b16 !important;
 }
 #page-matrix .matrix-svg #progressionDotsGroup text {
-    fill: #203463 !important;
+    fill: #162b58 !important;
     stroke: none !important;
     font-size: 11.6px !important;
     font-weight: 700 !important;
