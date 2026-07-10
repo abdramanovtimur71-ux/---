@@ -4381,7 +4381,7 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     outline: none !important;
     background: transparent !important;
     box-shadow: none !important;
-    border-radius: 12px !important;
+    border-radius: 0 !important;
 }
 #page-matrix .matrix-visual-wrap::before,
 #page-matrix .matrix-visual-wrap::after {
@@ -4389,9 +4389,9 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     animation: none !important;
 }
 #page-matrix .matrix-svg {
-    background: #f3f3f3 !important;
-    border-radius: 12px !important;
-    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.08)) !important;
+    background: #e9e9e9 !important;
+    border-radius: 0 !important;
+    filter: none !important;
 }
 #page-matrix .matrix-svg text {
     stroke: none !important;
@@ -4400,6 +4400,6 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
 #page-matrix .matrix-svg #progressionDotsGroup text {
     fill: #111 !important;
     stroke: none !important;
-    font-size: 12px !important;
+    font-size: 11.5px !important;
     font-weight: 700 !important;
 }

@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрица-Судбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260710m6">
+    <link rel="stylesheet" href="dashboard.css?v=20260710m7">
 </head>
 <body>
   <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
@@ -701,9 +701,9 @@
                       opacity="0.82" marker-end="url(#mxArrB)"/>
                     <line x1="653" y1="572" x2="267" y2="204" stroke="#c03030" stroke-width="2.2"
                       opacity="0.82" marker-end="url(#mxArrR)"/>
-                    <text transform="translate(374,428) rotate(-52)" fill="#4a90d9" font-size="9.5"
+                    <text transform="translate(374,428) rotate(-52)" fill="#6e6e6e" font-size="9.5"
                       font-family="sans-serif" opacity="0.9" letter-spacing="0.5">линия мужского рода</text>
-                    <text transform="translate(510,428) rotate(52)" fill="#c03030" font-size="9.5"
+                    <text transform="translate(510,428) rotate(52)" fill="#6e6e6e" font-size="9.5"
                       font-family="sans-serif" opacity="0.9" letter-spacing="0.5">линия женского рода</text>
 
                     <!-- ══ NODE CIRCLES (colored — NO numbers) ══ -->
@@ -2116,8 +2116,8 @@ function initMatrixProgressionDots() {
             const dot = document.createElementNS(ns, 'circle');
             dot.setAttribute('cx', x.toFixed(1));
             dot.setAttribute('cy', y.toFixed(1));
-            dot.setAttribute('r', '1.8');
-            dot.setAttribute('fill', 'rgba(40,40,40,0.72)');
+            dot.setAttribute('r', '1.55');
+            dot.setAttribute('fill', 'rgba(22,22,22,0.68)');
             g.appendChild(dot);
 
             // Тонкая линия точка → число
@@ -2126,8 +2126,8 @@ function initMatrixProgressionDots() {
             ln.setAttribute('y1', y.toFixed(1));
             ln.setAttribute('x2', outX.toFixed(1));
             ln.setAttribute('y2', outY.toFixed(1));
-            ln.setAttribute('stroke', 'rgba(60,60,60,0.28)');
-            ln.setAttribute('stroke-width', '0.65');
+            ln.setAttribute('stroke', 'rgba(70,70,70,0.22)');
+            ln.setAttribute('stroke-width', '0.55');
             g.appendChild(ln);
 
             // Число
@@ -2137,7 +2137,7 @@ function initMatrixProgressionDots() {
             txt.setAttribute('text-anchor', 'middle');
             txt.setAttribute('dominant-baseline', 'middle');
             txt.setAttribute('fill', '#111');
-            txt.setAttribute('font-size', '12');
+            txt.setAttribute('font-size', '11.5');
             txt.setAttribute('font-weight', '700');
             txt.setAttribute('font-family', 'sans-serif');
             txt.textContent = String(value);
