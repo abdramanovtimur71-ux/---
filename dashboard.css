@@ -4376,19 +4376,19 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
 
 /* Matrix premium static cosmic style */
 #page-matrix .matrix-visual-wrap {
-    padding: 14px !important;
-    border: 1px solid rgba(103, 128, 196, 0.36) !important;
+    padding: 18px !important;
+    border: 1px solid rgba(120, 146, 210, 0.4) !important;
     outline: none !important;
-    border-radius: 20px !important;
+    border-radius: 22px !important;
     background:
-        radial-gradient(circle at 14% 18%, rgba(170, 136, 255, 0.18) 0%, transparent 36%),
-        radial-gradient(circle at 86% 14%, rgba(240, 196, 102, 0.16) 0%, transparent 30%),
-        radial-gradient(circle at 50% 88%, rgba(95, 141, 255, 0.15) 0%, transparent 40%),
-        linear-gradient(162deg, #eaf1ff 0%, #dde8ff 54%, #d3e0fc 100%) !important;
+        radial-gradient(circle at 12% 14%, rgba(162, 130, 255, 0.16) 0%, transparent 38%),
+        radial-gradient(circle at 88% 12%, rgba(236, 191, 96, 0.14) 0%, transparent 32%),
+        radial-gradient(circle at 50% 90%, rgba(95, 141, 255, 0.12) 0%, transparent 42%),
+        linear-gradient(160deg, #d7e2f9 0%, #cfdcf6 48%, #c7d6f3 100%) !important;
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.75),
-        0 10px 28px rgba(8, 18, 44, 0.22),
-        0 0 0 1px rgba(255, 255, 255, 0.45) !important;
+        inset 0 1px 0 rgba(255, 255, 255, 0.72),
+        0 18px 36px rgba(8, 18, 44, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.42) !important;
 }
 #page-matrix .matrix-visual-wrap::before,
 #page-matrix .matrix-visual-wrap::after {
@@ -4396,22 +4396,20 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     animation: none !important;
 }
 #page-matrix .matrix-svg {
-    background:
-        radial-gradient(circle at 9% 12%, rgba(255, 255, 255, 0.72) 0 1px, transparent 2px),
-        radial-gradient(circle at 28% 78%, rgba(255, 255, 255, 0.62) 0 1px, transparent 2px),
-        radial-gradient(circle at 54% 24%, rgba(255, 255, 255, 0.58) 0 1px, transparent 2px),
-        radial-gradient(circle at 79% 16%, rgba(255, 255, 255, 0.66) 0 1px, transparent 2px),
-        radial-gradient(circle at 87% 64%, rgba(255, 255, 255, 0.54) 0 1px, transparent 2px),
-        radial-gradient(circle at 12% 58%, rgba(255, 255, 255, 0.56) 0 1px, transparent 2px),
-        radial-gradient(circle at 50% 50%, rgba(207, 221, 252, 0.62) 0%, rgba(197, 212, 246, 0.4) 46%, rgba(183, 201, 235, 0.22) 100%),
-        linear-gradient(180deg, #f0f5ff 0%, #dae6fd 100%) !important;
+    background: #eef3ff !important;
     border-radius: 14px !important;
-    border: 1px solid rgba(255, 255, 255, 0.72) !important;
-    box-shadow: inset 0 0 0 1px rgba(110, 136, 200, 0.18) !important;
+    border: 1px solid rgba(255, 255, 255, 0.75) !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(94, 122, 191, 0.16),
+        inset 0 24px 42px rgba(255, 255, 255, 0.18) !important;
     filter: none !important;
 }
+#page-matrix .matrix-svg image {
+    filter: contrast(1.03) saturate(1.04);
+    opacity: 0.98;
+}
 #page-matrix .matrix-svg text {
-    fill: #142246 !important;
+    fill: #1a2340 !important;
     stroke: none !important;
     text-shadow: none !important;
     font-family: Inter, sans-serif !important;
@@ -4424,14 +4422,14 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
 }
 #page-matrix .matrix-svg #mvAnum,
 #page-matrix .matrix-svg #mvBnum {
-    fill: #2e3f8f !important;
+    fill: #3747a0 !important;
 }
 #page-matrix .matrix-svg #mvVnum,
 #page-matrix .matrix-svg #mvGnum {
-    fill: #7d3246 !important;
+    fill: #973852 !important;
 }
 #page-matrix .matrix-svg #mvDnum {
-    fill: #7d5f23 !important;
+    fill: #8c6a1f !important;
 }
 #page-matrix .matrix-svg #progressionDotsGroup text {
     fill: #203463 !important;
