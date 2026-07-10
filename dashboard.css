@@ -4409,7 +4409,7 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     opacity: 1;
     transform-box: fill-box;
     transform-origin: center;
-    transform: translate(16px, 6px) scale(1.03);
+    transform: translate(38px, 14px) scale(1.07);
 }
 #page-matrix .matrix-svg text {
     fill: #121b36 !important;
