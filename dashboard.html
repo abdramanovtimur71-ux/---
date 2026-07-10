@@ -701,9 +701,23 @@
                 <!-- Визуальная матрица (SVG) — Правильная октаграмма -->
                 <div class="matrix-visual-wrap">
                   <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
+                    <defs>
+                      <radialGradient id="matrixSpaceTint" cx="50%" cy="50%" r="62%">
+                        <stop offset="0%" stop-color="#7b4fc9" stop-opacity="0.18"/>
+                        <stop offset="55%" stop-color="#2b4ea0" stop-opacity="0.1"/>
+                        <stop offset="100%" stop-color="#070814" stop-opacity="0.55"/>
+                      </radialGradient>
+                      <radialGradient id="matrixCoreGlow" cx="50%" cy="50%" r="58%">
+                        <stop offset="0%" stop-color="#ffe08a" stop-opacity="0.55"/>
+                        <stop offset="45%" stop-color="#ffcb5a" stop-opacity="0.24"/>
+                        <stop offset="100%" stop-color="#ffcb5a" stop-opacity="0"/>
+                      </radialGradient>
+                    </defs>
 
                     <!-- Шаблон матрицы как фон -->
-                    <image href="matrix-template.png" x="0" y="0" width="876" height="768"/>
+                    <image class="matrix-template-layer" href="matrix-template.png" x="0" y="0" width="876" height="768"/>
+                    <rect x="0" y="0" width="876" height="768" fill="url(#matrixSpaceTint)"/>
+                    <circle cx="440" cy="384" r="220" fill="url(#matrixCoreGlow)"/>
 
                     <!-- ════ ЧИСЛА ПОВЕРХ ШАБЛОНА (точные координаты по пикселям) ════ -->
 
@@ -1848,6 +1862,16 @@ function initMatrixProgressionDots() {
         {x: 170, y: 530, age: 70},  // З — 70 лет
     ];
     const CX = 350, CY = 350;
+    const edgePalette = [
+        { dot: '#9ab6ff', ring: '#e7bc6f', label: '#9fb5e7' },
+        { dot: '#8fd3ff', ring: '#f4cc7b', label: '#a7c7f5' },
+        { dot: '#b9a8ff', ring: '#f3bd7c', label: '#b9b6ec' },
+        { dot: '#ff9fbe', ring: '#f0af75', label: '#e0adc8' },
+        { dot: '#ffb79b', ring: '#e7b06c', label: '#deb09d' },
+        { dot: '#cba9ff', ring: '#e2b879', label: '#c5b5e1' },
+        { dot: '#8dc8ff', ring: '#d9ba79', label: '#9ab8d8' },
+        { dot: '#90beff', ring: '#e2c07c', label: '#9ebfe3' }
+    ];
     const ns = 'http://www.w3.org/2000/svg';
     const g = document.createElementNS(ns, 'g');
     g.setAttribute('id', 'progressionDotsGroup');
@@ -1856,6 +1880,7 @@ function initMatrixProgressionDots() {
     for (let i = 0; i < 8; i++) {
         const v1 = verts[i];
         const v2 = verts[(i + 1) % 8];
+        const palette = edgePalette[i];
         const dx = v2.x - v1.x, dy = v2.y - v1.y;
         // Направление наружу от центра через середину ребра
         const mx = (v1.x + v2.x) / 2 - CX;
@@ -1874,9 +1899,10 @@ function initMatrixProgressionDots() {
             circ.setAttribute('cx', x.toFixed(1));
             circ.setAttribute('cy', y.toFixed(1));
             circ.setAttribute('r', isMid ? '4.5' : '2.8');
-            circ.setAttribute('fill', isMid ? 'none' : '#c0c0c0');
-            circ.setAttribute('stroke', '#999');
+            circ.setAttribute('fill', isMid ? 'none' : palette.dot);
+            circ.setAttribute('stroke', isMid ? palette.ring : '#dde7ff');
             circ.setAttribute('stroke-width', isMid ? '1.2' : '0.6');
+            circ.setAttribute('opacity', isMid ? '0.95' : '0.9');
             g.appendChild(circ);
 
             // Метка года снаружи октагона (только не на средней точке — там уже есть текст)
@@ -1888,9 +1914,10 @@ function initMatrixProgressionDots() {
                 txt.setAttribute('y', ly);
                 txt.setAttribute('text-anchor', 'middle');
                 txt.setAttribute('dominant-baseline', 'middle');
-                txt.setAttribute('fill', '#999');
+                txt.setAttribute('fill', palette.label);
                 txt.setAttribute('font-size', '6.5');
-                txt.setAttribute('font-family', 'sans-serif');
+                txt.setAttribute('font-family', 'Inter, sans-serif');
+                txt.setAttribute('font-weight', '600');
                 txt.textContent = `${year}-${year + 1}`;
                 g.appendChild(txt);
             }
