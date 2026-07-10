@@ -4389,7 +4389,7 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     animation: none !important;
 }
 #page-matrix .matrix-svg {
-    background: #e9e9e9 !important;
+    background: #ffffff !important;
     border-radius: 0 !important;
     filter: none !important;
 }
@@ -4402,4 +4402,9 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     stroke: none !important;
     font-size: 11.5px !important;
     font-weight: 700 !important;
+}
+/* green near-center circles keep white numbers */
+#page-matrix .matrix-svg #mvAinCnum,
+#page-matrix .matrix-svg #mvBinCnum {
+    fill: #fff !important;
 }
