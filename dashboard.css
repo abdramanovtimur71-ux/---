@@ -4396,7 +4396,7 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     animation: none !important;
 }
 #page-matrix .matrix-svg {
-    background: #dfe9fb !important;
+    background: transparent !important;
     border-radius: 14px !important;
     border: 1px solid rgba(255, 255, 255, 0.75) !important;
     box-shadow:
@@ -4405,8 +4405,8 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     filter: none !important;
 }
 #page-matrix .matrix-svg image {
-    filter: contrast(1.08) saturate(1.08);
-    opacity: 0.99;
+    filter: none;
+    opacity: 1;
 }
 #page-matrix .matrix-svg text {
     fill: #121b36 !important;
