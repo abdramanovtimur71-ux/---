@@ -788,3 +788,82 @@ h1 {
     border-color: rgba(220,53,69,0.6) !important;
     box-shadow: 0 0 0 2px rgba(220,53,69,0.15) !important;
 }
+
+/* ── MODERN ADMIN LAYER (2026) ─────────────────────── */
+body {
+    background:
+        radial-gradient(circle at 12% -8%, rgba(68, 107, 196, 0.34), transparent 34%),
+        radial-gradient(circle at 88% 10%, rgba(117, 164, 255, 0.14), transparent 24%),
+        linear-gradient(180deg, #040914 0%, #050b18 40%, #071020 100%);
+}
+
+.top,
+.panel,
+.kpi,
+.chart-box,
+.analytic-card {
+    border-color: rgba(122, 156, 226, 0.24);
+    background:
+        linear-gradient(155deg, rgba(11, 18, 34, 0.93), rgba(10, 17, 32, 0.86));
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.34);
+}
+
+h1,
+.panel h2 {
+    color: #edf4ff;
+    text-shadow: none;
+}
+
+.sub,
+.kpi .label,
+.hint,
+.table th {
+    color: #91a6d2;
+}
+
+.kpi .val,
+.money {
+    color: #d9e8ff;
+}
+
+.btn {
+    border-radius: 12px;
+    border-color: rgba(127, 162, 233, 0.28);
+    color: #dce9ff;
+    background: rgba(26, 40, 69, 0.5);
+}
+
+.btn:hover {
+    border-color: rgba(166, 195, 255, 0.6);
+    background: rgba(41, 61, 101, 0.7);
+}
+
+.btn-main {
+    background: linear-gradient(135deg, #4f73d6, #3f61c3);
+    color: #eef5ff;
+}
+
+.admin-form input,
+.admin-form select,
+.admin-form textarea,
+.api-inline input,
+.analytics-actions select,
+.analytics-actions input {
+    background: rgba(8, 14, 26, 0.88);
+    border-color: rgba(122, 156, 226, 0.3);
+    color: #e8f0ff;
+}
+
+.admin-form input:focus,
+.admin-form select:focus,
+.admin-form textarea:focus,
+.api-inline input:focus,
+.analytics-actions select:focus,
+.analytics-actions input:focus {
+    border-color: rgba(162, 191, 255, 0.62);
+    box-shadow: 0 0 0 3px rgba(82, 112, 188, 0.24);
+}
+
+.table td {
+    color: #d4e2ff;
+}
