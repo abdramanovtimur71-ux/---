@@ -867,3 +867,259 @@ h1,
 .table td {
     color: #d4e2ff;
 }
+
+/* ── TECHNO UI REDESIGN (CLEAN PROFESSIONAL) ───────── */
+:root {
+    --ui-bg: #080e1a;
+    --ui-bg-soft: #0c1526;
+    --ui-card: #111c31;
+    --ui-card-2: #14223a;
+    --ui-line: #223554;
+    --ui-line-strong: #2f4a74;
+    --ui-text: #e6eefc;
+    --ui-muted: #9eb0d0;
+    --ui-accent: #4a7cff;
+    --ui-accent-soft: rgba(74, 124, 255, 0.2);
+}
+
+html[data-admin-theme="light"] {
+    --ui-bg: #f3f6fb;
+    --ui-bg-soft: #e8edf7;
+    --ui-card: #ffffff;
+    --ui-card-2: #f9fbff;
+    --ui-line: #d4deee;
+    --ui-line-strong: #b8cae8;
+    --ui-text: #1f2d45;
+    --ui-muted: #5f7292;
+    --ui-accent: #315ecf;
+    --ui-accent-soft: rgba(49, 94, 207, 0.14);
+}
+
+html[data-admin-accent="indigo"] {
+    --ui-accent: #6b5bff;
+    --ui-accent-soft: rgba(107, 91, 255, 0.2);
+}
+
+html[data-admin-accent="emerald"] {
+    --ui-accent: #0da77c;
+    --ui-accent-soft: rgba(13, 167, 124, 0.2);
+}
+
+body {
+    background: linear-gradient(180deg, var(--ui-bg) 0%, var(--ui-bg-soft) 100%) !important;
+    color: var(--ui-muted) !important;
+}
+
+body::before,
+body::after {
+    display: none !important;
+}
+
+.wrap {
+    max-width: 1280px;
+}
+
+.top,
+.panel,
+.kpi,
+.analytic-card,
+.chart-box {
+    background: linear-gradient(180deg, var(--ui-card), var(--ui-card-2)) !important;
+    border-color: var(--ui-line) !important;
+    box-shadow: 0 10px 24px rgba(5, 12, 26, 0.14) !important;
+    animation: none !important;
+}
+
+.top {
+    top: 10px;
+    border-radius: 14px;
+}
+
+h1,
+.panel h2,
+.chart-box h3,
+.double-grid h3 {
+    color: var(--ui-text) !important;
+    text-shadow: none !important;
+}
+
+.sub,
+.kpi .label,
+.analytic-card .label,
+.analytic-card .hint,
+.bar-label,
+.table th,
+.admin-ui-control span {
+    color: var(--ui-muted) !important;
+}
+
+.kpi .val,
+.analytic-card .money,
+.bar-value {
+    color: var(--ui-text) !important;
+    text-shadow: none !important;
+}
+
+.btn,
+.btn-nav,
+.btn-danger-outline {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid var(--ui-line) !important;
+    color: var(--ui-text) !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    font-size: 13px !important;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover,
+.btn-nav:hover,
+.btn-danger-outline:hover {
+    border-color: var(--ui-line-strong) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    transform: translateY(-1px);
+}
+
+.btn-main {
+    background: var(--ui-accent) !important;
+    border-color: var(--ui-accent) !important;
+    color: #ffffff !important;
+}
+
+.btn-main:hover {
+    filter: brightness(1.05);
+}
+
+.admin-form input,
+.admin-form select,
+.admin-form textarea,
+.api-inline input,
+.analytics-actions select,
+.analytics-actions input,
+.admin-search-input {
+    background: var(--ui-bg) !important;
+    border: 1px solid var(--ui-line) !important;
+    color: var(--ui-text) !important;
+    border-radius: 10px !important;
+}
+
+.admin-form input:focus,
+.admin-form select:focus,
+.admin-form textarea:focus,
+.api-inline input:focus,
+.analytics-actions select:focus,
+.analytics-actions input:focus,
+.admin-search-input:focus {
+    border-color: var(--ui-accent) !important;
+    box-shadow: 0 0 0 3px var(--ui-accent-soft) !important;
+}
+
+.table {
+    background: transparent !important;
+}
+
+.table th,
+.table td {
+    border-bottom: 1px solid var(--ui-line) !important;
+}
+
+.table th {
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.table tr:hover td {
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.bar {
+    background: linear-gradient(180deg, var(--ui-accent), #0f1f3c) !important;
+    box-shadow: none !important;
+}
+
+.service-item {
+    border-color: var(--ui-line) !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+    box-shadow: none !important;
+}
+
+.service-rank {
+    background: var(--ui-accent-soft) !important;
+    color: var(--ui-text) !important;
+}
+
+.service-count {
+    color: var(--ui-text) !important;
+}
+
+.admin-ui-settings {
+    margin-top: 8px;
+}
+
+.admin-ui-settings.is-collapsed .admin-ui-settings-grid {
+    display: none;
+}
+
+.admin-ui-settings-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.admin-ui-control {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.admin-ui-control span {
+    font-size: 12px;
+    letter-spacing: 0.4px;
+}
+
+.admin-ui-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ui-text);
+    font-size: 13px;
+    padding-top: 26px;
+}
+
+.admin-ui-check input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--ui-accent);
+}
+
+html[data-admin-density="compact"] .panel {
+    padding: 14px;
+}
+
+html[data-admin-density="compact"] .kpi,
+html[data-admin-density="compact"] .analytic-card {
+    padding: 10px;
+}
+
+html[data-admin-density="compact"] .table th,
+html[data-admin-density="compact"] .table td {
+    padding: 8px;
+}
+
+html.admin-reduce-motion *,
+html.admin-reduce-motion *::before,
+html.admin-reduce-motion *::after {
+    animation: none !important;
+    transition: none !important;
+}
+
+@media (max-width: 920px) {
+    .admin-ui-settings-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-ui-settings-grid {
+        grid-template-columns: 1fr;
+    }
+}

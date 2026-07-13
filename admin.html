@@ -22,10 +22,45 @@
                 <a class="btn btn-nav" href="#content-section">📝 Контент</a>
                 <a class="btn btn-nav" href="#participants-section">👥 Участники</a>
                 <a class="btn btn-nav" href="#messages-section">💬 Сообщения</a>
+                <button class="btn" type="button" id="adminUiSettingsToggle" onclick="toggleAdminUiSettings()">⚙️ Настройки UI</button>
                 <a class="btn" href="index.html">← Сайт</a>
                 <button class="btn btn-danger-outline" onclick="clearAdminSession()">Выйти</button>
             </nav>
         </header>
+
+        <section class="panel admin-ui-settings is-collapsed" id="adminUiSettingsPanel">
+            <div class="panel-head">
+                <h2>Настройки интерфейса</h2>
+            </div>
+            <div class="admin-ui-settings-grid">
+                <label class="admin-ui-control">
+                    <span>Тема</span>
+                    <select id="adminUiTheme">
+                        <option value="dark">Темная (Tech)</option>
+                        <option value="light">Светлая</option>
+                    </select>
+                </label>
+                <label class="admin-ui-control">
+                    <span>Акцент</span>
+                    <select id="adminUiAccent">
+                        <option value="blue">Blue</option>
+                        <option value="indigo">Indigo</option>
+                        <option value="emerald">Emerald</option>
+                    </select>
+                </label>
+                <label class="admin-ui-control">
+                    <span>Плотность</span>
+                    <select id="adminUiDensity">
+                        <option value="comfortable">Обычная</option>
+                        <option value="compact">Компактная</option>
+                    </select>
+                </label>
+                <label class="admin-ui-check">
+                    <input type="checkbox" id="adminUiReduceMotion">
+                    <span>Минимум анимаций</span>
+                </label>
+            </div>
+        </section>
 
         <section class="panel">
             <h2>Подключение API (без консоли)</h2>
@@ -231,6 +266,81 @@
             return (localStorage.getItem('apiBaseUrl') || 'http://127.0.0.1:5000').trim().replace(/\/$/, '');
         })();
         const ADMIN_ACCESS_CODE = '0000';
+        const ADMIN_UI_THEME_KEY = 'adminUiThemeV2';
+        const ADMIN_UI_ACCENT_KEY = 'adminUiAccentV2';
+        const ADMIN_UI_DENSITY_KEY = 'adminUiDensityV2';
+        const ADMIN_UI_MOTION_KEY = 'adminUiMotionV2';
+
+        function toggleAdminUiSettings() {
+            const panel = document.getElementById('adminUiSettingsPanel');
+            if (!panel) return;
+            panel.classList.toggle('is-collapsed');
+            const toggle = document.getElementById('adminUiSettingsToggle');
+            if (toggle) {
+                toggle.textContent = panel.classList.contains('is-collapsed') ? '⚙️ Настройки UI' : '✕ Скрыть настройки';
+            }
+        }
+
+        function getDefaultAdminUiPrefs() {
+            return {
+                theme: 'dark',
+                accent: 'blue',
+                density: 'comfortable',
+                reduceMotion: true
+            };
+        }
+
+        function readAdminUiPrefs() {
+            const defaults = getDefaultAdminUiPrefs();
+            const themeRaw = localStorage.getItem(ADMIN_UI_THEME_KEY);
+            const accentRaw = localStorage.getItem(ADMIN_UI_ACCENT_KEY);
+            const densityRaw = localStorage.getItem(ADMIN_UI_DENSITY_KEY);
+            const motionRaw = localStorage.getItem(ADMIN_UI_MOTION_KEY);
+            return {
+                theme: themeRaw === 'light' ? 'light' : defaults.theme,
+                accent: ['blue', 'indigo', 'emerald'].includes(accentRaw) ? accentRaw : defaults.accent,
+                density: densityRaw === 'compact' ? 'compact' : defaults.density,
+                reduceMotion: motionRaw ? motionRaw === 'true' : defaults.reduceMotion
+            };
+        }
+
+        function applyAdminUiPrefs(prefs) {
+            document.documentElement.setAttribute('data-admin-theme', prefs.theme);
+            document.documentElement.setAttribute('data-admin-accent', prefs.accent);
+            document.documentElement.setAttribute('data-admin-density', prefs.density);
+            document.documentElement.classList.toggle('admin-reduce-motion', !!prefs.reduceMotion);
+
+            const theme = document.getElementById('adminUiTheme');
+            const accent = document.getElementById('adminUiAccent');
+            const density = document.getElementById('adminUiDensity');
+            const motion = document.getElementById('adminUiReduceMotion');
+            if (theme) theme.value = prefs.theme;
+            if (accent) accent.value = prefs.accent;
+            if (density) density.value = prefs.density;
+            if (motion) motion.checked = !!prefs.reduceMotion;
+        }
+
+        function saveAdminUiPrefs() {
+            const prefs = {
+                theme: document.getElementById('adminUiTheme')?.value || 'dark',
+                accent: document.getElementById('adminUiAccent')?.value || 'blue',
+                density: document.getElementById('adminUiDensity')?.value || 'comfortable',
+                reduceMotion: !!document.getElementById('adminUiReduceMotion')?.checked
+            };
+            localStorage.setItem(ADMIN_UI_THEME_KEY, prefs.theme);
+            localStorage.setItem(ADMIN_UI_ACCENT_KEY, prefs.accent);
+            localStorage.setItem(ADMIN_UI_DENSITY_KEY, prefs.density);
+            localStorage.setItem(ADMIN_UI_MOTION_KEY, String(prefs.reduceMotion));
+            applyAdminUiPrefs(prefs);
+        }
+
+        function initAdminUiSettings() {
+            applyAdminUiPrefs(readAdminUiPrefs());
+            ['adminUiTheme', 'adminUiAccent', 'adminUiDensity', 'adminUiReduceMotion'].forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', saveAdminUiPrefs);
+            });
+        }
 
         function currentApiBase() {
             return (localStorage.getItem('apiBaseUrl') || 'http://127.0.0.1:5000').trim();
@@ -737,6 +847,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', async () => {
+            initAdminUiSettings();
             initApiControls();
             applyAnalyticsPreset();
             const isAdminReady = await checkAdmin();
