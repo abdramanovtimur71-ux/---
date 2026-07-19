@@ -475,6 +475,7 @@ function initCardAura() {
 }
 
 // Пароль проверяется только на backend — не хранится в клиентском коде
+const REMOTE_API_BASE = 'https://roza-ogly-api.onrender.com';
 const API_BASE = (() => {
     const params = new URLSearchParams(window.location.search);
     const fromQuery = (params.get('api') || '').trim().replace(/\/$/, '');
@@ -482,7 +483,25 @@ const API_BASE = (() => {
         localStorage.setItem('apiBaseUrl', fromQuery);
         return fromQuery;
     }
-    return (localStorage.getItem('apiBaseUrl') || 'https://roza-ogly-api.onrender.com').trim().replace(/\/$/, '');
+    const isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
+    const storedBase = (localStorage.getItem('apiBaseUrl') || '').trim().replace(/\/$/, '');
+    if (storedBase) {
+        if (!isLocalHost) {
+            return storedBase;
+        }
+        try {
+            const storedUrl = new URL(storedBase);
+            if (/^(localhost|127\.0\.0\.1)$/i.test(storedUrl.hostname)) {
+                return storedBase;
+            }
+        } catch {
+            // ignore malformed stored API URL
+        }
+    }
+    if (isLocalHost) {
+        return `${window.location.protocol}//${window.location.hostname}:5000`;
+    }
+    return REMOTE_API_BASE;
 })();
 window.API_BASE = API_BASE;
 
