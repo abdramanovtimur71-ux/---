@@ -43,6 +43,8 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 _openai_client = None
 _CHAT_SESSIONS: dict = {}  # session_id → {ts, messages}
 _CHAT_SESSION_TTL = 1800  # 30 минут
+_GUEST_REVIEWS_UPDATED_AT_MS = int(time.time() * 1000)
+_GUEST_REVIEWS_COND = threading.Condition()
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -184,6 +186,35 @@ def init_db():
             )
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS guest_reviews (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                rating INTEGER NOT NULL,
+                text TEXT NOT NULL,
+                likes INTEGER NOT NULL DEFAULT 0,
+                dislikes INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )
+            """
+        )
+        reviews_count = conn.execute("SELECT COUNT(*) AS c FROM guest_reviews").fetchone()["c"]
+        if reviews_count == 0:
+            defaults = [
+                ("Айгерим", 5, "Очень спокойная и профессиональная консультация. После сеанса стало легче принимать решения.", 6, 0),
+                ("Нурлан", 5, "Понравилась точность расклада и поддержка после встречи. Рекомендую.", 5, 0),
+                ("Жанна", 4, "Уютная атмосфера и сильная энергетика. Спасибо за внимание к деталям.", 4, 0),
+            ]
+            now_iso = datetime.now().isoformat()
+            conn.executemany(
+                """
+                INSERT INTO guest_reviews (name, rating, text, likes, dislikes, created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                """,
+                [(name, rating, text, likes, dislikes, now_iso, now_iso) for name, rating, text, likes, dislikes in defaults],
+            )
         ensure_column(conn, "bookings", "reminder_24h_sent", "INTEGER NOT NULL DEFAULT 0")
         ensure_column(conn, "bookings", "reminder_2h_sent", "INTEGER NOT NULL DEFAULT 0")
         ensure_column(conn, "bookings", "reminder_24h_sent_at", "TEXT")
@@ -596,6 +627,181 @@ def contact_form():
 
     send_all_notifications(subject, text)
     return jsonify({"ok": True, "message": "Сообщение получено"})
+
+
+def _touch_guest_reviews_updated_at() -> int:
+    global _GUEST_REVIEWS_UPDATED_AT_MS
+    with _GUEST_REVIEWS_COND:
+        now_ms = int(time.time() * 1000)
+        _GUEST_REVIEWS_UPDATED_AT_MS = max(_GUEST_REVIEWS_UPDATED_AT_MS + 1, now_ms)
+        _GUEST_REVIEWS_COND.notify_all()
+        return _GUEST_REVIEWS_UPDATED_AT_MS
+
+
+def _read_guest_reviews(limit: int = 60):
+    with closing(get_conn()) as conn:
+        rows = conn.execute(
+            """
+            SELECT id, name, rating, text, likes, dislikes, created_at, updated_at
+            FROM guest_reviews
+            ORDER BY id DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+    return [dict(r) for r in rows]
+
+
+@app.route("/api/guest-reviews", methods=["GET"])
+def get_guest_reviews():
+    items = _read_guest_reviews(limit=60)
+    return jsonify({"ok": True, "items": items, "lastUpdated": _GUEST_REVIEWS_UPDATED_AT_MS})
+
+
+@app.route("/api/guest-reviews", methods=["POST"])
+@limiter.limit("30 per hour")
+def create_guest_review():
+    payload = request.get_json(silent=True) or {}
+    name = (payload.get("name") or "").strip()
+    text = (payload.get("text") or "").strip()
+
+    raw_rating = payload.get("rating")
+    try:
+        rating = int(raw_rating)
+    except (TypeError, ValueError):
+        return jsonify({"ok": False, "message": "Оценка должна быть числом"}), 400
+
+    if len(name) < 2 or len(name) > 80:
+        return jsonify({"ok": False, "message": "Имя должно быть от 2 до 80 символов"}), 400
+    if len(text) < 3 or len(text) > 1200:
+        return jsonify({"ok": False, "message": "Отзыв должен быть от 3 до 1200 символов"}), 400
+    if rating < 1 or rating > 5:
+        return jsonify({"ok": False, "message": "Оценка должна быть от 1 до 5"}), 400
+
+    now_iso = datetime.now().isoformat()
+    with closing(get_conn()) as conn:
+        duplicate = conn.execute(
+            """
+            SELECT id
+            FROM guest_reviews
+            WHERE LOWER(name) = LOWER(?)
+              AND rating = ?
+              AND LOWER(text) = LOWER(?)
+            LIMIT 1
+            """,
+            (name, rating, text),
+        ).fetchone()
+        if duplicate:
+            return jsonify({"ok": False, "message": "Такой отзыв уже существует"}), 409
+
+        cur = conn.execute(
+            """
+            INSERT INTO guest_reviews (name, rating, text, likes, dislikes, created_at, updated_at)
+            VALUES (?, ?, ?, 0, 0, ?, ?)
+            """,
+            (name, rating, text, now_iso, now_iso),
+        )
+        conn.commit()
+
+        review = conn.execute(
+            """
+            SELECT id, name, rating, text, likes, dislikes, created_at, updated_at
+            FROM guest_reviews
+            WHERE id = ?
+            """,
+            (cur.lastrowid,),
+        ).fetchone()
+
+    last_updated = _touch_guest_reviews_updated_at()
+    return jsonify({"ok": True, "item": dict(review), "lastUpdated": last_updated})
+
+
+@app.route("/api/guest-reviews/<int:review_id>/vote", methods=["POST"])
+@limiter.limit("200 per hour")
+def vote_guest_review(review_id: int):
+    payload = request.get_json(silent=True) or {}
+    vote = (payload.get("vote") or "").strip().lower()
+    prev_vote = (payload.get("prevVote") or "").strip().lower()
+
+    if vote not in {"", "like", "dislike"}:
+        return jsonify({"ok": False, "message": "Недопустимый тип голоса"}), 400
+    if prev_vote not in {"", "like", "dislike"}:
+        return jsonify({"ok": False, "message": "Недопустимый предыдущий голос"}), 400
+
+    with closing(get_conn()) as conn:
+        row = conn.execute(
+            """
+            SELECT id, likes, dislikes
+            FROM guest_reviews
+            WHERE id = ?
+            """,
+            (review_id,),
+        ).fetchone()
+        if not row:
+            return jsonify({"ok": False, "message": "Отзыв не найден"}), 404
+
+        likes = max(0, int(row["likes"] or 0))
+        dislikes = max(0, int(row["dislikes"] or 0))
+
+        if prev_vote == "like":
+            likes = max(0, likes - 1)
+        elif prev_vote == "dislike":
+            dislikes = max(0, dislikes - 1)
+
+        if vote == "like":
+            likes += 1
+        elif vote == "dislike":
+            dislikes += 1
+
+        updated_at = datetime.now().isoformat()
+        conn.execute(
+            """
+            UPDATE guest_reviews
+            SET likes = ?, dislikes = ?, updated_at = ?
+            WHERE id = ?
+            """,
+            (likes, dislikes, updated_at, review_id),
+        )
+        conn.commit()
+
+        updated = conn.execute(
+            """
+            SELECT id, name, rating, text, likes, dislikes, created_at, updated_at
+            FROM guest_reviews
+            WHERE id = ?
+            """,
+            (review_id,),
+        ).fetchone()
+
+    last_updated = _touch_guest_reviews_updated_at()
+    return jsonify({"ok": True, "item": dict(updated), "lastUpdated": last_updated})
+
+
+@app.route("/api/guest-reviews/updates", methods=["GET"])
+def wait_guest_reviews_updates():
+    since_raw = (request.args.get("since") or "").strip()
+    timeout_raw = (request.args.get("timeout") or "").strip()
+
+    try:
+        since = int(since_raw) if since_raw else 0
+    except ValueError:
+        return jsonify({"ok": False, "message": "since должен быть числом"}), 400
+
+    try:
+        timeout = int(timeout_raw) if timeout_raw else 25
+    except ValueError:
+        return jsonify({"ok": False, "message": "timeout должен быть числом"}), 400
+
+    timeout = max(5, min(30, timeout))
+
+    with _GUEST_REVIEWS_COND:
+        changed = _GUEST_REVIEWS_COND.wait_for(
+            lambda: _GUEST_REVIEWS_UPDATED_AT_MS > since,
+            timeout=timeout
+        )
+        last_updated = _GUEST_REVIEWS_UPDATED_AT_MS
+
+    return jsonify({"ok": True, "changed": bool(changed), "lastUpdated": last_updated})
 
 
 @app.route("/api/health", methods=["GET"])

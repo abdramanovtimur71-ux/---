@@ -1065,6 +1065,12 @@ function renderGuestReviews() {
 const GUEST_REVIEWS_KEY = 'guestReviews';
 const GUEST_REVIEW_VOTES_KEY = 'guestReviewVotes';
 const guestReviewsChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('guest-reviews-sync') : null;
+const guestReviewsRealtimeState = {
+    usesBackend: false,
+    longPollTimer: null,
+    longPollRunning: false,
+    lastUpdated: 0
+};
 
 function escapeHtml(value) {
     return String(value)
@@ -1163,11 +1169,133 @@ function getGuestReviews() {
     return normalized;
 }
 
-function upsertGuestVote(reviewId, voteType) {
-    const reviews = getGuestReviews();
+function mergeReviewItem(item) {
+    const normalized = normalizeReview(item);
+    const current = getGuestReviews();
+    const idx = current.findIndex((review) => review.id === normalized.id);
+    if (idx >= 0) {
+        current[idx] = { ...current[idx], ...normalized };
+    } else {
+        current.unshift(normalized);
+    }
+    setGuestReviews(current);
+}
+
+function getNextVoteState(reviewId, voteType) {
     const voteState = getGuestReviewVoteState();
     const prevVote = voteState[reviewId] || '';
     const nextVote = prevVote === voteType ? '' : voteType;
+    return { voteState, prevVote, nextVote };
+}
+
+async function loadGuestReviewsFromBackend() {
+    const response = await fetch(API_BASE + '/api/guest-reviews', {
+        signal: AbortSignal.timeout(7000)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.ok) {
+        throw new Error(data.message || 'Не удалось загрузить отзывы');
+    }
+    const items = Array.isArray(data.items) ? data.items : [];
+    setGuestReviews(items, false);
+    if (Number.isFinite(Number(data.lastUpdated))) {
+        guestReviewsRealtimeState.lastUpdated = Number(data.lastUpdated);
+    }
+}
+
+async function submitGuestReviewToBackend(name, rating, text) {
+    const response = await fetch(API_BASE + '/api/guest-reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, rating, text }),
+        signal: AbortSignal.timeout(9000)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.ok) {
+        throw new Error(data.message || 'Не удалось сохранить отзыв');
+    }
+    if (data.item) {
+        mergeReviewItem(data.item);
+    }
+    if (Number.isFinite(Number(data.lastUpdated))) {
+        guestReviewsRealtimeState.lastUpdated = Number(data.lastUpdated);
+    }
+}
+
+async function sendGuestVoteToBackend(reviewId, voteType) {
+    const { voteState, prevVote, nextVote } = getNextVoteState(reviewId, voteType);
+    const response = await fetch(API_BASE + `/api/guest-reviews/${encodeURIComponent(reviewId)}/vote`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vote: nextVote, prevVote }),
+        signal: AbortSignal.timeout(8000)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.ok) {
+        throw new Error(data.message || 'Не удалось отправить голос');
+    }
+
+    voteState[reviewId] = nextVote;
+    if (!nextVote) {
+        delete voteState[reviewId];
+    }
+    setGuestReviewVoteState(voteState);
+
+    if (data.item) {
+        mergeReviewItem(data.item);
+    }
+    if (Number.isFinite(Number(data.lastUpdated))) {
+        guestReviewsRealtimeState.lastUpdated = Number(data.lastUpdated);
+    }
+}
+
+function scheduleGuestReviewsLongPoll() {
+    if (!guestReviewsRealtimeState.usesBackend || guestReviewsRealtimeState.longPollRunning) {
+        return;
+    }
+    guestReviewsRealtimeState.longPollRunning = true;
+
+    const since = Number.isFinite(guestReviewsRealtimeState.lastUpdated)
+        ? guestReviewsRealtimeState.lastUpdated
+        : 0;
+    const url = `${API_BASE}/api/guest-reviews/updates?since=${encodeURIComponent(String(since))}&timeout=25`;
+
+    fetch(url, { signal: AbortSignal.timeout(30000) })
+        .then((response) => response.json().catch(() => ({})))
+        .then(async (data) => {
+            if (data && data.ok && Number.isFinite(Number(data.lastUpdated))) {
+                guestReviewsRealtimeState.lastUpdated = Number(data.lastUpdated);
+                if (data.changed) {
+                    await loadGuestReviewsFromBackend();
+                    renderGuestReviews();
+                }
+            }
+        })
+        .catch(() => {})
+        .finally(() => {
+            guestReviewsRealtimeState.longPollRunning = false;
+            if (!guestReviewsRealtimeState.usesBackend) {
+                return;
+            }
+            clearTimeout(guestReviewsRealtimeState.longPollTimer);
+            guestReviewsRealtimeState.longPollTimer = setTimeout(scheduleGuestReviewsLongPoll, 250);
+        });
+}
+
+async function enableGuestReviewsBackendSync() {
+    try {
+        await loadGuestReviewsFromBackend();
+        guestReviewsRealtimeState.usesBackend = true;
+        renderGuestReviews();
+        scheduleGuestReviewsLongPoll();
+    } catch {
+        guestReviewsRealtimeState.usesBackend = false;
+    }
+}
+
+function upsertGuestVoteLocal(reviewId, voteType) {
+    const reviews = getGuestReviews();
+    const { voteState, prevVote, nextVote } = getNextVoteState(reviewId, voteType);
     const updated = reviews.map((review) => {
         if (review.id !== reviewId) {
             return review;
@@ -1218,7 +1346,17 @@ function initGuestReviews() {
             if (!reviewId) {
                 return;
             }
-            upsertGuestVote(reviewId, voteType);
+            if (guestReviewsRealtimeState.usesBackend) {
+                sendGuestVoteToBackend(reviewId, voteType)
+                    .then(() => {
+                        renderGuestReviews();
+                    })
+                    .catch((error) => {
+                        showError(error.message || 'Не удалось поставить голос');
+                    });
+                return;
+            }
+            upsertGuestVoteLocal(reviewId, voteType);
         });
     }
 
@@ -1259,12 +1397,24 @@ function initGuestReviews() {
                 return;
             }
 
-            setGuestReviews([newReview, ...current]);
-            addAdminRecord('guestReviews', { name, rating: newReview.rating, text, source: 'site-guest-review' });
-            form.reset();
-            renderGuestReviews();
-            showSuccess('✓ Спасибо! Ваш отзыв опубликован.');
-            resetBtn();
+            const savePromise = guestReviewsRealtimeState.usesBackend
+                ? submitGuestReviewToBackend(name, newReview.rating, text)
+                : Promise.resolve().then(() => {
+                    setGuestReviews([newReview, ...current]);
+                });
+
+            savePromise
+                .then(() => {
+                    addAdminRecord('guestReviews', { name, rating: newReview.rating, text, source: 'site-guest-review' });
+                    form.reset();
+                    renderGuestReviews();
+                    showSuccess('✓ Спасибо! Ваш отзыв опубликован.');
+                    resetBtn();
+                })
+                .catch((error) => {
+                    resetBtn();
+                    showError(error.message || 'Не удалось опубликовать отзыв');
+                });
         });
     }
 
@@ -1281,6 +1431,8 @@ function initGuestReviews() {
             }
         });
     }
+
+    enableGuestReviewsBackendSync();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
