@@ -1031,70 +1031,260 @@ function renderGuestReviews() {
         return;
     }
 
-    const defaults = [
-        { name: 'Айгерим', rating: 5, text: 'Очень спокойная и профессиональная консультация. После сеанса стало легче принимать решения.' },
-        { name: 'Нурлан', rating: 5, text: 'Понравилась точность расклада и поддержка после встречи. Рекомендую.' },
-        { name: 'Жанна', rating: 4, text: 'Уютная атмосфера и сильная энергетика. Спасибо за внимание к деталям.' }
-    ];
-
-    const stored = getStorageArray('guestReviews');
-    const reviews = stored.length ? stored : defaults;
+    const reviews = getGuestReviews();
+    const voteState = getGuestReviewVoteState();
 
     list.innerHTML = reviews
         .slice(0, 12)
         .map((item) => {
             const stars = '★★★★★'.slice(0, Number(item.rating || 5)) + '☆☆☆☆☆'.slice(0, 5 - Number(item.rating || 5));
+            const activeVote = voteState[item.id] || '';
+            const safeName = escapeHtml(item.name);
+            const safeText = escapeHtml(item.text);
             return `
-                <article class="guest-item">
+                <article class="guest-item" data-review-id="${item.id}">
                     <div class="guest-item-head">
-                        <span class="guest-item-name">${item.name}</span>
+                        <span class="guest-item-name">${safeName}</span>
                         <span class="guest-item-stars">${stars}</span>
                     </div>
-                    <p class="guest-item-text">${item.text}</p>
+                    <p class="guest-item-text">${safeText}</p>
+                    <div class="guest-item-actions">
+                        <button type="button" class="guest-vote-btn ${activeVote === 'like' ? 'active' : ''}" data-review-id="${item.id}" data-vote="like" aria-label="Поставить лайк">
+                            👍 <span class="guest-vote-count">${Number(item.likes || 0)}</span>
+                        </button>
+                        <button type="button" class="guest-vote-btn ${activeVote === 'dislike' ? 'active' : ''}" data-review-id="${item.id}" data-vote="dislike" aria-label="Поставить дизлайк">
+                            👎 <span class="guest-vote-count">${Number(item.dislikes || 0)}</span>
+                        </button>
+                    </div>
                 </article>
             `;
         })
         .join('');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('guestReviewForm');
-    renderGuestReviews();
+const GUEST_REVIEWS_KEY = 'guestReviews';
+const GUEST_REVIEW_VOTES_KEY = 'guestReviewVotes';
+const guestReviewsChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('guest-reviews-sync') : null;
 
-    if (!form) {
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function normalizeReview(raw) {
+    const name = String(raw?.name || '').trim();
+    const text = String(raw?.text || '').trim();
+    const normalizedRating = Number(raw?.rating || 5);
+    const rating = Math.max(1, Math.min(5, Number.isFinite(normalizedRating) ? Math.round(normalizedRating) : 5));
+    const createdAt = raw?.createdAt || new Date().toISOString();
+    const baseId = String(raw?.id || '').trim() || `${Date.parse(createdAt) || Date.now()}-${name.toLowerCase()}-${text.toLowerCase()}`;
+    const id = baseId.replace(/\s+/g, '-').slice(0, 120);
+    return {
+        id,
+        name,
+        text,
+        rating,
+        createdAt,
+        likes: Math.max(0, Number(raw?.likes || 0) || 0),
+        dislikes: Math.max(0, Number(raw?.dislikes || 0) || 0)
+    };
+}
+
+function getReviewSignature(review) {
+    return `${review.name.toLowerCase()}|${review.rating}|${review.text.toLowerCase()}`;
+}
+
+function dedupeGuestReviews(items) {
+    const unique = [];
+    const seen = new Set();
+    items.forEach((item) => {
+        const normalized = normalizeReview(item);
+        if (!normalized.name || !normalized.text) {
+            return;
+        }
+        const signature = getReviewSignature(normalized);
+        if (seen.has(signature)) {
+            return;
+        }
+        seen.add(signature);
+        unique.push(normalized);
+    });
+    return unique;
+}
+
+function getDefaultGuestReviews() {
+    return dedupeGuestReviews([
+        { id: 'guest-default-aigerim', name: 'Айгерим', rating: 5, text: 'Очень спокойная и профессиональная консультация. После сеанса стало легче принимать решения.', likes: 6, dislikes: 0, createdAt: '2026-01-01T10:00:00.000Z' },
+        { id: 'guest-default-nurlan', name: 'Нурлан', rating: 5, text: 'Понравилась точность расклада и поддержка после встречи. Рекомендую.', likes: 5, dislikes: 0, createdAt: '2026-01-02T10:00:00.000Z' },
+        { id: 'guest-default-zhanna', name: 'Жанна', rating: 4, text: 'Уютная атмосфера и сильная энергетика. Спасибо за внимание к деталям.', likes: 4, dislikes: 0, createdAt: '2026-01-03T10:00:00.000Z' }
+    ]);
+}
+
+function getGuestReviewVoteState() {
+    const raw = localStorage.getItem(GUEST_REVIEW_VOTES_KEY);
+    if (!raw) {
+        return {};
+    }
+    try {
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch {
+        return {};
+    }
+}
+
+function setGuestReviewVoteState(voteMap) {
+    localStorage.setItem(GUEST_REVIEW_VOTES_KEY, JSON.stringify(voteMap));
+}
+
+function setGuestReviews(reviews, sync = true) {
+    const normalized = dedupeGuestReviews(reviews).slice(0, 40);
+    setStorageArray(GUEST_REVIEWS_KEY, normalized);
+    if (sync && guestReviewsChannel) {
+        guestReviewsChannel.postMessage({ type: 'reviews-updated' });
+    }
+}
+
+function getGuestReviews() {
+    const stored = getStorageArray(GUEST_REVIEWS_KEY);
+    if (!stored.length) {
+        const defaults = getDefaultGuestReviews();
+        setGuestReviews(defaults, false);
+        return defaults;
+    }
+    const normalized = dedupeGuestReviews(stored).slice(0, 40);
+    if (normalized.length !== stored.length) {
+        setGuestReviews(normalized, false);
+    }
+    return normalized;
+}
+
+function upsertGuestVote(reviewId, voteType) {
+    const reviews = getGuestReviews();
+    const voteState = getGuestReviewVoteState();
+    const prevVote = voteState[reviewId] || '';
+    const nextVote = prevVote === voteType ? '' : voteType;
+    const updated = reviews.map((review) => {
+        if (review.id !== reviewId) {
+            return review;
+        }
+        const nextReview = { ...review };
+        if (prevVote === 'like') {
+            nextReview.likes = Math.max(0, nextReview.likes - 1);
+        }
+        if (prevVote === 'dislike') {
+            nextReview.dislikes = Math.max(0, nextReview.dislikes - 1);
+        }
+        if (nextVote === 'like') {
+            nextReview.likes += 1;
+        }
+        if (nextVote === 'dislike') {
+            nextReview.dislikes += 1;
+        }
+        return nextReview;
+    });
+
+    voteState[reviewId] = nextVote;
+    if (!nextVote) {
+        delete voteState[reviewId];
+    }
+    setGuestReviewVoteState(voteState);
+    setGuestReviews(updated);
+    renderGuestReviews();
+}
+
+function initGuestReviews() {
+    if (window.__guestReviewsInited) {
         return;
     }
+    window.__guestReviewsInited = true;
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('guestName').value.trim();
-        const rating = Number(document.getElementById('guestRating').value || 5);
-        const text = document.getElementById('guestText').value.trim();
+    const form = document.getElementById('guestReviewForm');
+    const list = document.getElementById('guestReviewsList');
+    renderGuestReviews();
 
-        // Валидация
-        if (!validateField(form.querySelector('#guestName'), FormValidator.name) ||
-            !validateField(form.querySelector('#guestText'), FormValidator.text)) {
-            showError('Заполните имя и текст отзыва корректно');
-            return;
+    if (list) {
+        list.addEventListener('click', (event) => {
+            const btn = event.target.closest('.guest-vote-btn');
+            if (!btn) {
+                return;
+            }
+            const reviewId = String(btn.dataset.reviewId || '').trim();
+            const voteType = btn.dataset.vote === 'dislike' ? 'dislike' : 'like';
+            if (!reviewId) {
+                return;
+            }
+            upsertGuestVote(reviewId, voteType);
+        });
+    }
+
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('guestName').value.trim();
+            const rating = Number(document.getElementById('guestRating').value || 5);
+            const text = document.getElementById('guestText').value.trim();
+
+            if (!validateField(form.querySelector('#guestName'), FormValidator.name) ||
+                !validateField(form.querySelector('#guestText'), FormValidator.text)) {
+                showError('Заполните имя и текст отзыва корректно');
+                return;
+            }
+
+            if (!name || !text) {
+                showError('Заполните имя и текст отзыва');
+                return;
+            }
+
+            const resetBtn = showLoadingIndicator(form.querySelector('.submit-btn'));
+            const current = getGuestReviews();
+            const newReview = normalizeReview({
+                id: `guest-${Date.now()}`,
+                name,
+                rating,
+                text,
+                createdAt: new Date().toISOString(),
+                likes: 0,
+                dislikes: 0
+            });
+            const signature = getReviewSignature(newReview);
+            const hasDuplicate = current.some((item) => getReviewSignature(item) === signature);
+            if (hasDuplicate) {
+                resetBtn();
+                showError('Такой отзыв уже есть. Измените текст или оценку.');
+                return;
+            }
+
+            setGuestReviews([newReview, ...current]);
+            addAdminRecord('guestReviews', { name, rating: newReview.rating, text, source: 'site-guest-review' });
+            form.reset();
+            renderGuestReviews();
+            showSuccess('✓ Спасибо! Ваш отзыв опубликован.');
+            resetBtn();
+        });
+    }
+
+    window.addEventListener('storage', (event) => {
+        if (event.key === GUEST_REVIEWS_KEY || event.key === GUEST_REVIEW_VOTES_KEY) {
+            renderGuestReviews();
         }
-
-        if (!name || !text) {
-            showError('Заполните имя и текст отзыва');
-            return;
-        }
-
-        const resetBtn = showLoadingIndicator(form.querySelector('.submit-btn'));
-
-        const items = getStorageArray('guestReviews');
-        items.unshift({ name, rating, text, createdAt: new Date().toISOString() });
-        setStorageArray('guestReviews', items.slice(0, 40));
-        addAdminRecord('guestReviews', { name, rating, text, source: 'site-guest-review' });
-
-        form.reset();
-        renderGuestReviews();
-        showSuccess('✓ Спасибо! Ваш отзыв опубликован.');
-        resetBtn();
     });
+
+    if (guestReviewsChannel) {
+        guestReviewsChannel.addEventListener('message', (event) => {
+            if (event.data?.type === 'reviews-updated') {
+                renderGuestReviews();
+            }
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initGuestReviews();
 });
 
 async function renderPublicContent() {

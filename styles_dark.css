@@ -5307,3 +5307,40 @@ body {
     padding-top: clamp(38px, 7vw, 62px) !important;
     padding-bottom: clamp(38px, 7vw, 62px) !important;
 }
+
+.guest-item-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+}
+
+.guest-vote-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(125, 160, 234, 0.28);
+    background: rgba(9, 16, 31, 0.72);
+    color: #c8dbff;
+    border-radius: 999px;
+    padding: 6px 11px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.24s var(--ease);
+}
+
+.guest-vote-btn:hover {
+    border-color: rgba(174, 204, 255, 0.52);
+    color: #f4f8ff;
+    transform: translateY(-1px);
+}
+
+.guest-vote-btn.active {
+    border-color: rgba(174, 204, 255, 0.62);
+    background: linear-gradient(135deg, rgba(92, 124, 217, 0.36), rgba(66, 97, 188, 0.22));
+    color: #f5f8ff;
+    box-shadow: 0 0 14px rgba(108, 150, 250, 0.22);
+}
+
+.guest-vote-count {
+    font-weight: 600;
+}
