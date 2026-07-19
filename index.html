@@ -1377,6 +1377,23 @@
             return starterQuickActions;
         }
 
+        function localInstantReply(userText) {
+            const text = String(userText || '').trim().toLowerCase();
+            if (!text) {
+                return '';
+            }
+            if (/(^|\s)(как дела|как ты|как настроение|ты тут|на связи|что делаешь)(\s|$)/.test(text)) {
+                return 'У меня всё хорошо, благодарю 🌙 Я на связи и могу помочь со входом, услугами, записью и вопросами по матрице судьбы.';
+            }
+            if (/(^|\s)(спасибо|благодарю|мерси|спс)(\s|$)/.test(text)) {
+                return 'Пожалуйста 🌙 Если хотите, я сразу подскажу следующий шаг по вашему вопросу.';
+            }
+            if (/(^|\s)(привет|здравствуй|добрый день|добрый вечер)(\s|$)/.test(text)) {
+                return 'Здравствуйте 🌙 Я рядом. Могу помочь со входом в кабинет, записью, услугами и вопросами по матрице судьбы.';
+            }
+            return '';
+        }
+
         function addMsg(text, role) {
             const box = document.getElementById('aiChatMessages');
             const d = document.createElement('div');
@@ -1440,6 +1457,13 @@
             quickBox.innerHTML = '';
             addTyping();
             try {
+                const instantReply = localInstantReply(msg);
+                if (instantReply) {
+                    document.getElementById('_aiTyping')?.remove();
+                    addMsg(instantReply, 'bot');
+                    setQuickActions(nextQuickActions(msg, instantReply));
+                    return;
+                }
                 const data = await postChatMessage(msg);
                 document.getElementById('_aiTyping')?.remove();
                 const botText = data.ok ? data.reply : (data.message || 'Ошибка. Попробуйте позже.');
