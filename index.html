@@ -1131,6 +1131,7 @@
                     <span>Здравствуйте 🌙 Я — ИИ-консультант Матрицы Судьбы.<br>Спросите меня о нумерологии, матрице судьбы или услугах. Чем могу помочь?</span>
                 </div>
             </div>
+            <div id="aiChatQuick" aria-label="Быстрые вопросы"></div>
             <div id="aiChatInputRow">
                 <input id="aiChatInput" type="text" placeholder="Напишите вопрос..." maxlength="500"
                     onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiChatSend()}" autocomplete="off">
@@ -1178,6 +1179,26 @@
     }
     #aiChatMessages::-webkit-scrollbar { width:4px; }
     #aiChatMessages::-webkit-scrollbar-thumb { background:rgba(123,79,201,0.4); border-radius:2px; }
+    #aiChatQuick {
+        display:flex; gap:8px; flex-wrap:wrap;
+        padding:10px 14px 0;
+    }
+    .ai-quick-btn {
+        border:1px solid rgba(123,79,201,0.35);
+        background:rgba(123,79,201,0.12);
+        color:#d8dcf2;
+        border-radius:999px;
+        font-size:12px;
+        line-height:1;
+        padding:8px 11px;
+        cursor:pointer;
+        transition:background .15s, border-color .15s, transform .15s;
+    }
+    .ai-quick-btn:hover {
+        background:rgba(123,79,201,0.2);
+        border-color:rgba(200,168,64,0.45);
+        transform:translateY(-1px);
+    }
     .ai-msg { display:flex; max-width:88%; }
     .ai-msg-bot { justify-content:flex-start; }
     .ai-msg-user { justify-content:flex-end; margin-left:auto; }
@@ -1229,6 +1250,25 @@
     (function(){
         const API = (window.API_BASE || 'https://roza-ogly-api.onrender.com');
         const SID = (sessionStorage.getItem('aiSid') || (()=>{ const s=Math.random().toString(36).slice(2); sessionStorage.setItem('aiSid',s); return s; })());
+        const quickBox = document.getElementById('aiChatQuick');
+        const starterQuickActions = [
+            'Не могу войти в аккаунт',
+            'Забыл пароль, что делать?',
+            'Какие у вас услуги и цены?',
+            'Как записаться на сеанс?'
+        ];
+        const loginQuickActions = [
+            'Не приходит письмо для сброса пароля',
+            'Пишет, что аккаунт не найден',
+            'Как безопасно восстановить доступ?',
+            'Куда обратиться в поддержку?'
+        ];
+        const serviceQuickActions = [
+            'Помогите выбрать услугу',
+            'Какая цена на нумерологию?',
+            'Есть ли свободное время на завтра?',
+            'Хочу записаться на консультацию'
+        ];
 
         // ── Drag & Drop для виджета ──
         const widget = document.getElementById('aiChatWidget');
@@ -1278,17 +1318,57 @@
             document.getElementById('aiChatBox').classList.add('open');
             document.getElementById('aiChatBox').setAttribute('aria-hidden','false');
             document.getElementById('aiChatInput').focus();
+            if (!quickBox.childElementCount) {
+                setQuickActions(starterQuickActions);
+            }
         };
         window.aiChatClose = function() {
             document.getElementById('aiChatBox').classList.remove('open');
             document.getElementById('aiChatBox').setAttribute('aria-hidden','true');
         };
 
+        function escapeHtml(text) {
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function setQuickActions(actions) {
+            quickBox.innerHTML = '';
+            actions.forEach((label) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'ai-quick-btn';
+                btn.textContent = label;
+                btn.addEventListener('click', () => {
+                    const input = document.getElementById('aiChatInput');
+                    input.value = label;
+                    window.aiChatSend();
+                });
+                quickBox.appendChild(btn);
+            });
+        }
+
+        function nextQuickActions(userText, botText) {
+            const context = (String(userText || '') + ' ' + String(botText || '')).toLowerCase();
+            if (/(вход|логин|аккаунт|кабинет|парол|зайти|войти|доступ)/.test(context)) {
+                return loginQuickActions;
+            }
+            if (/(услуг|цена|стоим|запис|сеанс|брон|время)/.test(context)) {
+                return serviceQuickActions;
+            }
+            return starterQuickActions;
+        }
+
         function addMsg(text, role) {
             const box = document.getElementById('aiChatMessages');
             const d = document.createElement('div');
             d.className = 'ai-msg ai-msg-' + role;
-            d.innerHTML = '<span>' + text.replace(/\n/g,'<br>') + '</span>';
+            d.setAttribute('data-role', role);
+            d.innerHTML = '<span>' + escapeHtml(text).replace(/\n/g,'<br>') + '</span>';
             box.appendChild(d);
             box.scrollTop = box.scrollHeight;
             return d;
@@ -1312,6 +1392,7 @@
             input.value = '';
             btn.disabled = true;
             addMsg(msg, 'user');
+            quickBox.innerHTML = '';
             addTyping();
             try {
                 const r = await fetch(API + '/api/chat', {
@@ -1321,15 +1402,21 @@
                 });
                 const data = await r.json();
                 document.getElementById('_aiTyping')?.remove();
-                addMsg(data.ok ? data.reply : (data.message || 'Ошибка. Попробуйте позже.'), 'bot');
+                const botText = data.ok ? data.reply : (data.message || 'Ошибка. Попробуйте позже.');
+                addMsg(botText, 'bot');
+                setQuickActions(nextQuickActions(msg, botText));
             } catch {
                 document.getElementById('_aiTyping')?.remove();
-                addMsg('Нет соединения. Проверьте интернет 🌙', 'bot');
+                const botText = 'Нет соединения. Проверьте интернет 🌙';
+                addMsg(botText, 'bot');
+                setQuickActions(nextQuickActions(msg, botText));
             } finally {
                 btn.disabled = false;
                 input.focus();
             }
         };
+
+        setQuickActions(starterQuickActions);
     })();
     </script>
 </body>
