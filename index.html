@@ -1248,7 +1248,21 @@
 
     <script>
     (function(){
-        const API = (window.API_BASE || 'https://roza-ogly-api.onrender.com');
+        const REMOTE_API = 'https://roza-ogly-api.onrender.com';
+        const configuredApi = String(window.API_BASE || '').trim().replace(/\/$/, '');
+        const isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
+        const chatApis = [];
+        const pushApi = (base) => {
+            const clean = String(base || '').trim().replace(/\/$/, '');
+            if (!clean || chatApis.includes(clean)) return;
+            chatApis.push(clean);
+        };
+        if (isLocalHost) {
+            pushApi('http://127.0.0.1:5000');
+            pushApi('http://localhost:5000');
+        }
+        pushApi(configuredApi);
+        pushApi(REMOTE_API);
         const SID = (sessionStorage.getItem('aiSid') || (()=>{ const s=Math.random().toString(36).slice(2); sessionStorage.setItem('aiSid',s); return s; })());
         const quickBox = document.getElementById('aiChatQuick');
         const starterQuickActions = [
@@ -1384,6 +1398,37 @@
             box.scrollTop = box.scrollHeight;
         }
 
+        async function postChatMessage(msg) {
+            let lastError = null;
+            for (const apiBase of chatApis) {
+                const controller = new AbortController();
+                const timer = setTimeout(() => controller.abort(), 5000);
+                try {
+                    const response = await fetch(apiBase + '/api/chat', {
+                        method:'POST',
+                        headers:{'Content-Type':'application/json'},
+                        body: JSON.stringify({ message: msg, session_id: SID }),
+                        signal: controller.signal
+                    });
+                    let data = null;
+                    try {
+                        data = await response.json();
+                    } catch {
+                        data = null;
+                    }
+                    if (!data) {
+                        throw new Error('Empty chat response');
+                    }
+                    return data;
+                } catch (error) {
+                    lastError = error;
+                } finally {
+                    clearTimeout(timer);
+                }
+            }
+            throw lastError || new Error('Chat API is unavailable');
+        }
+
         window.aiChatSend = async function() {
             const input = document.getElementById('aiChatInput');
             const btn = document.getElementById('aiChatSendBtn');
@@ -1395,12 +1440,7 @@
             quickBox.innerHTML = '';
             addTyping();
             try {
-                const r = await fetch(API + '/api/chat', {
-                    method:'POST',
-                    headers:{'Content-Type':'application/json'},
-                    body: JSON.stringify({ message: msg, session_id: SID })
-                });
-                const data = await r.json();
+                const data = await postChatMessage(msg);
                 document.getElementById('_aiTyping')?.remove();
                 const botText = data.ok ? data.reply : (data.message || 'Ошибка. Попробуйте позже.');
                 addMsg(botText, 'bot');
