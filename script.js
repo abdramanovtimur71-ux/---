@@ -11,8 +11,8 @@ function scrollToSection(selector) {
 }
 
 function isUserAuthenticated() {
-    const userLogged = sessionStorage.getItem('isLoggedIn') === 'true';
-    const userName = sessionStorage.getItem('userName');
+    const userLogged = sessionStorage.getItem('isLoggedIn') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+    const userName = sessionStorage.getItem('userName') || localStorage.getItem('userName');
     return userLogged && Boolean(userName);
 }
 
@@ -517,6 +517,35 @@ const API_BASE = (() => {
 })();
 window.API_BASE = API_BASE;
 
+function applyAuthSession(user, userToken, clientToken, rememberMe = true) {
+    const safeName = (user?.name || '').trim();
+    const safeEmail = (user?.email || '').trim();
+    const safePhone = (user?.phone || '').trim();
+
+    sessionStorage.setItem('isLoggedIn', 'true');
+    sessionStorage.setItem('userName', safeName || (safeEmail.split('@')[0] || 'Клиент'));
+
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('userName', safeName || (safeEmail.split('@')[0] || 'Клиент'));
+    if (safeEmail) {
+        localStorage.setItem('userEmail', safeEmail);
+    }
+    localStorage.setItem('userData', JSON.stringify({ name: safeName, email: safeEmail, phone: safePhone }));
+
+    if (userToken) {
+        sessionStorage.setItem('userToken', userToken);
+        if (rememberMe) {
+            localStorage.setItem('userToken', userToken);
+        } else {
+            localStorage.removeItem('userToken');
+        }
+    }
+    if (clientToken) {
+        localStorage.setItem('clientToken', clientToken);
+        sessionStorage.setItem('clientToken', clientToken);
+    }
+}
+
 function getStorageArray(key) {
     try {
         return JSON.parse(localStorage.getItem(key) || '[]');
@@ -638,10 +667,156 @@ function closeRegistrationModal() {
     document.body.style.overflow = 'auto';
 }
 
+function openForgotPasswordModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.id = 'forgotPasswordModal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="close-modal" type="button">×</button>
+            <div class="modal-header">
+                <h2>Восстановление пароля</h2>
+                <p>Код придет в WhatsApp или SMS</p>
+            </div>
+            <form id="forgotPasswordRequestForm" class="login-form">
+                <div class="form-group">
+                    <label>Email адрес</label>
+                    <input type="email" id="forgotEmail" placeholder="ваш@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Номер телефона</label>
+                    <input type="tel" id="forgotPhone" placeholder="+7 777 123 45 67" required>
+                </div>
+                <div class="form-group">
+                    <label>Канал отправки</label>
+                    <select id="forgotChannel" required>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="sms">SMS</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Отправить код</button>
+            </form>
+            <form id="forgotPasswordResetForm" class="login-form" style="display:none">
+                <div class="form-group">
+                    <label>Код из сообщения</label>
+                    <input type="text" id="forgotCode" inputmode="numeric" maxlength="6" pattern="\\d{6}" placeholder="6 цифр" required>
+                </div>
+                <div class="form-group">
+                    <label>Новый пароль</label>
+                    <input type="password" id="forgotNewPassword" placeholder="Минимум 8 символов" required>
+                </div>
+                <button type="submit" class="submit-btn">Сменить пароль</button>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+
+    const closeModal = () => {
+        modal.remove();
+        document.body.style.overflow = 'auto';
+    };
+
+    modal.querySelector('.close-modal')?.addEventListener('click', closeModal);
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    const requestForm = modal.querySelector('#forgotPasswordRequestForm');
+    const resetForm = modal.querySelector('#forgotPasswordResetForm');
+    const emailInput = modal.querySelector('#forgotEmail');
+    const phoneInput = modal.querySelector('#forgotPhone');
+    const channelInput = modal.querySelector('#forgotChannel');
+
+    requestForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const email = (emailInput.value || '').trim();
+        const phone = (phoneInput.value || '').trim();
+        const channel = (channelInput.value || '').trim();
+
+        if (!email || !phone || !channel) {
+            showError('Заполните email, телефон и канал отправки');
+            return;
+        }
+
+        const resetBtn = showLoadingIndicator(requestForm.querySelector('.submit-btn'));
+        try {
+            const response = await fetch(API_BASE + '/api/auth/password/forgot', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, phone, channel })
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok || !data.ok) {
+                showError(data.message || 'Не удалось отправить код');
+                resetBtn();
+                return;
+            }
+            requestForm.style.display = 'none';
+            resetForm.style.display = 'block';
+            showSuccess(data.debugCode ? `Код отправлен: ${data.debugCode}` : 'Код отправлен. Проверьте сообщения.');
+            resetBtn();
+        } catch {
+            showError('Сервер восстановления пароля недоступен');
+            resetBtn();
+        }
+    });
+
+    resetForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const email = (emailInput.value || '').trim();
+        const code = (modal.querySelector('#forgotCode').value || '').trim();
+        const newPassword = modal.querySelector('#forgotNewPassword').value || '';
+
+        if (!/^\d{6}$/.test(code)) {
+            showError('Введите 6-значный код');
+            return;
+        }
+        if (!FormValidator.strongPassword(newPassword)) {
+            showError('Пароль должен быть от 8 символов, содержать буквы и цифры');
+            return;
+        }
+
+        const resetBtn = showLoadingIndicator(resetForm.querySelector('.submit-btn'));
+        try {
+            const response = await fetch(API_BASE + '/api/auth/password/reset', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, code, newPassword })
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok || !data.ok) {
+                showError(data.message || 'Не удалось сменить пароль');
+                resetBtn();
+                return;
+            }
+
+            applyAuthSession(data.user || {}, data.userToken || '', data.clientToken || '', true);
+            simulateLogin((data.user && data.user.name) || email.split('@')[0] || 'Клиент');
+            showSuccess('Пароль обновлен. Вы вошли в кабинет.');
+            resetBtn();
+            closeModal();
+        } catch {
+            showError('Сервер восстановления пароля недоступен');
+            resetBtn();
+        }
+    });
+}
+
 // Закрытие модального окна при клике на фон
 document.addEventListener('DOMContentLoaded', () => {
     const loginModal = document.getElementById('loginModal');
     const registrationModal = document.getElementById('registrationModal');
+    const forgotLink = document.querySelector('.forgot-password');
+
+    if (forgotLink) {
+        forgotLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            openForgotPasswordModal();
+        });
+    }
     
     window.addEventListener('click', (event) => {
         if (event.target === loginModal) {
@@ -691,10 +866,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginFormElement');
     
     if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const rememberMe = document.getElementById('rememberMe').checked;
             
@@ -708,17 +883,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 showError('Пароль должен содержать не менее 6 символов');
                 return;
             }
-            
-            // Храним только минимальную информацию сессии без email
-            sessionStorage.setItem('isLoggedIn', 'true');
-            sessionStorage.setItem('userName', email.split('@')[0]);
-            
-            if (rememberMe) {
-                localStorage.setItem('rememberMe', 'true');
+
+            const resetBtn = showLoadingIndicator(loginForm.querySelector('.submit-btn'));
+            try {
+                const response = await fetch(API_BASE + '/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok || !data.ok) {
+                    showError(data.message || 'Ошибка входа');
+                    resetBtn();
+                    return;
+                }
+
+                applyAuthSession(data.user || {}, data.userToken || '', data.clientToken || '', rememberMe);
+                if (rememberMe) {
+                    localStorage.setItem('rememberMe', 'true');
+                } else {
+                    localStorage.removeItem('rememberMe');
+                }
+                simulateLogin((data.user && data.user.name) || email.split('@')[0] || 'Клиент');
+                resetBtn();
+            } catch {
+                showError('Сервер авторизации недоступен. Попробуйте позже.');
+                resetBtn();
             }
-            
-            // Имитация входа
-            simulateLogin(email);
         });
     }
 });
@@ -728,14 +919,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const registrationForm = document.getElementById('registrationFormElement');
     
     if (registrationForm) {
-        registrationForm.addEventListener('submit', (e) => {
+        registrationForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('reg-email').value;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const phoneInput = document.getElementById('reg-phone');
             const password = document.getElementById('reg-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
             const agree = document.getElementById('agree').checked;
+            const phone = phoneInput ? phoneInput.value.trim() : '';
             
             // Валидация
             if (!name || !email || !password || !confirmPassword) {
@@ -757,19 +950,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 showError('Пожалуйста, согласитесь с условиями использования');
                 return;
             }
-            
-            // Храним только минимальную информацию сессии без email
-            sessionStorage.setItem('userName', name);
-            sessionStorage.setItem('isLoggedIn', 'true');
 
-            addAdminRecord('registrations', {
-                name,
-                email,
-                source: 'index-registration'
-            });
-            
-            // Имитация регистрации
-            simulateLogin(name);
+            const resetBtn = showLoadingIndicator(registrationForm.querySelector('.submit-btn'));
+            try {
+                const response = await fetch(API_BASE + '/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password, phone })
+                });
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok || !data.ok) {
+                    showError(data.message || 'Ошибка регистрации');
+                    resetBtn();
+                    return;
+                }
+
+                applyAuthSession(data.user || { name, email, phone }, data.userToken || '', data.clientToken || '', true);
+                addAdminRecord('registrations', {
+                    name,
+                    email,
+                    phone,
+                    source: 'index-registration-api'
+                });
+                simulateLogin((data.user && data.user.name) || name || email.split('@')[0] || 'Клиент');
+                resetBtn();
+            } catch {
+                showError('Сервер регистрации недоступен. Попробуйте позже.');
+                resetBtn();
+            }
         });
     }
 });
@@ -802,10 +1010,12 @@ function simulateLogin(userName) {
 
 // Функция проверки статуса входа при загрузке страницы
 function checkLoginStatus() {
-    const userLogged = sessionStorage.getItem('isLoggedIn');
-    const userName = sessionStorage.getItem('userName');
+    const userLogged = sessionStorage.getItem('isLoggedIn') || localStorage.getItem('isLoggedIn');
+    const userName = sessionStorage.getItem('userName') || localStorage.getItem('userName');
     
     if (userLogged === 'true' && userName) {
+        sessionStorage.setItem('isLoggedIn', 'true');
+        sessionStorage.setItem('userName', userName);
         const loginBtn = document.querySelector('.login-btn');
         const userProfile = document.getElementById('userProfile');
         const profileAvatar = document.querySelector('.profile-avatar');
@@ -849,14 +1059,29 @@ function setupProfileMenuInteractions() {
 }
 
 // Функция выхода
-function logout() {
+async function logout() {
+    const userToken = (sessionStorage.getItem('userToken') || localStorage.getItem('userToken') || '').trim();
+    try {
+        await fetch(API_BASE + '/api/auth/logout', {
+            method: 'POST',
+            headers: userToken ? { 'X-User-Token': userToken } : {}
+        });
+    } catch (error) {
+        console.warn('Не удалось завершить серверную сессию:', error);
+    }
+
     sessionStorage.removeItem('isLoggedIn');
     sessionStorage.removeItem('userName');
+    sessionStorage.removeItem('userToken');
+    sessionStorage.removeItem('clientToken');
     sessionStorage.removeItem('isAdminLoggedIn');
     sessionStorage.removeItem('adminToken');
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userName');
     localStorage.removeItem('userEmail');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('clientToken');
     localStorage.removeItem('rememberMe');
     localStorage.removeItem('isAdminLoggedIn');
     localStorage.removeItem('adminToken');

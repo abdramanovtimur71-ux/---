@@ -3,6 +3,8 @@ import re
 import secrets
 import sqlite3
 import logging
+import hashlib
+import hmac
 from collections import Counter, defaultdict
 from contextlib import closing
 from io import StringIO
@@ -33,6 +35,10 @@ TRAINING_PRICE_KZT = int(os.getenv("TRAINING_PRICE_KZT", "75000"))
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "0000")
 ADMIN_SESSION_MINUTES = int(os.getenv("ADMIN_SESSION_MINUTES", "720"))
 CLIENT_SESSION_MINUTES = int(os.getenv("CLIENT_SESSION_MINUTES", "10080"))
+USER_SESSION_MINUTES = int(os.getenv("USER_SESSION_MINUTES", "10080"))
+PASSWORD_RESET_CODE_TTL_MINUTES = int(os.getenv("PASSWORD_RESET_CODE_TTL_MINUTES", "10"))
+PASSWORD_RESET_MAX_ATTEMPTS = int(os.getenv("PASSWORD_RESET_MAX_ATTEMPTS", "5"))
+PASSWORD_RESET_DEBUG_CODE = os.getenv("PASSWORD_RESET_DEBUG_CODE", "false").lower() == "true"
 BOOKING_START_HOUR = int(os.getenv("BOOKING_START_HOUR", "9"))
 BOOKING_END_HOUR = int(os.getenv("BOOKING_END_HOUR", "21"))
 SLOT_STEP_MINUTES = int(os.getenv("SLOT_STEP_MINUTES", "60"))
@@ -212,6 +218,50 @@ def init_db():
             )
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS user_accounts (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL UNIQUE,
+                phone TEXT,
+                password_hash TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                last_login_at TEXT
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS user_sessions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                token TEXT NOT NULL UNIQUE,
+                created_at TEXT NOT NULL,
+                expires_at TEXT NOT NULL,
+                last_seen_at TEXT NOT NULL,
+                FOREIGN KEY(user_id) REFERENCES user_accounts(id) ON DELETE CASCADE
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS password_reset_codes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                channel TEXT NOT NULL,
+                phone TEXT,
+                code_hash TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                expires_at TEXT NOT NULL,
+                attempts INTEGER NOT NULL DEFAULT 0,
+                consumed_at TEXT,
+                request_ip TEXT,
+                FOREIGN KEY(user_id) REFERENCES user_accounts(id) ON DELETE CASCADE
+            )
+            """
+        )
         reviews_count = conn.execute("SELECT COUNT(*) AS c FROM guest_reviews").fetchone()["c"]
         if reviews_count == 0:
             defaults = [
@@ -277,6 +327,88 @@ def get_client_token_from_request() -> str:
     if len(token) < 20:
         return ""
     return token
+
+
+def get_user_token_from_request() -> str:
+    token = (request.headers.get("X-User-Token") or request.cookies.get("user_token") or "").strip()
+    if len(token) < 20:
+        return ""
+    return token
+
+
+def hash_password(password: str) -> str:
+    salt = secrets.token_hex(16)
+    derived = hashlib.pbkdf2_hmac(
+        "sha256",
+        password.encode("utf-8"),
+        salt.encode("utf-8"),
+        150_000,
+    )
+    return f"pbkdf2_sha256$150000${salt}${derived.hex()}"
+
+
+def verify_password(password: str, encoded: str) -> bool:
+    try:
+        algo, rounds_raw, salt, digest = (encoded or "").split("$", 3)
+        if algo != "pbkdf2_sha256":
+            return False
+        rounds = int(rounds_raw)
+        calc = hashlib.pbkdf2_hmac(
+            "sha256",
+            password.encode("utf-8"),
+            salt.encode("utf-8"),
+            rounds,
+        ).hex()
+        return hmac.compare_digest(calc, digest)
+    except ValueError:
+        return False
+
+
+def is_strong_password(password: str) -> bool:
+    if len(password or "") < 8:
+        return False
+    if not re.search(r"[A-Za-zА-Яа-я]", password):
+        return False
+    if not re.search(r"\d", password):
+        return False
+    return True
+
+
+def issue_user_token(user_id: int) -> str:
+    now = datetime.now()
+    expires_at = now + timedelta(minutes=USER_SESSION_MINUTES)
+    token = secrets.token_urlsafe(32)
+    with closing(get_conn()) as conn:
+        conn.execute(
+            """
+            INSERT INTO user_sessions (user_id, token, created_at, expires_at, last_seen_at)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (user_id, token, now.isoformat(), expires_at.isoformat(), now.isoformat()),
+        )
+        conn.commit()
+    return token
+
+
+def clear_user_session(token: str):
+    if not token:
+        return
+    with closing(get_conn()) as conn:
+        conn.execute("DELETE FROM user_sessions WHERE token = ?", (token,))
+        conn.commit()
+
+
+def build_reset_code_hash(user_id: int, code: str) -> str:
+    secret = app.config["SECRET_KEY"]
+    payload = f"{user_id}:{code}".encode("utf-8")
+    return hmac.new(secret.encode("utf-8"), payload, hashlib.sha256).hexdigest()
+
+
+def normalize_reset_channel(channel: str) -> str:
+    value = (channel or "").strip().lower()
+    if value in {"sms", "whatsapp"}:
+        return value
+    return ""
 
 
 def issue_client_token(email: str) -> str:
@@ -475,6 +607,51 @@ def send_whatsapp_notification(text: str):
         return False, f"whatsapp-error: {exc}"
 
 
+def send_whatsapp_message(phone: str, text: str):
+    api_url = os.getenv("WHATSAPP_RESET_API_URL") or os.getenv("WHATSAPP_API_URL")
+    api_token = os.getenv("WHATSAPP_RESET_API_TOKEN") or os.getenv("WHATSAPP_API_TOKEN")
+    if not (api_url and api_token):
+        return False, "whatsapp-not-configured"
+    try:
+        resp = requests.post(
+            api_url,
+            json={"to": phone, "message": text},
+            headers={"Authorization": f"Bearer {api_token}"},
+            timeout=20,
+        )
+        resp.raise_for_status()
+        return True, "whatsapp-sent"
+    except requests.RequestException as exc:
+        return False, f"whatsapp-error: {exc}"
+
+
+def send_sms_message(phone: str, text: str):
+    api_url = os.getenv("SMS_API_URL")
+    api_token = os.getenv("SMS_API_TOKEN")
+    if not (api_url and api_token):
+        return False, "sms-not-configured"
+    try:
+        resp = requests.post(
+            api_url,
+            json={"to": phone, "message": text},
+            headers={"Authorization": f"Bearer {api_token}"},
+            timeout=20,
+        )
+        resp.raise_for_status()
+        return True, "sms-sent"
+    except requests.RequestException as exc:
+        return False, f"sms-error: {exc}"
+
+
+def send_reset_code(channel: str, phone: str, code: str):
+    message = f"Код для восстановления пароля: {code}. Код действует {PASSWORD_RESET_CODE_TTL_MINUTES} минут."
+    if channel == "whatsapp":
+        return send_whatsapp_message(phone, message)
+    if channel == "sms":
+        return send_sms_message(phone, message)
+    return False, "unknown-channel"
+
+
 def send_all_notifications(subject: str, text: str):
     results = {"email": None, "telegram": None, "whatsapp": None}
 
@@ -501,7 +678,7 @@ def add_security_headers(resp):
     origin = request.headers.get("Origin")
     if origin and origin in ALLOWED_ORIGINS:
         resp.headers["Access-Control-Allow-Origin"] = origin
-        resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Admin-Token, X-Client-Token"
+        resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Admin-Token, X-Client-Token, X-User-Token"
         resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
         resp.headers["Vary"] = "Origin"
 
@@ -583,16 +760,16 @@ def local_chat_reply(user_msg: str) -> str:
 
     if has("войти", "вход", "логин", "аккаунт", "кабинет", "профил", "авторизац", "не могу зайти", "не могу войти", "не заходит", "зайти не", "доступ"):
         return (
-            "Если не удаётся зайти в аккаунт, сначала нажмите «Забыли пароль?» и проверьте почту, включая спам. "
+            "Если не удаётся зайти в аккаунт, сначала нажмите «Забыли пароль?» и запросите код в WhatsApp или SMS. "
             "Не сообщайте пароль, SMS-код или данные карты — я подскажу только безопасные шаги. "
             "Если доступ всё равно не восстановится, напишите, что именно видите на экране, и я помогу дальше."
         )
 
     if has("забыли пароль", "забыл пароль", "не помню пароль", "сброс пароля", "восстанов", "reset", "password"):
         return (
-            "Для восстановления доступа используйте «Забыли пароль?» и дождитесь письма на email. "
-            "Проверьте папку «Спам» и убедитесь, что вводите тот же адрес, на который регистрировались. "
-            "Если письмо не приходит, я помогу сформулировать обращение в поддержку."
+            "Для восстановления доступа нажмите «Забыли пароль?», выберите WhatsApp или SMS и введите код из сообщения. "
+            "Проверьте, что указан номер, привязанный к аккаунту, и вводите только актуальный 6-значный код. "
+            "Если код не приходит, попробуйте второй канал или обратитесь в поддержку."
         )
 
     if has("зарегистр", "создать аккаунт", "создать кабинет", "регистрац"):
@@ -749,6 +926,295 @@ def admin_logout():
         ADMIN_SESSIONS.pop(token, None)
     response = jsonify({"ok": True})
     response.set_cookie("admin_token", "", expires=0, httponly=True, secure=request.is_secure, samesite="Lax")
+    return response
+
+
+@app.route("/api/auth/register", methods=["POST"])
+@limiter.limit("20 per hour")
+def auth_register():
+    payload = request.get_json(silent=True) or {}
+    name = (payload.get("name") or "").strip()
+    email = (payload.get("email") or "").strip().lower()
+    phone = (payload.get("phone") or "").strip()
+    password = payload.get("password") or ""
+
+    if len(name) < 2:
+        return jsonify({"ok": False, "message": "Укажите имя (минимум 2 символа)"}), 400
+    if not validate_email(email):
+        return jsonify({"ok": False, "message": "Некорректный email"}), 400
+    if phone and not validate_phone(phone):
+        return jsonify({"ok": False, "message": "Некорректный номер телефона"}), 400
+    if not is_strong_password(password):
+        return jsonify({"ok": False, "message": "Пароль должен быть не короче 8 символов и содержать буквы и цифры"}), 400
+
+    now_iso = datetime.now().isoformat()
+    with closing(get_conn()) as conn:
+        existing = conn.execute("SELECT id FROM user_accounts WHERE email = ?", (email,)).fetchone()
+        if existing:
+            return jsonify({"ok": False, "message": "Пользователь с таким email уже зарегистрирован"}), 409
+        conn.execute(
+            """
+            INSERT INTO user_accounts (name, email, phone, password_hash, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (name, email, phone or None, hash_password(password), now_iso, now_iso),
+        )
+        user_id = conn.execute("SELECT last_insert_rowid() AS id").fetchone()["id"]
+        conn.commit()
+
+    user_token = issue_user_token(user_id)
+    client_token = issue_client_token(email)
+    response = jsonify(
+        {
+            "ok": True,
+            "user": {"name": name, "email": email, "phone": phone or ""},
+            "userToken": user_token,
+            "clientToken": client_token,
+            "expiresInMinutes": USER_SESSION_MINUTES,
+        }
+    )
+    response.set_cookie(
+        "user_token",
+        user_token,
+        max_age=USER_SESSION_MINUTES * 60,
+        httponly=True,
+        secure=request.is_secure,
+        samesite="Lax",
+    )
+    response.set_cookie(
+        "client_token",
+        client_token,
+        max_age=CLIENT_SESSION_MINUTES * 60,
+        httponly=True,
+        secure=request.is_secure,
+        samesite="Lax",
+    )
+    return response
+
+
+@app.route("/api/auth/login", methods=["POST"])
+@limiter.limit("40 per hour")
+def auth_login():
+    payload = request.get_json(silent=True) or {}
+    email = (payload.get("email") or "").strip().lower()
+    password = payload.get("password") or ""
+
+    if not validate_email(email) or not password:
+        return jsonify({"ok": False, "message": "Укажите корректный email и пароль"}), 400
+
+    with closing(get_conn()) as conn:
+        user = conn.execute(
+            "SELECT id, name, email, phone, password_hash FROM user_accounts WHERE email = ?",
+            (email,),
+        ).fetchone()
+        if not user or not verify_password(password, user["password_hash"]):
+            return jsonify({"ok": False, "message": "Неверный email или пароль"}), 401
+        now_iso = datetime.now().isoformat()
+        conn.execute(
+            "UPDATE user_accounts SET last_login_at = ?, updated_at = ? WHERE id = ?",
+            (now_iso, now_iso, user["id"]),
+        )
+        conn.commit()
+
+    user_token = issue_user_token(user["id"])
+    client_token = issue_client_token(email)
+    response = jsonify(
+        {
+            "ok": True,
+            "user": {"name": user["name"], "email": user["email"], "phone": user["phone"] or ""},
+            "userToken": user_token,
+            "clientToken": client_token,
+            "expiresInMinutes": USER_SESSION_MINUTES,
+        }
+    )
+    response.set_cookie(
+        "user_token",
+        user_token,
+        max_age=USER_SESSION_MINUTES * 60,
+        httponly=True,
+        secure=request.is_secure,
+        samesite="Lax",
+    )
+    response.set_cookie(
+        "client_token",
+        client_token,
+        max_age=CLIENT_SESSION_MINUTES * 60,
+        httponly=True,
+        secure=request.is_secure,
+        samesite="Lax",
+    )
+    return response
+
+
+@app.route("/api/auth/logout", methods=["POST"])
+def auth_logout():
+    token = get_user_token_from_request()
+    if token:
+        clear_user_session(token)
+    response = jsonify({"ok": True})
+    response.set_cookie("user_token", "", expires=0, httponly=True, secure=request.is_secure, samesite="Lax")
+    response.set_cookie("client_token", "", expires=0, httponly=True, secure=request.is_secure, samesite="Lax")
+    return response
+
+
+@app.route("/api/auth/password/forgot", methods=["POST"])
+@limiter.limit("10 per hour")
+def auth_password_forgot():
+    payload = request.get_json(silent=True) or {}
+    email = (payload.get("email") or "").strip().lower()
+    channel = normalize_reset_channel(payload.get("channel") or "")
+    phone = (payload.get("phone") or "").strip()
+
+    if not validate_email(email):
+        return jsonify({"ok": False, "message": "Введите корректный email"}), 400
+    if not channel:
+        return jsonify({"ok": False, "message": "Выберите канал: WhatsApp или SMS"}), 400
+
+    with closing(get_conn()) as conn:
+        user = conn.execute(
+            "SELECT id, phone FROM user_accounts WHERE email = ?",
+            (email,),
+        ).fetchone()
+
+        # Не раскрываем существование аккаунта.
+        if not user:
+            return jsonify({"ok": True, "message": "Если аккаунт существует, код отправлен"}), 200
+
+        target_phone = phone or (user["phone"] or "")
+        if not validate_phone(target_phone):
+            return jsonify({"ok": False, "message": "Укажите корректный номер телефона для отправки кода"}), 400
+        if not target_phone:
+            return jsonify({"ok": False, "message": "Для восстановления укажите номер телефона"}), 400
+
+        now = datetime.now()
+        expires = now + timedelta(minutes=PASSWORD_RESET_CODE_TTL_MINUTES)
+        code = f"{secrets.randbelow(1_000_000):06d}"
+        code_hash = build_reset_code_hash(user["id"], code)
+        now_iso = now.isoformat()
+
+        conn.execute(
+            """
+            UPDATE password_reset_codes
+            SET consumed_at = ?
+            WHERE user_id = ? AND consumed_at IS NULL
+            """,
+            (now_iso, user["id"]),
+        )
+        conn.execute(
+            """
+            INSERT INTO password_reset_codes (user_id, channel, phone, code_hash, created_at, expires_at, attempts, request_ip)
+            VALUES (?, ?, ?, ?, ?, ?, 0, ?)
+            """,
+            (user["id"], channel, target_phone, code_hash, now_iso, expires.isoformat(), get_remote_address()),
+        )
+        conn.commit()
+
+    sent_ok, sent_status = send_reset_code(channel, target_phone, code)
+    if not sent_ok:
+        return jsonify({"ok": False, "message": "Канал отправки временно недоступен. Попробуйте позже или смените канал."}), 503
+
+    response_payload = {"ok": True, "message": "Код отправлен. Проверьте сообщения и введите код на странице."}
+    if PASSWORD_RESET_DEBUG_CODE:
+        response_payload["debugCode"] = code
+        response_payload["debugStatus"] = sent_status
+    return jsonify(response_payload)
+
+
+@app.route("/api/auth/password/reset", methods=["POST"])
+@limiter.limit("15 per hour")
+def auth_password_reset():
+    payload = request.get_json(silent=True) or {}
+    email = (payload.get("email") or "").strip().lower()
+    code = (payload.get("code") or "").strip()
+    new_password = payload.get("newPassword") or ""
+
+    if not validate_email(email):
+        return jsonify({"ok": False, "message": "Введите корректный email"}), 400
+    if not re.match(r"^\d{6}$", code):
+        return jsonify({"ok": False, "message": "Код должен содержать 6 цифр"}), 400
+    if not is_strong_password(new_password):
+        return jsonify({"ok": False, "message": "Новый пароль должен быть не короче 8 символов и содержать буквы и цифры"}), 400
+
+    with closing(get_conn()) as conn:
+        user = conn.execute(
+            "SELECT id, name, email, phone FROM user_accounts WHERE email = ?",
+            (email,),
+        ).fetchone()
+        if not user:
+            return jsonify({"ok": False, "message": "Неверный код или email"}), 400
+
+        now = datetime.now().isoformat()
+        reset_row = conn.execute(
+            """
+            SELECT id, code_hash, attempts, expires_at
+            FROM password_reset_codes
+            WHERE user_id = ? AND consumed_at IS NULL
+            ORDER BY id DESC
+            LIMIT 1
+            """,
+            (user["id"],),
+        ).fetchone()
+
+        if not reset_row:
+            return jsonify({"ok": False, "message": "Код не найден. Запросите новый"}), 400
+        if parse_iso(reset_row["expires_at"]) is None or parse_iso(reset_row["expires_at"]) < datetime.now():
+            conn.execute("UPDATE password_reset_codes SET consumed_at = ? WHERE id = ?", (now, reset_row["id"]))
+            conn.commit()
+            return jsonify({"ok": False, "message": "Код истек. Запросите новый"}), 400
+        if int(reset_row["attempts"] or 0) >= PASSWORD_RESET_MAX_ATTEMPTS:
+            conn.execute("UPDATE password_reset_codes SET consumed_at = ? WHERE id = ?", (now, reset_row["id"]))
+            conn.commit()
+            return jsonify({"ok": False, "message": "Превышено число попыток. Запросите новый код"}), 429
+
+        expected_hash = build_reset_code_hash(user["id"], code)
+        if not hmac.compare_digest(expected_hash, reset_row["code_hash"]):
+            conn.execute(
+                "UPDATE password_reset_codes SET attempts = attempts + 1 WHERE id = ?",
+                (reset_row["id"],),
+            )
+            conn.commit()
+            return jsonify({"ok": False, "message": "Неверный код"}), 400
+
+        conn.execute(
+            """
+            UPDATE user_accounts
+            SET password_hash = ?, updated_at = ?
+            WHERE id = ?
+            """,
+            (hash_password(new_password), now, user["id"]),
+        )
+        conn.execute("UPDATE password_reset_codes SET consumed_at = ? WHERE id = ?", (now, reset_row["id"]))
+        conn.execute("DELETE FROM user_sessions WHERE user_id = ?", (user["id"],))
+        conn.commit()
+
+    user_token = issue_user_token(user["id"])
+    client_token = issue_client_token(email)
+    response = jsonify(
+        {
+            "ok": True,
+            "message": "Пароль обновлен",
+            "user": {"name": user["name"], "email": user["email"], "phone": user["phone"] or ""},
+            "userToken": user_token,
+            "clientToken": client_token,
+            "expiresInMinutes": USER_SESSION_MINUTES,
+        }
+    )
+    response.set_cookie(
+        "user_token",
+        user_token,
+        max_age=USER_SESSION_MINUTES * 60,
+        httponly=True,
+        secure=request.is_secure,
+        samesite="Lax",
+    )
+    response.set_cookie(
+        "client_token",
+        client_token,
+        max_age=CLIENT_SESSION_MINUTES * 60,
+        httponly=True,
+        secure=request.is_secure,
+        samesite="Lax",
+    )
     return response
 
 
@@ -1711,8 +2177,6 @@ start_reminder_worker_once()
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)
-
-
 
 
 
