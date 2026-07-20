@@ -10,6 +10,68 @@ function scrollToSection(selector) {
     }
 }
 
+const LOCAL_RUNTIME_HOST_RE = /^(localhost|127\.0\.0\.1)$/i;
+const APP_RUNTIME_VERSION = '20260721-unified-runtime';
+const APP_RUNTIME_VERSION_KEY = 'appRuntimeVersion';
+const CLIENT_STATE_KEYS_TO_RESET = [
+    'apiBaseUrl',
+    'isLoggedIn',
+    'userName',
+    'userEmail',
+    'userData',
+    'userToken',
+    'clientToken',
+    'rememberMe',
+    'isAdminLoggedIn',
+    'adminToken',
+    'adminOfflineAccess',
+    'trainingState',
+    'dashboard_page'
+];
+const CLIENT_STATE_KEYS_TO_PRESERVE = [
+    'theme',
+    'motionLevel',
+    'colorMode',
+    'adminUiThemeV2',
+    'adminUiAccentV2',
+    'adminUiDensityV2',
+    'adminUiMotionV2'
+];
+
+function isLocalRuntimeHost(hostname = window.location.hostname) {
+    return LOCAL_RUNTIME_HOST_RE.test(hostname);
+}
+
+function migrateClientRuntimeState() {
+    const currentVersion = localStorage.getItem(APP_RUNTIME_VERSION_KEY);
+    if (currentVersion === APP_RUNTIME_VERSION) {
+        if (isLocalRuntimeHost()) {
+            localStorage.removeItem('apiBaseUrl');
+        }
+        return;
+    }
+
+    const preservedValues = new Map();
+    CLIENT_STATE_KEYS_TO_PRESERVE.forEach((key) => {
+        const value = localStorage.getItem(key);
+        if (value !== null) {
+            preservedValues.set(key, value);
+        }
+    });
+
+    CLIENT_STATE_KEYS_TO_RESET.forEach((key) => {
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+    });
+
+    preservedValues.forEach((value, key) => {
+        localStorage.setItem(key, value);
+    });
+    localStorage.setItem(APP_RUNTIME_VERSION_KEY, APP_RUNTIME_VERSION);
+}
+
+migrateClientRuntimeState();
+
 function isUserAuthenticated() {
     const userLogged = sessionStorage.getItem('isLoggedIn') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
     const userName = sessionStorage.getItem('userName') || localStorage.getItem('userName');
@@ -495,8 +557,7 @@ const API_BASE = (() => {
         localStorage.setItem('apiBaseUrl', fromQuery);
         return fromQuery;
     }
-    const isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
-    if (isLocalHost) {
+    if (isLocalRuntimeHost()) {
         localStorage.removeItem('apiBaseUrl');
         return `${window.location.protocol}//${window.location.hostname}:5000`;
     }
