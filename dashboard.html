@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-6">
+    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-7">
 </head>
 <body>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
@@ -701,26 +701,9 @@
                 <!-- Визуальная матрица (SVG) — Правильная октаграмма -->
                 <div class="matrix-visual-wrap">
                   <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
-                    <defs>
-                      <radialGradient id="matrixSpaceTint" cx="50%" cy="50%" r="62%">
-                        <stop offset="0%" stop-color="#9772ef" stop-opacity="0.24"/>
-                        <stop offset="22%" stop-color="#6d5fe0" stop-opacity="0.18"/>
-                        <stop offset="55%" stop-color="#2b4ea0" stop-opacity="0.12"/>
-                        <stop offset="78%" stop-color="#101a3f" stop-opacity="0.24"/>
-                        <stop offset="100%" stop-color="#050811" stop-opacity="0.62"/>
-                      </radialGradient>
-                      <radialGradient id="matrixCoreGlow" cx="50%" cy="50%" r="58%">
-                        <stop offset="0%" stop-color="#ffe8a8" stop-opacity="0.66"/>
-                        <stop offset="45%" stop-color="#ffcb5a" stop-opacity="0.34"/>
-                        <stop offset="100%" stop-color="#ffcb5a" stop-opacity="0"/>
-                      </radialGradient>
-                    </defs>
 
                     <!-- Шаблон матрицы как фон -->
-                    <image class="matrix-template-layer" href="matrix-template.png" x="0" y="0" width="876" height="768"/>
-                    <rect class="matrix-space-overlay" x="0" y="0" width="876" height="768" fill="url(#matrixSpaceTint)"/>
-                    <circle class="matrix-core-glow" cx="440" cy="384" r="220" fill="url(#matrixCoreGlow)"/>
-                    <circle class="matrix-core-halo" cx="440" cy="384" r="300" fill="url(#matrixCoreGlow)" opacity="0.22"/>
+                    <image href="matrix-template.png" x="0" y="0" width="876" height="768"/>
 
                     <!-- ════ ЧИСЛА ПОВЕРХ ШАБЛОНА (точные координаты по пикселям) ════ -->
 
@@ -919,34 +902,6 @@ const API_BASE = (() => {
 const trainingPrice = '75 000';
 let paymentContext = null;
 
-function escapeHtml(value) {
-    return String(value ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-}
-
-function getClientToken() {
-    return (localStorage.getItem('clientToken') || '').trim();
-}
-
-function setClientToken(token) {
-    const value = String(token || '').trim();
-    if (value) {
-        localStorage.setItem('clientToken', value);
-    }
-}
-
-function withClientAuth(headers = {}) {
-    const token = getClientToken();
-    if (token) {
-        headers['X-Client-Token'] = token;
-    }
-    return headers;
-}
-
 function getStorageArray(key) {
     try {
         return JSON.parse(localStorage.getItem(key) || '[]');
@@ -1039,46 +994,22 @@ function closeSidebar() {
     document.getElementById('sidebarOverlay').classList.remove('active');
 }
 
-function openSidebar() {
-    document.getElementById('sidebar').classList.add('open');
-    document.getElementById('sidebarOverlay').classList.add('active');
-}
-
-// Swipe только по горизонтали, чтобы не мешать вертикальному скроллу
+// Swipe влево чтобы закрыть сайдбар
 (function () {
     let touchStartX = 0;
     let touchStartY = 0;
-    const MIN_HORIZONTAL_SWIPE = 72;
-    const MAX_VERTICAL_DRIFT = 64;
-    const HORIZONTAL_RATIO = 1.35;
-
-    function isMobileSidebarMode() {
-        return window.matchMedia('(max-width: 900px)').matches;
-    }
-
     document.addEventListener('touchstart', e => {
-        if (!isMobileSidebarMode() || e.touches.length !== 1) return;
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
     }, { passive: true });
-
     document.addEventListener('touchend', e => {
-        if (!isMobileSidebarMode() || e.changedTouches.length !== 1) return;
-
         const dx = e.changedTouches[0].clientX - touchStartX;
-        const dy = e.changedTouches[0].clientY - touchStartY;
-        const absDx = Math.abs(dx);
-        const absDy = Math.abs(dy);
-
-        if (absDx < MIN_HORIZONTAL_SWIPE || absDy > MAX_VERTICAL_DRIFT) return;
-        if (absDx < absDy * HORIZONTAL_RATIO) return;
-
-        if (dx < 0) {
-            closeSidebar();
-            return;
+        const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+        if (dx < -60 && dy < 50) closeSidebar();
+        if (dx > 60 && dy < 50 && touchStartX < 30) {
+            document.getElementById('sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('active');
         }
-
-        if (touchStartX < 24) openSidebar();
     }, { passive: true });
 })();
 
@@ -1204,7 +1135,7 @@ async function submitBooking(e) {
     try {
         const response = await fetch(API_BASE + '/api/bookings', {
             method: 'POST',
-            headers: withClientAuth({ 'Content-Type': 'application/json' }),
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, phone, email, service, date, time, format, note })
         });
         const data = await response.json();
@@ -1219,7 +1150,6 @@ async function submitBooking(e) {
         }
 
         addAdminRecord('bookings', { name, email, service, date, time, format, source: 'dashboard-booking-api' });
-        setClientToken(data.clientToken);
         showNotify('🗓 Запись создана! Уведомление отправлено на почту.', 'success');
         e.target.reset();
         const slotRoot = document.getElementById('dashboardBookingSlots');
@@ -1458,9 +1388,7 @@ function sessionIcon(service) {
 }
 
 function renderSessionItem(item, showStatus) {
-    const fmt = item.format ? ' · ' + escapeHtml(item.format) : '';
-    const safeService = escapeHtml(item.service || '');
-    const safeBookingAt = escapeHtml(item.booking_at || '');
+    const fmt = item.format ? ' · ' + item.format : '';
     const cancelBtn = showStatus && item.id
         ? `<button class="btn-cancel-session" onclick="cancelBooking(${item.id}, this)" title="Отменить запись">✕ Отменить</button>`
         : '';
@@ -1471,8 +1399,8 @@ function renderSessionItem(item, showStatus) {
         <div class="session-left">
             <div class="session-icon">${sessionIcon(item.service)}</div>
             <div>
-                <div class="session-name">${safeService}</div>
-                <div class="session-date">${safeBookingAt}${fmt}</div>
+                <div class="session-name">${item.service}</div>
+                <div class="session-date">${item.booking_at}${fmt}</div>
             </div>
         </div>
         <div style="display:flex;align-items:center;gap:10px">
@@ -1488,10 +1416,12 @@ async function cancelBooking(bookingId, btn) {
     btn.disabled = true;
     btn.textContent = '...';
     try {
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        const email = (userData.email || localStorage.getItem('userEmail') || '').trim();
         const res = await fetch(API_BASE + '/api/bookings/' + bookingId + '/cancel', {
             method: 'POST',
-            headers: withClientAuth({ 'Content-Type': 'application/json' }),
-            body: JSON.stringify({})
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
         });
         const data = await res.json();
         if (res.ok && data.ok) {
@@ -1515,31 +1445,26 @@ async function cancelBooking(bookingId, btn) {
 }
 
 async function loadSessions() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+
     const upcomingEl = document.getElementById('sessionsUpcomingList');
     const pastEl     = document.getElementById('sessionsPastList');
     const notifyEl   = document.getElementById('sessionsNotify');
     const notifyTitle = document.getElementById('sessionsNotifyTitle');
     const notifyText  = document.getElementById('sessionsNotifyText');
 
-    if (!getClientToken()) {
-        const msg = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Создайте запись, чтобы активировать защищенный доступ к сеансам</div>';
+    if (!email) {
+        const msg = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Добавьте email в профиле для отображения сеансов</div>';
         if (upcomingEl) upcomingEl.innerHTML = msg;
         if (pastEl)     pastEl.innerHTML     = msg;
         return;
     }
 
     try {
-        const res  = await fetch(API_BASE + '/api/bookings', {
-            headers: withClientAuth()
-        });
+        const res  = await fetch(API_BASE + '/api/bookings?email=' + encodeURIComponent(email));
         const data = await res.json();
         if (!res.ok || !data.ok) {
-            if (res.status === 401) {
-                const msg = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Сессия истекла. Создайте новую запись для повторной авторизации.</div>';
-                if (upcomingEl) upcomingEl.innerHTML = msg;
-                if (pastEl) pastEl.innerHTML = msg;
-                return;
-            }
             const err = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Не удалось загрузить данные</div>';
             if (upcomingEl) upcomingEl.innerHTML = err;
             if (pastEl)     pastEl.innerHTML     = err;
@@ -1579,20 +1504,20 @@ async function loadSessions() {
 }
 
 async function loadOverviewSessions() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
     const upEl  = document.getElementById('overviewUpcomingList');
     const pastEl = document.getElementById('overviewPastList');
 
-    if (!getClientToken()) {
-        const msg = '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Создайте запись для доступа к истории</div>';
+    if (!email) {
+        const msg = '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Добавьте email в профиле</div>';
         if (upEl)   upEl.innerHTML   = msg;
         if (pastEl) pastEl.innerHTML = msg;
         return;
     }
 
     try {
-        const res  = await fetch(API_BASE + '/api/bookings', {
-            headers: withClientAuth()
-        });
+        const res  = await fetch(API_BASE + '/api/bookings?email=' + encodeURIComponent(email));
         const data = await res.json();
         if (!res.ok || !data.ok) return;
 
@@ -1618,15 +1543,15 @@ async function loadClientMessages() {
     if (!root) {
         return;
     }
-    if (!getClientToken()) {
-        root.innerHTML = '<div class="empty">Создайте запись для защищённого доступа к сообщениям</div>';
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+    if (!email) {
+        root.innerHTML = '<div class="empty">Добавьте email в профиле, чтобы пользоваться сообщениями</div>';
         return;
     }
 
     try {
-        const response = await fetch(API_BASE + '/api/messages/inbox', {
-            headers: withClientAuth()
-        });
+        const response = await fetch(API_BASE + '/api/messages/inbox?email=' + encodeURIComponent(email));
         const data = await response.json();
         if (!response.ok || !data.ok) {
             root.innerHTML = '<div class="empty">Не удалось загрузить сообщения</div>';
@@ -1642,14 +1567,14 @@ async function loadClientMessages() {
             const fromAdmin = m.sender_role === 'admin';
             const label = fromAdmin ? 'Администратор' : 'Вы';
             const date = new Date(m.created_at).toLocaleString('ru-RU');
-            const subj = m.subject ? ('<div style="font-size:12px;color:var(--t3);margin-top:4px">' + escapeHtml(m.subject) + '</div>') : '';
+            const subj = m.subject ? ('<div style="font-size:12px;color:var(--t3);margin-top:4px">' + m.subject + '</div>') : '';
             return '<div class="session-item">'
                 + '<div class="session-left">'
                 + '<div class="session-icon">' + (fromAdmin ? '✉' : '◈') + '</div>'
                 + '<div>'
                 + '<div class="session-name">' + label + '</div>'
                 + subj
-                + '<div class="session-date" style="max-width:680px">' + escapeHtml(m.text || '') + '</div>'
+                + '<div class="session-date" style="max-width:680px">' + (m.text || '') + '</div>'
                 + '</div>'
                 + '</div>'
                 + '<span class="session-status ' + (fromAdmin ? 'status-upcoming' : 'status-done') + '">' + date + '</span>'
@@ -1688,10 +1613,12 @@ function updateUnreadBadge() {
 
 async function sendClientReply(e) {
     e.preventDefault();
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
     const text = document.getElementById('clientReplyText').value.trim();
 
-    if (!getClientToken()) {
-        showNotify('Создайте запись для доступа к сообщениям', 'error');
+    if (!email) {
+        showNotify('Добавьте email в профиле', 'error');
         return;
     }
     if (!text) {
@@ -1702,8 +1629,8 @@ async function sendClientReply(e) {
     try {
         const response = await fetch(API_BASE + '/api/messages/reply', {
             method: 'POST',
-            headers: withClientAuth({ 'Content-Type': 'application/json' }),
-            body: JSON.stringify({ text })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fromEmail: email, text })
         });
         const data = await response.json();
         if (!response.ok || !data.ok) {
@@ -1921,16 +1848,6 @@ function initMatrixProgressionDots() {
         {x: 170, y: 530, age: 70},  // З — 70 лет
     ];
     const CX = 350, CY = 350;
-    const edgePalette = [
-        { dot: '#9ab6ff', ring: '#e7bc6f', label: '#9fb5e7' },
-        { dot: '#8fd3ff', ring: '#f4cc7b', label: '#a7c7f5' },
-        { dot: '#b9a8ff', ring: '#f3bd7c', label: '#b9b6ec' },
-        { dot: '#ff9fbe', ring: '#f0af75', label: '#e0adc8' },
-        { dot: '#ffb79b', ring: '#e7b06c', label: '#deb09d' },
-        { dot: '#cba9ff', ring: '#e2b879', label: '#c5b5e1' },
-        { dot: '#8dc8ff', ring: '#d9ba79', label: '#9ab8d8' },
-        { dot: '#90beff', ring: '#e2c07c', label: '#9ebfe3' }
-    ];
     const ns = 'http://www.w3.org/2000/svg';
     const g = document.createElementNS(ns, 'g');
     g.setAttribute('id', 'progressionDotsGroup');
@@ -1939,7 +1856,6 @@ function initMatrixProgressionDots() {
     for (let i = 0; i < 8; i++) {
         const v1 = verts[i];
         const v2 = verts[(i + 1) % 8];
-        const palette = edgePalette[i];
         const dx = v2.x - v1.x, dy = v2.y - v1.y;
         // Направление наружу от центра через середину ребра
         const mx = (v1.x + v2.x) / 2 - CX;
@@ -1958,10 +1874,9 @@ function initMatrixProgressionDots() {
             circ.setAttribute('cx', x.toFixed(1));
             circ.setAttribute('cy', y.toFixed(1));
             circ.setAttribute('r', isMid ? '4.5' : '2.8');
-            circ.setAttribute('fill', isMid ? 'none' : palette.dot);
-            circ.setAttribute('stroke', isMid ? palette.ring : '#dde7ff');
+            circ.setAttribute('fill', isMid ? 'none' : '#c0c0c0');
+            circ.setAttribute('stroke', '#999');
             circ.setAttribute('stroke-width', isMid ? '1.2' : '0.6');
-            circ.setAttribute('opacity', isMid ? '0.95' : '0.9');
             g.appendChild(circ);
 
             // Метка года снаружи октагона (только не на средней точке — там уже есть текст)
@@ -1973,10 +1888,9 @@ function initMatrixProgressionDots() {
                 txt.setAttribute('y', ly);
                 txt.setAttribute('text-anchor', 'middle');
                 txt.setAttribute('dominant-baseline', 'middle');
-                txt.setAttribute('fill', palette.label);
+                txt.setAttribute('fill', '#999');
                 txt.setAttribute('font-size', '6.5');
-                txt.setAttribute('font-family', 'Inter, sans-serif');
-                txt.setAttribute('font-weight', '600');
+                txt.setAttribute('font-family', 'sans-serif');
                 txt.textContent = `${year}-${year + 1}`;
                 g.appendChild(txt);
             }

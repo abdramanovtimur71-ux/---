@@ -3,8 +3,6 @@ import re
 import secrets
 import sqlite3
 import logging
-import hashlib
-import hmac
 from collections import Counter, defaultdict
 from contextlib import closing
 from io import StringIO
@@ -14,7 +12,6 @@ import smtplib
 import csv
 import threading
 import time
-from urllib.parse import urlparse
 
 import requests
 from dotenv import load_dotenv
@@ -35,16 +32,6 @@ TRAINING_CAPACITY = 25
 TRAINING_PRICE_KZT = int(os.getenv("TRAINING_PRICE_KZT", "75000"))
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "0000")
 ADMIN_SESSION_MINUTES = int(os.getenv("ADMIN_SESSION_MINUTES", "720"))
-CLIENT_SESSION_MINUTES = int(os.getenv("CLIENT_SESSION_MINUTES", "10080"))
-USER_SESSION_MINUTES = int(os.getenv("USER_SESSION_MINUTES", "10080"))
-PASSWORD_RESET_CODE_TTL_MINUTES = int(os.getenv("PASSWORD_RESET_CODE_TTL_MINUTES", "10"))
-PASSWORD_RESET_MAX_ATTEMPTS = int(os.getenv("PASSWORD_RESET_MAX_ATTEMPTS", "5"))
-PASSWORD_RESET_MAX_REQUESTS_PER_WINDOW = max(1, int(os.getenv("PASSWORD_RESET_MAX_REQUESTS_PER_WINDOW", "3")))
-PASSWORD_RESET_REQUEST_WINDOW_MINUTES = max(1, int(os.getenv("PASSWORD_RESET_REQUEST_WINDOW_MINUTES", "10")))
-PASSWORD_RESET_DEBUG_CODE = os.getenv("PASSWORD_RESET_DEBUG_CODE", "false").lower() == "true"
-TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID", "").strip()
-TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN", "").strip()
-TWILIO_FROM_SMS = os.getenv("TWILIO_FROM_SMS", "").strip()
 BOOKING_START_HOUR = int(os.getenv("BOOKING_START_HOUR", "9"))
 BOOKING_END_HOUR = int(os.getenv("BOOKING_END_HOUR", "21"))
 SLOT_STEP_MINUTES = int(os.getenv("SLOT_STEP_MINUTES", "60"))
@@ -56,8 +43,6 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 _openai_client = None
 _CHAT_SESSIONS: dict = {}  # session_id → {ts, messages}
 _CHAT_SESSION_TTL = 1800  # 30 минут
-_GUEST_REVIEWS_UPDATED_AT_MS = int(time.time() * 1000)
-_GUEST_REVIEWS_COND = threading.Condition()
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -69,7 +54,7 @@ ALLOWED_ORIGINS = [
     origin.strip()
     for origin in os.getenv(
         "ALLOWED_ORIGINS",
-        "http://127.0.0.1:5500,http://localhost:5500,http://127.0.0.1:5511,http://localhost:5511,https://abdramanovtimur71-ux.github.io",
+        "http://127.0.0.1:5500,http://localhost:5500,https://abdramanovtimur71-ux.github.io",
     ).split(",")
     if origin.strip()
 ]
@@ -199,90 +184,6 @@ def init_db():
             )
             """
         )
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS client_access_tokens (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                email TEXT NOT NULL UNIQUE,
-                token TEXT NOT NULL UNIQUE,
-                created_at TEXT NOT NULL,
-                updated_at TEXT NOT NULL
-            )
-            """
-        )
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS guest_reviews (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                rating INTEGER NOT NULL,
-                text TEXT NOT NULL,
-                likes INTEGER NOT NULL DEFAULT 0,
-                dislikes INTEGER NOT NULL DEFAULT 0,
-                created_at TEXT NOT NULL,
-                updated_at TEXT NOT NULL
-            )
-            """
-        )
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS user_accounts (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT NOT NULL UNIQUE,
-                phone TEXT,
-                password_hash TEXT NOT NULL,
-                created_at TEXT NOT NULL,
-                updated_at TEXT NOT NULL,
-                last_login_at TEXT
-            )
-            """
-        )
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS user_sessions (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                token TEXT NOT NULL UNIQUE,
-                created_at TEXT NOT NULL,
-                expires_at TEXT NOT NULL,
-                last_seen_at TEXT NOT NULL,
-                FOREIGN KEY(user_id) REFERENCES user_accounts(id) ON DELETE CASCADE
-            )
-            """
-        )
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS password_reset_codes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                channel TEXT NOT NULL,
-                phone TEXT,
-                code_hash TEXT NOT NULL,
-                created_at TEXT NOT NULL,
-                expires_at TEXT NOT NULL,
-                attempts INTEGER NOT NULL DEFAULT 0,
-                consumed_at TEXT,
-                request_ip TEXT,
-                FOREIGN KEY(user_id) REFERENCES user_accounts(id) ON DELETE CASCADE
-            )
-            """
-        )
-        reviews_count = conn.execute("SELECT COUNT(*) AS c FROM guest_reviews").fetchone()["c"]
-        if reviews_count == 0:
-            defaults = [
-                ("Айгерим", 5, "Очень спокойная и профессиональная консультация. После сеанса стало легче принимать решения.", 6, 0),
-                ("Нурлан", 5, "Понравилась точность расклада и поддержка после встречи. Рекомендую.", 5, 0),
-                ("Жанна", 4, "Уютная атмосфера и сильная энергетика. Спасибо за внимание к деталям.", 4, 0),
-            ]
-            now_iso = datetime.now().isoformat()
-            conn.executemany(
-                """
-                INSERT INTO guest_reviews (name, rating, text, likes, dislikes, created_at, updated_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                """,
-                [(name, rating, text, likes, dislikes, now_iso, now_iso) for name, rating, text, likes, dislikes in defaults],
-            )
         ensure_column(conn, "bookings", "reminder_24h_sent", "INTEGER NOT NULL DEFAULT 0")
         ensure_column(conn, "bookings", "reminder_2h_sent", "INTEGER NOT NULL DEFAULT 0")
         ensure_column(conn, "bookings", "reminder_24h_sent_at", "TEXT")
@@ -309,16 +210,9 @@ def issue_admin_token() -> str:
     return token
 
 
-def get_admin_token_from_request() -> str:
-    token = request.headers.get("X-Admin-Token", "").strip()
-    if token:
-        return token
-    return (request.cookies.get("admin_token") or "").strip()
-
-
 def is_admin_request() -> bool:
     cleanup_admin_sessions()
-    token = get_admin_token_from_request()
+    token = request.headers.get("X-Admin-Token", "").strip()
     return bool(token and token in ADMIN_SESSIONS)
 
 
@@ -326,147 +220,6 @@ def require_admin_or_401():
     if not is_admin_request():
         return jsonify({"ok": False, "message": "Требуется спецвход администратора"}), 401
     return None
-
-
-def get_client_token_from_request() -> str:
-    token = (request.headers.get("X-Client-Token") or request.cookies.get("client_token") or "").strip()
-    if len(token) < 20:
-        return ""
-    return token
-
-
-def get_user_token_from_request() -> str:
-    token = (request.headers.get("X-User-Token") or request.cookies.get("user_token") or "").strip()
-    if len(token) < 20:
-        return ""
-    return token
-
-
-def hash_password(password: str) -> str:
-    salt = secrets.token_hex(16)
-    derived = hashlib.pbkdf2_hmac(
-        "sha256",
-        password.encode("utf-8"),
-        salt.encode("utf-8"),
-        150_000,
-    )
-    return f"pbkdf2_sha256$150000${salt}${derived.hex()}"
-
-
-def verify_password(password: str, encoded: str) -> bool:
-    try:
-        algo, rounds_raw, salt, digest = (encoded or "").split("$", 3)
-        if algo != "pbkdf2_sha256":
-            return False
-        rounds = int(rounds_raw)
-        calc = hashlib.pbkdf2_hmac(
-            "sha256",
-            password.encode("utf-8"),
-            salt.encode("utf-8"),
-            rounds,
-        ).hex()
-        return hmac.compare_digest(calc, digest)
-    except ValueError:
-        return False
-
-
-def is_strong_password(password: str) -> bool:
-    if len(password or "") < 8:
-        return False
-    if not re.search(r"[A-Za-zА-Яа-я]", password):
-        return False
-    if not re.search(r"\d", password):
-        return False
-    return True
-
-
-def issue_user_token(user_id: int) -> str:
-    now = datetime.now()
-    expires_at = now + timedelta(minutes=USER_SESSION_MINUTES)
-    token = secrets.token_urlsafe(32)
-    with closing(get_conn()) as conn:
-        conn.execute(
-            """
-            INSERT INTO user_sessions (user_id, token, created_at, expires_at, last_seen_at)
-            VALUES (?, ?, ?, ?, ?)
-            """,
-            (user_id, token, now.isoformat(), expires_at.isoformat(), now.isoformat()),
-        )
-        conn.commit()
-    return token
-
-
-def clear_user_session(token: str):
-    if not token:
-        return
-    with closing(get_conn()) as conn:
-        conn.execute("DELETE FROM user_sessions WHERE token = ?", (token,))
-        conn.commit()
-
-
-def build_reset_code_hash(user_id: int, code: str) -> str:
-    secret = app.config["SECRET_KEY"]
-    payload = f"{user_id}:{code}".encode("utf-8")
-    return hmac.new(secret.encode("utf-8"), payload, hashlib.sha256).hexdigest()
-
-
-def normalize_reset_channel(channel: str) -> str:
-    value = (channel or "").strip().lower()
-    if value in {"sms", "whatsapp"}:
-        return value
-    return ""
-
-
-def issue_client_token(email: str) -> str:
-    now_iso = datetime.now().isoformat()
-    normalized_email = (email or "").strip().lower()
-    if not validate_email(normalized_email):
-        raise ValueError("Invalid email")
-
-    with closing(get_conn()) as conn:
-        existing = conn.execute(
-            "SELECT token FROM client_access_tokens WHERE email = ?",
-            (normalized_email,),
-        ).fetchone()
-        if existing and existing["token"]:
-            conn.execute(
-                "UPDATE client_access_tokens SET updated_at = ? WHERE email = ?",
-                (now_iso, normalized_email),
-            )
-            conn.commit()
-            return existing["token"]
-
-        token = secrets.token_urlsafe(32)
-        conn.execute(
-            """
-            INSERT INTO client_access_tokens (email, token, created_at, updated_at)
-            VALUES (?, ?, ?, ?)
-            """,
-            (normalized_email, token, now_iso, now_iso),
-        )
-        conn.commit()
-    return token
-
-
-def require_client_email_or_401():
-    token = get_client_token_from_request()
-    if not token:
-        return None, (jsonify({"ok": False, "message": "Требуется клиентская сессия"}), 401)
-
-    with closing(get_conn()) as conn:
-        row = conn.execute(
-            "SELECT email FROM client_access_tokens WHERE token = ?",
-            (token,),
-        ).fetchone()
-        if not row:
-            return None, (jsonify({"ok": False, "message": "Клиентская сессия недействительна"}), 401)
-        email = (row["email"] or "").strip().lower()
-        conn.execute(
-            "UPDATE client_access_tokens SET updated_at = ? WHERE token = ?",
-            (datetime.now().isoformat(), token),
-        )
-        conn.commit()
-    return email, None
 
 
 def luhn_valid(card_number: str) -> bool:
@@ -541,31 +294,10 @@ def validate_email(email: str) -> bool:
     return bool(re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email or ""))
 
 
-def sanitize_notification_text(value: str, *, max_len: int) -> str:
-    cleaned = (value or "").replace("\r", " ").strip()
-    cleaned = re.sub(r"[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]", "", cleaned)
-    return cleaned[:max_len]
 def validate_phone(phone: str) -> bool:
     if not phone:
         return True
     return bool(re.match(r"^\+?[0-9\-\s\(\)]{7,20}$", phone))
-
-
-def normalize_phone_for_compare(phone: str) -> str:
-    digits = re.sub(r"\D", "", phone or "")
-    if len(digits) == 11 and digits.startswith("8"):
-        digits = "7" + digits[1:]
-    elif len(digits) == 10:
-        digits = "7" + digits
-    return digits
-
-
-def phones_match(left: str, right: str) -> bool:
-    left_norm = normalize_phone_for_compare(left)
-    right_norm = normalize_phone_for_compare(right)
-    if not left_norm or not right_norm:
-        return False
-    return hmac.compare_digest(left_norm, right_norm)
 
 
 def send_email_notification(subject: str, text: str):
@@ -630,64 +362,6 @@ def send_whatsapp_notification(text: str):
         return False, f"whatsapp-error: {exc}"
 
 
-def send_whatsapp_message(phone: str, text: str):
-    api_url = os.getenv("WHATSAPP_RESET_API_URL") or os.getenv("WHATSAPP_API_URL")
-    api_token = os.getenv("WHATSAPP_RESET_API_TOKEN") or os.getenv("WHATSAPP_API_TOKEN")
-    if not (api_url and api_token):
-        return False, "whatsapp-not-configured"
-    try:
-        resp = requests.post(
-            api_url,
-            json={"to": phone, "message": text},
-            headers={"Authorization": f"Bearer {api_token}"},
-            timeout=20,
-        )
-        resp.raise_for_status()
-        return True, "whatsapp-sent"
-    except requests.RequestException as exc:
-        return False, f"whatsapp-error: {exc}"
-
-
-def send_sms_message(phone: str, text: str):
-    if TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN and TWILIO_FROM_SMS:
-        try:
-            resp = requests.post(
-                f"https://api.twilio.com/2010-04-01/Accounts/{TWILIO_ACCOUNT_SID}/Messages.json",
-                data={"To": phone, "From": TWILIO_FROM_SMS, "Body": text},
-                auth=(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN),
-                timeout=20,
-            )
-            resp.raise_for_status()
-            return True, "sms-sent-via-twilio"
-        except requests.RequestException as exc:
-            return False, f"twilio-sms-error: {exc}"
-
-    api_url = os.getenv("SMS_API_URL")
-    api_token = os.getenv("SMS_API_TOKEN")
-    if not (api_url and api_token):
-        return False, "sms-not-configured"
-    try:
-        resp = requests.post(
-            api_url,
-            json={"to": phone, "message": text},
-            headers={"Authorization": f"Bearer {api_token}"},
-            timeout=20,
-        )
-        resp.raise_for_status()
-        return True, "sms-sent"
-    except requests.RequestException as exc:
-        return False, f"sms-error: {exc}"
-
-
-def send_reset_code(channel: str, phone: str, code: str):
-    message = f"Код для восстановления пароля: {code}. Код действует {PASSWORD_RESET_CODE_TTL_MINUTES} минут."
-    if channel == "whatsapp":
-        return send_whatsapp_message(phone, message)
-    if channel == "sms":
-        return send_sms_message(phone, message)
-    return False, "unknown-channel"
-
-
 def send_all_notifications(subject: str, text: str):
     results = {"email": None, "telegram": None, "whatsapp": None}
 
@@ -709,26 +383,12 @@ def send_all_notifications(subject: str, text: str):
     return results
 
 
-def is_allowed_origin(origin: str) -> bool:
-    if not origin:
-        return False
-    if origin in ALLOWED_ORIGINS:
-        return True
-    try:
-        parsed = urlparse(origin)
-    except ValueError:
-        return False
-    if parsed.scheme != "http":
-        return False
-    return parsed.hostname in {"127.0.0.1", "localhost"}
-
-
 @app.after_request
 def add_security_headers(resp):
     origin = request.headers.get("Origin")
-    if is_allowed_origin(origin):
+    if origin and origin in ALLOWED_ORIGINS:
         resp.headers["Access-Control-Allow-Origin"] = origin
-        resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Admin-Token, X-Client-Token, X-User-Token"
+        resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Admin-Token"
         resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
         resp.headers["Vary"] = "Origin"
 
@@ -749,10 +409,9 @@ def handle_preflight():
 @app.route("/api/bookings/<int:booking_id>/cancel", methods=["POST"])
 @limiter.limit("20 per hour")
 def cancel_booking(booking_id):
-    client_email, auth_error = require_client_email_or_401()
-    if auth_error:
-        return auth_error
-    now = datetime.now().isoformat()
+    payload   = request.get_json(silent=True) or {}
+    email     = (payload.get("email") or "").strip().lower()
+    now       = datetime.now().isoformat()
 
     with closing(get_conn()) as conn:
         row = conn.execute(
@@ -760,7 +419,7 @@ def cancel_booking(booking_id):
         ).fetchone()
         if not row:
             return jsonify({"ok": False, "message": "Запись не найдена"}), 404
-        if row["email"].lower() != client_email:
+        if email and row["email"].lower() != email:
             return jsonify({"ok": False, "message": "Нет доступа"}), 403
         conn.execute(
             "UPDATE bookings SET status = 'cancelled', cancelled_at = ? WHERE id = ?",
@@ -782,101 +441,18 @@ _AI_SYSTEM_PROMPT = (
     "Чистка энергетики (6 000 ₸), Таро-расклад (4 000 ₸). "
     "Правила: отвечай по-русски тепло и заботливо, кратко (2-4 предложения), "
     "для записи направляй на форму на сайте, используй мягкий мистический тон, "
-    "не запрашивай пароль, код из SMS или другие секретные данные, "
-    "при вопросе о нумерологии просить дату рождения, "
-    "при проблемах со входом подсказывай безопасные шаги восстановления доступа."
+    "при вопросе о нумерологии просить дату рождения."
 )
-
-
-def local_chat_reply(user_msg: str) -> str:
-    text = (user_msg or "").strip().lower()
-    if not text:
-        return "Напишите вопрос, и я помогу 🌙"
-
-    def has(*parts: str) -> bool:
-        return any(part in text for part in parts)
-
-    if has("привет", "здрав", "добрый", "hello", "hi"):
-        return "Здравствуйте 🌙 Я рядом. Могу помочь со входом в кабинет, записью, услугами, матрицей судьбы и вопросами по сайту."
-
-    if has("как дела", "как ты", "как настроение", "ты тут", "на связи", "что делаешь"):
-        return (
-            "У меня всё хорошо, благодарю 🌙 Я на связи и готов помочь вам с любым вопросом: "
-            "вход в аккаунт, услуги, запись или разбор матрицы судьбы."
-        )
-
-    if has("спасибо", "благодарю", "мерси", "спс"):
-        return "Всегда пожалуйста 🌙 Если хотите, могу сразу подсказать следующий шаг по вашему вопросу."
-
-    if has("войти", "вход", "логин", "аккаунт", "кабинет", "профил", "авторизац", "не могу зайти", "не могу войти", "не заходит", "зайти не", "доступ"):
-        return (
-            "Если не удаётся зайти в аккаунт, сначала нажмите «Забыли пароль?» и запросите код в WhatsApp или SMS. "
-            "Не сообщайте пароль, SMS-код или данные карты — я подскажу только безопасные шаги. "
-            "Если доступ всё равно не восстановится, напишите, что именно видите на экране, и я помогу дальше."
-        )
-
-    if has("забыли пароль", "забыл пароль", "не помню пароль", "сброс пароля", "восстанов", "reset", "password"):
-        return (
-            "Для восстановления доступа нажмите «Забыли пароль?», выберите WhatsApp или SMS и введите код из сообщения. "
-            "Проверьте, что указан номер, привязанный к аккаунту, и вводите только актуальный 6-значный код. "
-            "Если код не приходит, попробуйте второй канал или обратитесь в поддержку."
-        )
-
-    if has("зарегистр", "создать аккаунт", "создать кабинет", "регистрац"):
-        return (
-            "Для регистрации укажите имя, email и придумайте надёжный пароль. "
-            "Не используйте одинаковый пароль везде и не передавайте его третьим лицам. "
-            "Если хотите, я подскажу, как безопасно пройти регистрацию шаг за шагом."
-        )
-
-    if has("запис", "сеанс", "встреч", "бронь", "брон", "слот", "время"):
-        return (
-            "Я помогу с записью 🌙 Выберите услугу, удобную дату и время в форме на сайте. "
-            "Если хотите, я подскажу, какая услуга подходит под вашу ситуацию."
-        )
-
-    if has("услуг", "цена", "стоим", "сколько", "тариф", "прайс"):
-        return (
-            "Я могу подсказать услуги и цены: расчёт матрицы судьбы, нумерология, духовные практики, чистка энергетики и таро. "
-            "Напишите, что именно вам интересно, и я отвечу коротко и по делу."
-        )
-
-    if has("дата рождения", "матриц", "нумеролог", "судьб", "предназнач"):
-        if re.search(r"\b\d{2}\.\d{2}\.\d{4}\b", text):
-            return "Спасибо, дату вижу 🌙 Могу сделать разбор матрицы судьбы, отношений, денег или предназначения — что именно вас интересует?"
-        return "Для разбора матрицы судьбы пришлите дату рождения в формате ДД.ММ.ГГГГ — и я продолжу."
-
-    if has("отношен", "любов", "семь", "брак"):
-        return (
-            "Могу помочь с вопросами об отношениях 🌙 Если хотите, опишите ситуацию кратко — я подскажу, на что обратить внимание и как действовать мягко и безопасно."
-        )
-
-    if has("деньг", "финанс", "работ", "карьер", "бизнес"):
-        return (
-            "Могу помочь с вопросами о деньгах, работе и реализации 🌙 Опишите запрос, и я дам спокойный практичный ответ без лишней воды."
-        )
-
-    if has("сайт", "страниц", "ошибк", "не открывается", "не работает", "не груз", "тормозит"):
-        return (
-            "Если сайт не открывается или работает нестабильно, попробуйте обновить страницу, открыть её в другом браузере и очистить кэш. "
-            "Если проблема остаётся, напишите, что именно происходит, и я помогу безопасными шагами."
-        )
-
-    if has("поддерж", "помощ", "связ", "контакт", "телефон", "почт", "whatsapp", "instagram"):
-        return "Для связи и поддержки лучше всего использовать форму на сайте или написать через контакты. Если скажете тему, я подскажу, куда обратиться."
-
-    return (
-        "Я помогу с входом в кабинет, записью, услугами, матрицей судьбы и общими вопросами. "
-        "Опишите проблему чуть точнее — и я дам безопасные шаги или полезный ответ."
-    )
 
 
 @app.route("/api/chat", methods=["POST"])
 @limiter.limit("30 per hour")
 def chat_ai():
     global _openai_client
+    if not OPENAI_API_KEY:
+        return jsonify({"ok": False, "message": "ИИ-консультант временно недоступен"}), 503
 
-    if OPENAI_API_KEY and _OpenAIClient and _openai_client is None:
+    if _OpenAIClient and _openai_client is None:
         _openai_client = _OpenAIClient(api_key=OPENAI_API_KEY)
 
     payload = request.get_json(silent=True) or {}
@@ -897,11 +473,6 @@ def chat_ai():
     if len(sess["messages"]) > 12:
         sess["messages"] = sess["messages"][-12:]
 
-    if not OPENAI_API_KEY or _openai_client is None:
-        reply = local_chat_reply(user_msg)
-        sess["messages"].append({"role": "assistant", "content": reply})
-        return jsonify({"ok": True, "reply": reply, "mode": "local"})
-
     messages = [{"role": "system", "content": _AI_SYSTEM_PROMPT}] + sess["messages"]
 
     try:
@@ -913,36 +484,30 @@ def chat_ai():
         )
         reply = resp.choices[0].message.content.strip()
         sess["messages"].append({"role": "assistant", "content": reply})
-        return jsonify({"ok": True, "reply": reply, "mode": "ai"})
-    except Exception:
-        log.error("OpenAI chat request failed")
-        reply = local_chat_reply(user_msg)
-        sess["messages"].append({"role": "assistant", "content": reply})
-        return jsonify({"ok": True, "reply": reply, "mode": "fallback"})
+        return jsonify({"ok": True, "reply": reply})
+    except Exception as e:
+        log.error("OpenAI error: %s", e)
+        return jsonify({"ok": False, "message": "Ошибка ИИ-консультанта. Попробуйте позже."}), 500
 
 
 @app.route("/api/contact", methods=["POST"])
 @limiter.limit("10 per hour")
 def contact_form():
     payload = request.get_json(silent=True) or {}
-    name = (payload.get("name") or "").strip()
-    email = (payload.get("email") or "").strip()
+    name    = (payload.get("name") or "").strip()
+    email   = (payload.get("email") or "").strip()
     message = (payload.get("message") or "").strip()
 
     if not email or not message:
         return jsonify({"ok": False, "message": "Укажите email и сообщение"}), 400
-    if not validate_email(email):
-        return jsonify({"ok": False, "message": "Некорректный email"}), 400
 
-    safe_name = sanitize_notification_text(name, max_len=120)
-    safe_email = sanitize_notification_text(email, max_len=180)
-    safe_message = sanitize_notification_text(message, max_len=4000)
-
-    subject = f"Сообщение с сайта от {safe_name or safe_email}"
-    text = f"Имя: {safe_name}\nEmail: {safe_email}\n\nСообщение:\n{safe_message}"
+    subject = f"Сообщение с сайта от {name or email}"
+    text    = f"Имя: {name}\nEmail: {email}\n\nСообщение:\n{message}"
 
     send_all_notifications(subject, text)
     return jsonify({"ok": True, "message": "Сообщение получено"})
+
+
 @app.route("/api/health", methods=["GET"])
 def health():
     return jsonify({"ok": True})
@@ -953,353 +518,10 @@ def health():
 def admin_login():
     payload = request.get_json(silent=True) or {}
     password = (payload.get("password") or "").strip()
-    if not secrets.compare_digest(password, ADMIN_PASSWORD):
+    if password != ADMIN_PASSWORD:
         return jsonify({"ok": False, "message": "Неверный пароль спецвхода"}), 401
-
     token = issue_admin_token()
-    response = jsonify({"ok": True, "token": token, "expiresInMinutes": ADMIN_SESSION_MINUTES})
-    response.set_cookie(
-        "admin_token",
-        token,
-        max_age=ADMIN_SESSION_MINUTES * 60,
-        httponly=True,
-        secure=request.is_secure,
-        samesite="Lax",
-    )
-    return response
-
-
-@app.route("/api/admin/logout", methods=["POST"])
-def admin_logout():
-    token = get_admin_token_from_request()
-    if token:
-        ADMIN_SESSIONS.pop(token, None)
-    response = jsonify({"ok": True})
-    response.set_cookie("admin_token", "", expires=0, httponly=True, secure=request.is_secure, samesite="Lax")
-    return response
-
-
-@app.route("/api/auth/register", methods=["POST"])
-@limiter.limit("20 per hour")
-def auth_register():
-    payload = request.get_json(silent=True) or {}
-    name = (payload.get("name") or "").strip()
-    email = (payload.get("email") or "").strip().lower()
-    phone = (payload.get("phone") or "").strip()
-    password = payload.get("password") or ""
-
-    if len(name) < 2:
-        return jsonify({"ok": False, "message": "Укажите имя (минимум 2 символа)"}), 400
-    if not validate_email(email):
-        return jsonify({"ok": False, "message": "Некорректный email"}), 400
-    if not phone:
-        return jsonify({"ok": False, "message": "Укажите номер телефона"}), 400
-    if not validate_phone(phone):
-        return jsonify({"ok": False, "message": "Некорректный номер телефона"}), 400
-    if not is_strong_password(password):
-        return jsonify({"ok": False, "message": "Пароль должен быть не короче 8 символов и содержать буквы и цифры"}), 400
-
-    now_iso = datetime.now().isoformat()
-    with closing(get_conn()) as conn:
-        existing = conn.execute("SELECT id FROM user_accounts WHERE email = ?", (email,)).fetchone()
-        if existing:
-            return jsonify({"ok": False, "message": "Пользователь с таким email уже зарегистрирован"}), 409
-        conn.execute(
-            """
-            INSERT INTO user_accounts (name, email, phone, password_hash, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?)
-            """,
-            (name, email, phone or None, hash_password(password), now_iso, now_iso),
-        )
-        user_id = conn.execute("SELECT last_insert_rowid() AS id").fetchone()["id"]
-        conn.commit()
-
-    user_token = issue_user_token(user_id)
-    client_token = issue_client_token(email)
-    response = jsonify(
-        {
-            "ok": True,
-            "user": {"name": name, "email": email, "phone": phone or ""},
-            "userToken": user_token,
-            "clientToken": client_token,
-            "expiresInMinutes": USER_SESSION_MINUTES,
-        }
-    )
-    response.set_cookie(
-        "user_token",
-        user_token,
-        max_age=USER_SESSION_MINUTES * 60,
-        httponly=True,
-        secure=request.is_secure,
-        samesite="Lax",
-    )
-    response.set_cookie(
-        "client_token",
-        client_token,
-        max_age=CLIENT_SESSION_MINUTES * 60,
-        httponly=True,
-        secure=request.is_secure,
-        samesite="Lax",
-    )
-    return response
-
-
-@app.route("/api/auth/login", methods=["POST"])
-@limiter.limit("40 per hour")
-def auth_login():
-    payload = request.get_json(silent=True) or {}
-    email = (payload.get("email") or "").strip().lower()
-    password = payload.get("password") or ""
-
-    if not validate_email(email) or not password:
-        return jsonify({"ok": False, "message": "Укажите корректный email и пароль"}), 400
-
-    with closing(get_conn()) as conn:
-        user = conn.execute(
-            "SELECT id, name, email, phone, password_hash FROM user_accounts WHERE email = ?",
-            (email,),
-        ).fetchone()
-        if not user or not verify_password(password, user["password_hash"]):
-            return jsonify({"ok": False, "message": "Неверный email или пароль"}), 401
-        now_iso = datetime.now().isoformat()
-        conn.execute(
-            "UPDATE user_accounts SET last_login_at = ?, updated_at = ? WHERE id = ?",
-            (now_iso, now_iso, user["id"]),
-        )
-        conn.commit()
-
-    user_token = issue_user_token(user["id"])
-    client_token = issue_client_token(email)
-    response = jsonify(
-        {
-            "ok": True,
-            "user": {"name": user["name"], "email": user["email"], "phone": user["phone"] or ""},
-            "userToken": user_token,
-            "clientToken": client_token,
-            "expiresInMinutes": USER_SESSION_MINUTES,
-        }
-    )
-    response.set_cookie(
-        "user_token",
-        user_token,
-        max_age=USER_SESSION_MINUTES * 60,
-        httponly=True,
-        secure=request.is_secure,
-        samesite="Lax",
-    )
-    response.set_cookie(
-        "client_token",
-        client_token,
-        max_age=CLIENT_SESSION_MINUTES * 60,
-        httponly=True,
-        secure=request.is_secure,
-        samesite="Lax",
-    )
-    return response
-
-
-@app.route("/api/auth/logout", methods=["POST"])
-def auth_logout():
-    token = get_user_token_from_request()
-    if token:
-        clear_user_session(token)
-    response = jsonify({"ok": True})
-    response.set_cookie("user_token", "", expires=0, httponly=True, secure=request.is_secure, samesite="Lax")
-    response.set_cookie("client_token", "", expires=0, httponly=True, secure=request.is_secure, samesite="Lax")
-    return response
-
-
-@app.route("/api/auth/password/forgot", methods=["POST"])
-@limiter.limit("10 per hour")
-def auth_password_forgot():
-    payload = request.get_json(silent=True) or {}
-    email = (payload.get("email") or "").strip().lower()
-    channel = normalize_reset_channel(payload.get("channel") or "")
-    phone = (payload.get("phone") or "").strip()
-
-    if not validate_email(email):
-        return jsonify({"ok": False, "message": "Введите корректный email"}), 400
-    if not channel:
-        return jsonify({"ok": False, "message": "Выберите канал: WhatsApp или SMS"}), 400
-    if not phone or not validate_phone(phone):
-        return jsonify({"ok": False, "message": "Укажите корректный номер телефона"}), 400
-
-    with closing(get_conn()) as conn:
-        user = conn.execute(
-            "SELECT id, phone FROM user_accounts WHERE email = ?",
-            (email,),
-        ).fetchone()
-
-        # Не раскрываем существование аккаунта.
-        if not user:
-            return jsonify({"ok": True, "message": "Если аккаунт существует, код отправлен"}), 200
-
-        account_phone = (user["phone"] or "").strip()
-        if not account_phone or not validate_phone(account_phone):
-            return jsonify({"ok": True, "message": "Если аккаунт существует, код отправлен"}), 200
-        if not phones_match(phone, account_phone):
-            return jsonify({"ok": True, "message": "Если аккаунт существует, код отправлен"}), 200
-
-        target_phone = account_phone
-        now = datetime.now()
-        window_start_dt = now - timedelta(minutes=PASSWORD_RESET_REQUEST_WINDOW_MINUTES)
-        recent_rows = conn.execute(
-            """
-            SELECT created_at
-            FROM password_reset_codes
-            WHERE user_id = ?
-            ORDER BY created_at DESC
-            LIMIT ?
-            """,
-            (user["id"], PASSWORD_RESET_MAX_REQUESTS_PER_WINDOW),
-        ).fetchall()
-        if len(recent_rows) >= PASSWORD_RESET_MAX_REQUESTS_PER_WINDOW:
-            oldest_recent = parse_iso(recent_rows[-1]["created_at"])
-            if oldest_recent is not None and oldest_recent >= window_start_dt:
-                retry_after_seconds = int((oldest_recent + timedelta(minutes=PASSWORD_RESET_REQUEST_WINDOW_MINUTES) - now).total_seconds())
-                retry_after_seconds = max(1, retry_after_seconds)
-                return jsonify({
-                    "ok": False,
-                    "message": f"Слишком много запросов на код. Повторите через {retry_after_seconds} сек",
-                    "retryAfterSeconds": retry_after_seconds,
-                }), 429
-
-        expires = now + timedelta(minutes=PASSWORD_RESET_CODE_TTL_MINUTES)
-        code = f"{secrets.randbelow(1_000_000):06d}"
-        code_hash = build_reset_code_hash(user["id"], code)
-        now_iso = now.isoformat()
-
-        conn.execute(
-            """
-            UPDATE password_reset_codes
-            SET consumed_at = ?
-            WHERE user_id = ? AND consumed_at IS NULL
-            """,
-            (now_iso, user["id"]),
-        )
-        inserted = conn.execute(
-            """
-            INSERT INTO password_reset_codes (user_id, channel, phone, code_hash, created_at, expires_at, attempts, request_ip)
-            VALUES (?, ?, ?, ?, ?, ?, 0, ?)
-            """,
-            (user["id"], channel, target_phone, code_hash, now_iso, expires.isoformat(), get_remote_address()),
-        )
-        reset_id = inserted.lastrowid
-        conn.commit()
-
-    sent_ok, sent_status = send_reset_code(channel, target_phone, code)
-    if not sent_ok:
-        with closing(get_conn()) as conn:
-            conn.execute(
-                "UPDATE password_reset_codes SET consumed_at = ? WHERE id = ? AND consumed_at IS NULL",
-                (datetime.now().isoformat(), reset_id),
-            )
-            conn.commit()
-        return jsonify({"ok": False, "message": "Канал отправки временно недоступен. Попробуйте позже или смените канал."}), 503
-
-    response_payload = {"ok": True, "message": "Код отправлен. Проверьте сообщения и введите код на странице."}
-    if PASSWORD_RESET_DEBUG_CODE:
-        response_payload["debugCode"] = code
-        response_payload["debugStatus"] = sent_status
-    return jsonify(response_payload)
-
-
-@app.route("/api/auth/password/reset", methods=["POST"])
-@limiter.limit("15 per hour")
-def auth_password_reset():
-    payload = request.get_json(silent=True) or {}
-    email = (payload.get("email") or "").strip().lower()
-    code = (payload.get("code") or "").strip()
-    new_password = payload.get("newPassword") or ""
-
-    if not validate_email(email):
-        return jsonify({"ok": False, "message": "Введите корректный email"}), 400
-    if not re.match(r"^\d{6}$", code):
-        return jsonify({"ok": False, "message": "Код должен содержать 6 цифр"}), 400
-    if not is_strong_password(new_password):
-        return jsonify({"ok": False, "message": "Новый пароль должен быть не короче 8 символов и содержать буквы и цифры"}), 400
-
-    with closing(get_conn()) as conn:
-        user = conn.execute(
-            "SELECT id, name, email, phone FROM user_accounts WHERE email = ?",
-            (email,),
-        ).fetchone()
-        if not user:
-            return jsonify({"ok": False, "message": "Неверный код или email"}), 400
-
-        now = datetime.now().isoformat()
-        reset_row = conn.execute(
-            """
-            SELECT id, code_hash, attempts, expires_at
-            FROM password_reset_codes
-            WHERE user_id = ? AND consumed_at IS NULL
-            ORDER BY id DESC
-            LIMIT 1
-            """,
-            (user["id"],),
-        ).fetchone()
-
-        if not reset_row:
-            return jsonify({"ok": False, "message": "Код не найден. Запросите новый"}), 400
-        if parse_iso(reset_row["expires_at"]) is None or parse_iso(reset_row["expires_at"]) < datetime.now():
-            conn.execute("UPDATE password_reset_codes SET consumed_at = ? WHERE id = ?", (now, reset_row["id"]))
-            conn.commit()
-            return jsonify({"ok": False, "message": "Код истек. Запросите новый"}), 400
-        if int(reset_row["attempts"] or 0) >= PASSWORD_RESET_MAX_ATTEMPTS:
-            conn.execute("UPDATE password_reset_codes SET consumed_at = ? WHERE id = ?", (now, reset_row["id"]))
-            conn.commit()
-            return jsonify({"ok": False, "message": "Превышено число попыток. Запросите новый код"}), 429
-
-        expected_hash = build_reset_code_hash(user["id"], code)
-        if not hmac.compare_digest(expected_hash, reset_row["code_hash"]):
-            conn.execute(
-                "UPDATE password_reset_codes SET attempts = attempts + 1 WHERE id = ?",
-                (reset_row["id"],),
-            )
-            conn.commit()
-            return jsonify({"ok": False, "message": "Неверный код"}), 400
-
-        conn.execute(
-            """
-            UPDATE user_accounts
-            SET password_hash = ?, updated_at = ?
-            WHERE id = ?
-            """,
-            (hash_password(new_password), now, user["id"]),
-        )
-        conn.execute("UPDATE password_reset_codes SET consumed_at = ? WHERE id = ?", (now, reset_row["id"]))
-        conn.execute("DELETE FROM user_sessions WHERE user_id = ?", (user["id"],))
-        conn.commit()
-
-    user_token = issue_user_token(user["id"])
-    client_token = issue_client_token(email)
-    response = jsonify(
-        {
-            "ok": True,
-            "message": "Пароль обновлен",
-            "user": {"name": user["name"], "email": user["email"], "phone": user["phone"] or ""},
-            "userToken": user_token,
-            "clientToken": client_token,
-            "expiresInMinutes": USER_SESSION_MINUTES,
-        }
-    )
-    response.set_cookie(
-        "user_token",
-        user_token,
-        max_age=USER_SESSION_MINUTES * 60,
-        httponly=True,
-        secure=request.is_secure,
-        samesite="Lax",
-    )
-    response.set_cookie(
-        "client_token",
-        client_token,
-        max_age=CLIENT_SESSION_MINUTES * 60,
-        httponly=True,
-        secure=request.is_secure,
-        samesite="Lax",
-    )
-    return response
+    return jsonify({"ok": True, "token": token, "expiresInMinutes": ADMIN_SESSION_MINUTES})
 
 
 @app.route("/api/admin/content", methods=["GET", "POST"])
@@ -1659,8 +881,8 @@ def admin_send_message():
 
     payload = request.get_json(silent=True) or {}
     to_email = (payload.get("toEmail") or "").strip().lower()
-    subject = sanitize_notification_text(payload.get("subject") or "", max_len=220)
-    text = sanitize_notification_text(payload.get("text") or "", max_len=4000)
+    subject = (payload.get("subject") or "").strip()
+    text = (payload.get("text") or "").strip()
 
     if not validate_email(to_email):
         return jsonify({"ok": False, "message": "Некорректный email клиента"}), 400
@@ -1682,9 +904,9 @@ def admin_send_message():
 
 @app.route("/api/messages/inbox", methods=["GET"])
 def client_inbox():
-    client_email, auth_error = require_client_email_or_401()
-    if auth_error:
-        return auth_error
+    email = (request.args.get("email") or "").strip().lower()
+    if not validate_email(email):
+        return jsonify({"ok": False, "message": "Некорректный email"}), 400
 
     with closing(get_conn()) as conn:
         rows = conn.execute(
@@ -1695,7 +917,7 @@ def client_inbox():
             ORDER BY id DESC
             LIMIT 300
             """,
-            (client_email, client_email),
+            (email, email),
         ).fetchall()
 
     return jsonify({"ok": True, "messages": [dict(r) for r in rows]})
@@ -1704,12 +926,12 @@ def client_inbox():
 @app.route("/api/messages/reply", methods=["POST"])
 @limiter.limit("30 per hour")
 def client_reply():
-    client_email, auth_error = require_client_email_or_401()
-    if auth_error:
-        return auth_error
-
     payload = request.get_json(silent=True) or {}
-    text = sanitize_notification_text(payload.get("text") or "", max_len=4000)
+    from_email = (payload.get("fromEmail") or "").strip().lower()
+    text = (payload.get("text") or "").strip()
+
+    if not validate_email(from_email):
+        return jsonify({"ok": False, "message": "Некорректный email"}), 400
     if len(text) < 2:
         return jsonify({"ok": False, "message": "Введите текст сообщения"}), 400
 
@@ -1719,7 +941,7 @@ def client_reply():
             INSERT INTO client_messages (from_email, to_email, subject, text, sender_role, created_at)
             VALUES (?, ?, ?, ?, 'client', ?)
             """,
-            (client_email, "admin@roza-ogly.local", "Ответ клиента", text, datetime.now().isoformat()),
+            (from_email, "admin@roza-ogly.local", "Ответ клиента", text, datetime.now().isoformat()),
         )
         conn.commit()
 
@@ -1846,9 +1068,9 @@ def confirm_purchase():
 @limiter.limit("60 per minute")
 def get_user_bookings():
     """Возвращает предстоящие и прошедшие записи пользователя по email."""
-    client_email, auth_error = require_client_email_or_401()
-    if auth_error:
-        return auth_error
+    email = (request.args.get("email") or "").strip().lower()
+    if not email or not validate_email(email):
+        return jsonify({"ok": False, "message": "Укажите корректный email"}), 400
 
     now = datetime.now()
     with closing(get_conn()) as conn:
@@ -1860,7 +1082,7 @@ def get_user_bookings():
             ORDER BY booking_at DESC
             LIMIT 50
             """,
-            (client_email,),
+            (email,),
         ).fetchall()
 
     upcoming = []
@@ -2049,7 +1271,7 @@ def start_reminder_worker_once():
 def create_booking():
     payload = request.get_json(silent=True) or {}
     name = (payload.get("name") or "").strip()
-    email = (payload.get("email") or "").strip().lower()
+    email = (payload.get("email") or "").strip()
     phone = (payload.get("phone") or "").strip()
     service = (payload.get("service") or "").strip()
     date = (payload.get("date") or "").strip()
@@ -2071,8 +1293,6 @@ def create_booking():
     now = datetime.now()
     if booking_at < now + timedelta(minutes=30):
         return jsonify({"ok": False, "message": "Нельзя записаться на прошедшее или слишком близкое время"}), 400
-
-    client_token = issue_client_token(email)
 
     with closing(get_conn()) as conn:
         rows = conn.execute("SELECT booking_at FROM bookings").fetchall()
@@ -2125,22 +1345,7 @@ def create_booking():
     )
     notify = send_all_notifications("Новая запись на прием", msg)
 
-    response = jsonify({
-        "ok": True,
-        "message": "Вы успешно записаны",
-        "notifications": notify,
-        "clientToken": client_token,
-        "clientTokenExpiresInMinutes": CLIENT_SESSION_MINUTES,
-    })
-    response.set_cookie(
-        "client_token",
-        client_token,
-        max_age=CLIENT_SESSION_MINUTES * 60,
-        httponly=True,
-        secure=request.is_secure,
-        samesite="Lax",
-    )
-    return response
+    return jsonify({"ok": True, "message": "Вы успешно записаны", "notifications": notify})
 
 
 @app.route("/api/training/status", methods=["GET"])
