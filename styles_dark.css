@@ -630,7 +630,6 @@ h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 600; color: var(--t1); l
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-}
     position: relative;
 }
 .section-title::after {
@@ -5488,7 +5487,7 @@ body {
     min-width: clamp(210px, 20vw, 280px);
 }
 
-.btn-primary {
+.hero .btn-primary {
     background: linear-gradient(145deg, #7ea3ff 0%, #5d85f1 48%, #3f65cc 100%);
     border: 1px solid rgba(193, 215, 255, 0.26);
     box-shadow:
@@ -5496,13 +5495,13 @@ body {
         0 0 22px rgba(93, 133, 241, 0.26);
 }
 
-.btn-primary:hover {
+.hero .btn-primary:hover {
     box-shadow:
         0 22px 40px rgba(63, 99, 199, 0.50),
         0 0 28px rgba(93, 133, 241, 0.34);
 }
 
-.btn-secondary {
+.hero .btn-secondary {
     background: linear-gradient(145deg, rgba(12, 20, 39, 0.9), rgba(9, 16, 32, 0.74));
     border-color: rgba(142, 180, 252, 0.42);
     color: #dce8ff;
@@ -5741,18 +5740,18 @@ body {
     font-size: 16px;
 }
 
-.btn-primary {
+.hero .btn-primary {
     background: linear-gradient(135deg, #6f8cf5 0%, #5e74d9 45%, #4d5fc5 100%);
     border: 1px solid rgba(187, 207, 255, 0.28);
     color: #fff;
     box-shadow: 0 16px 30px rgba(78, 101, 201, 0.34);
 }
 
-.btn-primary:hover {
+.hero .btn-primary:hover {
     transform: translateY(-2px);
 }
 
-.btn-secondary {
+.hero .btn-secondary {
     background: rgba(7, 11, 24, 0.44);
     border: 1px solid rgba(104, 122, 190, 0.46);
     color: #e2e8fb;
