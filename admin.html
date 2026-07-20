@@ -435,11 +435,11 @@
         }
 
         function getAdminToken() {
-            return localStorage.getItem('adminToken') || '';
+            return sessionStorage.getItem('adminToken') || '';
         }
 
         function isOfflineAdminSetup() {
-            return localStorage.getItem('adminOfflineAccess') === 'true';
+            return false;
         }
 
         function authHeaders() {
@@ -452,7 +452,6 @@
         async function checkAdmin() {
             let token = getAdminToken();
             if (token) {
-                localStorage.removeItem('adminOfflineAccess');
                 return true;
             }
             return await showAdminLoginModal();
@@ -516,15 +515,13 @@
                     if (btn) { btn.disabled = false; btn.textContent = 'Войти'; }
                     return;
                 }
-                localStorage.setItem('adminToken', data.token);
-                localStorage.removeItem('adminOfflineAccess');
+                sessionStorage.setItem('isAdminLoggedIn', 'true');
+                sessionStorage.setItem('adminToken', data.token);
                 document.getElementById('adminLoginModal')?.remove();
                 if (window._adminLoginResolve) window._adminLoginResolve(true);
             } catch {
-                localStorage.setItem('adminOfflineAccess', 'true');
-                document.getElementById('adminLoginModal')?.remove();
-                if (window._adminLoginResolve) window._adminLoginResolve(false);
-                adminToast('Сервер недоступен. Открыт режим настройки.', 'warn');
+                if (errEl) errEl.textContent = 'Сервер недоступен. Попробуйте позже.';
+                if (btn) { btn.disabled = false; btn.textContent = 'Войти'; }
             }
         }
 
@@ -840,6 +837,8 @@
         }
 
         function clearAdminSession() {
+            sessionStorage.removeItem('isAdminLoggedIn');
+            sessionStorage.removeItem('adminToken');
             localStorage.removeItem('isAdminLoggedIn');
             localStorage.removeItem('adminToken');
             localStorage.removeItem('adminOfflineAccess');
@@ -851,9 +850,6 @@
             initApiControls();
             applyAnalyticsPreset();
             const isAdminReady = await checkAdmin();
-            if (!isAdminReady && isOfflineAdminSetup()) {
-                return;
-            }
             if (!isAdminReady) return;
             try {
                 await loadAdminData();

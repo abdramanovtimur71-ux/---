@@ -241,9 +241,16 @@ def issue_admin_token() -> str:
     return token
 
 
+def get_admin_token_from_request() -> str:
+    token = request.headers.get("X-Admin-Token", "").strip()
+    if token:
+        return token
+    return (request.cookies.get("admin_token") or "").strip()
+
+
 def is_admin_request() -> bool:
     cleanup_admin_sessions()
-    token = request.headers.get("X-Admin-Token", "").strip()
+    token = get_admin_token_from_request()
     return bool(token and token in ADMIN_SESSIONS)
 
 
@@ -325,6 +332,10 @@ def validate_email(email: str) -> bool:
     return bool(re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email or ""))
 
 
+def sanitize_notification_text(value: str, *, max_len: int) -> str:
+    cleaned = (value or "").replace("\r", " ").strip()
+    cleaned = re.sub(r"[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]", "", cleaned)
+    return cleaned[:max_len]
 def validate_phone(phone: str) -> bool:
     if not phone:
         return True
@@ -603,9 +614,9 @@ def chat_ai():
         )
         reply = resp.choices[0].message.content.strip()
         sess["messages"].append({"role": "assistant", "content": reply})
-        return jsonify({"ok": True, "reply": reply})
-    except Exception as e:
-        log.error("OpenAI error: %s", e)
+        return jsonify({"ok": True, "reply": reply, "mode": "ai"})
+    except Exception:
+        log.error("OpenAI chat request failed")
         reply = local_chat_reply(user_msg)
         sess["messages"].append({"role": "assistant", "content": reply})
         return jsonify({"ok": True, "reply": reply, "mode": "fallback"})
@@ -615,195 +626,24 @@ def chat_ai():
 @limiter.limit("10 per hour")
 def contact_form():
     payload = request.get_json(silent=True) or {}
-    name    = (payload.get("name") or "").strip()
-    email   = (payload.get("email") or "").strip()
+    name = (payload.get("name") or "").strip()
+    email = (payload.get("email") or "").strip()
     message = (payload.get("message") or "").strip()
 
     if not email or not message:
         return jsonify({"ok": False, "message": "Укажите email и сообщение"}), 400
+    if not validate_email(email):
+        return jsonify({"ok": False, "message": "Некорректный email"}), 400
 
-    subject = f"Сообщение с сайта от {name or email}"
-    text    = f"Имя: {name}\nEmail: {email}\n\nСообщение:\n{message}"
+    safe_name = sanitize_notification_text(name, max_len=120)
+    safe_email = sanitize_notification_text(email, max_len=180)
+    safe_message = sanitize_notification_text(message, max_len=4000)
+
+    subject = f"Сообщение с сайта от {safe_name or safe_email}"
+    text = f"Имя: {safe_name}\nEmail: {safe_email}\n\nСообщение:\n{safe_message}"
 
     send_all_notifications(subject, text)
     return jsonify({"ok": True, "message": "Сообщение получено"})
-
-
-def _touch_guest_reviews_updated_at() -> int:
-    global _GUEST_REVIEWS_UPDATED_AT_MS
-    with _GUEST_REVIEWS_COND:
-        now_ms = int(time.time() * 1000)
-        _GUEST_REVIEWS_UPDATED_AT_MS = max(_GUEST_REVIEWS_UPDATED_AT_MS + 1, now_ms)
-        _GUEST_REVIEWS_COND.notify_all()
-        return _GUEST_REVIEWS_UPDATED_AT_MS
-
-
-def _read_guest_reviews(limit: int = 60):
-    with closing(get_conn()) as conn:
-        rows = conn.execute(
-            """
-            SELECT id, name, rating, text, likes, dislikes, created_at, updated_at
-            FROM guest_reviews
-            ORDER BY id DESC
-            LIMIT ?
-            """,
-            (limit,),
-        ).fetchall()
-    return [dict(r) for r in rows]
-
-
-@app.route("/api/guest-reviews", methods=["GET"])
-def get_guest_reviews():
-    items = _read_guest_reviews(limit=60)
-    return jsonify({"ok": True, "items": items, "lastUpdated": _GUEST_REVIEWS_UPDATED_AT_MS})
-
-
-@app.route("/api/guest-reviews", methods=["POST"])
-@limiter.limit("30 per hour")
-def create_guest_review():
-    payload = request.get_json(silent=True) or {}
-    name = (payload.get("name") or "").strip()
-    text = (payload.get("text") or "").strip()
-
-    raw_rating = payload.get("rating")
-    try:
-        rating = int(raw_rating)
-    except (TypeError, ValueError):
-        return jsonify({"ok": False, "message": "Оценка должна быть числом"}), 400
-
-    if len(name) < 2 or len(name) > 80:
-        return jsonify({"ok": False, "message": "Имя должно быть от 2 до 80 символов"}), 400
-    if len(text) < 3 or len(text) > 1200:
-        return jsonify({"ok": False, "message": "Отзыв должен быть от 3 до 1200 символов"}), 400
-    if rating < 1 or rating > 5:
-        return jsonify({"ok": False, "message": "Оценка должна быть от 1 до 5"}), 400
-
-    now_iso = datetime.now().isoformat()
-    with closing(get_conn()) as conn:
-        duplicate = conn.execute(
-            """
-            SELECT id
-            FROM guest_reviews
-            WHERE LOWER(name) = LOWER(?)
-              AND rating = ?
-              AND LOWER(text) = LOWER(?)
-            LIMIT 1
-            """,
-            (name, rating, text),
-        ).fetchone()
-        if duplicate:
-            return jsonify({"ok": False, "message": "Такой отзыв уже существует"}), 409
-
-        cur = conn.execute(
-            """
-            INSERT INTO guest_reviews (name, rating, text, likes, dislikes, created_at, updated_at)
-            VALUES (?, ?, ?, 0, 0, ?, ?)
-            """,
-            (name, rating, text, now_iso, now_iso),
-        )
-        conn.commit()
-
-        review = conn.execute(
-            """
-            SELECT id, name, rating, text, likes, dislikes, created_at, updated_at
-            FROM guest_reviews
-            WHERE id = ?
-            """,
-            (cur.lastrowid,),
-        ).fetchone()
-
-    last_updated = _touch_guest_reviews_updated_at()
-    return jsonify({"ok": True, "item": dict(review), "lastUpdated": last_updated})
-
-
-@app.route("/api/guest-reviews/<int:review_id>/vote", methods=["POST"])
-@limiter.limit("200 per hour")
-def vote_guest_review(review_id: int):
-    payload = request.get_json(silent=True) or {}
-    vote = (payload.get("vote") or "").strip().lower()
-    prev_vote = (payload.get("prevVote") or "").strip().lower()
-
-    if vote not in {"", "like", "dislike"}:
-        return jsonify({"ok": False, "message": "Недопустимый тип голоса"}), 400
-    if prev_vote not in {"", "like", "dislike"}:
-        return jsonify({"ok": False, "message": "Недопустимый предыдущий голос"}), 400
-
-    with closing(get_conn()) as conn:
-        row = conn.execute(
-            """
-            SELECT id, likes, dislikes
-            FROM guest_reviews
-            WHERE id = ?
-            """,
-            (review_id,),
-        ).fetchone()
-        if not row:
-            return jsonify({"ok": False, "message": "Отзыв не найден"}), 404
-
-        likes = max(0, int(row["likes"] or 0))
-        dislikes = max(0, int(row["dislikes"] or 0))
-
-        if prev_vote == "like":
-            likes = max(0, likes - 1)
-        elif prev_vote == "dislike":
-            dislikes = max(0, dislikes - 1)
-
-        if vote == "like":
-            likes += 1
-        elif vote == "dislike":
-            dislikes += 1
-
-        updated_at = datetime.now().isoformat()
-        conn.execute(
-            """
-            UPDATE guest_reviews
-            SET likes = ?, dislikes = ?, updated_at = ?
-            WHERE id = ?
-            """,
-            (likes, dislikes, updated_at, review_id),
-        )
-        conn.commit()
-
-        updated = conn.execute(
-            """
-            SELECT id, name, rating, text, likes, dislikes, created_at, updated_at
-            FROM guest_reviews
-            WHERE id = ?
-            """,
-            (review_id,),
-        ).fetchone()
-
-    last_updated = _touch_guest_reviews_updated_at()
-    return jsonify({"ok": True, "item": dict(updated), "lastUpdated": last_updated})
-
-
-@app.route("/api/guest-reviews/updates", methods=["GET"])
-def wait_guest_reviews_updates():
-    since_raw = (request.args.get("since") or "").strip()
-    timeout_raw = (request.args.get("timeout") or "").strip()
-
-    try:
-        since = int(since_raw) if since_raw else 0
-    except ValueError:
-        return jsonify({"ok": False, "message": "since должен быть числом"}), 400
-
-    try:
-        timeout = int(timeout_raw) if timeout_raw else 25
-    except ValueError:
-        return jsonify({"ok": False, "message": "timeout должен быть числом"}), 400
-
-    timeout = max(5, min(30, timeout))
-
-    with _GUEST_REVIEWS_COND:
-        changed = _GUEST_REVIEWS_COND.wait_for(
-            lambda: _GUEST_REVIEWS_UPDATED_AT_MS > since,
-            timeout=timeout
-        )
-        last_updated = _GUEST_REVIEWS_UPDATED_AT_MS
-
-    return jsonify({"ok": True, "changed": bool(changed), "lastUpdated": last_updated})
-
-
 @app.route("/api/health", methods=["GET"])
 def health():
     return jsonify({"ok": True})
@@ -814,10 +654,30 @@ def health():
 def admin_login():
     payload = request.get_json(silent=True) or {}
     password = (payload.get("password") or "").strip()
-    if password != ADMIN_PASSWORD:
+    if not secrets.compare_digest(password, ADMIN_PASSWORD):
         return jsonify({"ok": False, "message": "Неверный пароль спецвхода"}), 401
+
     token = issue_admin_token()
-    return jsonify({"ok": True, "token": token, "expiresInMinutes": ADMIN_SESSION_MINUTES})
+    response = jsonify({"ok": True, "token": token, "expiresInMinutes": ADMIN_SESSION_MINUTES})
+    response.set_cookie(
+        "admin_token",
+        token,
+        max_age=ADMIN_SESSION_MINUTES * 60,
+        httponly=True,
+        secure=request.is_secure,
+        samesite="Lax",
+    )
+    return response
+
+
+@app.route("/api/admin/logout", methods=["POST"])
+def admin_logout():
+    token = get_admin_token_from_request()
+    if token:
+        ADMIN_SESSIONS.pop(token, None)
+    response = jsonify({"ok": True})
+    response.set_cookie("admin_token", "", expires=0, httponly=True, secure=request.is_secure, samesite="Lax")
+    return response
 
 
 @app.route("/api/admin/content", methods=["GET", "POST"])
@@ -1762,3 +1622,10 @@ start_reminder_worker_once()
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)
+
+
+
+
+
+
+

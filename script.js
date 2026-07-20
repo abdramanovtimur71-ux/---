@@ -11,8 +11,8 @@ function scrollToSection(selector) {
 }
 
 function isUserAuthenticated() {
-    const userLogged = localStorage.getItem('isLoggedIn') === 'true';
-    const userName = localStorage.getItem('userName') || localStorage.getItem('userEmail');
+    const userLogged = sessionStorage.getItem('isLoggedIn') === 'true';
+    const userName = sessionStorage.getItem('userName');
     return userLogged && Boolean(userName);
 }
 
@@ -163,10 +163,8 @@ const handleFormSubmit = () => {
                 throw new Error(data.message || 'Ошибка');
             }
         } catch {
-            // Если API недоступно — показываем ссылку mailto как fallback
-            const mailtoLink = `mailto:roza19.91@icloud.com?subject=Сообщение с сайта&body=${encodeURIComponent(message ? message.value : '')}`;
-            window.location.href = mailtoLink;
-            submitBtn.textContent = '✓ Открываем почту...';
+            showError('Не удалось отправить сообщение. Попробуйте позже.');
+            submitBtn.textContent = 'Ошибка отправки';
         } finally {
             submitBtn.disabled = false;
             setTimeout(() => {
@@ -585,19 +583,16 @@ async function openAdminAccess() {
                 resetBtn();
                 return;
             }
-            localStorage.setItem('isAdminLoggedIn', 'true');
-            localStorage.setItem('adminToken', data.token);
-            localStorage.removeItem('adminOfflineAccess');
+            sessionStorage.setItem('isAdminLoggedIn', 'true');
+            sessionStorage.setItem('adminToken', data.token);
             showSuccess('✓ Вы вошли в админ-панель');
             setTimeout(() => {
                 window.location.href = 'admin.html';
             }, 500);
         } catch (error) {
-            localStorage.setItem('adminOfflineAccess', 'true');
-            showSuccess('⚠ Работа без интернета');
-            setTimeout(() => {
-                window.location.href = 'admin.html?setup=1';
-            }, 500);
+            showError('Сервер авторизации недоступен. Попробуйте позже.');
+            resetBtn();
+            return;
         }
     });
 
@@ -714,12 +709,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Сохранение в localStorage (демонстрация)
-            localStorage.setItem('userEmail', email);
-            localStorage.setItem('isLoggedIn', 'true');
-            if (!localStorage.getItem('userName')) {
-                localStorage.setItem('userName', email.split('@')[0]);
-            }
+            // Храним только минимальную информацию сессии без email
+            sessionStorage.setItem('isLoggedIn', 'true');
+            sessionStorage.setItem('userName', email.split('@')[0]);
             
             if (rememberMe) {
                 localStorage.setItem('rememberMe', 'true');
@@ -766,10 +758,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Сохранение в localStorage (демонстрация)
-            localStorage.setItem('userName', name);
-            localStorage.setItem('userEmail', email);
-            localStorage.setItem('isLoggedIn', 'true');
+            // Храним только минимальную информацию сессии без email
+            sessionStorage.setItem('userName', name);
+            sessionStorage.setItem('isLoggedIn', 'true');
 
             addAdminRecord('registrations', {
                 name,
@@ -811,8 +802,8 @@ function simulateLogin(userName) {
 
 // Функция проверки статуса входа при загрузке страницы
 function checkLoginStatus() {
-    const userLogged = localStorage.getItem('isLoggedIn');
-    const userName = localStorage.getItem('userName') || localStorage.getItem('userEmail');
+    const userLogged = sessionStorage.getItem('isLoggedIn');
+    const userName = sessionStorage.getItem('userName');
     
     if (userLogged === 'true' && userName) {
         const loginBtn = document.querySelector('.login-btn');
@@ -859,10 +850,17 @@ function setupProfileMenuInteractions() {
 
 // Функция выхода
 function logout() {
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('userName');
+    sessionStorage.removeItem('isAdminLoggedIn');
+    sessionStorage.removeItem('adminToken');
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userName');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('rememberMe');
+    localStorage.removeItem('isAdminLoggedIn');
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminOfflineAccess');
     
     const loginBtn = document.querySelector('.login-btn');
     const userProfile = document.getElementById('userProfile');
@@ -1256,8 +1254,14 @@ async function submitGuestReviewToBackend(name, rating, text) {
 }
 
 async function sendGuestVoteToBackend(reviewId, voteType) {
-    const { voteState, prevVote, nextVote } = getNextVoteState(reviewId, voteType);
-    const response = await fetch(API_BASE + `/api/guest-reviews/${encodeURIComponent(reviewId)}/vote`, {
+    const parsedReviewId = Number.parseInt(String(reviewId), 10);
+    if (!Number.isFinite(parsedReviewId) || parsedReviewId <= 0) {
+        throw new Error('Некорректный идентификатор отзыва');
+    }
+    const safeReviewId = String(parsedReviewId);
+
+    const { voteState, prevVote, nextVote } = getNextVoteState(safeReviewId, voteType);
+    const response = await fetch(API_BASE + `/api/guest-reviews/${encodeURIComponent(safeReviewId)}/vote`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ vote: nextVote, prevVote }),
@@ -1268,9 +1272,9 @@ async function sendGuestVoteToBackend(reviewId, voteType) {
         throw new Error(data.message || 'Не удалось отправить голос');
     }
 
-    voteState[reviewId] = nextVote;
+    voteState[safeReviewId] = nextVote;
     if (!nextVote) {
-        delete voteState[reviewId];
+        delete voteState[safeReviewId];
     }
     setGuestReviewVoteState(voteState);
 
@@ -1379,8 +1383,15 @@ function initGuestReviews() {
             if (!reviewId) {
                 return;
             }
+            const parsedReviewId = Number.parseInt(reviewId, 10);
+            if (!Number.isFinite(parsedReviewId) || parsedReviewId <= 0) {
+                showError('Некорректный идентификатор отзыва');
+                return;
+            }
+            const safeReviewId = String(parsedReviewId);
+
             if (guestReviewsRealtimeState.usesBackend) {
-                sendGuestVoteToBackend(reviewId, voteType)
+                sendGuestVoteToBackend(safeReviewId, voteType)
                     .then(() => {
                         renderGuestReviews();
                     })
@@ -1389,7 +1400,7 @@ function initGuestReviews() {
                     });
                 return;
             }
-            upsertGuestVoteLocal(reviewId, voteType);
+            upsertGuestVoteLocal(safeReviewId, voteType);
         });
     }
 
