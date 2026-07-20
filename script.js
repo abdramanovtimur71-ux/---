@@ -709,6 +709,10 @@ function openForgotPasswordModal() {
                     <label>Новый пароль</label>
                     <input type="password" id="forgotNewPassword" placeholder="Минимум 8 символов" required>
                 </div>
+                <div class="forgot-code-meta">
+                    <p id="forgotCodeHint" class="forgot-code-hint">Введите код подтверждения из сообщения</p>
+                    <button type="button" id="forgotResendBtn" class="forgot-resend-btn" disabled>Отправить код повторно через 60 сек</button>
+                </div>
                 <button type="submit" class="submit-btn">Сменить пароль</button>
             </form>
         </div>
@@ -716,7 +720,19 @@ function openForgotPasswordModal() {
     document.body.appendChild(modal);
     document.body.style.overflow = 'hidden';
 
+    let resendTimerId = null;
+    let resendSecondsLeft = 0;
+    let lastRecoveryRequest = null;
+
+    const clearResendTimer = () => {
+        if (resendTimerId) {
+            clearInterval(resendTimerId);
+            resendTimerId = null;
+        }
+    };
+
     const closeModal = () => {
+        clearResendTimer();
         modal.remove();
         document.body.style.overflow = 'auto';
     };
@@ -733,6 +749,75 @@ function openForgotPasswordModal() {
     const emailInput = modal.querySelector('#forgotEmail');
     const phoneInput = modal.querySelector('#forgotPhone');
     const channelInput = modal.querySelector('#forgotChannel');
+    const codeInput = modal.querySelector('#forgotCode');
+    const resendBtn = modal.querySelector('#forgotResendBtn');
+    const codeHint = modal.querySelector('#forgotCodeHint');
+
+    const updateResendButton = () => {
+        if (resendSecondsLeft > 0) {
+            resendBtn.disabled = true;
+            resendBtn.textContent = `Отправить код повторно через ${resendSecondsLeft} сек`;
+            return;
+        }
+        resendBtn.disabled = false;
+        resendBtn.textContent = 'Отправить код повторно';
+    };
+
+    const startResendTimer = (seconds = 60) => {
+        clearResendTimer();
+        resendSecondsLeft = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 60;
+        updateResendButton();
+        if (resendSecondsLeft <= 0) {
+            return;
+        }
+        resendTimerId = setInterval(() => {
+            resendSecondsLeft -= 1;
+            updateResendButton();
+            if (resendSecondsLeft <= 0) {
+                clearResendTimer();
+            }
+        }, 1000);
+    };
+
+    const applyCodeStep = (debugCode) => {
+        requestForm.style.display = 'none';
+        resetForm.style.display = 'block';
+        codeInput.value = debugCode || '';
+        codeInput.focus();
+        codeHint.textContent = debugCode
+            ? `Код подтверждения: ${debugCode}`
+            : 'Введите код подтверждения из сообщения';
+        startResendTimer(60);
+    };
+
+    const submitForgotCode = async ({ email, phone, channel }, options = {}) => {
+        const isResend = options.isResend === true;
+        const resetBtn = showLoadingIndicator(
+            isResend ? resendBtn : requestForm.querySelector('.submit-btn')
+        );
+        try {
+            const response = await fetch(API_BASE + '/api/auth/password/forgot', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, phone, channel })
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok || !data.ok) {
+                showError(data.message || 'Не удалось отправить код');
+                resetBtn();
+                return false;
+            }
+            lastRecoveryRequest = { email, phone, channel };
+            applyCodeStep(data.debugCode || '');
+            showSuccess(data.debugCode ? `Код отправлен: ${data.debugCode}` : 'Код отправлен. Проверьте сообщения.');
+            resetBtn();
+            return true;
+        } catch {
+            showError('Сервер восстановления пароля недоступен');
+            resetBtn();
+            return false;
+        }
+    };
 
     requestForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -745,33 +830,20 @@ function openForgotPasswordModal() {
             return;
         }
 
-        const resetBtn = showLoadingIndicator(requestForm.querySelector('.submit-btn'));
-        try {
-            const response = await fetch(API_BASE + '/api/auth/password/forgot', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, phone, channel })
-            });
-            const data = await response.json().catch(() => ({}));
-            if (!response.ok || !data.ok) {
-                showError(data.message || 'Не удалось отправить код');
-                resetBtn();
-                return;
-            }
-            requestForm.style.display = 'none';
-            resetForm.style.display = 'block';
-            showSuccess(data.debugCode ? `Код отправлен: ${data.debugCode}` : 'Код отправлен. Проверьте сообщения.');
-            resetBtn();
-        } catch {
-            showError('Сервер восстановления пароля недоступен');
-            resetBtn();
+        await submitForgotCode({ email, phone, channel });
+    });
+
+    resendBtn.addEventListener('click', async () => {
+        if (resendBtn.disabled || !lastRecoveryRequest) {
+            return;
         }
+        await submitForgotCode(lastRecoveryRequest, { isResend: true });
     });
 
     resetForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const email = (emailInput.value || '').trim();
-        const code = (modal.querySelector('#forgotCode').value || '').trim();
+        const code = (codeInput.value || '').trim();
         const newPassword = modal.querySelector('#forgotNewPassword').value || '';
 
         if (!/^\d{6}$/.test(code)) {
