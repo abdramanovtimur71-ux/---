@@ -5599,3 +5599,414 @@ body {
         min-width: 100%;
     }
 }
+
+/* ===== HERO REFERENCE FORMAT ===== */
+.hero {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 18% 18%, rgba(58, 82, 165, 0.20), transparent 28%),
+        radial-gradient(circle at 78% 22%, rgba(86, 56, 144, 0.18), transparent 26%),
+        linear-gradient(180deg, #090c1c 0%, #080b16 44%, #060910 100%);
+}
+
+.hero::before {
+    background:
+        radial-gradient(circle at 50% 22%, rgba(121, 154, 255, 0.16), transparent 36%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03), transparent 62%);
+}
+
+.hero-rune,
+.hero-candles,
+.hero-tarot,
+.hero-tarot-scene {
+    opacity: 0.22;
+    filter: blur(0.2px);
+}
+
+.hero-inner {
+    display: grid;
+    grid-template-columns: minmax(320px, 1fr) minmax(360px, 1.05fr);
+    align-items: center;
+    gap: clamp(36px, 4vw, 68px);
+    width: 100%;
+    z-index: 2;
+    position: relative;
+    padding: 80px 0 60px;
+}
+
+.hero-inner::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    transform: translateX(-50%);
+    width: min(720px, 82vw);
+    height: 280px;
+    background: radial-gradient(ellipse at center, rgba(95,141,255,0.14) 0%, rgba(212,174,92,0.05) 32%, transparent 72%);
+    filter: blur(14px);
+    pointer-events: none;
+    z-index: -1;
+    animation: heroHaloBreath 9s ease-in-out infinite;
+}
+
+.hero-content {
+    max-width: 560px;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    background: none;
+    border: 0;
+    box-shadow: none;
+}
+
+.hero-content::before,
+.hero-content::after {
+    display: none;
+}
+
+.hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    color: rgba(226, 195, 119, 0.88);
+    font-size: 11px;
+    letter-spacing: 4.2px;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(52px, 6.5vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -1.8px;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f3ef 38%, #dddff0 78%, #b5bfdc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+}
+
+.hero-title-sub {
+    display: inline-block;
+    margin-top: 18px;
+    font-size: clamp(24px, 2.6vw, 44px);
+    line-height: 1.08;
+    letter-spacing: 0.6px;
+    color: #dbe2f4;
+}
+
+.hero-desc {
+    margin: 28px 0 0;
+    max-width: 560px;
+    color: rgba(205, 214, 236, 0.78);
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.9;
+}
+
+.hero-destiny-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.destiny-chip {
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(102, 122, 189, 0.34);
+    background: rgba(8, 13, 28, 0.5);
+    color: rgba(219, 225, 244, 0.88);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 10px 26px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(10px);
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+    justify-content: flex-start;
+}
+
+.hero-actions .btn-primary,
+.hero-actions .btn-secondary {
+    min-width: 190px;
+    min-height: 56px;
+    padding: 0 28px;
+    border-radius: 999px;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #6f8cf5 0%, #5e74d9 45%, #4d5fc5 100%);
+    border: 1px solid rgba(187, 207, 255, 0.28);
+    color: #fff;
+    box-shadow: 0 16px 30px rgba(78, 101, 201, 0.34);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: rgba(7, 11, 24, 0.44);
+    border: 1px solid rgba(104, 122, 190, 0.46);
+    color: #e2e8fb;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.hero-trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.hero-trust-strip span {
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(83, 98, 151, 0.28);
+    background: rgba(7, 11, 24, 0.38);
+    color: rgba(207, 215, 237, 0.84);
+    font-size: 12px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.hero-viz-col {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-matrix-viz {
+    position: relative;
+    width: min(100%, 620px);
+    padding: 18px;
+    border: 0;
+    border-radius: 32px;
+    background: radial-gradient(circle at 50% 50%, rgba(20, 26, 54, 0.50), rgba(7, 10, 20, 0) 72%);
+    box-shadow: none;
+    animation: heroAuraShift 11s ease-in-out infinite;
+}
+
+.hero-matrix-viz::before {
+    content: '';
+    position: absolute;
+    inset: 12% 10%;
+    background: radial-gradient(circle, rgba(88, 113, 214, 0.16), transparent 58%);
+    filter: blur(20px);
+    pointer-events: none;
+}
+
+.matrix-svg {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+.mg-cross,
+.mg-is,
+.mg-id,
+.mg-circ,
+.mg-os,
+.mg-od {
+    fill: none;
+    stroke: rgba(196, 158, 78, 0.72);
+    stroke-width: 1.8;
+}
+
+.mg-cross {
+    stroke: rgba(176, 141, 70, 0.52);
+}
+
+.mg-circ,
+.mg-id {
+    stroke: rgba(146, 117, 216, 0.56);
+}
+
+.mg-arrow-m,
+.mg-arrow-f {
+    fill: none;
+    stroke-width: 2.3;
+}
+
+.mg-arrow-m {
+    stroke: rgba(74, 144, 217, 0.9);
+}
+
+.mg-arrow-f {
+    stroke: rgba(192, 57, 43, 0.9);
+}
+
+.mg-alabel {
+    font-size: 7px;
+    fill: rgba(207, 215, 237, 0.56);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.mg-alabel-r {
+    text-anchor: end;
+}
+
+.mg-zone {
+    font-size: 8px;
+    fill: rgba(191, 185, 203, 0.52);
+    letter-spacing: 1.1px;
+}
+
+.mg-dollar {
+    font-size: 18px;
+    fill: rgba(95, 193, 108, 0.9);
+    font-weight: 600;
+}
+
+.mg-center-ring {
+    fill: none;
+    stroke: rgba(224, 191, 119, 0.42);
+    stroke-width: 2.1;
+    stroke-dasharray: 5 6;
+}
+
+.mn {
+    stroke: rgba(255,255,255,0.18);
+    stroke-width: 1.3;
+    transform-origin: center;
+    animation: heroNodePulse 6.8s ease-in-out infinite;
+}
+
+.mn-purple { fill: #8348da; }
+.mn-red { fill: #bf2e32; }
+.mn-dark { fill: #11131e; }
+.mn-blue { fill: #389ce8; }
+.mn-orange { fill: #d18a2f; }
+.mn-cyan { fill: #16b7c7; }
+.mn-sm { fill: #121523; stroke: rgba(212, 176, 104, 0.34); }
+.mn-center-out { fill: rgba(222, 168, 72, 0.34); stroke: rgba(255, 220, 157, 0.22); }
+.mn-center { fill: #d4a84f; stroke: rgba(255, 241, 202, 0.48); }
+
+.mt {
+    fill: #f4f1ea;
+    font-size: 13px;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: central;
+    paint-order: stroke;
+    stroke: rgba(0, 0, 0, 0.34);
+    stroke-width: 0.9px;
+}
+
+.mt-gold { fill: #e7ca77; }
+.mt-sm { font-size: 10px; }
+.mt-center {
+    font-size: 22px;
+    fill: #fff0c2;
+}
+
+.mt-sub {
+    font-size: 12px;
+    fill: rgba(117, 91, 32, 0.72);
+    stroke: none;
+}
+
+.mn-fx-scale { animation: heroNumberScale 7s ease-in-out infinite; }
+.mn-fx-fade { animation: heroNumberFade 6.4s ease-in-out infinite; }
+.mn-fx-blur { animation: heroNumberBlur 7.8s ease-in-out infinite; }
+.mn-fx-flip { animation: heroNumberGlow 7.2s ease-in-out infinite; }
+
+@keyframes heroNodePulse {
+    0%, 100% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.05); filter: brightness(1.12); }
+}
+
+@keyframes heroNumberScale {
+    0%, 100% { opacity: 0.95; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes heroNumberFade {
+    0%, 100% { opacity: 0.84; }
+    50% { opacity: 1; }
+}
+
+@keyframes heroNumberBlur {
+    0%, 100% { opacity: 0.9; filter: blur(0); }
+    45% { opacity: 1; filter: blur(0); }
+    60% { opacity: 0.72; filter: blur(0.7px); }
+}
+
+@keyframes heroNumberGlow {
+    0%, 100% { opacity: 0.94; text-shadow: 0 0 0 rgba(255,255,255,0); }
+    50% { opacity: 1; text-shadow: 0 0 12px rgba(255,255,255,0.34); }
+}
+
+@media (max-width: 1100px) {
+    .hero-inner {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+    }
+
+    .hero-content {
+        text-align: center;
+        max-width: 760px;
+    }
+
+    .hero-desc {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-destiny-chips,
+    .hero-actions,
+    .hero-trust-strip {
+        justify-content: center;
+    }
+
+    .hero-viz-col {
+        width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero {
+        min-height: auto;
+    }
+
+    .hero-inner {
+        padding: 54px 0 28px;
+        gap: 26px;
+    }
+
+    .hero-kicker {
+        font-size: 10px;
+        letter-spacing: 3px;
+    }
+
+    .hero-title {
+        font-size: clamp(40px, 14vw, 58px);
+    }
+
+    .hero-title-sub {
+        font-size: clamp(22px, 7vw, 30px);
+    }
+
+    .hero-actions .btn-primary,
+    .hero-actions .btn-secondary {
+        width: 100%;
+    }
+
+    .hero-matrix-viz {
+        padding: 0;
+    }
+}

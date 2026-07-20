@@ -62,7 +62,7 @@
     }
     </script>
 
-    <link rel="stylesheet" href="styles_dark.css?v=20260720c">
+    <link rel="stylesheet" href="styles_dark.css?v=20260721hero1">
 </head>
 <body>
 
@@ -260,12 +260,18 @@
         </div>
         <div class="hero-inner container">
             <div class="hero-content">
-                <span class="hero-eyebrow">Доверьтесь высшим силам</span>
-                <h1 class="hero-title">Матрицы Судьбы<br><span class="hero-title-sub">Нумерология & Матрица Судьбы</span></h1>
-                <p class="hero-subtitle">Расчёт матрицы судьбы по дате рождения, нумерология, связь с незримым миром — более 15 лет духовной практики</p>
+                <span class="hero-kicker">Нумерология · Матрица Судьбы</span>
+                <h1 class="hero-title">Матрица-Судьбы<br><span class="hero-title-sub">Расшифруй код своей даты</span></h1>
+                <p class="hero-desc">Узнайте предназначение, таланты и жизненный путь через точный расчёт Матрицы Судьбы по вашей дате рождения.</p>
+                <div class="hero-destiny-chips">
+                    <span class="destiny-chip">22 аркана</span>
+                    <span class="destiny-chip">Путь Души</span>
+                    <span class="destiny-chip">Финансовый канал</span>
+                    <span class="destiny-chip">Кармические задачи</span>
+                </div>
                 <div class="hero-actions">
                     <button class="btn-primary" onclick="handleHeroMatrixCTA()">Получить разбор</button>
-                    <button class="btn-secondary" onclick="scrollToSection('#mediumship')">Узнать об услугах</button>
+                    <button class="btn-secondary" onclick="scrollToSection('#about')">Узнать подробнее</button>
                 </div>
                 <div class="hero-trust-strip">
                     <span>✦ Конфиденциально</span>
@@ -273,12 +279,85 @@
                     <span>✦ Ответ в день обращения</span>
                 </div>
             </div>
-            <div class="hero-portrait-wrap" aria-hidden="true" style="display:none">
-                <div class="hero-portrait-frame">
-                    <div class="hpf-glow"></div>
-                    <div class="hpf-ring hpf-ring1" aria-hidden="true"></div>
-                    <div class="hpf-ring hpf-ring2" aria-hidden="true"></div>
-                    <div class="hpf-badge">✦ 15 лет практики ✦</div>
+            <div class="hero-viz-col" aria-hidden="true">
+                <div class="hero-matrix-viz">
+                    <svg class="matrix-svg" viewBox="-18 -18 336 336" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <radialGradient id="mgBg" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#D4AE5C" stop-opacity="0.18"></stop>
+                                <stop offset="60%" stop-color="#7B4FC7" stop-opacity="0.07"></stop>
+                                <stop offset="100%" stop-color="#050507" stop-opacity="0"></stop>
+                            </radialGradient>
+                            <filter id="mgGlow" x="-60%" y="-60%" width="220%" height="220%">
+                                <feGaussianBlur stdDeviation="3" result="b"></feGaussianBlur>
+                                <feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+                            </filter>
+                            <filter id="mgGlowLg" x="-100%" y="-100%" width="300%" height="300%">
+                                <feGaussianBlur stdDeviation="7" result="b"></feGaussianBlur>
+                                <feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+                            </filter>
+                            <marker id="mgArrB" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                                <polygon points="0 0, 7 3.5, 0 7" fill="rgba(74,144,217,0.9)"></polygon>
+                            </marker>
+                            <marker id="mgArrR" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                                <polygon points="0 0, 7 3.5, 0 7" fill="rgba(192,57,43,0.9)"></polygon>
+                            </marker>
+                        </defs>
+                        <circle cx="150" cy="150" r="148" fill="url(#mgBg)"></circle>
+                        <line class="mg-cross" x1="150" y1="20" x2="150" y2="280"></line>
+                        <line class="mg-cross" x1="20" y1="150" x2="280" y2="150"></line>
+                        <line class="mg-cross" x1="60" y1="60" x2="240" y2="240"></line>
+                        <line class="mg-cross" x1="240" y1="60" x2="60" y2="240"></line>
+                        <polygon class="mg-is" points="102,102 198,102 198,198 102,198"></polygon>
+                        <polygon class="mg-id" points="150,76 224,150 150,224 76,150"></polygon>
+                        <circle class="mg-circ" cx="150" cy="150" r="74"></circle>
+                        <polygon class="mg-os" points="60,60 240,60 240,240 60,240"></polygon>
+                        <polygon class="mg-od" points="150,20 280,150 150,280 20,150"></polygon>
+                        <line class="mg-arrow-m" x1="66" y1="233" x2="192" y2="109" marker-end="url(#mgArrB)"></line>
+                        <line class="mg-arrow-f" x1="234" y1="233" x2="108" y2="109" marker-end="url(#mgArrR)"></line>
+                        <text class="mg-alabel" transform="translate(113,192) rotate(-53)">линия мужского рода</text>
+                        <text class="mg-alabel mg-alabel-r" transform="translate(188,192) rotate(53)">линия женского рода</text>
+                        <text class="mg-zone" x="158" y="176">ЗОНА</text>
+                        <text class="mg-zone" x="158" y="188">КОМФОРТА</text>
+                        <text class="mg-dollar" x="185" y="182">$</text>
+                        <circle class="mn mn-purple" cx="150" cy="20" r="14" filter="url(#mgGlow)" style="animation-delay:0s"></circle>
+                        <text class="mt mn-fx-flip" x="150" y="20">17</text>
+                        <circle class="mn mn-red" cx="280" cy="150" r="14" filter="url(#mgGlow)" style="animation-delay:1.4s"></circle>
+                        <text class="mt mn-fx-scale" x="280" y="150">18</text>
+                        <circle class="mn mn-red" cx="150" cy="280" r="14" filter="url(#mgGlow)" style="animation-delay:2.8s"></circle>
+                        <text class="mt mn-fx-fade" x="150" y="280">12</text>
+                        <circle class="mn mn-purple" cx="20" cy="150" r="14" filter="url(#mgGlow)" style="animation-delay:4.2s"></circle>
+                        <text class="mt mn-fx-flip" x="20" y="150">20</text>
+                        <circle class="mn mn-dark" cx="60" cy="60" r="14" style="animation-delay:0.7s"></circle>
+                        <text class="mt mt-gold mn-fx-blur" x="60" y="60">1</text>
+                        <circle class="mn mn-dark" cx="240" cy="60" r="14" style="animation-delay:2.1s"></circle>
+                        <text class="mt mt-gold mn-fx-fade" x="240" y="60">21</text>
+                        <circle class="mn mn-dark" cx="240" cy="240" r="14" style="animation-delay:3.5s"></circle>
+                        <text class="mt mt-gold mn-fx-scale" x="240" y="240">6</text>
+                        <circle class="mn mn-dark" cx="60" cy="240" r="14" style="animation-delay:4.9s"></circle>
+                        <text class="mt mt-gold mn-fx-blur" x="60" y="240">1</text>
+                        <circle class="mn mn-blue" cx="150" cy="76" r="12" filter="url(#mgGlow)" style="animation-delay:0.5s"></circle>
+                        <text class="mt mn-fx-scale" x="150" y="76">2</text>
+                        <circle class="mn mn-orange" cx="224" cy="150" r="12" style="animation-delay:1.9s"></circle>
+                        <text class="mt mn-fx-fade" x="224" y="150">21</text>
+                        <circle class="mn mn-orange" cx="150" cy="224" r="12" filter="url(#mgGlow)" style="animation-delay:3.3s"></circle>
+                        <text class="mt mn-fx-flip" x="150" y="224">15</text>
+                        <circle class="mn mn-cyan" cx="76" cy="150" r="12" filter="url(#mgGlow)" style="animation-delay:4.7s"></circle>
+                        <text class="mt mn-fx-blur" x="76" y="150">4</text>
+                        <circle class="mn mn-sm" cx="102" cy="102" r="10"></circle>
+                        <text class="mt mt-sm mn-fx-fade" x="102" y="102">8</text>
+                        <circle class="mn mn-sm" cx="198" cy="102" r="10"></circle>
+                        <text class="mt mt-sm mn-fx-scale" x="198" y="102">16</text>
+                        <circle class="mn mn-sm" cx="198" cy="198" r="10"></circle>
+                        <text class="mt mt-sm mn-fx-flip" x="198" y="198">6</text>
+                        <circle class="mn mn-sm" cx="102" cy="198" r="10"></circle>
+                        <text class="mt mt-sm mn-fx-blur" x="102" y="198">15</text>
+                        <circle class="mg-center-ring" cx="150" cy="150" r="34"></circle>
+                        <circle class="mn mn-center-out" cx="150" cy="150" r="27" filter="url(#mgGlowLg)"></circle>
+                        <circle class="mn mn-center" cx="150" cy="150" r="22"></circle>
+                        <text class="mt mt-center mn-fx-scale" x="150" y="150">6</text>
+                        <text class="mt mt-sub" x="150" y="163">д</text>
+                    </svg>
                 </div>
             </div>
         </div>
