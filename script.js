@@ -496,22 +496,13 @@ const API_BASE = (() => {
         return fromQuery;
     }
     const isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
+    if (isLocalHost) {
+        localStorage.removeItem('apiBaseUrl');
+        return `${window.location.protocol}//${window.location.hostname}:5000`;
+    }
     const storedBase = (localStorage.getItem('apiBaseUrl') || '').trim().replace(/\/$/, '');
     if (storedBase) {
-        if (!isLocalHost) {
-            return storedBase;
-        }
-        try {
-            const storedUrl = new URL(storedBase);
-            if (/^(localhost|127\.0\.0\.1)$/i.test(storedUrl.hostname)) {
-                return storedBase;
-            }
-        } catch {
-            // ignore malformed stored API URL
-        }
-    }
-    if (isLocalHost) {
-        return `${window.location.protocol}//${window.location.hostname}:5000`;
+        return storedBase;
     }
     return REMOTE_API_BASE;
 })();

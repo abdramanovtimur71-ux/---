@@ -14,6 +14,7 @@ import smtplib
 import csv
 import threading
 import time
+from urllib.parse import urlparse
 
 import requests
 from dotenv import load_dotenv
@@ -68,7 +69,7 @@ ALLOWED_ORIGINS = [
     origin.strip()
     for origin in os.getenv(
         "ALLOWED_ORIGINS",
-        "http://127.0.0.1:5500,http://localhost:5500,https://abdramanovtimur71-ux.github.io",
+        "http://127.0.0.1:5500,http://localhost:5500,http://127.0.0.1:5511,http://localhost:5511,https://abdramanovtimur71-ux.github.io",
     ).split(",")
     if origin.strip()
 ]
@@ -708,10 +709,24 @@ def send_all_notifications(subject: str, text: str):
     return results
 
 
+def is_allowed_origin(origin: str) -> bool:
+    if not origin:
+        return False
+    if origin in ALLOWED_ORIGINS:
+        return True
+    try:
+        parsed = urlparse(origin)
+    except ValueError:
+        return False
+    if parsed.scheme != "http":
+        return False
+    return parsed.hostname in {"127.0.0.1", "localhost"}
+
+
 @app.after_request
 def add_security_headers(resp):
     origin = request.headers.get("Origin")
-    if origin and origin in ALLOWED_ORIGINS:
+    if is_allowed_origin(origin):
         resp.headers["Access-Control-Allow-Origin"] = origin
         resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Admin-Token, X-Client-Token, X-User-Token"
         resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
