@@ -668,6 +668,10 @@ function closeRegistrationModal() {
 }
 
 function openForgotPasswordModal() {
+    const existingModal = document.getElementById('forgotPasswordModal');
+    if (existingModal) {
+        return;
+    }
     const modal = document.createElement('div');
     modal.className = 'modal active';
     modal.id = 'forgotPasswordModal';
@@ -805,18 +809,19 @@ function openForgotPasswordModal() {
     });
 }
 
+document.addEventListener('click', (event) => {
+    const forgotLink = event.target.closest('.forgot-password');
+    if (!forgotLink) {
+        return;
+    }
+    event.preventDefault();
+    openForgotPasswordModal();
+});
+
 // Закрытие модального окна при клике на фон
 document.addEventListener('DOMContentLoaded', () => {
     const loginModal = document.getElementById('loginModal');
     const registrationModal = document.getElementById('registrationModal');
-    const forgotLink = document.querySelector('.forgot-password');
-
-    if (forgotLink) {
-        forgotLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            openForgotPasswordModal();
-        });
-    }
     
     window.addEventListener('click', (event) => {
         if (event.target === loginModal) {
