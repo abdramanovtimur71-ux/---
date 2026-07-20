@@ -528,6 +528,15 @@
         let _sortState = {};
         window._tableRefreshMap = {};
 
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         function renderTable(targetId, columns, rows, opts = {}) {
             const root = document.getElementById(targetId);
             if (!root) return;
@@ -549,11 +558,14 @@
             const thead = columns.map(c => {
                 const isSort = c.key === sortKey;
                 const arrow = isSort ? (sortDir === 'asc' ? ' ↑' : ' ↓') : '';
-                return `<th class="sortable-th" onclick="toggleSort('${targetId}', '${c.key}')" style="cursor:pointer;user-select:none">${c.label}${arrow}</th>`;
+                return `<th class="sortable-th" onclick="toggleSort('${targetId}', '${c.key}')" style="cursor:pointer;user-select:none">${escapeHtml(c.label)}${arrow}</th>`;
             }).join('') + (opts.deletable ? '<th style="width:60px"></th>' : '');
 
             const tbody = rows.map((r, i) => {
-                const cells = columns.map(c => `<td data-label="${c.label}">${c.render ? c.render(r) : (r[c.key] || '—')}</td>`).join('');
+                const cells = columns.map(c => {
+                    const rendered = c.render ? c.render(r) : escapeHtml(r[c.key] || '—');
+                    return `<td data-label="${escapeHtml(c.label)}">${rendered}</td>`;
+                }).join('');
                 const delBtn = opts.deletable ? `<td><button class="btn-del" onclick="${opts.deletable}(${r.id || i})" title="Удалить">🗑</button></td>` : '';
                 return `<tr>${cells}${delBtn}</tr>`;
             }).join('');

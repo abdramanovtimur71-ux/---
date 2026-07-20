@@ -32,6 +32,7 @@ TRAINING_CAPACITY = 25
 TRAINING_PRICE_KZT = int(os.getenv("TRAINING_PRICE_KZT", "75000"))
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "0000")
 ADMIN_SESSION_MINUTES = int(os.getenv("ADMIN_SESSION_MINUTES", "720"))
+CLIENT_SESSION_MINUTES = int(os.getenv("CLIENT_SESSION_MINUTES", "10080"))
 BOOKING_START_HOUR = int(os.getenv("BOOKING_START_HOUR", "9"))
 BOOKING_END_HOUR = int(os.getenv("BOOKING_END_HOUR", "21"))
 SLOT_STEP_MINUTES = int(os.getenv("SLOT_STEP_MINUTES", "60"))
@@ -188,6 +189,17 @@ def init_db():
         )
         conn.execute(
             """
+            CREATE TABLE IF NOT EXISTS client_access_tokens (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                email TEXT NOT NULL UNIQUE,
+                token TEXT NOT NULL UNIQUE,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )
+            """
+        )
+        conn.execute(
+            """
             CREATE TABLE IF NOT EXISTS guest_reviews (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
@@ -258,6 +270,65 @@ def require_admin_or_401():
     if not is_admin_request():
         return jsonify({"ok": False, "message": "Требуется спецвход администратора"}), 401
     return None
+
+
+def get_client_token_from_request() -> str:
+    token = (request.headers.get("X-Client-Token") or request.cookies.get("client_token") or "").strip()
+    if len(token) < 20:
+        return ""
+    return token
+
+
+def issue_client_token(email: str) -> str:
+    now_iso = datetime.now().isoformat()
+    normalized_email = (email or "").strip().lower()
+    if not validate_email(normalized_email):
+        raise ValueError("Invalid email")
+
+    with closing(get_conn()) as conn:
+        existing = conn.execute(
+            "SELECT token FROM client_access_tokens WHERE email = ?",
+            (normalized_email,),
+        ).fetchone()
+        if existing and existing["token"]:
+            conn.execute(
+                "UPDATE client_access_tokens SET updated_at = ? WHERE email = ?",
+                (now_iso, normalized_email),
+            )
+            conn.commit()
+            return existing["token"]
+
+        token = secrets.token_urlsafe(32)
+        conn.execute(
+            """
+            INSERT INTO client_access_tokens (email, token, created_at, updated_at)
+            VALUES (?, ?, ?, ?)
+            """,
+            (normalized_email, token, now_iso, now_iso),
+        )
+        conn.commit()
+    return token
+
+
+def require_client_email_or_401():
+    token = get_client_token_from_request()
+    if not token:
+        return None, (jsonify({"ok": False, "message": "Требуется клиентская сессия"}), 401)
+
+    with closing(get_conn()) as conn:
+        row = conn.execute(
+            "SELECT email FROM client_access_tokens WHERE token = ?",
+            (token,),
+        ).fetchone()
+        if not row:
+            return None, (jsonify({"ok": False, "message": "Клиентская сессия недействительна"}), 401)
+        email = (row["email"] or "").strip().lower()
+        conn.execute(
+            "UPDATE client_access_tokens SET updated_at = ? WHERE token = ?",
+            (datetime.now().isoformat(), token),
+        )
+        conn.commit()
+    return email, None
 
 
 def luhn_valid(card_number: str) -> bool:
@@ -430,7 +501,7 @@ def add_security_headers(resp):
     origin = request.headers.get("Origin")
     if origin and origin in ALLOWED_ORIGINS:
         resp.headers["Access-Control-Allow-Origin"] = origin
-        resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Admin-Token"
+        resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Admin-Token, X-Client-Token"
         resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
         resp.headers["Vary"] = "Origin"
 
@@ -451,9 +522,10 @@ def handle_preflight():
 @app.route("/api/bookings/<int:booking_id>/cancel", methods=["POST"])
 @limiter.limit("20 per hour")
 def cancel_booking(booking_id):
-    payload   = request.get_json(silent=True) or {}
-    email     = (payload.get("email") or "").strip().lower()
-    now       = datetime.now().isoformat()
+    client_email, auth_error = require_client_email_or_401()
+    if auth_error:
+        return auth_error
+    now = datetime.now().isoformat()
 
     with closing(get_conn()) as conn:
         row = conn.execute(
@@ -461,7 +533,7 @@ def cancel_booking(booking_id):
         ).fetchone()
         if not row:
             return jsonify({"ok": False, "message": "Запись не найдена"}), 404
-        if email and row["email"].lower() != email:
+        if row["email"].lower() != client_email:
             return jsonify({"ok": False, "message": "Нет доступа"}), 403
         conn.execute(
             "UPDATE bookings SET status = 'cancelled', cancelled_at = ? WHERE id = ?",
@@ -1037,8 +1109,8 @@ def admin_send_message():
 
     payload = request.get_json(silent=True) or {}
     to_email = (payload.get("toEmail") or "").strip().lower()
-    subject = (payload.get("subject") or "").strip()
-    text = (payload.get("text") or "").strip()
+    subject = sanitize_notification_text(payload.get("subject") or "", max_len=220)
+    text = sanitize_notification_text(payload.get("text") or "", max_len=4000)
 
     if not validate_email(to_email):
         return jsonify({"ok": False, "message": "Некорректный email клиента"}), 400
@@ -1060,9 +1132,9 @@ def admin_send_message():
 
 @app.route("/api/messages/inbox", methods=["GET"])
 def client_inbox():
-    email = (request.args.get("email") or "").strip().lower()
-    if not validate_email(email):
-        return jsonify({"ok": False, "message": "Некорректный email"}), 400
+    client_email, auth_error = require_client_email_or_401()
+    if auth_error:
+        return auth_error
 
     with closing(get_conn()) as conn:
         rows = conn.execute(
@@ -1073,7 +1145,7 @@ def client_inbox():
             ORDER BY id DESC
             LIMIT 300
             """,
-            (email, email),
+            (client_email, client_email),
         ).fetchall()
 
     return jsonify({"ok": True, "messages": [dict(r) for r in rows]})
@@ -1082,12 +1154,12 @@ def client_inbox():
 @app.route("/api/messages/reply", methods=["POST"])
 @limiter.limit("30 per hour")
 def client_reply():
-    payload = request.get_json(silent=True) or {}
-    from_email = (payload.get("fromEmail") or "").strip().lower()
-    text = (payload.get("text") or "").strip()
+    client_email, auth_error = require_client_email_or_401()
+    if auth_error:
+        return auth_error
 
-    if not validate_email(from_email):
-        return jsonify({"ok": False, "message": "Некорректный email"}), 400
+    payload = request.get_json(silent=True) or {}
+    text = sanitize_notification_text(payload.get("text") or "", max_len=4000)
     if len(text) < 2:
         return jsonify({"ok": False, "message": "Введите текст сообщения"}), 400
 
@@ -1097,7 +1169,7 @@ def client_reply():
             INSERT INTO client_messages (from_email, to_email, subject, text, sender_role, created_at)
             VALUES (?, ?, ?, ?, 'client', ?)
             """,
-            (from_email, "admin@roza-ogly.local", "Ответ клиента", text, datetime.now().isoformat()),
+            (client_email, "admin@roza-ogly.local", "Ответ клиента", text, datetime.now().isoformat()),
         )
         conn.commit()
 
@@ -1224,9 +1296,9 @@ def confirm_purchase():
 @limiter.limit("60 per minute")
 def get_user_bookings():
     """Возвращает предстоящие и прошедшие записи пользователя по email."""
-    email = (request.args.get("email") or "").strip().lower()
-    if not email or not validate_email(email):
-        return jsonify({"ok": False, "message": "Укажите корректный email"}), 400
+    client_email, auth_error = require_client_email_or_401()
+    if auth_error:
+        return auth_error
 
     now = datetime.now()
     with closing(get_conn()) as conn:
@@ -1238,7 +1310,7 @@ def get_user_bookings():
             ORDER BY booking_at DESC
             LIMIT 50
             """,
-            (email,),
+            (client_email,),
         ).fetchall()
 
     upcoming = []
@@ -1427,7 +1499,7 @@ def start_reminder_worker_once():
 def create_booking():
     payload = request.get_json(silent=True) or {}
     name = (payload.get("name") or "").strip()
-    email = (payload.get("email") or "").strip()
+    email = (payload.get("email") or "").strip().lower()
     phone = (payload.get("phone") or "").strip()
     service = (payload.get("service") or "").strip()
     date = (payload.get("date") or "").strip()
@@ -1449,6 +1521,8 @@ def create_booking():
     now = datetime.now()
     if booking_at < now + timedelta(minutes=30):
         return jsonify({"ok": False, "message": "Нельзя записаться на прошедшее или слишком близкое время"}), 400
+
+    client_token = issue_client_token(email)
 
     with closing(get_conn()) as conn:
         rows = conn.execute("SELECT booking_at FROM bookings").fetchall()
@@ -1501,7 +1575,22 @@ def create_booking():
     )
     notify = send_all_notifications("Новая запись на прием", msg)
 
-    return jsonify({"ok": True, "message": "Вы успешно записаны", "notifications": notify})
+    response = jsonify({
+        "ok": True,
+        "message": "Вы успешно записаны",
+        "notifications": notify,
+        "clientToken": client_token,
+        "clientTokenExpiresInMinutes": CLIENT_SESSION_MINUTES,
+    })
+    response.set_cookie(
+        "client_token",
+        client_token,
+        max_age=CLIENT_SESSION_MINUTES * 60,
+        httponly=True,
+        secure=request.is_secure,
+        samesite="Lax",
+    )
+    return response
 
 
 @app.route("/api/training/status", methods=["GET"])
@@ -1622,8 +1711,6 @@ start_reminder_worker_once()
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)
-
-
 
 
 
