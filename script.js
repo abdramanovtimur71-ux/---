@@ -609,6 +609,11 @@ const API_BASE = (() => {
         localStorage.setItem('apiBaseUrl', fromQuery);
         return fromQuery;
     }
+    const isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
+    if (isLocalHost) {
+        localStorage.removeItem('apiBaseUrl');
+        return `${window.location.protocol}//${window.location.hostname}:5000`;
+    }
     return (localStorage.getItem('apiBaseUrl') || 'https://roza-ogly-api.onrender.com').trim().replace(/\/$/, '');
 })();
 
