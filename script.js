@@ -10,6 +10,20 @@ function scrollToSection(selector) {
     }
 }
 
+function isUserAuthenticated() {
+    const userLogged = localStorage.getItem('isLoggedIn') === 'true';
+    const userName = localStorage.getItem('userName') || localStorage.getItem('userEmail');
+    return userLogged && Boolean(userName);
+}
+
+function handleHeroMatrixCTA() {
+    if (isUserAuthenticated()) {
+        window.location.href = 'dashboard.html#matrix';
+        return;
+    }
+    openRegistrationModal();
+}
+
 function updateScrollProgress() {
     const bar = document.getElementById('scrollProgress');
     if (!bar) return;
@@ -800,7 +814,7 @@ function checkLoginStatus() {
     const userLogged = localStorage.getItem('isLoggedIn');
     const userName = localStorage.getItem('userName') || localStorage.getItem('userEmail');
     
-    if (userLogged && userName) {
+    if (userLogged === 'true' && userName) {
         const loginBtn = document.querySelector('.login-btn');
         const userProfile = document.getElementById('userProfile');
         const profileAvatar = document.querySelector('.profile-avatar');
