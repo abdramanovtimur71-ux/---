@@ -676,7 +676,7 @@ function openForgotPasswordModal() {
             <button class="close-modal" type="button">×</button>
             <div class="modal-header">
                 <h2>Восстановление пароля</h2>
-                <p>Код придет в WhatsApp или SMS</p>
+                <p>Код придет в WhatsApp или SMS на номер, привязанный к аккаунту</p>
             </div>
             <form id="forgotPasswordRequestForm" class="login-form">
                 <div class="form-group">
@@ -931,8 +931,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = phoneInput ? phoneInput.value.trim() : '';
             
             // Валидация
-            if (!name || !email || !password || !confirmPassword) {
+            if (!name || !email || !phone || !password || !confirmPassword) {
                 showError('Пожалуйста, заполните все поля');
+                return;
+            }
+            if (!FormValidator.phone(phone)) {
+                showError('Введите корректный номер телефона');
                 return;
             }
             

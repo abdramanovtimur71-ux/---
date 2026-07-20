@@ -545,6 +545,23 @@ def validate_phone(phone: str) -> bool:
     return bool(re.match(r"^\+?[0-9\-\s\(\)]{7,20}$", phone))
 
 
+def normalize_phone_for_compare(phone: str) -> str:
+    digits = re.sub(r"\D", "", phone or "")
+    if len(digits) == 11 and digits.startswith("8"):
+        digits = "7" + digits[1:]
+    elif len(digits) == 10:
+        digits = "7" + digits
+    return digits
+
+
+def phones_match(left: str, right: str) -> bool:
+    left_norm = normalize_phone_for_compare(left)
+    right_norm = normalize_phone_for_compare(right)
+    if not left_norm or not right_norm:
+        return False
+    return hmac.compare_digest(left_norm, right_norm)
+
+
 def send_email_notification(subject: str, text: str):
     smtp_host = os.getenv("SMTP_HOST")
     smtp_port = int(os.getenv("SMTP_PORT", "587"))
@@ -942,7 +959,9 @@ def auth_register():
         return jsonify({"ok": False, "message": "Укажите имя (минимум 2 символа)"}), 400
     if not validate_email(email):
         return jsonify({"ok": False, "message": "Некорректный email"}), 400
-    if phone and not validate_phone(phone):
+    if not phone:
+        return jsonify({"ok": False, "message": "Укажите номер телефона"}), 400
+    if not validate_phone(phone):
         return jsonify({"ok": False, "message": "Некорректный номер телефона"}), 400
     if not is_strong_password(password):
         return jsonify({"ok": False, "message": "Пароль должен быть не короче 8 символов и содержать буквы и цифры"}), 400
@@ -1069,6 +1088,8 @@ def auth_password_forgot():
         return jsonify({"ok": False, "message": "Введите корректный email"}), 400
     if not channel:
         return jsonify({"ok": False, "message": "Выберите канал: WhatsApp или SMS"}), 400
+    if not phone or not validate_phone(phone):
+        return jsonify({"ok": False, "message": "Укажите корректный номер телефона"}), 400
 
     with closing(get_conn()) as conn:
         user = conn.execute(
@@ -1080,11 +1101,13 @@ def auth_password_forgot():
         if not user:
             return jsonify({"ok": True, "message": "Если аккаунт существует, код отправлен"}), 200
 
-        target_phone = phone or (user["phone"] or "")
-        if not validate_phone(target_phone):
-            return jsonify({"ok": False, "message": "Укажите корректный номер телефона для отправки кода"}), 400
-        if not target_phone:
-            return jsonify({"ok": False, "message": "Для восстановления укажите номер телефона"}), 400
+        account_phone = (user["phone"] or "").strip()
+        if not account_phone or not validate_phone(account_phone):
+            return jsonify({"ok": True, "message": "Если аккаунт существует, код отправлен"}), 200
+        if not phones_match(phone, account_phone):
+            return jsonify({"ok": True, "message": "Если аккаунт существует, код отправлен"}), 200
+
+        target_phone = account_phone
 
         now = datetime.now()
         expires = now + timedelta(minutes=PASSWORD_RESET_CODE_TTL_MINUTES)
@@ -1100,17 +1123,24 @@ def auth_password_forgot():
             """,
             (now_iso, user["id"]),
         )
-        conn.execute(
+        inserted = conn.execute(
             """
             INSERT INTO password_reset_codes (user_id, channel, phone, code_hash, created_at, expires_at, attempts, request_ip)
             VALUES (?, ?, ?, ?, ?, ?, 0, ?)
             """,
             (user["id"], channel, target_phone, code_hash, now_iso, expires.isoformat(), get_remote_address()),
         )
+        reset_id = inserted.lastrowid
         conn.commit()
 
     sent_ok, sent_status = send_reset_code(channel, target_phone, code)
     if not sent_ok:
+        with closing(get_conn()) as conn:
+            conn.execute(
+                "UPDATE password_reset_codes SET consumed_at = ? WHERE id = ? AND consumed_at IS NULL",
+                (datetime.now().isoformat(), reset_id),
+            )
+            conn.commit()
         return jsonify({"ok": False, "message": "Канал отправки временно недоступен. Попробуйте позже или смените канал."}), 503
 
     response_payload = {"ok": True, "message": "Код отправлен. Проверьте сообщения и введите код на странице."}
@@ -2177,6 +2207,5 @@ start_reminder_worker_once()
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)
-
 
 
