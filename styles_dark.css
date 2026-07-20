@@ -5344,3 +5344,233 @@ body {
 .guest-vote-count {
     font-weight: 600;
 }
+
+/* ─── HERO BEAUTY PASS (2026-07-20) ────────────────── */
+@keyframes heroAuraShift {
+    0% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: 0.78; }
+    50% { transform: translate3d(2%, 1%, 0) scale(1.04); opacity: 1; }
+    100% { transform: translate3d(-1%, 2%, 0) scale(1); opacity: 0.82; }
+}
+
+@keyframes heroBorderSweep {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 220% 50%; }
+}
+
+.hero {
+    isolation: isolate;
+}
+
+.hero.cosmic-inview {
+    background:
+        radial-gradient(ellipse 74% 64% at 72% 44%, rgba(118, 96, 210, 0.30) 0%, transparent 62%),
+        radial-gradient(ellipse 56% 50% at 18% 72%, rgba(76, 52, 178, 0.22) 0%, transparent 58%),
+        radial-gradient(ellipse 64% 34% at 52% 100%, rgba(226, 190, 118, 0.16) 0%, transparent 56%),
+        linear-gradient(180deg, #02050e 0%, #040915 52%, #03060d 100%) !important;
+}
+
+.hero::before {
+    opacity: 0.92;
+    filter: drop-shadow(0 0 16px rgba(138, 172, 255, 0.14));
+}
+
+.hero::after {
+    opacity: 0.92;
+}
+
+.hero-content {
+    max-width: 760px;
+    padding: clamp(28px, 2.8vw, 44px) clamp(22px, 2.6vw, 42px) clamp(24px, 2.4vw, 36px);
+}
+
+.hero-content::before {
+    border: 1px solid rgba(146, 188, 255, 0.30);
+    background:
+        linear-gradient(150deg, rgba(10, 21, 44, 0.86), rgba(7, 14, 30, 0.76)),
+        radial-gradient(circle at 12% 10%, rgba(173, 203, 255, 0.18), transparent 42%),
+        radial-gradient(circle at 86% 82%, rgba(245, 206, 132, 0.08), transparent 36%);
+    box-shadow:
+        0 30px 66px rgba(0, 0, 0, 0.52),
+        0 0 34px rgba(96, 138, 255, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.hero-content::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: 33px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    background:
+        linear-gradient(120deg, transparent 0 36%, rgba(255,255,255,0.14) 44%, transparent 52% 100%);
+    background-size: 220% 100%;
+    animation: heroBorderSweep 8.2s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.hero-content > * {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-kicker,
+.hero-eyebrow {
+    color: #c7deff;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    background: linear-gradient(150deg, #ffffff 0%, #ebf3ff 40%, #c6ddff 74%, #f4dcab 100%);
+    text-shadow: 0 14px 34px rgba(0, 0, 0, 0.46), 0 0 26px rgba(110, 151, 255, 0.22);
+}
+
+.hero-title-sub {
+    color: #c2d8ff;
+}
+
+.hero-desc,
+.hero-subtitle {
+    color: #b3c7e8;
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.82;
+    max-width: 58ch;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-destiny-chips {
+    margin-top: 8px;
+    gap: 10px;
+}
+
+.destiny-chip {
+    border: 1px solid rgba(143, 182, 255, 0.34);
+    background: linear-gradient(145deg, rgba(10, 19, 37, 0.80), rgba(8, 14, 28, 0.68));
+    color: #dcebff;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 8px 18px rgba(0, 0, 0, 0.24);
+}
+
+.hero-actions {
+    gap: 14px;
+}
+
+.hero-actions .btn-primary,
+.hero-actions .btn-secondary {
+    min-width: clamp(210px, 20vw, 280px);
+}
+
+.btn-primary {
+    background: linear-gradient(145deg, #7ea3ff 0%, #5d85f1 48%, #3f65cc 100%);
+    border: 1px solid rgba(193, 215, 255, 0.26);
+    box-shadow:
+        0 16px 32px rgba(63, 99, 199, 0.44),
+        0 0 22px rgba(93, 133, 241, 0.26);
+}
+
+.btn-primary:hover {
+    box-shadow:
+        0 22px 40px rgba(63, 99, 199, 0.50),
+        0 0 28px rgba(93, 133, 241, 0.34);
+}
+
+.btn-secondary {
+    background: linear-gradient(145deg, rgba(12, 20, 39, 0.9), rgba(9, 16, 32, 0.74));
+    border-color: rgba(142, 180, 252, 0.42);
+    color: #dce8ff;
+}
+
+.hero-trust-strip {
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.hero-trust-strip span {
+    border: 1px solid rgba(142, 180, 252, 0.30);
+    background: linear-gradient(145deg, rgba(11, 19, 37, 0.78), rgba(9, 14, 27, 0.68));
+    color: #c5d8f9;
+}
+
+.hero-matrix-viz {
+    border: 1px solid rgba(143, 182, 255, 0.30);
+    background:
+        linear-gradient(155deg, rgba(9, 17, 34, 0.82), rgba(7, 13, 26, 0.72)),
+        radial-gradient(circle at 50% 12%, rgba(160, 197, 255, 0.16), transparent 46%);
+    box-shadow:
+        0 30px 62px rgba(0, 0, 0, 0.50),
+        0 0 42px rgba(95, 141, 255, 0.24);
+    animation: heroAuraShift 11s ease-in-out infinite;
+}
+
+.matrix-theme-btn {
+    border-color: rgba(143, 182, 255, 0.34);
+    background: rgba(11, 20, 38, 0.72);
+    color: #d2e3ff;
+}
+
+.matrix-theme-btn:hover {
+    border-color: rgba(206, 175, 112, 0.50);
+    color: #f3f8ff;
+}
+
+.matrix-theme-btn.is-active {
+    border-color: rgba(166, 203, 255, 0.58);
+    background: linear-gradient(135deg, rgba(101, 135, 229, 0.48), rgba(68, 99, 193, 0.30));
+}
+
+@supports selector(.hero-inner:has(.hero-viz-col)) {
+    .hero-inner:has(.hero-viz-col) {
+        grid-template-columns: minmax(320px, 1.05fr) minmax(300px, 0.95fr);
+        gap: clamp(20px, 3vw, 48px);
+        align-items: center;
+    }
+
+    .hero-inner:has(.hero-viz-col) .hero-content {
+        max-width: 100%;
+        text-align: left;
+        margin: 0;
+    }
+
+    .hero-inner:has(.hero-viz-col) .hero-desc,
+    .hero-inner:has(.hero-viz-col) .hero-subtitle {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .hero-inner:has(.hero-viz-col) .hero-actions,
+    .hero-inner:has(.hero-viz-col) .hero-trust-strip {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 980px) {
+    .hero-content {
+        max-width: 760px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .hero-actions,
+    .hero-trust-strip {
+        justify-content: center !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-content {
+        padding: 24px 18px 22px;
+    }
+
+    .hero-content::after {
+        display: none;
+    }
+
+    .hero-actions .btn-primary,
+    .hero-actions .btn-secondary {
+        min-width: 100%;
+    }
+}
