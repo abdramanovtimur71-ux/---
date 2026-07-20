@@ -803,6 +803,10 @@ function openForgotPasswordModal() {
             });
             const data = await response.json().catch(() => ({}));
             if (!response.ok || !data.ok) {
+                const retryAfterSeconds = Number(data.retryAfterSeconds || 0);
+                if (retryAfterSeconds > 0) {
+                    startResendTimer(retryAfterSeconds);
+                }
                 showError(data.message || 'Не удалось отправить код');
                 resetBtn();
                 return false;

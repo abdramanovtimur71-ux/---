@@ -38,6 +38,8 @@ CLIENT_SESSION_MINUTES = int(os.getenv("CLIENT_SESSION_MINUTES", "10080"))
 USER_SESSION_MINUTES = int(os.getenv("USER_SESSION_MINUTES", "10080"))
 PASSWORD_RESET_CODE_TTL_MINUTES = int(os.getenv("PASSWORD_RESET_CODE_TTL_MINUTES", "10"))
 PASSWORD_RESET_MAX_ATTEMPTS = int(os.getenv("PASSWORD_RESET_MAX_ATTEMPTS", "5"))
+PASSWORD_RESET_MAX_REQUESTS_PER_WINDOW = max(1, int(os.getenv("PASSWORD_RESET_MAX_REQUESTS_PER_WINDOW", "3")))
+PASSWORD_RESET_REQUEST_WINDOW_MINUTES = max(1, int(os.getenv("PASSWORD_RESET_REQUEST_WINDOW_MINUTES", "10")))
 PASSWORD_RESET_DEBUG_CODE = os.getenv("PASSWORD_RESET_DEBUG_CODE", "false").lower() == "true"
 TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID", "").strip()
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN", "").strip()
@@ -1124,8 +1126,29 @@ def auth_password_forgot():
             return jsonify({"ok": True, "message": "Если аккаунт существует, код отправлен"}), 200
 
         target_phone = account_phone
-
         now = datetime.now()
+        window_start_dt = now - timedelta(minutes=PASSWORD_RESET_REQUEST_WINDOW_MINUTES)
+        recent_rows = conn.execute(
+            """
+            SELECT created_at
+            FROM password_reset_codes
+            WHERE user_id = ?
+            ORDER BY created_at DESC
+            LIMIT ?
+            """,
+            (user["id"], PASSWORD_RESET_MAX_REQUESTS_PER_WINDOW),
+        ).fetchall()
+        if len(recent_rows) >= PASSWORD_RESET_MAX_REQUESTS_PER_WINDOW:
+            oldest_recent = parse_iso(recent_rows[-1]["created_at"])
+            if oldest_recent is not None and oldest_recent >= window_start_dt:
+                retry_after_seconds = int((oldest_recent + timedelta(minutes=PASSWORD_RESET_REQUEST_WINDOW_MINUTES) - now).total_seconds())
+                retry_after_seconds = max(1, retry_after_seconds)
+                return jsonify({
+                    "ok": False,
+                    "message": f"Слишком много запросов на код. Повторите через {retry_after_seconds} сек",
+                    "retryAfterSeconds": retry_after_seconds,
+                }), 429
+
         expires = now + timedelta(minutes=PASSWORD_RESET_CODE_TTL_MINUTES)
         code = f"{secrets.randbelow(1_000_000):06d}"
         code_hash = build_reset_code_hash(user["id"], code)
@@ -2223,4 +2246,3 @@ start_reminder_worker_once()
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)
-
