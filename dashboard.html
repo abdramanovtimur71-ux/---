@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-4">
+    <title>Личный кабинет — Матрица-Судбы</title>
+    <link rel="stylesheet" href="dashboard.css?v=20260711orig11">
 </head>
 <body>
+  <div class="ritual-loader active" id="ritualLoader" aria-hidden="true">
+      <div class="ritual-loader-inner">
+          <div class="ritual-loader-rings"></div>
+          <div class="ritual-loader-core">☽</div>
+          <div class="ritual-loader-text">Открываем гримуар...</div>
+      </div>
+  </div>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
   <canvas id="starsCanvas" class="stars-canvas" aria-hidden="true"></canvas>
   <div class="nebula-orb nebula-orb-1" aria-hidden="true"></div>
@@ -21,8 +28,8 @@
 <!-- ─── БОКОВОЕ МЕНЮ ─────────────────────────────── -->
 <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
-        <span class="sidebar-logo-text">Матрицы Судьбы</span>
-        <span class="sidebar-logo-sub">Матрицы Судьбы · Нумеролог</span>
+        <span class="sidebar-logo-text">Матрица-Судбы</span>
+        <span class="sidebar-logo-sub">Матрица-Судбы · Нумеролог</span>
     </a>
 
     <div class="sidebar-user">
@@ -44,7 +51,7 @@
 
         <div class="sidebar-section-label">Сеансы</div>
         <a href="#" class="sidebar-link" onclick="showPage('matrix', this); closeSidebar()">
-            <span class="sidebar-icon">✺</span> Матрицы Судьбы
+            <span class="sidebar-icon">✺</span> Матрица-Судбы
             <span class="sidebar-badge new-badge">NEW</span>
         </a>
         <a href="#" class="sidebar-link" onclick="showPage('consultations', this); closeSidebar()">
@@ -99,10 +106,7 @@
             </div>
         </div>
         <div class="topbar-actions">
-            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleDashTheme()" aria-label="Сменить тему">
-                <span id="themeToggleIcon">☀️</span>
-                <span class="theme-label" id="themeToggleLabel">Светлая</span>
-            </button>
+            <button class="topbar-back" id="dashMotionBtn" onclick="cycleDashboardMotion()">Motion: Normal</button>
             <a href="index.html" class="topbar-back">← На сайт</a>
         </div>
     </header>
@@ -288,101 +292,9 @@
                     </div>
 
                     <div class="profile-shop-grid">
-                    <article class="profile-shop-card">
-                        <img src="images/shop-ritual.jpg" alt="Кукла-оберег ручной работы" class="profile-shop-image" loading="lazy">
-                        <div class="profile-shop-body">
-                            <h3>Кукла-оберег</h3>
-                            <p>Защитный артефакт для дома и личного пространства, собранный вручную под намерение владельца.</p>
-                            <div class="profile-shop-meta">
-                                <span>Ручная работа</span>
-                                <span>Индивидуальная настройка</span>
-                            </div>
-                            <div class="profile-shop-controls">
-                                <span class="profile-shop-controls-label">Количество</span>
-                                <div class="profile-shop-qty" aria-label="Выбор количества">
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
-                                    <span class="profile-shop-qty-value" data-qty-value>1</span>
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
-                                </div>
-                            </div>
-                            <div class="profile-shop-bottom">
-                                <strong>15 000 ₸</strong>
-                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Кукла-оберег', 15000)">Оплатить</button>
-                            </div>
+                        <div class="empty" style="padding:24px;text-align:center;color:var(--t3);font-size:14px;border:1px dashed var(--br);border-radius:12px;">
+                            Товары временно недоступны
                         </div>
-                    </article>
-
-                    <article class="profile-shop-card">
-                        <img src="images/privorot.jpg" alt="Программные свечи" class="profile-shop-image" loading="lazy">
-                        <div class="profile-shop-body">
-                            <h3>Программные свечи</h3>
-                            <p>Свечи с программированием намерения для очищения, привлечения и усиления энергетики пространства.</p>
-                            <div class="profile-shop-meta">
-                                <span>Свечи и атрибуты</span>
-                                <span>Инструкция внутри</span>
-                            </div>
-                            <div class="profile-shop-controls">
-                                <span class="profile-shop-controls-label">Количество</span>
-                                <div class="profile-shop-qty" aria-label="Выбор количества">
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
-                                    <span class="profile-shop-qty-value" data-qty-value>1</span>
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
-                                </div>
-                            </div>
-                            <div class="profile-shop-bottom">
-                                <strong>12 000 ₸</strong>
-                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Программные свечи', 12000)">Оплатить</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="profile-shop-card">
-                        <img src="images/privorot.jpg" alt="Чистка" class="profile-shop-image" loading="lazy">
-                        <div class="profile-shop-body">
-                            <h3>Чистка</h3>
-                            <p>Энергетическое очищение пространства или человека от негативных программ, сглазов и блоков.</p>
-                            <div class="profile-shop-meta">
-                                <span>Онлайн / Офлайн</span>
-                                <span>Индивидуально</span>
-                            </div>
-                            <div class="profile-shop-controls">
-                                <span class="profile-shop-controls-label">Количество</span>
-                                <div class="profile-shop-qty" aria-label="Выбор количества">
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
-                                    <span class="profile-shop-qty-value" data-qty-value>1</span>
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
-                                </div>
-                            </div>
-                            <div class="profile-shop-bottom">
-                                <strong>15 000 ₸</strong>
-                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Чистка', 15000)">Оплатить</button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="profile-shop-card">
-                        <img src="images/shop-ritual.jpg" alt="Амулет силы" class="profile-shop-image" loading="lazy">
-                        <div class="profile-shop-body">
-                            <h3>Амулет силы</h3>
-                            <p>Талисман на внутреннюю устойчивость, фокус и спокойствие в период перемен и эмоциональной нагрузки.</p>
-                            <div class="profile-shop-meta">
-                                <span>Для личного ношения</span>
-                                <span>Освящённая настройка</span>
-                            </div>
-                            <div class="profile-shop-controls">
-                                <span class="profile-shop-controls-label">Количество</span>
-                                <div class="profile-shop-qty" aria-label="Выбор количества">
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, -1)">−</button>
-                                    <span class="profile-shop-qty-value" data-qty-value>1</span>
-                                    <button class="profile-shop-qty-btn" type="button" onclick="updateShopQuantity(this, 1)">+</button>
-                                </div>
-                            </div>
-                            <div class="profile-shop-bottom">
-                                <strong>9 000 ₸</strong>
-                                <button class="btn btn-outline btn-sm" type="button" onclick="startProductPayment(this, 'Амулет силы', 9000)">Оплатить</button>
-                            </div>
-                        </div>
-                    </article>
                     </div>
                 </div>
             </div>
@@ -415,6 +327,13 @@
                 <div class="card-title">Прошедшие сеансы <span>Архив</span></div>
                 <div class="session-list" id="sessionsPastList">
                     <div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Загрузка...</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Карта пути <span>Личное созвездие</span></div>
+                <div class="session-constellation" id="sessionConstellation">
+                    <div class="constellation-hint">Созвездие строится по вашим сеансам</div>
                 </div>
             </div>
         </div>
@@ -499,6 +418,13 @@
                     </div>
                     <div class="plan-price-display">
                         <div><span class="price" id="currentPlanPrice">75 000</span><span class="currency"> ₸</span></div>
+                    </div>
+                    <div class="lunar-progress" id="lunarProgress">
+                        <div class="lunar-phase-icon" id="lunarPhaseIcon">🌑</div>
+                        <div class="lunar-phase-meta">
+                            <div class="lunar-phase-title" id="lunarPhaseTitle">Новолуние</div>
+                            <div class="lunar-phase-sub" id="lunarPhaseSub">Начало пути</div>
+                        </div>
                     </div>
                 </div>
                 <div class="plan-features-row">
@@ -671,7 +597,7 @@
         <div id="page-matrix" class="page">
             <span class="page-label">Нумерология судьбы</span>
             <div class="page-header">
-                <h1>🔮 Матрица Судьбы</h1>
+                <h1>🔮 Матрица-Судбы</h1>
                 <p>Расчёт матрицы по дате рождения</p>
             </div>
 
@@ -682,9 +608,26 @@
                         <label>Имя клиента</label>
                         <input type="text" id="matrixName" placeholder="Введите имя" class="matrix-input">
                     </div>
-                    <div class="matrix-field">
+                    <div class="matrix-field matrix-field-date">
                         <label>Дата рождения</label>
-                        <input type="date" id="matrixDate" class="matrix-input">
+                        <div class="matrix-timer-wheels" aria-label="Дата рождения: день, месяц и год">
+                            <div class="matrix-timer-wheel" data-field="day">
+                                <div class="matrix-wheel-track" id="matrixDayTrack"></div>
+                            </div>
+                            <div class="matrix-timer-wheel matrix-timer-sep">:</div>
+                            <div class="matrix-timer-wheel" data-field="month">
+                                <div class="matrix-wheel-track" id="matrixMonthTrack"></div>
+                            </div>
+                            <div class="matrix-timer-wheel matrix-timer-sep">:</div>
+                            <div class="matrix-timer-wheel" data-field="year">
+                                <div class="matrix-wheel-track" id="matrixYearTrack"></div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="matrixDate">
+                        <div class="matrix-date-meta">
+                            <span class="matrix-date-gesture">Свайп вверх/вниз как в таймере</span>
+                            <span id="matrixAgePreview" class="matrix-age-preview">Возраст: —</span>
+                        </div>
                     </div>
                     <button class="matrix-calc-btn" onclick="calcMatrix()">Рассчитать ✦</button>
                 </div>
@@ -696,31 +639,13 @@
                 <div class="matrix-person-header">
                     <span id="matrixPersonName" class="matrix-person-name"></span>
                     <span id="matrixPersonDate" class="matrix-person-date"></span>
+                    <span id="matrixPersonAge" class="matrix-person-age"></span>
                 </div>
 
                 <!-- Визуальная матрица (SVG) — Правильная октаграмма -->
                 <div class="matrix-visual-wrap">
                   <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
-                    <defs>
-                      <radialGradient id="matrixSpaceTint" cx="50%" cy="50%" r="62%">
-                        <stop offset="0%" stop-color="#9772ef" stop-opacity="0.24"/>
-                        <stop offset="22%" stop-color="#6d5fe0" stop-opacity="0.18"/>
-                        <stop offset="55%" stop-color="#2b4ea0" stop-opacity="0.12"/>
-                        <stop offset="78%" stop-color="#101a3f" stop-opacity="0.24"/>
-                        <stop offset="100%" stop-color="#050811" stop-opacity="0.62"/>
-                      </radialGradient>
-                      <radialGradient id="matrixCoreGlow" cx="50%" cy="50%" r="58%">
-                        <stop offset="0%" stop-color="#ffe8a8" stop-opacity="0.66"/>
-                        <stop offset="45%" stop-color="#ffcb5a" stop-opacity="0.34"/>
-                        <stop offset="100%" stop-color="#ffcb5a" stop-opacity="0"/>
-                      </radialGradient>
-                    </defs>
-
-                    <!-- Шаблон матрицы как фон -->
-                    <image class="matrix-template-layer" href="matrix-template.png" x="0" y="0" width="876" height="768"/>
-                    <rect class="matrix-space-overlay" x="0" y="0" width="876" height="768" fill="url(#matrixSpaceTint)"/>
-                    <circle class="matrix-core-glow" cx="440" cy="384" r="220" fill="url(#matrixCoreGlow)"/>
-                    <circle class="matrix-core-halo" cx="440" cy="384" r="300" fill="url(#matrixCoreGlow)" opacity="0.22"/>
+                    <image href="matrix-template-user.png?v=2" x="0" y="0" width="876" height="768" preserveAspectRatio="xMidYMid slice"></image>
 
                     <!-- ════ ЧИСЛА ПОВЕРХ ШАБЛОНА (точные координаты по пикселям) ════ -->
 
@@ -740,86 +665,95 @@
                     <text id="mvDnum" x="440" y="384" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="32" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Е (10 лет) — серый, верх-лево (210,154) -->
-                    <text id="mvEnum" x="210" y="154" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvEnum" x="213" y="153" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Ж (30 лет) — серый, верх-право (670,154) -->
-                    <text id="mvZhnum" x="670" y="154" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZhnum" x="669" y="153" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- И (50 лет) — серый, низ-право (670,614) -->
-                    <text id="mvInum" x="670" y="614" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvInum" x="669" y="609" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- З (70 лет) — серый, низ-лево (210,614) -->
-                    <text id="mvZnum" x="210" y="614" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZnum" x="213" y="609" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- А_in — пустой соседний круг -->
-                    <text id="mvAinNum" x="223" y="381" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvAinNum" x="227" y="381" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- А_in2 — синий круг -->
-                    <text id="mvAin2num" x="179" y="380" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvAin2num" x="179" y="381" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Б_in — пустой соседний круг -->
-                    <text id="mvBinNum" x="441" y="163" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvBinNum" x="441" y="164" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Б_in2 — синий круг -->
-                    <text id="mvBin2num" x="440" y="119" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvBin2num" x="441" y="121" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- В_in / Л — оранжевый (658,380) -->
-                    <text id="mvVinNum" x="658" y="380" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvVinNum" x="658" y="381" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- В_in2 — серый (711,380) -->
-                    <text id="mvVin2num" x="711" y="380" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvVin2num" x="703" y="381" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Г_in — нижний оранжевый круг -->
                     <text id="mvGinNum" x="413" y="617" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Г_in2 — серый -->
-                    <text id="mvGin2num" x="383" y="679" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvGin2num" x="441" y="641" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Е_in — диаг верх-лево внутренний (254,198) -->
-                    <text id="mvEinNum" x="254" y="198" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvEinNum" x="287" y="227" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Е_in2 — ближе к Е (232,176) -->
-                    <text id="mvEin2num" x="232" y="176" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvEin2num" x="256" y="196" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Ж_in — диаг верх-право внутренний -->
-                    <text id="mvZhinNum" x="538" y="236" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZhinNum" x="595" y="227" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Ж_in2 — ближе к Ж -->
-                    <text id="mvZhin2num" x="577" y="197" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZhin2num" x="626" y="196" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- З_in — диаг низ-лево внутренний (254,570) -->
-                    <text id="mvZinNum" x="254" y="570" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZinNum" x="287" y="535" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- З_in2 — ближе к З (232,592) -->
-                    <text id="mvZin2num" x="232" y="592" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvZin2num" x="256" y="566" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- И_in — диаг низ-право внутренний -->
-                    <text id="mvIinNum" x="544" y="531" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvIinNum" x="595" y="535" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- И_in2 — ближе к И -->
-                    <text id="mvIin2num" x="595" y="563" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvIin2num" x="625" y="566" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- Точки ближе к центру -->
-                    <circle cx="367" cy="380" r="18" fill="#fff" stroke="#7f6b45" stroke-width="2"/>
-                    <text id="mvAinCnum" x="367" y="380" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <circle cx="334" cy="381" r="18" fill="#fff" stroke="#7f6b45" stroke-width="2"/>
+                    <text id="mvAinCnum" x="334" y="381" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
                     <circle cx="441" cy="308" r="18" fill="#fff" stroke="#7f6b45" stroke-width="2"/>
                     <text id="mvBinCnum" x="441" y="308" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
                     <text id="mvVinCnum" x="511" y="345" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <text id="mvKnum" x="440" y="598" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvKnum" x="441" y="598" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- П — подпись на денежной оси -->
                     <text id="mvPnum" x="595" y="227" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
 
                     <!-- О, М, Н — три внутренних круга на пунктирной диагонали -->
-                    <text id="mvOnum" x="523" y="427" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <text id="mvMnum" x="470" y="469" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <text id="mvNnum" x="479" y="553" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvOnum" x="592" y="469" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvMnum" x="541" y="482" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <text id="mvNnum" x="529" y="532" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                      
+                    <!-- Р и С — справа от Д на линии В: сначала Р, затем С -->
+                    <circle cx="500" cy="384" r="18" fill="#fff" stroke="#000" stroke-width="2"/>
+                    <text id="mvRnum" x="500" y="384" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
+                    <circle cx="540" cy="384" r="18" fill="#fff" stroke="#000" stroke-width="2"/>
+                    <text id="mvSnum" x="540" y="384" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
 
                   </svg>
                 </div>
 
                 <!-- Таблица значений -->
-                <div class="matrix-values-grid" id="matrixValuesGrid"></div>
+                <details class="matrix-values-accordion">
+                    <summary>Краткие значения матрицы</summary>
+                    <div class="matrix-values-grid" id="matrixValuesGrid"></div>
+                </details>
 
                 <!-- Детальные интерпретации -->
                 <div class="matrix-interpretations" id="matrixInterps"></div>
@@ -919,34 +853,6 @@ const API_BASE = (() => {
 const trainingPrice = '75 000';
 let paymentContext = null;
 
-function escapeHtml(value) {
-    return String(value ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-}
-
-function getClientToken() {
-    return (localStorage.getItem('clientToken') || '').trim();
-}
-
-function setClientToken(token) {
-    const value = String(token || '').trim();
-    if (value) {
-        localStorage.setItem('clientToken', value);
-    }
-}
-
-function withClientAuth(headers = {}) {
-    const token = getClientToken();
-    if (token) {
-        headers['X-Client-Token'] = token;
-    }
-    return headers;
-}
-
 function getStorageArray(key) {
     try {
         return JSON.parse(localStorage.getItem(key) || '[]');
@@ -991,6 +897,7 @@ function loadUser() {
     document.getElementById('overviewPlanCard').textContent = 'Статус: ' + trainingLabel;
     document.getElementById('currentPlanName').textContent = 'Программа «Практик Матрицы»';
     document.getElementById('currentPlanPrice').textContent = trainingPrice;
+    updateLunarProgress(null, 25, trainingState);
 }
 
 async function loadTrainingStatus() {
@@ -1012,8 +919,128 @@ async function loadTrainingStatus() {
         document.getElementById('trainingPageProgress').style.width = progress + '%';
         document.getElementById('trainingProgressText').textContent = accepted + ' из ' + capacity + ' мест занято';
         document.getElementById('trainingPageProgressText').textContent = accepted + ' из ' + capacity + ' мест занято';
+        updateLunarProgress(accepted, capacity, localStorage.getItem('trainingState') || 'not_paid');
     } catch (error) {
         showNotify('Не удалось загрузить статус обучения', 'error');
+    }
+}
+
+function initRitualLoader() {
+    const loader = document.getElementById('ritualLoader');
+    if (!loader) return;
+    requestAnimationFrame(() => loader.classList.add('active'));
+}
+
+function hideRitualLoader() {
+    const loader = document.getElementById('ritualLoader');
+    if (!loader) return;
+    loader.classList.remove('active');
+    setTimeout(() => loader.remove(), 500);
+}
+
+function updateSessionConstellation(upcomingCount, pastCount) {
+    const root = document.getElementById('sessionConstellation');
+    if (!root) return;
+    const total = Math.max(0, (upcomingCount || 0) + (pastCount || 0));
+    const lit = Math.min(24, total);
+    const activeLines = Math.min(12, Math.max(1, Math.floor(lit / 2)));
+    const stars = Array.from({ length: 24 }, (_, i) => {
+        const active = i < lit;
+        const left = 8 + (i % 6) * 16 + (Math.random() * 4 - 2);
+        const top = 16 + Math.floor(i / 6) * 20 + (Math.random() * 4 - 2);
+        return `<span class="constellation-star${active ? ' active' : ''}" style="left:${left}%;top:${top}%"></span>`;
+    }).join('');
+
+    const lines = Array.from({ length: 12 }, (_, i) => {
+        const x1 = 10 + (i % 6) * 16;
+        const y1 = 20 + Math.floor(i / 6) * 20;
+        const x2 = x1 + 12;
+        const y2 = y1 + (i % 2 ? 10 : -10);
+        const active = i < activeLines ? ' active-route' : '';
+        return `<line x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%" class="constellation-line${active}" style="--ld:${(i * 0.14).toFixed(2)}s"/>`;
+    }).join('');
+
+    root.innerHTML = `
+        <svg class="constellation-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg>
+        ${stars}
+        <div class="constellation-meta">Сеансов: <strong>${total}</strong> · Активных звёзд: <strong>${lit}</strong></div>
+    `;
+}
+
+function initMatrixPortalHover() {
+    const wrap = document.querySelector('#page-matrix .matrix-visual-wrap');
+    if (!wrap) return;
+    wrap.addEventListener('mousemove', (e) => {
+        const r = wrap.getBoundingClientRect();
+        wrap.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        wrap.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
+    wrap.addEventListener('mouseleave', () => {
+        wrap.style.setProperty('--mx', '50%');
+        wrap.style.setProperty('--my', '50%');
+    });
+}
+
+const DASH_MOTION_LEVELS = ['soft', 'normal', 'cinema'];
+function applyDashboardMotionLevel(level) {
+    const safe = DASH_MOTION_LEVELS.includes(level) ? level : 'normal';
+    document.body.setAttribute('data-motion', safe);
+    localStorage.setItem('motionLevel', safe);
+    const btn = document.getElementById('dashMotionBtn');
+    if (btn) {
+        const text = safe.charAt(0).toUpperCase() + safe.slice(1);
+        btn.textContent = 'Motion: ' + text;
+    }
+}
+function cycleDashboardMotion() {
+    const current = document.body.getAttribute('data-motion') || localStorage.getItem('motionLevel') || 'normal';
+    const idx = DASH_MOTION_LEVELS.indexOf(current);
+    const next = DASH_MOTION_LEVELS[(idx + 1) % DASH_MOTION_LEVELS.length];
+    applyDashboardMotionLevel(next);
+}
+
+function updateLunarProgress(accepted, capacity, trainingState) {
+    const icon = document.getElementById('lunarPhaseIcon');
+    const title = document.getElementById('lunarPhaseTitle');
+    const sub = document.getElementById('lunarPhaseSub');
+    if (!icon || !title || !sub) return;
+
+    if (trainingState === 'not_paid') {
+        icon.textContent = '🌑';
+        title.textContent = 'Новолуние';
+        sub.textContent = 'Начало пути';
+        return;
+    }
+    if (trainingState === 'waitlist') {
+        icon.textContent = '🌘';
+        title.textContent = 'Убывающая луна';
+        sub.textContent = 'Лист ожидания';
+        return;
+    }
+
+    if (typeof accepted === 'number' && typeof capacity === 'number' && capacity > 0) {
+        const p = accepted / capacity;
+        if (p < 0.25) {
+            icon.textContent = '🌒';
+            title.textContent = 'Растущая луна';
+            sub.textContent = 'Вход в практику';
+        } else if (p < 0.5) {
+            icon.textContent = '🌓';
+            title.textContent = 'Первая четверть';
+            sub.textContent = 'Активный рост';
+        } else if (p < 0.75) {
+            icon.textContent = '🌔';
+            title.textContent = 'Прибывающая луна';
+            sub.textContent = 'Углубление знаний';
+        } else {
+            icon.textContent = '🌕';
+            title.textContent = 'Полнолуние';
+            sub.textContent = 'Сильный уровень';
+        }
+    } else {
+        icon.textContent = '🌒';
+        title.textContent = 'Растущая луна';
+        sub.textContent = 'Путь ученика';
     }
 }
 
@@ -1039,46 +1066,22 @@ function closeSidebar() {
     document.getElementById('sidebarOverlay').classList.remove('active');
 }
 
-function openSidebar() {
-    document.getElementById('sidebar').classList.add('open');
-    document.getElementById('sidebarOverlay').classList.add('active');
-}
-
-// Swipe только по горизонтали, чтобы не мешать вертикальному скроллу
+// Swipe влево чтобы закрыть сайдбар
 (function () {
     let touchStartX = 0;
     let touchStartY = 0;
-    const MIN_HORIZONTAL_SWIPE = 72;
-    const MAX_VERTICAL_DRIFT = 64;
-    const HORIZONTAL_RATIO = 1.35;
-
-    function isMobileSidebarMode() {
-        return window.matchMedia('(max-width: 900px)').matches;
-    }
-
     document.addEventListener('touchstart', e => {
-        if (!isMobileSidebarMode() || e.touches.length !== 1) return;
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
     }, { passive: true });
-
     document.addEventListener('touchend', e => {
-        if (!isMobileSidebarMode() || e.changedTouches.length !== 1) return;
-
         const dx = e.changedTouches[0].clientX - touchStartX;
-        const dy = e.changedTouches[0].clientY - touchStartY;
-        const absDx = Math.abs(dx);
-        const absDy = Math.abs(dy);
-
-        if (absDx < MIN_HORIZONTAL_SWIPE || absDy > MAX_VERTICAL_DRIFT) return;
-        if (absDx < absDy * HORIZONTAL_RATIO) return;
-
-        if (dx < 0) {
-            closeSidebar();
-            return;
+        const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+        if (dx < -60 && dy < 50) closeSidebar();
+        if (dx > 60 && dy < 50 && touchStartX < 30) {
+            document.getElementById('sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('active');
         }
-
-        if (touchStartX < 24) openSidebar();
     }, { passive: true });
 })();
 
@@ -1204,7 +1207,7 @@ async function submitBooking(e) {
     try {
         const response = await fetch(API_BASE + '/api/bookings', {
             method: 'POST',
-            headers: withClientAuth({ 'Content-Type': 'application/json' }),
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, phone, email, service, date, time, format, note })
         });
         const data = await response.json();
@@ -1219,7 +1222,6 @@ async function submitBooking(e) {
         }
 
         addAdminRecord('bookings', { name, email, service, date, time, format, source: 'dashboard-booking-api' });
-        setClientToken(data.clientToken);
         showNotify('🗓 Запись создана! Уведомление отправлено на почту.', 'success');
         e.target.reset();
         const slotRoot = document.getElementById('dashboardBookingSlots');
@@ -1458,9 +1460,7 @@ function sessionIcon(service) {
 }
 
 function renderSessionItem(item, showStatus) {
-    const fmt = item.format ? ' · ' + escapeHtml(item.format) : '';
-    const safeService = escapeHtml(item.service || '');
-    const safeBookingAt = escapeHtml(item.booking_at || '');
+    const fmt = item.format ? ' · ' + item.format : '';
     const cancelBtn = showStatus && item.id
         ? `<button class="btn-cancel-session" onclick="cancelBooking(${item.id}, this)" title="Отменить запись">✕ Отменить</button>`
         : '';
@@ -1471,8 +1471,8 @@ function renderSessionItem(item, showStatus) {
         <div class="session-left">
             <div class="session-icon">${sessionIcon(item.service)}</div>
             <div>
-                <div class="session-name">${safeService}</div>
-                <div class="session-date">${safeBookingAt}${fmt}</div>
+                <div class="session-name">${item.service}</div>
+                <div class="session-date">${item.booking_at}${fmt}</div>
             </div>
         </div>
         <div style="display:flex;align-items:center;gap:10px">
@@ -1488,10 +1488,12 @@ async function cancelBooking(bookingId, btn) {
     btn.disabled = true;
     btn.textContent = '...';
     try {
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        const email = (userData.email || localStorage.getItem('userEmail') || '').trim();
         const res = await fetch(API_BASE + '/api/bookings/' + bookingId + '/cancel', {
             method: 'POST',
-            headers: withClientAuth({ 'Content-Type': 'application/json' }),
-            body: JSON.stringify({})
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
         });
         const data = await res.json();
         if (res.ok && data.ok) {
@@ -1515,31 +1517,26 @@ async function cancelBooking(bookingId, btn) {
 }
 
 async function loadSessions() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+
     const upcomingEl = document.getElementById('sessionsUpcomingList');
     const pastEl     = document.getElementById('sessionsPastList');
     const notifyEl   = document.getElementById('sessionsNotify');
     const notifyTitle = document.getElementById('sessionsNotifyTitle');
     const notifyText  = document.getElementById('sessionsNotifyText');
 
-    if (!getClientToken()) {
-        const msg = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Создайте запись, чтобы активировать защищенный доступ к сеансам</div>';
+    if (!email) {
+        const msg = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Добавьте email в профиле для отображения сеансов</div>';
         if (upcomingEl) upcomingEl.innerHTML = msg;
         if (pastEl)     pastEl.innerHTML     = msg;
         return;
     }
 
     try {
-        const res  = await fetch(API_BASE + '/api/bookings', {
-            headers: withClientAuth()
-        });
+        const res  = await fetch(API_BASE + '/api/bookings?email=' + encodeURIComponent(email));
         const data = await res.json();
         if (!res.ok || !data.ok) {
-            if (res.status === 401) {
-                const msg = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Сессия истекла. Создайте новую запись для повторной авторизации.</div>';
-                if (upcomingEl) upcomingEl.innerHTML = msg;
-                if (pastEl) pastEl.innerHTML = msg;
-                return;
-            }
             const err = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Не удалось загрузить данные</div>';
             if (upcomingEl) upcomingEl.innerHTML = err;
             if (pastEl)     pastEl.innerHTML     = err;
@@ -1559,6 +1556,7 @@ async function loadSessions() {
                 ? data.past.map(i => renderSessionItem(i, false)).join('')
                 : '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">История пуста</div>';
         }
+        updateSessionConstellation(data.upcoming.length, data.past.length);
 
         // Уведомление сверху
         if (notifyEl) {
@@ -1575,24 +1573,25 @@ async function loadSessions() {
         const err = '<div class="empty" style="padding:20px;text-align:center;color:var(--t3)">Сервер недоступен</div>';
         if (upcomingEl) upcomingEl.innerHTML = err;
         if (pastEl)     pastEl.innerHTML     = err;
+        updateSessionConstellation(0, 0);
     }
 }
 
 async function loadOverviewSessions() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
     const upEl  = document.getElementById('overviewUpcomingList');
     const pastEl = document.getElementById('overviewPastList');
 
-    if (!getClientToken()) {
-        const msg = '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Создайте запись для доступа к истории</div>';
+    if (!email) {
+        const msg = '<div class="empty" style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Добавьте email в профиле</div>';
         if (upEl)   upEl.innerHTML   = msg;
         if (pastEl) pastEl.innerHTML = msg;
         return;
     }
 
     try {
-        const res  = await fetch(API_BASE + '/api/bookings', {
-            headers: withClientAuth()
-        });
+        const res  = await fetch(API_BASE + '/api/bookings?email=' + encodeURIComponent(email));
         const data = await res.json();
         if (!res.ok || !data.ok) return;
 
@@ -1610,6 +1609,7 @@ async function loadOverviewSessions() {
         // KPI "Всего сеансов"
         const kpiEl = document.querySelector('.kpi-value.purple');
         if (kpiEl) kpiEl.textContent = data.upcoming.length + data.past.length;
+        updateSessionConstellation(data.upcoming.length, data.past.length);
     } catch { /* тихо */ }
 }
 
@@ -1618,15 +1618,15 @@ async function loadClientMessages() {
     if (!root) {
         return;
     }
-    if (!getClientToken()) {
-        root.innerHTML = '<div class="empty">Создайте запись для защищённого доступа к сообщениям</div>';
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+    if (!email) {
+        root.innerHTML = '<div class="empty">Добавьте email в профиле, чтобы пользоваться сообщениями</div>';
         return;
     }
 
     try {
-        const response = await fetch(API_BASE + '/api/messages/inbox', {
-            headers: withClientAuth()
-        });
+        const response = await fetch(API_BASE + '/api/messages/inbox?email=' + encodeURIComponent(email));
         const data = await response.json();
         if (!response.ok || !data.ok) {
             root.innerHTML = '<div class="empty">Не удалось загрузить сообщения</div>';
@@ -1642,14 +1642,14 @@ async function loadClientMessages() {
             const fromAdmin = m.sender_role === 'admin';
             const label = fromAdmin ? 'Администратор' : 'Вы';
             const date = new Date(m.created_at).toLocaleString('ru-RU');
-            const subj = m.subject ? ('<div style="font-size:12px;color:var(--t3);margin-top:4px">' + escapeHtml(m.subject) + '</div>') : '';
+            const subj = m.subject ? ('<div style="font-size:12px;color:var(--t3);margin-top:4px">' + m.subject + '</div>') : '';
             return '<div class="session-item">'
                 + '<div class="session-left">'
                 + '<div class="session-icon">' + (fromAdmin ? '✉' : '◈') + '</div>'
                 + '<div>'
                 + '<div class="session-name">' + label + '</div>'
                 + subj
-                + '<div class="session-date" style="max-width:680px">' + escapeHtml(m.text || '') + '</div>'
+                + '<div class="session-date" style="max-width:680px">' + (m.text || '') + '</div>'
                 + '</div>'
                 + '</div>'
                 + '<span class="session-status ' + (fromAdmin ? 'status-upcoming' : 'status-done') + '">' + date + '</span>'
@@ -1688,10 +1688,12 @@ function updateUnreadBadge() {
 
 async function sendClientReply(e) {
     e.preventDefault();
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
     const text = document.getElementById('clientReplyText').value.trim();
 
-    if (!getClientToken()) {
-        showNotify('Создайте запись для доступа к сообщениям', 'error');
+    if (!email) {
+        showNotify('Добавьте email в профиле', 'error');
         return;
     }
     if (!text) {
@@ -1702,8 +1704,8 @@ async function sendClientReply(e) {
     try {
         const response = await fetch(API_BASE + '/api/messages/reply', {
             method: 'POST',
-            headers: withClientAuth({ 'Content-Type': 'application/json' }),
-            body: JSON.stringify({ text })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fromEmail: email, text })
         });
         const data = await response.json();
         if (!response.ok || !data.ok) {
@@ -1909,28 +1911,54 @@ function dashSwitchToLogin() {
 function initMatrixProgressionDots() {
     const svg = document.getElementById('matrixSvg');
     if (!svg) return;
-    // Вершины октагона в порядке возрастания возраста
+    document.getElementById('progressionDotsGroup')?.remove();
+    const matrixCalc = window.__matrixCalc || {};
+
+    // Вершины октагона в порядке возрастания возраста (по координатам шаблона)
     const verts = [
-        {x: 95,  y: 350, age: 0},   // А — 0 лет
-        {x: 170, y: 170, age: 10},  // Е — 10 лет
-        {x: 350, y: 95,  age: 20},  // Б — 20 лет
-        {x: 530, y: 170, age: 30},  // Ж — 30 лет
-        {x: 605, y: 350, age: 40},  // В — 40 лет
-        {x: 530, y: 530, age: 50},  // И — 50 лет
-        {x: 350, y: 605, age: 60},  // Г — 60 лет
-        {x: 170, y: 530, age: 70},  // З — 70 лет
+        {x: 118, y: 380, age: 0},   // А — 0 лет
+        {x: 213, y: 153, age: 10},  // Е — 10 лет
+        {x: 440, y: 56,  age: 20},  // Б — 20 лет
+        {x: 669, y: 153, age: 30},  // Ж — 30 лет
+        {x: 764, y: 380, age: 40},  // В — 40 лет
+        {x: 669, y: 609, age: 50},  // И — 50 лет
+        {x: 440, y: 704, age: 60},  // Г — 60 лет
+        {x: 213, y: 609, age: 70},  // З — 70 лет
     ];
-    const CX = 350, CY = 350;
-    const edgePalette = [
-        { dot: '#9ab6ff', ring: '#e7bc6f', label: '#9fb5e7' },
-        { dot: '#8fd3ff', ring: '#f4cc7b', label: '#a7c7f5' },
-        { dot: '#b9a8ff', ring: '#f3bd7c', label: '#b9b6ec' },
-        { dot: '#ff9fbe', ring: '#f0af75', label: '#e0adc8' },
-        { dot: '#ffb79b', ring: '#e7b06c', label: '#deb09d' },
-        { dot: '#cba9ff', ring: '#e2b879', label: '#c5b5e1' },
-        { dot: '#8dc8ff', ring: '#d9ba79', label: '#9ab8d8' },
-        { dot: '#90beff', ring: '#e2c07c', label: '#9ebfe3' }
-    ];
+    const CX = 440, CY = 384;
+    const readPoint = (id, fallback) => {
+        const value = Number(document.getElementById(id)?.textContent);
+        return Number.isFinite(value) && value > 0 ? value : fallback;
+    };
+    const pointByAge = {
+        0: matrixCalc.A ?? readPoint('mvAnum', 17),
+        10: matrixCalc.E ?? readPoint('mvEnum', 9),
+        20: matrixCalc.B ?? readPoint('mvBnum', 10),
+        30: matrixCalc.Zh ?? readPoint('mvZhnum', 16),
+        40: matrixCalc.V ?? readPoint('mvVnum', 6),
+        50: matrixCalc.I ?? readPoint('mvInum', 12),
+        60: matrixCalc.G ?? readPoint('mvGnum', 6),
+        70: matrixCalc.Z ?? readPoint('mvZnum', 5),
+    };
+    const buildEdgeFormula = (left, right) => {
+        const mid = reduceArcana(left + right);
+        const point23 = reduceArcana(left + mid);
+        const point78 = reduceArcana(right + mid);
+        const point12 = reduceArcana(left + point23);
+        const point34 = reduceArcana(point23 + mid);
+        const point67 = reduceArcana(mid + point78);
+        const point89 = reduceArcana(point78 + right);
+        return {
+            1: null,                         // 1-2 скрыта как раньше
+            2: point12,
+            3: point23,
+            4: point34,
+            5: mid,                          // 5 лет = left + right
+            6: point67,
+            7: point78,
+            8: point89,
+        };
+    };
     const ns = 'http://www.w3.org/2000/svg';
     const g = document.createElementNS(ns, 'g');
     g.setAttribute('id', 'progressionDotsGroup');
@@ -1939,8 +1967,12 @@ function initMatrixProgressionDots() {
     for (let i = 0; i < 8; i++) {
         const v1 = verts[i];
         const v2 = verts[(i + 1) % 8];
-        const palette = edgePalette[i];
         const dx = v2.x - v1.x, dy = v2.y - v1.y;
+        const leftPoint = pointByAge[v1.age];
+        const rightPoint = pointByAge[v2.age];
+        const edgeFormula = (leftPoint != null && rightPoint != null)
+            ? buildEdgeFormula(leftPoint, rightPoint)
+            : {};
         // Направление наружу от центра через середину ребра
         const mx = (v1.x + v2.x) / 2 - CX;
         const my = (v1.y + v2.y) / 2 - CY;
@@ -1951,44 +1983,34 @@ function initMatrixProgressionDots() {
             const t = j / 10;
             const x = v1.x + dx * t;
             const y = v1.y + dy * t;
-            const year = v1.age + j;
-            const isMid = (j === 5);
+            const value = edgeFormula[j];
+            if (value == null) continue;
 
-            const circ = document.createElementNS(ns, 'circle');
-            circ.setAttribute('cx', x.toFixed(1));
-            circ.setAttribute('cy', y.toFixed(1));
-            circ.setAttribute('r', isMid ? '4.5' : '2.8');
-            circ.setAttribute('fill', isMid ? 'none' : palette.dot);
-            circ.setAttribute('stroke', isMid ? palette.ring : '#dde7ff');
-            circ.setAttribute('stroke-width', isMid ? '1.2' : '0.6');
-            circ.setAttribute('opacity', isMid ? '0.95' : '0.9');
-            g.appendChild(circ);
+            // Арканы выводим ДАЛЕКО СНАРУЖИ (в обратную сторону)
+            let outX = x + px * 50;
+            let outY = y + py * 50;
 
-            // Метка года снаружи октагона (только не на средней точке — там уже есть текст)
-            if (!isMid) {
-                const lx = (x + px * 14).toFixed(1);
-                const ly = (y + py * 14).toFixed(1);
-                const txt = document.createElementNS(ns, 'text');
-                txt.setAttribute('x', lx);
-                txt.setAttribute('y', ly);
-                txt.setAttribute('text-anchor', 'middle');
-                txt.setAttribute('dominant-baseline', 'middle');
-                txt.setAttribute('fill', palette.label);
-                txt.setAttribute('font-size', '6.5');
-                txt.setAttribute('font-family', 'Inter, sans-serif');
-                txt.setAttribute('font-weight', '600');
-                txt.textContent = `${year}-${year + 1}`;
-                g.appendChild(txt);
-            }
+            const txt = document.createElementNS(ns, 'text');
+            txt.setAttribute('x', outX.toFixed(1));
+            txt.setAttribute('y', outY.toFixed(1));
+            txt.setAttribute('text-anchor', 'middle');
+            txt.setAttribute('dominant-baseline', 'middle');
+            txt.setAttribute('fill', '#111');
+            txt.setAttribute('font-size', '12');
+            txt.setAttribute('font-weight', '700');
+            txt.setAttribute('font-family', 'sans-serif');
+            txt.textContent = String(value);
+            g.appendChild(txt);
+
+
         }
     }
-    // Вставить после фонового прямоугольника
-    const bgRect = svg.querySelector('rect');
-    if (bgRect) svg.insertBefore(g, bgRect.nextSibling);
-    else svg.appendChild(g);
+    svg.appendChild(g);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    applyDashboardMotionLevel(localStorage.getItem('motionLevel') || 'cinema');
+    initRitualLoader();
     checkAuth();
     loadUser();
     loadTrainingStatus();
@@ -2002,7 +2024,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     updateUnreadBadge();
     setInterval(updateUnreadBadge, 60000); // проверять каждую минуту
-    initMatrixProgressionDots();
 
     // Восстановление страницы после обновления: хэш → localStorage → 'overview'
     const hash = window.location.hash.replace('#', '');
@@ -2011,6 +2032,16 @@ window.addEventListener('DOMContentLoaded', () => {
         : (localStorage.getItem('dashboard_page') || 'overview');
     const link = document.querySelector('[onclick*="' + savedPage + '"]');
     showPage(savedPage, link);
+
+    // Космический дизайн
+    initDashShootingStars();
+    initDashReveal();
+    initDashButtonRipple();
+    initKpiMouseGlow();
+    initCountUp();
+    initCosmicParticles();
+    initMatrixPortalHover();
+    setTimeout(hideRitualLoader, 900);
 });
 
 /* ═══════════════════════════════════════════════════
@@ -2431,16 +2462,306 @@ function reduceArcana(n) {
     return n || 22;
 }
 
+function parseMatrixDateValue(dateVal) {
+    if (!dateVal) return null;
+    const [yearStr, monthStr, dayStr] = dateVal.split('-');
+    const day = Number(dayStr);
+    const month = Number(monthStr);
+    const year = Number(yearStr);
+    if (!day || !month || !year) return null;
+
+    const date = new Date(year, month - 1, day);
+    if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+    ) return null;
+
+    return { day, month, year, date };
+}
+
+function matrixAgeLabel(age) {
+    const absAge = Math.abs(age);
+    const mod10 = absAge % 10;
+    const mod100 = absAge % 100;
+    if (mod10 === 1 && mod100 !== 11) return `${age} год`;
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return `${age} года`;
+    return `${age} лет`;
+}
+
+function calculateMatrixAge(birthDate, today = new Date()) {
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDelta = today.getMonth() - birthDate.getMonth();
+    if (monthDelta < 0 || (monthDelta === 0 && today.getDate() < birthDate.getDate())) {
+        age -= 1;
+    }
+    return age;
+}
+
+function updateMatrixAgePreview() {
+    const dateInput = document.getElementById('matrixDate');
+    const agePreview = document.getElementById('matrixAgePreview');
+    if (!dateInput || !agePreview) return;
+
+    const parsed = parseMatrixDateValue(dateInput.value);
+    if (!parsed) {
+        agePreview.textContent = 'Возраст: —';
+        return;
+    }
+
+    const age = calculateMatrixAge(parsed.date);
+    agePreview.textContent = age >= 0 ? `Возраст: ${matrixAgeLabel(age)}` : 'Возраст: —';
+}
+
+function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+}
+
+const matrixWheelDateState = { day: 1, month: 1, year: 2000 };
+let matrixWheelTouchStart = {};
+let matrixWheelTouchCarry = {};
+let matrixWheelTouchVelocity = {};
+let matrixWheelTouchTimestamp = {};
+let matrixWheelInertiaTimer = {};
+let matrixWheelStepQueue = {};
+let matrixWheelStepRunning = {};
+let matrixWheelRootsByField = {};
+const MATRIX_WHEEL_SWIPE_TRIGGER = 4;
+const MATRIX_WHEEL_SWIPE_STEP = 9;
+const MATRIX_WHEEL_VELOCITY_MIN = 0.22;
+
+function clearMatrixWheelInertia(field) {
+    if (!matrixWheelInertiaTimer[field]) return;
+    clearInterval(matrixWheelInertiaTimer[field]);
+    matrixWheelInertiaTimer[field] = null;
+}
+
+function pulseMatrixWheelStep(field, direction) {
+    const root = matrixWheelRootsByField[field];
+    if (!root) return;
+    const cls = direction > 0 ? 'matrix-wheel-spin-up' : 'matrix-wheel-spin-down';
+    root.classList.remove('matrix-wheel-spin-up', 'matrix-wheel-spin-down');
+    root.offsetHeight;
+    root.classList.add(cls);
+    setTimeout(() => root.classList.remove(cls), 90);
+}
+
+function processMatrixWheelQueue(field) {
+    if ((matrixWheelStepQueue[field] || 0) === 0) {
+        matrixWheelStepRunning[field] = false;
+        return;
+    }
+    matrixWheelStepRunning[field] = true;
+    const direction = matrixWheelStepQueue[field] > 0 ? 1 : -1;
+    matrixWheelStepQueue[field] -= direction;
+    pulseMatrixWheelStep(field, direction);
+    adjustMatrixDateField(field, direction);
+    setTimeout(() => processMatrixWheelQueue(field), 42);
+}
+
+function queueMatrixDateFieldAdjust(field, delta) {
+    if (!delta) return;
+    matrixWheelStepQueue[field] = (matrixWheelStepQueue[field] || 0) + delta;
+    if (matrixWheelStepRunning[field]) return;
+    processMatrixWheelQueue(field);
+}
+
+function startMatrixWheelInertia(field, velocity) {
+    clearMatrixWheelInertia(field);
+    let v = velocity;
+    matrixWheelInertiaTimer[field] = setInterval(() => {
+        if (Math.abs(v) < 0.05) {
+            clearMatrixWheelInertia(field);
+            return;
+        }
+        const direction = v > 0 ? 1 : -1;
+        const speed = Math.min(3, Math.max(1, Math.round(Math.abs(v) * 6)));
+        queueMatrixDateFieldAdjust(field, direction * speed);
+        v *= 0.72;
+    }, 70);
+}
+
+function cycleValue(value, min, max, delta) {
+    const range = max - min + 1;
+    return ((value - min + delta) % range + range) % range + min;
+}
+
+function parseMatrixSelectValues() {
+    const { day, month, year } = matrixWheelDateState;
+    if (!day || !month || !year) return null;
+    return { day, month, year };
+}
+
+function fillMatrixDateSelects(day, month, year) {
+    matrixWheelDateState.day = day;
+    matrixWheelDateState.month = month;
+    matrixWheelDateState.year = year;
+}
+
+function getMatrixFieldValue(field, offset) {
+    const currentYear = new Date().getFullYear();
+    if (field === 'day') {
+        const max = daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year);
+        return cycleValue(matrixWheelDateState.day, 1, max, offset);
+    }
+    if (field === 'month') return cycleValue(matrixWheelDateState.month, 1, 12, offset);
+    return Math.min(Math.max(matrixWheelDateState.year + offset, 1900), currentYear);
+}
+
+function formatMatrixFieldValue(field, value) {
+    return field === 'year' ? String(value) : String(value).padStart(2, '0');
+}
+
+function renderMatrixWheel(field) {
+    const id = field === 'day' ? 'matrixDayTrack' : field === 'month' ? 'matrixMonthTrack' : 'matrixYearTrack';
+    const track = document.getElementById(id);
+    if (!track) return;
+    const offsets = [-2, -1, 0, 1, 2];
+    track.innerHTML = offsets.map((offset) => {
+        const value = getMatrixFieldValue(field, offset);
+        const cls = offset === 0 ? 'is-active' : (Math.abs(offset) === 1 ? 'is-near' : 'is-far');
+        return `<button type="button" class="matrix-wheel-item ${cls}" data-field="${field}" data-value="${value}">${formatMatrixFieldValue(field, value)}</button>`;
+    }).join('');
+}
+
+function renderMatrixWheels() {
+    renderMatrixWheel('day');
+    renderMatrixWheel('month');
+    renderMatrixWheel('year');
+}
+
+function syncMatrixDateFromSelects() {
+    const dateInput = document.getElementById('matrixDate');
+    if (!dateInput) return;
+    const values = parseMatrixSelectValues();
+    if (!values) {
+        dateInput.value = '';
+        updateMatrixAgePreview();
+        return;
+    }
+    const maxYear = new Date().getFullYear();
+    const year = Math.min(Math.max(values.year, 1900), maxYear);
+    const month = Math.min(Math.max(values.month, 1), 12);
+    const day = Math.min(Math.max(values.day, 1), daysInMonth(month, year));
+    fillMatrixDateSelects(day, month, year);
+    dateInput.value = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    updateMatrixAgePreview();
+    renderMatrixWheels();
+}
+
+function adjustMatrixDateField(field, delta) {
+    const currentYear = new Date().getFullYear();
+    if (field === 'day') {
+        const max = daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year);
+        matrixWheelDateState.day = cycleValue(matrixWheelDateState.day, 1, max, delta);
+    } else if (field === 'month') {
+        matrixWheelDateState.month = cycleValue(matrixWheelDateState.month, 1, 12, delta);
+        matrixWheelDateState.day = Math.min(matrixWheelDateState.day, daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year));
+    } else if (field === 'year') {
+        matrixWheelDateState.year = Math.min(Math.max(matrixWheelDateState.year + delta, 1900), currentYear);
+        matrixWheelDateState.day = Math.min(matrixWheelDateState.day, daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year));
+    }
+    syncMatrixDateFromSelects();
+}
+
+function initMatrixDateSelects() {
+    const dateInput = document.getElementById('matrixDate');
+    const wheelRoots = document.querySelectorAll('.matrix-timer-wheel[data-field]');
+    if (!dateInput || wheelRoots.length === 0 || dateInput.dataset.enhanced === '1') return;
+    dateInput.dataset.enhanced = '1';
+
+    const parsed = parseMatrixDateValue(dateInput.value);
+    const now = new Date();
+    fillMatrixDateSelects(
+        parsed ? parsed.day : now.getDate(),
+        parsed ? parsed.month : now.getMonth() + 1,
+        parsed ? parsed.year : now.getFullYear()
+    );
+    syncMatrixDateFromSelects();
+
+    wheelRoots.forEach((root) => {
+        const field = root.dataset.field;
+        matrixWheelRootsByField[field] = root;
+        root.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            queueMatrixDateFieldAdjust(field, e.deltaY < 0 ? 1 : -1);
+        }, { passive: false });
+        root.addEventListener('touchstart', (e) => {
+            if (e.touches.length !== 1) return;
+            clearMatrixWheelInertia(field);
+            matrixWheelTouchStart[field] = e.touches[0].clientY;
+            matrixWheelTouchCarry[field] = 0;
+            matrixWheelTouchVelocity[field] = 0;
+            matrixWheelTouchTimestamp[field] = Date.now();
+        }, { passive: true });
+        root.addEventListener('touchmove', (e) => {
+            if (matrixWheelTouchStart[field] == null) return;
+            const currentY = e.touches[0].clientY;
+            const diff = matrixWheelTouchStart[field] - currentY;
+            const now = Date.now();
+            const elapsed = Math.max(8, now - (matrixWheelTouchTimestamp[field] || now));
+            matrixWheelTouchVelocity[field] = diff / elapsed;
+            matrixWheelTouchTimestamp[field] = now;
+            let carry = (matrixWheelTouchCarry[field] || 0) + diff;
+            if (Math.abs(carry) < MATRIX_WHEEL_SWIPE_TRIGGER) {
+                matrixWheelTouchStart[field] = currentY;
+                return;
+            }
+            e.preventDefault();
+            const steps = Math.trunc(carry / MATRIX_WHEEL_SWIPE_STEP);
+            if (steps !== 0) {
+                queueMatrixDateFieldAdjust(field, steps);
+                carry -= steps * MATRIX_WHEEL_SWIPE_STEP;
+            }
+            matrixWheelTouchCarry[field] = carry;
+            matrixWheelTouchStart[field] = currentY;
+        }, { passive: false });
+        root.addEventListener('touchend', () => {
+            if (Math.abs(matrixWheelTouchVelocity[field] || 0) >= MATRIX_WHEEL_VELOCITY_MIN) {
+                startMatrixWheelInertia(field, matrixWheelTouchVelocity[field]);
+            }
+            matrixWheelTouchStart[field] = null;
+            matrixWheelTouchCarry[field] = 0;
+            matrixWheelTouchVelocity[field] = 0;
+        });
+        root.addEventListener('touchcancel', () => {
+            matrixWheelTouchStart[field] = null;
+            matrixWheelTouchCarry[field] = 0;
+            matrixWheelTouchVelocity[field] = 0;
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        const item = e.target.closest('.matrix-wheel-item');
+        if (!item) return;
+        const field = item.dataset.field;
+        const value = Number(item.dataset.value);
+        if (!field || !value) return;
+        matrixWheelDateState[field] = value;
+        syncMatrixDateFromSelects();
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMatrixDateSelects);
+} else {
+    initMatrixDateSelects();
+}
+
 function calcMatrix() {
+    // На случай старого кеша: убрать ранее добавленный слой прогрессии, если он есть.
+    document.getElementById('progressionDotsGroup')?.remove();
+    syncMatrixDateFromSelects();
     const name = document.getElementById('matrixName').value.trim() || 'Клиент';
     const dateVal = document.getElementById('matrixDate').value;
     if (!dateVal) { showNotify('Введите дату рождения', 'warn'); return; }
 
-    // YYYY-MM-DD from <input type="date">: parse manually to avoid timezone shifts
-    const [yearStr, monthStr, dayStr] = dateVal.split('-');
-    const day   = Number(dayStr);
-    const month = Number(monthStr);
-    const year  = Number(yearStr);
+    const birth = parseMatrixDateValue(dateVal);
+    if (!birth) { showNotify('Проверьте корректность даты', 'warn'); return; }
+
+    const { day, month, year, date: birthDate } = birth;
+    const age = calculateMatrixAge(birthDate);
+    if (age < 0) { showNotify('Дата рождения не может быть в будущем', 'warn'); return; }
 
     // Главные точки октогона
     const A = reduceArcana(day);                             // левый (0 лет)
@@ -2479,38 +2800,46 @@ function calcMatrix() {
 
     // Внутренний ромб — углы внутреннего квадрата (midpoints смежных X_in)
     const P = reduceArcana(Ain + Bin);  // П — верх-лево (286,286)
-    const O = reduceArcana(Bin + Vin);  // О — верх-право (414,286)
     const M = reduceArcana(Vin + Gin);  // М — низ-право (414,414)
-    const N = reduceArcana(Gin + Ain);  // Н — низ-лево (286,414)
+    const L = Vin;                      // Л — вход денежной линии (В_in)
+    const O = reduceArcana(L + M);      // О = Л + М
+    let N = 0;                          // Н — нижняя точка пунктирной диагонали
+    const rBase = E + Zh + I + Z;            // Р = Е + Ж + И + З
+    const R = digitSum(rBase);               // 42 -> 4 + 2 = 6
+    const S = D + R;                         // С = Д + Р
 
     // Компаньоны на осях ближе к центру: reduce(Xin + D)
     const AinC = reduceArcana(Ain + D); // AinC — ось А (290,350)
     const BinC = reduceArcana(Bin + D); // BinC — ось Б (350,290)
     const VinC = reduceArcana(Vin + D); // VinC — ось В (410,350)
-    const K    = reduceArcana(Gin + D); // К — ось Г (350,410), оранжевый
+    const K    = Gin;                   // К — оранжевый круг на нижней оси
+    N = reduceArcana(M + K);
+    window.__matrixCalc = { A, B, V, G, D, E, Zh, I, Z };
 
     // Обновляем SVG
     const svgMap = {
         Anum: A, Bnum: B, Vnum: V, Gnum: G, Dnum: D,
         Enum: E, Zhnum: Zh, Inum: I, Znum: Z,
-        AinNum: Ain, BinNum: Bin, VinNum: Vin, GinNum: Gin,
+        AinNum: Ain, BinNum: Bin, VinNum: Vin, GinNum: '',
         Ain2num: Ain2, Bin2num: Bin2, Vin2num: Vin2, Gin2num: Gin2,
         EinNum: Ein, Ein2num: Ein2,
         ZhinNum: Zhin, Zhin2num: Zhin2,
         ZinNum: Zin, Zin2num: Zin2,
         IinNum: Iin, Iin2num: Iin2,
-        Pnum: P, Onum: O, Mnum: M, Nnum: N,
-        AinCnum: AinC, BinCnum: BinC, VinCnum: VinC, Knum: K
+        Pnum: '', Rnum: R, Snum: S, Onum: O, Mnum: M, Nnum: N,
+        AinCnum: AinC, BinCnum: BinC, VinCnum: '', Knum: K
     };
     for (const [id, v] of Object.entries(svgMap)) {
         const el = document.getElementById(`mv${id}`);
         if (el) el.textContent = v;
     }
+    initMatrixProgressionDots();
 
     // Заголовок
     const dStr = `${String(day).padStart(2,'0')}.${String(month).padStart(2,'0')}.${year}`;
     document.getElementById('matrixPersonName').textContent = name;
     document.getElementById('matrixPersonDate').textContent = dStr;
+    document.getElementById('matrixPersonAge').textContent = matrixAgeLabel(age);
 
     // Таблица значений — все позиции
     const allPositions = [
@@ -2538,8 +2867,8 @@ function calcMatrix() {
         { key: 'P',    label: 'П — внутренний ромб (Авн+Бвн)',        val: P,    color: '#bbb' },
         { key: 'O',    label: 'О — внутренний ромб (Бвн+Вн)',         val: O,    color: '#bbb' },
         { key: 'M',    label: 'М — внутренний ромб (Вн+Гн)',          val: M,    color: '#bbb' },
-        { key: 'N',    label: 'Н — внутренний ромб (Гн+Авн)',         val: N,    color: '#bbb' },
-        { key: 'K',    label: 'К — центр линии денег (Гвн+Д)',        val: K,    color: '#d4a870' },
+        { key: 'N',    label: 'Н — пунктирная линия (М+К)',           val: N,    color: '#bbb' },
+        { key: 'K',    label: 'К — нижняя ось (Гвн)',                 val: K,    color: '#d4a870' },
         { key: 'AinC', label: 'А центр (Авн+Д)',                      val: AinC, color: '#bbb' },
         { key: 'BinC', label: 'Б центр (Бвн+Д)',                      val: BinC, color: '#bbb' },
         { key: 'VinC', label: 'В центр (Вн+Д)',                       val: VinC, color: '#bbb' },
@@ -2553,6 +2882,10 @@ function calcMatrix() {
             <div class="mvc-num">${p.val}</div>
             <div class="mvc-arcana">${arc.name}</div>
             <div class="mvc-key">${arc.key}</div>
+            <div class="mvc-tooltip">
+                <div class="mvc-tooltip-title">${p.val} — ${escapeMatrixHtml(arc.name)}</div>
+                <div class="mvc-tooltip-text">${escapeMatrixHtml(arc.desc)}</div>
+            </div>
         </div>`;
     }).join('');
 
@@ -2595,11 +2928,14 @@ function calcMatrix() {
                 }
                 : null;
             const positionDetails = posArc ? `
-                <p class="mii-arc-desc"><strong>Для этой точки:</strong> ${posArc.desc}</p>
-                <div class="mii-plusminus">
-                    <div class="mii-plus">✅ <strong>В плюсе точки:</strong> ${posArc.plus}</div>
-                    <div class="mii-minus">⚠️ <strong>В минусе точки:</strong> ${posArc.minus}</div>
-                </div>` : '';
+                <details class="mii-detail">
+                    <summary>Подробно для этой точки</summary>
+                    <p class="mii-arc-desc"><strong>Для этой точки:</strong> ${posArc.desc}</p>
+                    <div class="mii-plusminus">
+                        <div class="mii-plus">✅ <strong>В плюсе точки:</strong> ${posArc.plus}</div>
+                        <div class="mii-minus">⚠️ <strong>В минусе точки:</strong> ${posArc.minus}</div>
+                    </div>
+                </details>` : '';
             return `<div class="matrix-interp-item">
                 <div class="mii-header">
                     <span class="mii-pos" style="color:${pos.color}">${pos.label}</span>
@@ -2650,12 +2986,12 @@ function calcMatrix() {
 
     document.getElementById('matrixMoneyLine').innerHTML = renderMatrixExtraSection(
         'Линия денег',
-        'Вертикаль оси В: Л = В_in2, О = точка O, М = точка M.',
+        'Вертикаль оси В: Л = В_in, О = точка O, М = точка M.',
         [{
             title: 'Денежный канал',
             subtitle: 'Смотрите, как энергия входит в деньги, удерживается в центре и выходит в результат.',
             items: [
-                { position: 'Л — вход денежной линии', meta: 'В_in2 · внешний компаньон на оси В', val: Vin2, desc: getArcanaPdfText(ARCANA_MONEY, Vin2) },
+                { position: 'Л — вход денежной линии', meta: 'В_in · входной поток на оси В', val: L, desc: getArcanaPdfText(ARCANA_MONEY, L) },
                 { position: 'О — центр денежной линии', meta: 'Точка O · энергия профессии и удержания потока', val: O, desc: getArcanaPdfText(ARCANA_MONEY, O) },
                 { position: 'М — выход денежной линии', meta: 'Точка M · итог и защита денежного потока', val: M, desc: getArcanaPdfText(ARCANA_MONEY, M) }
             ]
@@ -2708,6 +3044,8 @@ function calcMatrix() {
     setMatrixExtraSection('talents');
 
     document.getElementById('matrixResult').style.display = 'block';
+    initMatrixArcanaTooltips();
+    initMatrixPortalHover();
     document.getElementById('matrixResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -2715,7 +3053,7 @@ function copyMatrixResult() {
     const name = document.getElementById('matrixPersonName').textContent;
     const date = document.getElementById('matrixPersonDate').textContent;
     const cards = document.querySelectorAll('.matrix-val-card');
-    let text = `Матрица Судьбы — ${name} (${date})\n${'─'.repeat(40)}\n`;
+    let text = `Матрица-Судбы — ${name} (${date})\n${'─'.repeat(40)}\n`;
     cards.forEach(c => {
         const pos = c.querySelector('.mvc-pos').textContent;
         const num = c.querySelector('.mvc-num').textContent;
@@ -2727,6 +3065,19 @@ function copyMatrixResult() {
 
 function bookMatrixSession() {
     showPage('booking', document.querySelector('[onclick*="booking"]'));
+}
+
+function initMatrixArcanaTooltips() {
+    document.querySelectorAll('.matrix-val-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const r = card.getBoundingClientRect();
+            card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+            card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+        });
+        card.addEventListener('click', () => {
+            card.classList.toggle('tip-open');
+        });
+    });
 }
 </script>
 
@@ -2850,6 +3201,118 @@ function bookMatrixSession() {
   init();
   draw();
 })();
+
+/* ── Shooting stars ─────────────────────────────────────────────── */
+function initDashShootingStars() {
+    const count = 5;
+    for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+        star.style.left  = (10 + Math.random() * 80) + 'vw';
+        star.style.top   = (Math.random() * 45) + 'vh';
+        star.style.setProperty('--ss-dur',   (2.2 + Math.random() * 2.5) + 's');
+        star.style.setProperty('--ss-delay', (Math.random() * 16) + 's');
+        document.body.appendChild(star);
+    }
+}
+
+/* ── Scroll-reveal ──────────────────────────────────────────────── */
+function initDashReveal() {
+    const selectors = ['.kpi-card', '.card', '.session-item', '.plan-option', '.profile-service-sheet'];
+    selectors.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => el.classList.add('d-reveal'));
+    });
+    // stagger на grid-контейнерах
+    ['.grid-4', '.grid-3', '.grid-2', '.plan-options', '.profile-services-grid'].forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => el.classList.add('d-stagger'));
+    });
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); }
+        });
+    }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.d-reveal').forEach(el => obs.observe(el));
+}
+
+/* ── Button ripple ──────────────────────────────────────────────── */
+function initDashButtonRipple() {
+    document.querySelectorAll('.btn, .plan-btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const r = btn.getBoundingClientRect();
+            btn.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+            btn.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
+        });
+    });
+}
+
+/* ── KPI mouse-glow tracking ────────────────────────────────────── */
+function initKpiMouseGlow() {
+    document.querySelectorAll('.kpi-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const r = card.getBoundingClientRect();
+            card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+            card.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
+        });
+    });
+}
+
+/* ── Count-up animation for KPI numbers ─────────────────────────── */
+function initCountUp() {
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            const el = e.target;
+            const text = el.textContent.trim();
+            const num = parseFloat(text.replace(/[^0-9.]/g,''));
+            if (isNaN(num) || num <= 0 || num > 9999) return;
+            const dur = 1200;
+            const start = performance.now();
+            const isFloat = text.includes('.');
+            const suffix = text.replace(/[0-9.]/g,'');
+            function step(now) {
+                const t = Math.min((now - start) / dur, 1);
+                const ease = 1 - Math.pow(1 - t, 3);
+                const cur = isFloat ? (ease * num).toFixed(1) : Math.round(ease * num);
+                el.textContent = cur + suffix;
+                if (t < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+            obs.unobserve(el);
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.kpi-value').forEach(el => obs.observe(el));
+}
+
+/* ── Floating cosmic particles ──────────────────────────────────── */
+function initCosmicParticles() {
+    const colors = ['rgba(95,141,255,0.7)','rgba(245,203,104,0.7)','rgba(138,109,192,0.6)','rgba(200,230,255,0.55)'];
+    for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.style.cssText = `
+            position:fixed;
+            width:${2 + Math.random()*3}px;
+            height:${2 + Math.random()*3}px;
+            border-radius:50%;
+            background:${colors[i % colors.length]};
+            left:${Math.random()*100}vw;
+            top:${Math.random()*100}vh;
+            pointer-events:none;
+            z-index:0;
+            opacity:${0.3 + Math.random()*0.5};
+            animation: particleDrift ${8 + Math.random()*12}s ease-in-out ${Math.random()*6}s infinite alternate;
+        `;
+        document.body.appendChild(p);
+    }
+    if (!document.getElementById('particleStyle')) {
+        const s = document.createElement('style');
+        s.id = 'particleStyle';
+        s.textContent = `@keyframes particleDrift {
+            from { transform: translate(0,0) scale(1); opacity:0.3; }
+            to   { transform: translate(${Math.random()>0.5?'+':'-'}${20+Math.round(Math.random()*40)}px, ${Math.random()>0.5?'+':'-'}${20+Math.round(Math.random()*40)}px) scale(1.6); opacity:0.7; }
+        }`;
+        document.head.appendChild(s);
+    }
+}
 </script>
 
 </body>
