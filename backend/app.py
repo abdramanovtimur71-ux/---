@@ -39,6 +39,9 @@ USER_SESSION_MINUTES = int(os.getenv("USER_SESSION_MINUTES", "10080"))
 PASSWORD_RESET_CODE_TTL_MINUTES = int(os.getenv("PASSWORD_RESET_CODE_TTL_MINUTES", "10"))
 PASSWORD_RESET_MAX_ATTEMPTS = int(os.getenv("PASSWORD_RESET_MAX_ATTEMPTS", "5"))
 PASSWORD_RESET_DEBUG_CODE = os.getenv("PASSWORD_RESET_DEBUG_CODE", "false").lower() == "true"
+TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID", "").strip()
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN", "").strip()
+TWILIO_FROM_SMS = os.getenv("TWILIO_FROM_SMS", "").strip()
 BOOKING_START_HOUR = int(os.getenv("BOOKING_START_HOUR", "9"))
 BOOKING_END_HOUR = int(os.getenv("BOOKING_END_HOUR", "21"))
 SLOT_STEP_MINUTES = int(os.getenv("SLOT_STEP_MINUTES", "60"))
@@ -643,6 +646,19 @@ def send_whatsapp_message(phone: str, text: str):
 
 
 def send_sms_message(phone: str, text: str):
+    if TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN and TWILIO_FROM_SMS:
+        try:
+            resp = requests.post(
+                f"https://api.twilio.com/2010-04-01/Accounts/{TWILIO_ACCOUNT_SID}/Messages.json",
+                data={"To": phone, "From": TWILIO_FROM_SMS, "Body": text},
+                auth=(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN),
+                timeout=20,
+            )
+            resp.raise_for_status()
+            return True, "sms-sent-via-twilio"
+        except requests.RequestException as exc:
+            return False, f"twilio-sms-error: {exc}"
+
     api_url = os.getenv("SMS_API_URL")
     api_token = os.getenv("SMS_API_TOKEN")
     if not (api_url and api_token):
@@ -2207,5 +2223,4 @@ start_reminder_worker_once()
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)
-
 
