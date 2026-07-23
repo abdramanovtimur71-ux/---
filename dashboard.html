@@ -2297,6 +2297,8 @@ const MATRIX_EXTRA_SECTIONS = {
     destiny: 'matrixDestiny',
     karmic: 'matrixKarmicTail'
 };
+let matrixExtraPayload = null;
+let matrixExtraRenderVersion = 0;
 
 function escapeMatrixHtml(value) {
     return String(value ?? '').replace(/[&<>"']/g, ch => ({
@@ -2363,6 +2365,112 @@ function renderMatrixExtraSection(title, subtitle, groups) {
     </div>${groups.map(renderMatrixExtraGroup).join('')}`;
 }
 
+function renderMatrixExtraSectionByKey(sectionKey) {
+    if (!matrixExtraPayload) return;
+    const sectionId = MATRIX_EXTRA_SECTIONS[sectionKey];
+    const section = sectionId ? document.getElementById(sectionId) : null;
+    if (!section) return;
+    if (section.dataset.renderVersion === String(matrixExtraRenderVersion)) return;
+
+    const p = matrixExtraPayload;
+    let html = '';
+
+    if (sectionKey === 'talents') {
+        html = renderMatrixExtraSection(
+            'Таланты',
+            'Таланты собираются из трёх ветвей: верхний канал Б, линия отца и линия матери.',
+            [
+                {
+                    title: 'Небесные таланты',
+                    subtitle: 'Канал Б: Б_in2 → Б_in → Б.',
+                    items: [
+                        { position: 'Б_in2 — божественный вход', meta: 'Внешний дар канала Б', val: p.Bin2, desc: getArcanaPdfText(ARCANA_TALENTS, p.Bin2) },
+                        { position: 'Б_in — раскрытие дара', meta: 'Средняя точка канала Б', val: p.Bin, desc: getArcanaPdfText(ARCANA_TALENTS, p.Bin) },
+                        { position: 'Б — ядро таланта', meta: 'Верхняя опорная энергия', val: p.B, desc: getArcanaPdfText(ARCANA_TALENTS, p.B) }
+                    ]
+                },
+                {
+                    title: 'Таланты по линии отца',
+                    subtitle: 'Левая нижняя диагональ: З → З_in → З_in2.',
+                    items: [
+                        { position: 'З — родовой талант отца', meta: 'Внешняя точка линии отца', val: p.Z, desc: getArcanaPdfText(ARCANA_TALENTS, p.Z) },
+                        { position: 'З_in — внутренний ресурс', meta: 'Средняя точка линии отца', val: p.Zin, desc: getArcanaPdfText(ARCANA_TALENTS, p.Zin) },
+                        { position: 'З_in2 — усилитель таланта', meta: 'Внутренний ключ линии отца', val: p.Zin2, desc: getArcanaPdfText(ARCANA_TALENTS, p.Zin2) }
+                    ]
+                },
+                {
+                    title: 'Таланты по линии матери',
+                    subtitle: 'Левая верхняя диагональ: Е → Е_in → Е_in2.',
+                    items: [
+                        { position: 'Е — родовой талант матери', meta: 'Внешняя точка линии матери', val: p.E, desc: getArcanaPdfText(ARCANA_TALENTS, p.E) },
+                        { position: 'Е_in — внутренний ресурс', meta: 'Средняя точка линии матери', val: p.Ein, desc: getArcanaPdfText(ARCANA_TALENTS, p.Ein) },
+                        { position: 'Е_in2 — усилитель таланта', meta: 'Внутренний ключ линии матери', val: p.Ein2, desc: getArcanaPdfText(ARCANA_TALENTS, p.Ein2) }
+                    ]
+                }
+            ]
+        );
+    } else if (sectionKey === 'money') {
+        html = renderMatrixExtraSection(
+            'Линия денег',
+            'Вертикаль оси В: Л = В_in2, О = точка O, М = точка M.',
+            [{
+                title: 'Денежный канал',
+                subtitle: 'Смотрите, как энергия входит в деньги, удерживается в центре и выходит в результат.',
+                items: [
+                    { position: 'Л — вход денежной линии', meta: 'В_in2 · внешний компаньон на оси В', val: p.Vin2, desc: getArcanaPdfText(ARCANA_MONEY, p.Vin2) },
+                    { position: 'О — центр денежной линии', meta: 'Точка O · энергия профессии и удержания потока', val: p.O, desc: getArcanaPdfText(ARCANA_MONEY, p.O) },
+                    { position: 'М — выход денежной линии', meta: 'Точка M · итог и защита денежного потока', val: p.M, desc: getArcanaPdfText(ARCANA_MONEY, p.M) }
+                ]
+            }]
+        );
+    } else if (sectionKey === 'love') {
+        html = renderMatrixExtraSection(
+            'Линия любви',
+            'Вертикаль оси Б: вход = Б_in2, центр = точка P, выход = точка N.',
+            [{
+                title: 'Канал отношений',
+                subtitle: 'Эта линия показывает, как запускаются знакомства, кто подходит в центр союза и что выводит отношения в результат.',
+                items: [
+                    { position: 'Вход линии любви', meta: 'Б_in2 · энергия старта отношений', val: p.Bin2, desc: getArcanaPdfText(ARCANA_LOVE, p.Bin2) },
+                    { position: 'Центр линии любви', meta: 'Точка P · сердцевина союза и качества партнёра', val: p.P, desc: getArcanaPdfText(ARCANA_LOVE, p.P) },
+                    { position: 'Выход линии любви', meta: 'Точка N · итоговый сценарий отношений', val: p.N, desc: getArcanaPdfText(ARCANA_LOVE, p.N) }
+                ]
+            }]
+        );
+    } else if (sectionKey === 'destiny') {
+        html = renderMatrixExtraSection(
+            'Предназначение',
+            'Нижний канал Г: Г_in2 → Г_in → Г. Эти три точки показывают путь к зрелой реализации.',
+            [{
+                title: 'Канал предназначения',
+                subtitle: 'От внутренней подготовки к итоговой энергии жизненного пути.',
+                items: [
+                    { position: 'Г_in2 — дальний вектор', meta: 'Внешний компаньон на оси Г', val: p.Gin2, desc: buildArcanaContext(p.Gin2, 'Начальный слой предназначения показывает, какой опыт подводит вас к зрелой реализации.') },
+                    { position: 'Г_in — внутренняя реализация', meta: 'Средняя точка оси Г', val: p.Gin, desc: buildArcanaContext(p.Gin, 'Эта энергия раскрывает, каким способом предназначение оформляется внутри характера и решений.') },
+                    { position: 'Г — итоговое предназначение', meta: 'Главная нижняя точка матрицы', val: p.G, desc: buildArcanaContext(p.G, 'Финальная энергия предназначения показывает, к какому жизненному итогу ведёт вся матрица.') }
+                ]
+            }]
+        );
+    } else if (sectionKey === 'karmic') {
+        html = renderMatrixExtraSection(
+            'Кармический хвост',
+            'Правая нижняя диагональ: И_in2 → И_in → И. Здесь видны уроки, принесённые из прошлого опыта.',
+            [{
+                title: 'Канал кармического хвоста',
+                subtitle: 'Три энергии показывают сценарии, которые важно осознать, принять и перевести в плюс.',
+                items: [
+                    { position: 'И_in2 — внешний слой урока', meta: 'Внутренний ключ диагонали И', val: p.Iin2, desc: buildArcanaContext(p.Iin2, 'Этот уровень показывает внешний триггер кармического хвоста — то, через что урок чаще всего проявляется.') },
+                    { position: 'И_in — основной кармический узел', meta: 'Средняя точка диагонали И', val: p.Iin, desc: buildArcanaContext(p.Iin, 'Здесь находится базовый урок, который нужно осознать и экологично проживать в текущей жизни.') },
+                    { position: 'И — итоговый сценарий хвоста', meta: 'Внешняя точка диагонали И', val: p.I, desc: buildArcanaContext(p.I, 'Эта энергия показывает, во что превращается кармический хвост, если уроки не игнорировать, а прорабатывать.') }
+                ]
+            }]
+        );
+    }
+
+    section.innerHTML = html;
+    section.dataset.renderVersion = String(matrixExtraRenderVersion);
+}
+
 function setMatrixExtraSection(sectionKey) {
     document.querySelectorAll('#matrixExtraSections .matrix-section-tab').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.section === sectionKey);
@@ -2371,6 +2479,7 @@ function setMatrixExtraSection(sectionKey) {
         const section = document.getElementById(id);
         if (section) section.classList.toggle('active', key === sectionKey);
     });
+    renderMatrixExtraSectionByKey(sectionKey);
 }
 
 function reduceArcana(n) {
@@ -2618,96 +2727,19 @@ function calcMatrix() {
             </div>`;
         }).join('');
 
-    document.getElementById('matrixTalents').innerHTML = renderMatrixExtraSection(
-        'Таланты',
-        'Таланты собираются из трёх ветвей: верхний канал Б, линия отца и линия матери.',
-        [
-            {
-                title: 'Небесные таланты',
-                subtitle: 'Канал Б: Б_in2 → Б_in → Б.',
-                items: [
-                    { position: 'Б_in2 — божественный вход', meta: 'Внешний дар канала Б', val: Bin2, desc: getArcanaPdfText(ARCANA_TALENTS, Bin2) },
-                    { position: 'Б_in — раскрытие дара', meta: 'Средняя точка канала Б', val: Bin, desc: getArcanaPdfText(ARCANA_TALENTS, Bin) },
-                    { position: 'Б — ядро таланта', meta: 'Верхняя опорная энергия', val: B, desc: getArcanaPdfText(ARCANA_TALENTS, B) }
-                ]
-            },
-            {
-                title: 'Таланты по линии отца',
-                subtitle: 'Левая нижняя диагональ: З → З_in → З_in2.',
-                items: [
-                    { position: 'З — родовой талант отца', meta: 'Внешняя точка линии отца', val: Z, desc: getArcanaPdfText(ARCANA_TALENTS, Z) },
-                    { position: 'З_in — внутренний ресурс', meta: 'Средняя точка линии отца', val: Zin, desc: getArcanaPdfText(ARCANA_TALENTS, Zin) },
-                    { position: 'З_in2 — усилитель таланта', meta: 'Внутренний ключ линии отца', val: Zin2, desc: getArcanaPdfText(ARCANA_TALENTS, Zin2) }
-                ]
-            },
-            {
-                title: 'Таланты по линии матери',
-                subtitle: 'Левая верхняя диагональ: Е → Е_in → Е_in2.',
-                items: [
-                    { position: 'Е — родовой талант матери', meta: 'Внешняя точка линии матери', val: E, desc: getArcanaPdfText(ARCANA_TALENTS, E) },
-                    { position: 'Е_in — внутренний ресурс', meta: 'Средняя точка линии матери', val: Ein, desc: getArcanaPdfText(ARCANA_TALENTS, Ein) },
-                    { position: 'Е_in2 — усилитель таланта', meta: 'Внутренний ключ линии матери', val: Ein2, desc: getArcanaPdfText(ARCANA_TALENTS, Ein2) }
-                ]
-            }
-        ]
-    );
-
-    document.getElementById('matrixMoneyLine').innerHTML = renderMatrixExtraSection(
-        'Линия денег',
-        'Вертикаль оси В: Л = В_in2, О = точка O, М = точка M.',
-        [{
-            title: 'Денежный канал',
-            subtitle: 'Смотрите, как энергия входит в деньги, удерживается в центре и выходит в результат.',
-            items: [
-                { position: 'Л — вход денежной линии', meta: 'В_in2 · внешний компаньон на оси В', val: Vin2, desc: getArcanaPdfText(ARCANA_MONEY, Vin2) },
-                { position: 'О — центр денежной линии', meta: 'Точка O · энергия профессии и удержания потока', val: O, desc: getArcanaPdfText(ARCANA_MONEY, O) },
-                { position: 'М — выход денежной линии', meta: 'Точка M · итог и защита денежного потока', val: M, desc: getArcanaPdfText(ARCANA_MONEY, M) }
-            ]
-        }]
-    );
-
-    document.getElementById('matrixLoveLine').innerHTML = renderMatrixExtraSection(
-        'Линия любви',
-        'Вертикаль оси Б: вход = Б_in2, центр = точка P, выход = точка N.',
-        [{
-            title: 'Канал отношений',
-            subtitle: 'Эта линия показывает, как запускаются знакомства, кто подходит в центр союза и что выводит отношения в результат.',
-            items: [
-                { position: 'Вход линии любви', meta: 'Б_in2 · энергия старта отношений', val: Bin2, desc: getArcanaPdfText(ARCANA_LOVE, Bin2) },
-                { position: 'Центр линии любви', meta: 'Точка P · сердцевина союза и качества партнёра', val: P, desc: getArcanaPdfText(ARCANA_LOVE, P) },
-                { position: 'Выход линии любви', meta: 'Точка N · итоговый сценарий отношений', val: N, desc: getArcanaPdfText(ARCANA_LOVE, N) }
-            ]
-        }]
-    );
-
-    document.getElementById('matrixDestiny').innerHTML = renderMatrixExtraSection(
-        'Предназначение',
-        'Нижний канал Г: Г_in2 → Г_in → Г. Эти три точки показывают путь к зрелой реализации.',
-        [{
-            title: 'Канал предназначения',
-            subtitle: 'От внутренней подготовки к итоговой энергии жизненного пути.',
-            items: [
-                { position: 'Г_in2 — дальний вектор', meta: 'Внешний компаньон на оси Г', val: Gin2, desc: buildArcanaContext(Gin2, 'Начальный слой предназначения показывает, какой опыт подводит вас к зрелой реализации.') },
-                { position: 'Г_in — внутренняя реализация', meta: 'Средняя точка оси Г', val: Gin, desc: buildArcanaContext(Gin, 'Эта энергия раскрывает, каким способом предназначение оформляется внутри характера и решений.') },
-                { position: 'Г — итоговое предназначение', meta: 'Главная нижняя точка матрицы', val: G, desc: buildArcanaContext(G, 'Финальная энергия предназначения показывает, к какому жизненному итогу ведёт вся матрица.') }
-            ]
-        }]
-    );
-
-    document.getElementById('matrixKarmicTail').innerHTML = renderMatrixExtraSection(
-        'Кармический хвост',
-        'Правая нижняя диагональ: И_in2 → И_in → И. Здесь видны уроки, принесённые из прошлого опыта.',
-        [{
-            title: 'Канал кармического хвоста',
-            subtitle: 'Три энергии показывают сценарии, которые важно осознать, принять и перевести в плюс.',
-            items: [
-                { position: 'И_in2 — внешний слой урока', meta: 'Внутренний ключ диагонали И', val: Iin2, desc: buildArcanaContext(Iin2, 'Этот уровень показывает внешний триггер кармического хвоста — то, через что урок чаще всего проявляется.') },
-                { position: 'И_in — основной кармический узел', meta: 'Средняя точка диагонали И', val: Iin, desc: buildArcanaContext(Iin, 'Здесь находится базовый урок, который нужно осознать и экологично проживать в текущей жизни.') },
-                { position: 'И — итоговый сценарий хвоста', meta: 'Внешняя точка диагонали И', val: I, desc: buildArcanaContext(I, 'Эта энергия показывает, во что превращается кармический хвост, если уроки не игнорировать, а прорабатывать.') }
-            ]
-        }]
-    );
-
+    matrixExtraPayload = {
+        B, E, Zh, D, V, I, G, Z,
+        Bin, Ein, Zhin, AinC, BinC, Vin, Iin, Gin,
+        Bin2, Ein2, Zhin2, Vin2, Iin2, Gin2, Zin, Zin2,
+        P, O, M, N
+    };
+    matrixExtraRenderVersion += 1;
+    Object.values(MATRIX_EXTRA_SECTIONS).forEach((id) => {
+        const section = document.getElementById(id);
+        if (!section) return;
+        section.innerHTML = '';
+        section.dataset.renderVersion = '';
+    });
     document.getElementById('matrixExtraWrap').style.display = 'block';
     setMatrixExtraSection('talents');
 
