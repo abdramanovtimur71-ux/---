@@ -2885,6 +2885,15 @@ table { min-width: 560px; }
 .matrix-field-date {
     position: relative;
 }
+.matrix-date-native {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    border: 0;
+    padding: 0;
+}
 .matrix-field label {
     display: block;
     font-size: 12px;
@@ -2985,6 +2994,10 @@ table { min-width: 560px; }
     opacity: 0.72;
 }
 .matrix-wheel-item:active { transform: scale(0.97); }
+.matrix-wheel-item:disabled {
+    opacity: 0;
+    cursor: default;
+}
 .matrix-timer-wheel::before,
 .matrix-timer-wheel::after {
     content: '';

@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-restored-state-20260723-blacknums">
+    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-restored-state-20260723-blacknums-datewheel">
 </head>
 <body>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
@@ -707,9 +707,26 @@
                         <label>Имя клиента</label>
                         <input type="text" id="matrixName" placeholder="Введите имя" class="matrix-input">
                     </div>
-                    <div class="matrix-field">
+                    <div class="matrix-field matrix-field-date">
                         <label>Дата рождения</label>
-                        <input type="date" id="matrixDate" class="matrix-input">
+                        <input type="date" id="matrixDate" class="matrix-input matrix-date-native" tabindex="-1" aria-hidden="true">
+                        <div class="matrix-timer-wheels" id="matrixTimerWheels" aria-label="Выбор даты рождения">
+                            <div class="matrix-timer-wheel" data-field="day">
+                                <div class="matrix-wheel-track"></div>
+                            </div>
+                            <div class="matrix-timer-sep">•</div>
+                            <div class="matrix-timer-wheel" data-field="month">
+                                <div class="matrix-wheel-track"></div>
+                            </div>
+                            <div class="matrix-timer-sep">•</div>
+                            <div class="matrix-timer-wheel" data-field="year">
+                                <div class="matrix-wheel-track"></div>
+                            </div>
+                        </div>
+                        <div class="matrix-date-meta">
+                            <span class="matrix-date-gesture">Свайп вверх/вниз как в таймере</span>
+                            <span class="matrix-age-preview" id="matrixAgePreview">Возраст: 0 лет</span>
+                        </div>
                     </div>
                     <button class="matrix-calc-btn" onclick="calcMatrix()">Рассчитать ✦</button>
                 </div>
@@ -1869,6 +1886,164 @@ function dashSwitchToLogin() {
     document.getElementById('dashLoginForm').style.display = 'block';
 }
 
+const matrixWheelState = {
+    day: 1,
+    month: 1,
+    year: new Date().getFullYear()
+};
+
+function getMatrixDaysInMonth(year, month) {
+    return new Date(year, month, 0).getDate();
+}
+
+function getMatrixWheelLimits(field) {
+    if (field === 'day') {
+        return { min: 1, max: getMatrixDaysInMonth(matrixWheelState.year, matrixWheelState.month) };
+    }
+    if (field === 'month') return { min: 1, max: 12 };
+    return { min: 1900, max: new Date().getFullYear() };
+}
+
+function matrixWheelDisplayValue(field, value) {
+    if (field === 'year') return String(value);
+    return String(value).padStart(2, '0');
+}
+
+function matrixCalcAgeFromState() {
+    const today = new Date();
+    let age = today.getFullYear() - matrixWheelState.year;
+    const birthdayPassed =
+        (today.getMonth() + 1 > matrixWheelState.month) ||
+        ((today.getMonth() + 1 === matrixWheelState.month) && (today.getDate() >= matrixWheelState.day));
+    if (!birthdayPassed) age -= 1;
+    return Math.max(0, age);
+}
+
+function syncMatrixDateInputAndAge() {
+    const dateEl = document.getElementById('matrixDate');
+    if (dateEl) {
+        const y = String(matrixWheelState.year);
+        const m = String(matrixWheelState.month).padStart(2, '0');
+        const d = String(matrixWheelState.day).padStart(2, '0');
+        dateEl.value = `${y}-${m}-${d}`;
+    }
+    const ageEl = document.getElementById('matrixAgePreview');
+    if (ageEl) ageEl.textContent = `Возраст: ${matrixCalcAgeFromState()} лет`;
+}
+
+function renderMatrixWheel(field, spinClass = '') {
+    const wheel = document.querySelector(`.matrix-timer-wheel[data-field="${field}"]`);
+    if (!wheel) return;
+    const track = wheel.querySelector('.matrix-wheel-track');
+    if (!track) return;
+
+    const { min, max } = getMatrixWheelLimits(field);
+    const center = matrixWheelState[field];
+    track.innerHTML = '';
+
+    for (let offset = -2; offset <= 2; offset++) {
+        const candidate = center + offset;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'matrix-wheel-item';
+        if (offset === 0) button.classList.add('is-active');
+        else if (Math.abs(offset) === 1) button.classList.add('is-near');
+        else button.classList.add('is-far');
+
+        if (candidate < min || candidate > max) {
+            button.textContent = '';
+            button.disabled = true;
+        } else {
+            button.textContent = matrixWheelDisplayValue(field, candidate);
+            button.dataset.value = String(candidate);
+            button.addEventListener('click', () => setMatrixWheelField(field, candidate));
+        }
+        track.appendChild(button);
+    }
+
+    if (spinClass) {
+        wheel.classList.add(spinClass);
+        setTimeout(() => wheel.classList.remove(spinClass), 120);
+    }
+}
+
+function renderAllMatrixWheels(spinField = '', spinClass = '') {
+    renderMatrixWheel('day', spinField === 'day' ? spinClass : '');
+    renderMatrixWheel('month', spinField === 'month' ? spinClass : '');
+    renderMatrixWheel('year', spinField === 'year' ? spinClass : '');
+}
+
+function setMatrixWheelField(field, rawValue, spinClass = '') {
+    const { min, max } = getMatrixWheelLimits(field);
+    const nextValue = Math.max(min, Math.min(max, Number(rawValue)));
+    matrixWheelState[field] = nextValue;
+
+    if (field === 'month' || field === 'year') {
+        const dayMax = getMatrixDaysInMonth(matrixWheelState.year, matrixWheelState.month);
+        if (matrixWheelState.day > dayMax) matrixWheelState.day = dayMax;
+    }
+
+    syncMatrixDateInputAndAge();
+    renderAllMatrixWheels(field, spinClass);
+}
+
+function stepMatrixWheel(field, delta) {
+    const current = matrixWheelState[field];
+    const spinClass = delta > 0 ? 'matrix-wheel-spin-down' : 'matrix-wheel-spin-up';
+    setMatrixWheelField(field, current + delta, spinClass);
+}
+
+function initMatrixDateWheels() {
+    const matrixDateEl = document.getElementById('matrixDate');
+    if (!matrixDateEl) return;
+
+    const raw = (matrixDateEl.value || '').trim();
+    if (raw) {
+        const [y, m, d] = raw.split('-').map(Number);
+        if (Number.isFinite(y) && Number.isFinite(m) && Number.isFinite(d)) {
+            matrixWheelState.year = y;
+            matrixWheelState.month = m;
+            matrixWheelState.day = d;
+        }
+    } else {
+        const now = new Date();
+        matrixWheelState.year = now.getFullYear();
+        matrixWheelState.month = now.getMonth() + 1;
+        matrixWheelState.day = now.getDate();
+    }
+
+    const dayMax = getMatrixDaysInMonth(matrixWheelState.year, matrixWheelState.month);
+    matrixWheelState.day = Math.max(1, Math.min(dayMax, matrixWheelState.day));
+    syncMatrixDateInputAndAge();
+    renderAllMatrixWheels();
+
+    document.querySelectorAll('.matrix-timer-wheel').forEach((wheel) => {
+        const field = wheel.dataset.field;
+        if (!field) return;
+
+        wheel.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            stepMatrixWheel(field, event.deltaY > 0 ? 1 : -1);
+        }, { passive: false });
+
+        wheel.addEventListener('touchstart', (event) => {
+            const touch = event.changedTouches && event.changedTouches[0];
+            if (touch) wheel.dataset.touchStartY = String(touch.clientY);
+        }, { passive: true });
+
+        wheel.addEventListener('touchend', (event) => {
+            const touch = event.changedTouches && event.changedTouches[0];
+            const startY = Number(wheel.dataset.touchStartY || '0');
+            if (!touch || !startY) return;
+            const deltaY = touch.clientY - startY;
+            if (Math.abs(deltaY) >= 18) {
+                stepMatrixWheel(field, deltaY < 0 ? 1 : -1);
+            }
+            delete wheel.dataset.touchStartY;
+        }, { passive: true });
+    });
+}
+
 // Инициализация
 // ═══ ПРОГРЕССИОННЫЕ ТОЧКИ НА РЁБРАХ ОКТАГОНА ═══
 function initMatrixProgressionDots() {
@@ -1954,6 +2129,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     updateUnreadBadge();
     setInterval(updateUnreadBadge, 60000); // проверять каждую минуту
+    initMatrixDateWheels();
     initMatrixProgressionDots();
 
     // Старт кабинета: по умолчанию всегда "Обзор"
