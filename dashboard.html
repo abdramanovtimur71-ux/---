@@ -1060,6 +1060,7 @@ function showPage(pageId, linkEl) {
     const titles = {
         overview: ['Обзор', 'Сводная информация по вашему кабинету'],
         profile: ['Мой профиль', 'Личные данные и контакты'],
+        matrix: ['Матрица-Судьбы', 'Расчёт и разбор по дате рождения'],
         shop: ['Магазин', 'Артефакты и ритуальные наборы в кабинете'],
         sessions: ['Мои сеансы', 'Предстоящие встречи и история'],
         booking: ['Новая запись', 'Запишитесь на прием'],
@@ -1073,6 +1074,11 @@ function showPage(pageId, linkEl) {
     }
     if (pageId === 'messages') {
         loadClientMessages();
+    }
+
+    if (pageId !== 'matrix') {
+        const matrixResult = document.getElementById('matrixResult');
+        if (matrixResult) matrixResult.style.display = 'none';
     }
     if (pageId === 'sessions') {
         loadSessions();
@@ -1950,14 +1956,9 @@ window.addEventListener('DOMContentLoaded', () => {
     setInterval(updateUnreadBadge, 60000); // проверять каждую минуту
     initMatrixProgressionDots();
 
-    // Восстановление страницы после обновления: хэш → localStorage → 'overview'
+    // Старт кабинета: по умолчанию всегда "Обзор"
     const hash = window.location.hash.replace('#', '');
-    const storedPage = localStorage.getItem('dashboard_page') || 'overview';
-    const isValidStoredPage = !!document.getElementById('page-' + storedPage);
-    const restoredPage = isValidStoredPage ? storedPage : 'overview';
-    const savedPage = hash && document.getElementById('page-' + hash)
-        ? hash
-        : (restoredPage === 'matrix' ? 'overview' : restoredPage);
+    const savedPage = hash && document.getElementById('page-' + hash) ? hash : 'overview';
     const link = document.querySelector('[onclick*="' + savedPage + '"]');
     showPage(savedPage, link);
 });

@@ -5881,6 +5881,19 @@ body.dashboard-intro-ready .settings-cockpit-card {
     animation: pagePremiumIn 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
+/* Safety: показываем только активную страницу кабинета */
+.content > .page:not(.active) {
+    display: none !important;
+}
+
+.content > .page.active {
+    display: block !important;
+    position: relative !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+}
+
 @keyframes pagePremiumIn {
     from {
         opacity: 0;
