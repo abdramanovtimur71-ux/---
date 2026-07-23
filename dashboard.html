@@ -997,45 +997,22 @@ function closeSidebar() {
     document.getElementById('sidebarOverlay').classList.remove('active');
 }
 
-function openSidebar() {
-    document.getElementById('sidebar').classList.add('open');
-    document.getElementById('sidebarOverlay').classList.add('active');
-}
-
-// Swipe только по горизонтали, чтобы не мешать вертикальному скроллу
+// Swipe влево чтобы закрыть сайдбар
 (function () {
     let touchStartX = 0;
     let touchStartY = 0;
-    const MIN_HORIZONTAL_SWIPE = 72;
-    const MAX_VERTICAL_DRIFT = 64;
-    const HORIZONTAL_RATIO = 1.35;
-
-    function isMobileSidebarMode() {
-        return window.matchMedia('(max-width: 900px)').matches;
-    }
-
     document.addEventListener('touchstart', e => {
-        if (!isMobileSidebarMode() || e.touches.length !== 1) return;
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
     }, { passive: true });
     document.addEventListener('touchend', e => {
-        if (!isMobileSidebarMode() || e.changedTouches.length !== 1) return;
-
         const dx = e.changedTouches[0].clientX - touchStartX;
-        const dy = e.changedTouches[0].clientY - touchStartY;
-        const absDx = Math.abs(dx);
-        const absDy = Math.abs(dy);
-
-        if (absDx < MIN_HORIZONTAL_SWIPE || absDy > MAX_VERTICAL_DRIFT) return;
-        if (absDx < absDy * HORIZONTAL_RATIO) return;
-
-        if (dx < 0) {
-            closeSidebar();
-            return;
+        const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+        if (dx < -60 && dy < 50) closeSidebar();
+        if (dx > 60 && dy < 50 && touchStartX < 30) {
+            document.getElementById('sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('active');
         }
-
-        if (touchStartX < 24) openSidebar();
     }, { passive: true });
 })();
 
