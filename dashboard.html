@@ -1842,7 +1842,7 @@ function updateThemeToggleBtn(mode) {
 
 // Проверка авторизации
 function checkAuth() {
-    const isLoggedIn = getSessionValue('isLoggedIn');
+    const isLoggedIn = getSessionValue('isLoggedIn') === 'true';
     if (!isLoggedIn) {
         showDashboardLoginModal();
     }
