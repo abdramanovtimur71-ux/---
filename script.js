@@ -662,6 +662,7 @@ const API_BASE = (() => {
     }
     return (localStorage.getItem('apiBaseUrl') || 'https://roza-ogly-api.onrender.com').trim().replace(/\/$/, '');
 })();
+window.API_BASE = API_BASE;
 
 function getStorageArray(key) {
     try {

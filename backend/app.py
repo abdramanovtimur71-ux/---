@@ -445,16 +445,42 @@ _AI_SYSTEM_PROMPT = (
 )
 
 
+def local_chat_reply(user_msg: str) -> str:
+    text = (user_msg or "").strip().lower()
+    if not text:
+        return "Напишите ваш вопрос, и я помогу с матрицей судьбы, услугами и записью."
+
+    if any(x in text for x in ["привет", "здрав", "добрый", "салам", "hi", "hello"]):
+        return "Здравствуйте 🌙 Я помогу по матрице судьбы, нумерологии и записи на консультацию. Что хотите разобрать?"
+
+    if any(x in text for x in ["цена", "стоим", "сколько"]):
+        return (
+            "Актуальные услуги: Матрица судьбы — 5 000 ₸, Нумерология — 3 500 ₸, "
+            "Чистка энергетики — 6 000 ₸, Таро — 4 000 ₸, Духовные практики — 8 000 ₸."
+        )
+
+    if any(x in text for x in ["запис", "консультац", "прием"]):
+        return "Для записи заполните форму на сайте: выберите услугу, дату и удобное время — и я сразу подтвержу шаги дальше."
+
+    if any(x in text for x in ["вход", "логин", "парол", "смс", "код"]):
+        return (
+            "Если не получается войти, восстановите доступ через форму \"Забыли пароль\". "
+            "Никому не передавайте пароль и коды подтверждения — поддержка их не запрашивает."
+        )
+
+    if any(x in text for x in ["матриц", "нумеролог", "дата рождения", "дата рождения"]):
+        return "Для точного разбора напишите дату рождения в формате ДД.ММ.ГГГГ — подготовлю краткую интерпретацию ключевых энергий."
+
+    return (
+        "Поняла вас ✨ Я помогу по услугам, записи, вопросам по матрице судьбы и входу в аккаунт. "
+        "Напишите, что именно нужно сейчас."
+    )
+
+
 @app.route("/api/chat", methods=["POST"])
 @limiter.limit("30 per hour")
 def chat_ai():
     global _openai_client
-    if not OPENAI_API_KEY:
-        return jsonify({"ok": False, "message": "ИИ-консультант временно недоступен"}), 503
-
-    if _OpenAIClient and _openai_client is None:
-        _openai_client = _OpenAIClient(api_key=OPENAI_API_KEY)
-
     payload = request.get_json(silent=True) or {}
     user_msg = (payload.get("message") or "").strip()
     session_id = (payload.get("session_id") or "anon").strip()[:64]
@@ -475,6 +501,14 @@ def chat_ai():
 
     messages = [{"role": "system", "content": _AI_SYSTEM_PROMPT}] + sess["messages"]
 
+    if not OPENAI_API_KEY or _OpenAIClient is None:
+        reply = local_chat_reply(user_msg)
+        sess["messages"].append({"role": "assistant", "content": reply})
+        return jsonify({"ok": True, "reply": reply, "source": "local"})
+
+    if _openai_client is None:
+        _openai_client = _OpenAIClient(api_key=OPENAI_API_KEY)
+
     try:
         resp = _openai_client.chat.completions.create(
             model="gpt-4o",
@@ -487,7 +521,9 @@ def chat_ai():
         return jsonify({"ok": True, "reply": reply})
     except Exception as e:
         log.error("OpenAI error: %s", e)
-        return jsonify({"ok": False, "message": "Ошибка ИИ-консультанта. Попробуйте позже."}), 500
+        reply = local_chat_reply(user_msg)
+        sess["messages"].append({"role": "assistant", "content": reply})
+        return jsonify({"ok": True, "reply": reply, "source": "fallback"})
 
 
 @app.route("/api/contact", methods=["POST"])
