@@ -807,6 +807,14 @@
                 <!-- Таблица значений -->
                 <div class="matrix-values-grid" id="matrixValuesGrid"></div>
 
+                <div class="matrix-health-section" id="matrixHealthSection" style="display:none">
+                    <h3 class="matrix-health-title">Чакровая карта</h3>
+                    <p class="matrix-health-subtitle">Матрица по 7 чакрам: физика, энергия и эмоции.</p>
+                    <div class="matrix-health-layout">
+                        <div id="matrixHealthTableWrap"></div>
+                    </div>
+                </div>
+
                 <!-- Детальные интерпретации -->
                 <div class="matrix-interpretations" id="matrixInterps"></div>
 
@@ -2373,6 +2381,44 @@ function reduceArcana(n) {
     return n || 22;
 }
 
+function renderMatrixHealthTable(rows) {
+    const totals = rows.reduce((acc, row) => {
+        acc.physics += row.physics;
+        acc.energy += row.energy;
+        acc.emotions += row.emotions;
+        return acc;
+    }, { physics: 0, energy: 0, emotions: 0 });
+
+    return `
+        <table class="matrix-health-table">
+            <thead>
+                <tr>
+                    <th>Чакра</th>
+                    <th>Физика</th>
+                    <th>Энергия</th>
+                    <th>Эмоции</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows.map((row) => `
+                    <tr style="--chakra-color:${row.color}">
+                        <td class="chakra-name">${row.name}</td>
+                        <td>${row.physics}</td>
+                        <td>${row.energy}</td>
+                        <td>${row.emotions}</td>
+                    </tr>
+                `).join('')}
+                <tr class="matrix-health-total">
+                    <td class="chakra-name">ИТОГО</td>
+                    <td>${reduceArcana(totals.physics)}</td>
+                    <td>${reduceArcana(totals.energy)}</td>
+                    <td>${reduceArcana(totals.emotions)}</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+}
+
 function calcMatrix() {
     const name = document.getElementById('matrixName').value.trim() || 'Клиент';
     const dateVal = document.getElementById('matrixDate').value;
@@ -2497,6 +2543,22 @@ function calcMatrix() {
             <div class="mvc-key">${arc.key}</div>
         </div>`;
     }).join('');
+
+    const chakraRows = [
+        { name: 'Сахасрара', color: '#a86eff', physics: B, energy: Bin, emotions: Bin2 },
+        { name: 'Аджна', color: '#5867ff', physics: E, energy: Ein, emotions: Ein2 },
+        { name: 'Вишудха', color: '#42b7ff', physics: Zh, energy: Zhin, emotions: Zhin2 },
+        { name: 'Анахата', color: '#4fcf8e', physics: D, energy: AinC, emotions: BinC },
+        { name: 'Манипура', color: '#f2c04f', physics: V, energy: Vin, emotions: Vin2 },
+        { name: 'Свадхистана', color: '#ff9b4f', physics: I, energy: Iin, emotions: Iin2 },
+        { name: 'Муладхара', color: '#ff5b5b', physics: G, energy: Gin, emotions: Gin2 }
+    ];
+    const healthWrap = document.getElementById('matrixHealthTableWrap');
+    const healthSection = document.getElementById('matrixHealthSection');
+    if (healthWrap && healthSection) {
+        healthWrap.innerHTML = renderMatrixHealthTable(chakraRows);
+        healthSection.style.display = 'block';
+    }
 
     // Интерпретации для главных точек
     const mainKeys = ['A','B','V','G','D','E','Zh','I','Z'];
