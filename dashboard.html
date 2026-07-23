@@ -34,6 +34,28 @@
     </div>
 
     <nav class="sidebar-nav">
+        <div class="sidebar-command-card">
+            <div class="sidebar-command-head">
+                <span>Summary</span>
+                <strong id="sidebarSummaryStatus">не оплачена</strong>
+            </div>
+            <p>Профиль почти завершён — используйте быстрые действия и следите за платежами.</p>
+            <div class="sidebar-command-stats">
+                <div class="sidebar-command-stat">
+                    <span>Платежи</span>
+                    <strong id="sidebarPaymentsCount">0</strong>
+                </div>
+                <div class="sidebar-command-stat">
+                    <span>Сообщения</span>
+                    <strong id="sidebarMessagesCount">0</strong>
+                </div>
+            </div>
+            <div class="sidebar-command-actions">
+                <button type="button" onclick="showPage('booking', document.querySelector('[onclick*=booking]')); closeSidebar()">Запись</button>
+                <button type="button" onclick="showPage('subscription', document.querySelector('[onclick*=subscription]')); closeSidebar()">Доступ</button>
+            </div>
+        </div>
+
         <div class="sidebar-section-label">Главное</div>
         <a href="#" class="sidebar-link active" onclick="showPage('overview', this); closeSidebar()">
             <span class="sidebar-icon">⬡</span> Обзор
@@ -938,11 +960,14 @@ function loadUser() {
     const name = userData.name || localStorage.getItem('userName') || 'Гость';
     const trainingState = localStorage.getItem('trainingState') || 'not_paid';
     const trainingLabel = trainingState === 'accepted' ? 'зачислен' : (trainingState === 'waitlist' ? 'лист ожидания' : 'не оплачено');
+    const billingLabel = trainingState === 'accepted' ? 'оплачена' : (trainingState === 'waitlist' ? 'ожидание' : 'не оплачена');
 
     const initial = name.charAt(0).toUpperCase();
     document.getElementById('sidebarAvatar').textContent = initial;
     document.getElementById('sidebarName').textContent = name;
     document.getElementById('sidebarPlan').textContent = '— Обучение: ' + trainingLabel + ' —';
+    const summaryStatus = document.getElementById('sidebarSummaryStatus');
+    if (summaryStatus) summaryStatus.textContent = billingLabel;
     document.getElementById('profileAvatarBig').textContent = initial;
     document.getElementById('profileDisplayName').textContent = name;
     document.getElementById('overviewPlan').textContent = trainingLabel;
@@ -1602,6 +1627,7 @@ function updateUnreadBadge() {
             const unread = (data.messages || []).filter(m => m.sender_role === 'admin' && !m.read_at).length;
             const badge = document.getElementById('unreadBadge');
             const mobBadge = document.getElementById('mobUnreadBadge');
+            const sidebarMessagesCount = document.getElementById('sidebarMessagesCount');
             if (badge) {
                 badge.textContent = unread;
                 badge.style.display = unread > 0 ? '' : 'none';
@@ -1609,6 +1635,9 @@ function updateUnreadBadge() {
             if (mobBadge) {
                 mobBadge.textContent = unread;
                 mobBadge.style.display = unread > 0 ? '' : 'none';
+            }
+            if (sidebarMessagesCount) {
+                sidebarMessagesCount.textContent = String(unread);
             }
         })
         .catch(() => {});
