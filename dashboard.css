@@ -6430,3 +6430,56 @@ body.dashboard-intro .invoice-ledger .invoice-row {
     position: relative !important;
     z-index: 2 !important;
 }
+
+/* Matrix final restore */
+#page-matrix .matrix-visual-wrap {
+    padding: 18px !important;
+    border: 1px solid rgba(120, 146, 210, 0.4) !important;
+    outline: none !important;
+    border-radius: 22px !important;
+    overflow: hidden !important;
+    background:
+        radial-gradient(circle at 12% 14%, rgba(142, 110, 242, 0.18) 0%, transparent 38%),
+        radial-gradient(circle at 88% 12%, rgba(225, 177, 78, 0.16) 0%, transparent 32%),
+        radial-gradient(circle at 50% 90%, rgba(75, 122, 234, 0.14) 0%, transparent 42%),
+        linear-gradient(160deg, #c8d6f2 0%, #bfd0ef 48%, #b7caec 100%) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.72),
+        0 18px 36px rgba(8, 18, 44, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.42) !important;
+}
+
+#page-matrix .matrix-visual-wrap::before,
+#page-matrix .matrix-visual-wrap::after {
+    content: none !important;
+    animation: none !important;
+}
+
+#page-matrix .matrix-svg {
+    background: transparent !important;
+    border-radius: 14px !important;
+    border: 1px solid rgba(255, 255, 255, 0.75) !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(94, 122, 191, 0.16),
+        inset 0 24px 42px rgba(255, 255, 255, 0.18) !important;
+    filter: none !important;
+}
+
+#page-matrix .matrix-svg text {
+    fill: #121b36 !important;
+    stroke: none !important;
+    text-shadow: none !important;
+}
+
+#page-matrix .matrix-svg #mvVnum,
+#page-matrix .matrix-svg #mvGnum,
+#page-matrix .matrix-svg #mvAnum,
+#page-matrix .matrix-svg #mvBnum {
+    fill: #000000 !important;
+}
+
+#page-matrix .matrix-svg #progressionDotsGroup text {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
