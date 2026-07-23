@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-9">
+    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-10">
 </head>
 <body>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
@@ -917,6 +917,33 @@ function setStorageArray(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
 }
 
+function getSessionValue(key) {
+    return localStorage.getItem(key) || sessionStorage.getItem(key) || '';
+}
+
+function setSessionValue(key, value) {
+    localStorage.setItem(key, value);
+    sessionStorage.setItem(key, value);
+}
+
+function clearSessionValue(key) {
+    localStorage.removeItem(key);
+    sessionStorage.removeItem(key);
+}
+
+function getUserDataSnapshot() {
+    try {
+        return JSON.parse(localStorage.getItem('userData') || '{}');
+    } catch {
+        return {};
+    }
+}
+
+function getCurrentUserEmail() {
+    const userData = getUserDataSnapshot();
+    return (userData.email || getSessionValue('userEmail') || '').trim().toLowerCase();
+}
+
 function updateShopQuantity(button, delta) {
     const card = button.closest('.profile-shop-card');
     const valueEl = card ? card.querySelector('[data-qty-value]') : null;
@@ -934,9 +961,9 @@ function addAdminRecord(key, payload) {
 
 // Загрузка данных пользователя
 function loadUser() {
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const name = userData.name || localStorage.getItem('userName') || 'Гость';
-    const trainingState = localStorage.getItem('trainingState') || 'not_paid';
+    const userData = getUserDataSnapshot();
+    const name = userData.name || getSessionValue('userName') || 'Гость';
+    const trainingState = getSessionValue('trainingState') || 'not_paid';
     const trainingLabel = trainingState === 'accepted' ? 'зачислен' : (trainingState === 'waitlist' ? 'лист ожидания' : 'не оплачено');
 
     const initial = name.charAt(0).toUpperCase();
@@ -1246,9 +1273,9 @@ async function confirmPayment(e) {
         return;
     }
 
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const name = (localStorage.getItem('userName') || userData.name || holder || 'Ученик').trim();
-    const email = (userData.email || localStorage.getItem('userEmail') || '').trim();
+    const userData = getUserDataSnapshot();
+    const name = (getSessionValue('userName') || userData.name || holder || 'Ученик').trim();
+    const email = getCurrentUserEmail();
     const phone = (userData.phone || '').trim();
 
     if (!email) {
@@ -1366,14 +1393,16 @@ async function confirmPayment(e) {
 function confirmDeleteAccount() {
     if (confirm('Вы уверены? Все данные будут удалены без возможности восстановления.')) {
         localStorage.clear();
+        sessionStorage.clear();
         window.location.href = 'index.html';
     }
 }
 
 // Выход
 function dashLogout() {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userName');
+    clearSessionValue('isLoggedIn');
+    clearSessionValue('userName');
+    clearSessionValue('userEmail');
     window.location.href = 'index.html';
 }
 
@@ -1419,8 +1448,7 @@ async function cancelBooking(bookingId, btn) {
     btn.disabled = true;
     btn.textContent = '...';
     try {
-        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-        const email = (userData.email || localStorage.getItem('userEmail') || '').trim();
+        const email = getCurrentUserEmail();
         const res = await fetch(API_BASE + '/api/bookings/' + bookingId + '/cancel', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1448,8 +1476,7 @@ async function cancelBooking(bookingId, btn) {
 }
 
 async function loadSessions() {
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+    const email = getCurrentUserEmail();
 
     const upcomingEl = document.getElementById('sessionsUpcomingList');
     const pastEl     = document.getElementById('sessionsPastList');
@@ -1507,8 +1534,7 @@ async function loadSessions() {
 }
 
 async function loadOverviewSessions() {
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+    const email = getCurrentUserEmail();
     const upEl  = document.getElementById('overviewUpcomingList');
     const pastEl = document.getElementById('overviewPastList');
 
@@ -1546,8 +1572,7 @@ async function loadClientMessages() {
     if (!root) {
         return;
     }
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+    const email = getCurrentUserEmail();
     if (!email) {
         root.innerHTML = '<div class="empty">Добавьте email в профиле, чтобы пользоваться сообщениями</div>';
         return;
@@ -1591,8 +1616,7 @@ async function loadClientMessages() {
 }
 
 function updateUnreadBadge() {
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+    const email = getCurrentUserEmail();
     if (!email) return;
 
     fetch(API_BASE + '/api/messages?email=' + encodeURIComponent(email))
@@ -1616,8 +1640,7 @@ function updateUnreadBadge() {
 
 async function sendClientReply(e) {
     e.preventDefault();
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
+    const email = getCurrentUserEmail();
     const text = document.getElementById('clientReplyText').value.trim();
 
     if (!email) {
@@ -1775,7 +1798,7 @@ function updateThemeToggleBtn(mode) {
 
 // Проверка авторизации
 function checkAuth() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const isLoggedIn = getSessionValue('isLoggedIn');
     if (!isLoggedIn) {
         showDashboardLoginModal();
     }
@@ -1794,9 +1817,11 @@ function dashLoginSubmit(e) {
     if (!email || !pass) { errEl.textContent = 'Заполните все поля'; return; }
     if (pass.length < 6) { errEl.textContent = 'Пароль минимум 6 символов'; return; }
 
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userEmail', email);
-    if (!localStorage.getItem('userName')) localStorage.setItem('userName', email.split('@')[0]);
+    setSessionValue('isLoggedIn', 'true');
+    setSessionValue('userEmail', email);
+    if (!getSessionValue('userName')) {
+        setSessionValue('userName', email.split('@')[0]);
+    }
 
     document.getElementById('dashLoginOverlay').style.display = 'none';
     errEl.textContent = '';
@@ -1815,9 +1840,9 @@ function dashRegSubmit(e) {
     if (pass.length < 6) { errEl.textContent = 'Пароль минимум 6 символов'; return; }
     if (pass !== pass2) { errEl.textContent = 'Пароли не совпадают'; return; }
 
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userName', name);
+    setSessionValue('isLoggedIn', 'true');
+    setSessionValue('userEmail', email);
+    setSessionValue('userName', name);
 
     document.getElementById('dashLoginOverlay').style.display = 'none';
     errEl.textContent = '';
