@@ -685,9 +685,26 @@
                         <label>Имя клиента</label>
                         <input type="text" id="matrixName" placeholder="Введите имя" class="matrix-input">
                     </div>
-                    <div class="matrix-field">
+                    <div class="matrix-field matrix-field-date">
                         <label>Дата рождения</label>
-                        <input type="date" id="matrixDate" class="matrix-input">
+                        <div class="matrix-timer-wheels" aria-label="Дата рождения: день, месяц и год">
+                            <div class="matrix-timer-wheel" data-field="day">
+                                <div class="matrix-wheel-track" id="matrixDayTrack"></div>
+                            </div>
+                            <div class="matrix-timer-wheel matrix-timer-sep">:</div>
+                            <div class="matrix-timer-wheel" data-field="month">
+                                <div class="matrix-wheel-track" id="matrixMonthTrack"></div>
+                            </div>
+                            <div class="matrix-timer-wheel matrix-timer-sep">:</div>
+                            <div class="matrix-timer-wheel" data-field="year">
+                                <div class="matrix-wheel-track" id="matrixYearTrack"></div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="matrixDate">
+                        <div class="matrix-date-meta">
+                            <span class="matrix-date-gesture">Свайп вверх/вниз как в таймере</span>
+                            <span id="matrixAgePreview" class="matrix-age-preview">Возраст: —</span>
+                        </div>
                     </div>
                     <button class="matrix-calc-btn" onclick="calcMatrix()">Рассчитать ✦</button>
                 </div>
@@ -699,6 +716,7 @@
                 <div class="matrix-person-header">
                     <span id="matrixPersonName" class="matrix-person-name"></span>
                     <span id="matrixPersonDate" class="matrix-person-date"></span>
+                    <span id="matrixPersonAge" class="matrix-person-age"></span>
                 </div>
 
                 <!-- Визуальная матрица (SVG) — Правильная октаграмма -->
@@ -706,7 +724,7 @@
                   <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
 
                     <!-- Шаблон матрицы как фон -->
-                    <image href="matrix-template.png" x="0" y="0" width="876" height="768"/>
+                    <image href="matrix-template-clean.png?v=21" x="0" y="0" width="876" height="768"/>
 
                     <!-- ════ ЧИСЛА ПОВЕРХ ШАБЛОНА (точные координаты по пикселям) ════ -->
 
@@ -1075,7 +1093,8 @@ function showPage(pageId, linkEl) {
         booking: ['Новая запись', 'Запишитесь на прием'],
         subscription: ['Обучение', 'Оплата, лимит мест, лист ожидания'],
         messages: ['Сообщения', 'Диалог клиента с администратором'],
-        settings: ['Настройки', 'Параметры аккаунта и уведомлений']
+        settings: ['Настройки', 'Параметры аккаунта и уведомлений'],
+        matrix: ['Матрица Судьбы', 'Расчёт и расшифровка по дате рождения']
     };
     if (titles[pageId]) {
         document.getElementById('topbarTitle').textContent = titles[pageId][0];
@@ -1089,6 +1108,9 @@ function showPage(pageId, linkEl) {
     }
     if (pageId === 'overview') {
         loadOverviewSessions();
+    }
+    if (pageId === 'matrix') {
+        initMatrixDateSelects();
     }
     window.scrollTo(0, 0);
 }
@@ -2490,6 +2512,292 @@ function reduceArcana(n) {
     return n || 22;
 }
 
+function parseMatrixDateValue(value) {
+    if (!value || typeof value !== 'string') return null;
+    const [yearStr, monthStr, dayStr] = value.split('-');
+    const day = Number(dayStr);
+    const month = Number(monthStr);
+    const year = Number(yearStr);
+    if (!day || !month || !year) return null;
+
+    const date = new Date(year, month - 1, day);
+    if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+    ) return null;
+
+    return { day, month, year, date };
+}
+
+function matrixAgeLabel(age) {
+    const absAge = Math.abs(age);
+    const mod10 = absAge % 10;
+    const mod100 = absAge % 100;
+    if (mod10 === 1 && mod100 !== 11) return `${age} год`;
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return `${age} года`;
+    return `${age} лет`;
+}
+
+function calculateMatrixAge(birthDate, today = new Date()) {
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDelta = today.getMonth() - birthDate.getMonth();
+    if (monthDelta < 0 || (monthDelta === 0 && today.getDate() < birthDate.getDate())) {
+        age -= 1;
+    }
+    return age;
+}
+
+function updateMatrixAgePreview() {
+    const dateInput = document.getElementById('matrixDate');
+    const agePreview = document.getElementById('matrixAgePreview');
+    if (!dateInput || !agePreview) return;
+
+    const parsed = parseMatrixDateValue(dateInput.value);
+    if (!parsed) {
+        agePreview.textContent = 'Возраст: —';
+        return;
+    }
+
+    const age = calculateMatrixAge(parsed.date);
+    agePreview.textContent = age >= 0 ? `Возраст: ${matrixAgeLabel(age)}` : 'Возраст: —';
+}
+
+function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+}
+
+const matrixWheelDateState = { day: 1, month: 1, year: 2000 };
+const matrixWheelTouchStart = {};
+const matrixWheelTouchCarry = {};
+const matrixWheelTouchVelocity = {};
+const matrixWheelTouchTimestamp = {};
+const matrixWheelInertiaTimer = {};
+const matrixWheelStepQueue = {};
+const matrixWheelStepRunning = {};
+const matrixWheelRootsByField = {};
+const MATRIX_WHEEL_SWIPE_TRIGGER = 4;
+const MATRIX_WHEEL_SWIPE_STEP = 9;
+const MATRIX_WHEEL_VELOCITY_MIN = 0.22;
+
+function clearMatrixWheelInertia(field) {
+    if (!matrixWheelInertiaTimer[field]) return;
+    clearInterval(matrixWheelInertiaTimer[field]);
+    matrixWheelInertiaTimer[field] = null;
+}
+
+function pulseMatrixWheelStep(field, direction) {
+    const root = matrixWheelRootsByField[field];
+    if (!root) return;
+    const cls = direction > 0 ? 'matrix-wheel-spin-up' : 'matrix-wheel-spin-down';
+    root.classList.remove('matrix-wheel-spin-up', 'matrix-wheel-spin-down');
+    root.offsetHeight;
+    root.classList.add(cls);
+    setTimeout(() => root.classList.remove(cls), 90);
+}
+
+function processMatrixWheelQueue(field) {
+    if ((matrixWheelStepQueue[field] || 0) === 0) {
+        matrixWheelStepRunning[field] = false;
+        return;
+    }
+    matrixWheelStepRunning[field] = true;
+    const direction = matrixWheelStepQueue[field] > 0 ? 1 : -1;
+    matrixWheelStepQueue[field] -= direction;
+    pulseMatrixWheelStep(field, direction);
+    adjustMatrixDateField(field, direction);
+    setTimeout(() => processMatrixWheelQueue(field), 42);
+}
+
+function queueMatrixDateFieldAdjust(field, delta) {
+    if (!delta) return;
+    matrixWheelStepQueue[field] = (matrixWheelStepQueue[field] || 0) + delta;
+    if (matrixWheelStepRunning[field]) return;
+    processMatrixWheelQueue(field);
+}
+
+function startMatrixWheelInertia(field, velocity) {
+    clearMatrixWheelInertia(field);
+    let v = velocity;
+    matrixWheelInertiaTimer[field] = setInterval(() => {
+        if (Math.abs(v) < 0.05) {
+            clearMatrixWheelInertia(field);
+            return;
+        }
+        const direction = v > 0 ? 1 : -1;
+        const speed = Math.min(3, Math.max(1, Math.round(Math.abs(v) * 6)));
+        queueMatrixDateFieldAdjust(field, direction * speed);
+        v *= 0.72;
+    }, 70);
+}
+
+function cycleValue(value, min, max, delta) {
+    const range = max - min + 1;
+    return ((value - min + delta) % range + range) % range + min;
+}
+
+function parseMatrixSelectValues() {
+    const { day, month, year } = matrixWheelDateState;
+    if (!day || !month || !year) return null;
+    return { day, month, year };
+}
+
+function fillMatrixDateSelects(day, month, year) {
+    matrixWheelDateState.day = day;
+    matrixWheelDateState.month = month;
+    matrixWheelDateState.year = year;
+}
+
+function getMatrixFieldValue(field, offset) {
+    const currentYear = new Date().getFullYear();
+    if (field === 'day') {
+        const max = daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year);
+        return cycleValue(matrixWheelDateState.day, 1, max, offset);
+    }
+    if (field === 'month') return cycleValue(matrixWheelDateState.month, 1, 12, offset);
+    return Math.min(Math.max(matrixWheelDateState.year + offset, 1900), currentYear);
+}
+
+function formatMatrixFieldValue(field, value) {
+    return field === 'year' ? String(value) : String(value).padStart(2, '0');
+}
+
+function renderMatrixWheel(field) {
+    const id = field === 'day' ? 'matrixDayTrack' : field === 'month' ? 'matrixMonthTrack' : 'matrixYearTrack';
+    const track = document.getElementById(id);
+    if (!track) return;
+    const offsets = [-2, -1, 0, 1, 2];
+    track.innerHTML = offsets.map((offset) => {
+        const value = getMatrixFieldValue(field, offset);
+        const cls = offset === 0 ? 'is-active' : (Math.abs(offset) === 1 ? 'is-near' : 'is-far');
+        return `<button type="button" class="matrix-wheel-item ${cls}" data-field="${field}" data-value="${value}">${formatMatrixFieldValue(field, value)}</button>`;
+    }).join('');
+}
+
+function renderMatrixWheels() {
+    renderMatrixWheel('day');
+    renderMatrixWheel('month');
+    renderMatrixWheel('year');
+}
+
+function syncMatrixDateFromSelects() {
+    const dateInput = document.getElementById('matrixDate');
+    if (!dateInput) return;
+    const values = parseMatrixSelectValues();
+    if (!values) {
+        dateInput.value = '';
+        updateMatrixAgePreview();
+        return;
+    }
+    const maxYear = new Date().getFullYear();
+    const year = Math.min(Math.max(values.year, 1900), maxYear);
+    const month = Math.min(Math.max(values.month, 1), 12);
+    const day = Math.min(Math.max(values.day, 1), daysInMonth(month, year));
+    fillMatrixDateSelects(day, month, year);
+    dateInput.value = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    updateMatrixAgePreview();
+    renderMatrixWheels();
+}
+
+function adjustMatrixDateField(field, delta) {
+    const currentYear = new Date().getFullYear();
+    if (field === 'day') {
+        const max = daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year);
+        matrixWheelDateState.day = cycleValue(matrixWheelDateState.day, 1, max, delta);
+    } else if (field === 'month') {
+        matrixWheelDateState.month = cycleValue(matrixWheelDateState.month, 1, 12, delta);
+        matrixWheelDateState.day = Math.min(matrixWheelDateState.day, daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year));
+    } else if (field === 'year') {
+        matrixWheelDateState.year = Math.min(Math.max(matrixWheelDateState.year + delta, 1900), currentYear);
+        matrixWheelDateState.day = Math.min(matrixWheelDateState.day, daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year));
+    }
+    syncMatrixDateFromSelects();
+}
+
+function initMatrixDateSelects() {
+    const dateInput = document.getElementById('matrixDate');
+    const wheelRoots = document.querySelectorAll('.matrix-timer-wheel[data-field]');
+    if (!dateInput || wheelRoots.length === 0 || dateInput.dataset.enhanced === '1') return;
+    dateInput.dataset.enhanced = '1';
+
+    const parsed = parseMatrixDateValue(dateInput.value);
+    const now = new Date();
+    fillMatrixDateSelects(
+        parsed ? parsed.day : now.getDate(),
+        parsed ? parsed.month : now.getMonth() + 1,
+        parsed ? parsed.year : now.getFullYear()
+    );
+    syncMatrixDateFromSelects();
+
+    wheelRoots.forEach((root) => {
+        const field = root.dataset.field;
+        matrixWheelRootsByField[field] = root;
+        root.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            queueMatrixDateFieldAdjust(field, e.deltaY < 0 ? 1 : -1);
+        }, { passive: false });
+        root.addEventListener('touchstart', (e) => {
+            if (e.touches.length !== 1) return;
+            clearMatrixWheelInertia(field);
+            matrixWheelTouchStart[field] = e.touches[0].clientY;
+            matrixWheelTouchCarry[field] = 0;
+            matrixWheelTouchVelocity[field] = 0;
+            matrixWheelTouchTimestamp[field] = Date.now();
+        }, { passive: true });
+        root.addEventListener('touchmove', (e) => {
+            if (matrixWheelTouchStart[field] == null) return;
+            const currentY = e.touches[0].clientY;
+            const diff = matrixWheelTouchStart[field] - currentY;
+            const now = Date.now();
+            const elapsed = Math.max(8, now - (matrixWheelTouchTimestamp[field] || now));
+            matrixWheelTouchVelocity[field] = diff / elapsed;
+            matrixWheelTouchTimestamp[field] = now;
+            let carry = (matrixWheelTouchCarry[field] || 0) + diff;
+            if (Math.abs(carry) < MATRIX_WHEEL_SWIPE_TRIGGER) {
+                matrixWheelTouchStart[field] = currentY;
+                return;
+            }
+            e.preventDefault();
+            const steps = Math.trunc(carry / MATRIX_WHEEL_SWIPE_STEP);
+            if (steps !== 0) {
+                queueMatrixDateFieldAdjust(field, steps);
+                carry -= steps * MATRIX_WHEEL_SWIPE_STEP;
+            }
+            matrixWheelTouchCarry[field] = carry;
+            matrixWheelTouchStart[field] = currentY;
+        }, { passive: false });
+        root.addEventListener('touchend', () => {
+            if (Math.abs(matrixWheelTouchVelocity[field] || 0) >= MATRIX_WHEEL_VELOCITY_MIN) {
+                startMatrixWheelInertia(field, matrixWheelTouchVelocity[field]);
+            }
+            matrixWheelTouchStart[field] = null;
+            matrixWheelTouchCarry[field] = 0;
+            matrixWheelTouchVelocity[field] = 0;
+        });
+        root.addEventListener('touchcancel', () => {
+            matrixWheelTouchStart[field] = null;
+            matrixWheelTouchCarry[field] = 0;
+            matrixWheelTouchVelocity[field] = 0;
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        const item = e.target.closest('.matrix-wheel-item');
+        if (!item) return;
+        const field = item.dataset.field;
+        const value = Number(item.dataset.value);
+        if (!field || !value) return;
+        matrixWheelDateState[field] = value;
+        syncMatrixDateFromSelects();
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMatrixDateSelects);
+} else {
+    initMatrixDateSelects();
+}
+
 function renderMatrixHealthTable(rows) {
     const totals = rows.reduce((acc, row) => {
         acc.physics += row.physics;
@@ -2499,6 +2807,18 @@ function renderMatrixHealthTable(rows) {
     }, { physics: 0, energy: 0, emotions: 0 });
 
     return `
+        <div class="matrix-health-cards">
+            ${rows.map((row) => `
+                <article class="matrix-health-card" style="--chakra-color:${row.color}">
+                    <div class="matrix-health-card-name">${row.name}</div>
+                    <div class="matrix-health-card-values">
+                        <span><b>${row.physics}</b><small>Физика</small></span>
+                        <span><b>${row.energy}</b><small>Энергия</small></span>
+                        <span><b>${row.emotions}</b><small>Эмоции</small></span>
+                    </div>
+                </article>
+            `).join('')}
+        </div>
         <table class="matrix-health-table">
             <thead>
                 <tr>
@@ -2529,15 +2849,15 @@ function renderMatrixHealthTable(rows) {
 }
 
 function calcMatrix() {
+    syncMatrixDateFromSelects();
     const name = document.getElementById('matrixName').value.trim() || 'Клиент';
     const dateVal = document.getElementById('matrixDate').value;
     if (!dateVal) { showNotify('Введите дату рождения', 'warn'); return; }
 
-    // YYYY-MM-DD from <input type="date">: parse manually to avoid timezone shifts
-    const [yearStr, monthStr, dayStr] = dateVal.split('-');
-    const day   = Number(dayStr);
-    const month = Number(monthStr);
-    const year  = Number(yearStr);
+    const birth = parseMatrixDateValue(dateVal);
+    if (!birth) { showNotify('Проверьте корректность даты', 'warn'); return; }
+    const { day, month, year, date: birthDate } = birth;
+    const age = calculateMatrixAge(birthDate);
 
     // Главные точки октогона
     const A = reduceArcana(day);                             // левый (0 лет)
@@ -2608,6 +2928,8 @@ function calcMatrix() {
     const dStr = `${String(day).padStart(2,'0')}.${String(month).padStart(2,'0')}.${year}`;
     document.getElementById('matrixPersonName').textContent = name;
     document.getElementById('matrixPersonDate').textContent = dStr;
+    const ageEl = document.getElementById('matrixPersonAge');
+    if (ageEl) ageEl.textContent = age >= 0 ? `· ${matrixAgeLabel(age)}` : '';
 
     // Таблица значений — все позиции
     const allPositions = [
