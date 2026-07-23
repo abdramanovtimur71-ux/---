@@ -3558,7 +3558,9 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     stroke-width: 0;
     text-shadow: none;
 }
-#page-matrix .matrix-svg #progressionDotsGroup text {`r`n    display: none !important;`r`n}
+#page-matrix .matrix-svg #progressionDotsGroup text {
+    display: none !important;
+}
 #page-matrix .matrix-svg #mvAinNum,
 #page-matrix .matrix-svg #mvBinNum,
 #page-matrix .matrix-svg #mvAinCnum,
@@ -5090,7 +5092,9 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
 #page-matrix .matrix-svg #mvDnum {
     fill: #7d5b16 !important;
 }
-#page-matrix .matrix-svg #progressionDotsGroup text {`r`n    display: none !important;`r`n}
+#page-matrix .matrix-svg #progressionDotsGroup text {
+    display: none !important;
+}
 /* Keep matrix numbers visible without background image */
 #page-matrix .matrix-svg #mvAinCnum,
 #page-matrix .matrix-svg #mvBinCnum,

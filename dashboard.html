@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-restored-state-20260724-matrix-final">
+    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-restored-state-20260724-matrix-final-chakrafix">
 </head>
 <body>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
@@ -848,6 +848,13 @@
 
                 <!-- Детальные интерпретации -->
                 <div class="matrix-interpretations" id="matrixInterps"></div>
+
+                <!-- Карта чакр -->
+                <div class="matrix-health-section" id="matrixHealthSection" style="display:none">
+                    <h3 class="matrix-health-title">Чакры</h3>
+                    <p class="matrix-health-subtitle">Энергетический срез по матрице: физика, энергия и эмоции.</p>
+                    <div class="matrix-health-layout" id="matrixHealthLayout"></div>
+                </div>
 
                 <!-- Новые разделы анализа -->
                 <div class="matrix-extra-wrap" id="matrixExtraWrap" style="display:none">
@@ -2739,6 +2746,57 @@ function calcMatrix() {
                 </div>${positionDetails}
             </div>`;
         }).join('');
+
+    const chakraRows = [
+        { name: 'Сахасрара', color: '#8f4edb', base: Bin2 },
+        { name: 'Аджна', color: '#4066d8', base: Bin },
+        { name: 'Вишудха', color: '#36a8e5', base: BinC },
+        { name: 'Анахата', color: '#35b979', base: D },
+        { name: 'Манипура', color: '#d7b24f', base: K },
+        { name: 'Свадхистана', color: '#d68645', base: Gin },
+        { name: 'Муладхара', color: '#c75050', base: G },
+    ].map(item => ({
+        ...item,
+        phys: item.base,
+        energy: reduceArcana(item.base + A),
+        emotions: reduceArcana(item.base + B)
+    }));
+
+    const chakraTotals = {
+        phys: reduceArcana(chakraRows.reduce((sum, row) => sum + row.phys, 0)),
+        energy: reduceArcana(chakraRows.reduce((sum, row) => sum + row.energy, 0)),
+        emotions: reduceArcana(chakraRows.reduce((sum, row) => sum + row.emotions, 0))
+    };
+
+    const chakraLayout = document.getElementById('matrixHealthLayout');
+    const chakraSection = document.getElementById('matrixHealthSection');
+    if (chakraLayout && chakraSection) {
+        chakraLayout.innerHTML = `<table class="matrix-health-table">
+            <thead>
+                <tr>
+                    <th>ЧАКРА</th>
+                    <th>ФИЗИКА</th>
+                    <th>ЭНЕРГИЯ</th>
+                    <th>ЭМОЦИИ</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${chakraRows.map(row => `<tr style="--chakra-color:${row.color}">
+                    <td class="chakra-name">${row.name}</td>
+                    <td>${row.phys}</td>
+                    <td>${row.energy}</td>
+                    <td>${row.emotions}</td>
+                </tr>`).join('')}
+                <tr class="matrix-health-total">
+                    <td class="chakra-name">Итого</td>
+                    <td>${chakraTotals.phys}</td>
+                    <td>${chakraTotals.energy}</td>
+                    <td>${chakraTotals.emotions}</td>
+                </tr>
+            </tbody>
+        </table>`;
+        chakraSection.style.display = 'block';
+    }
 
     document.getElementById('matrixTalents').innerHTML = renderMatrixExtraSection(
         'Таланты',
