@@ -3,7 +3,6 @@ import re
 import secrets
 import sqlite3
 import logging
-import hashlib
 from collections import Counter, defaultdict
 from contextlib import closing
 from io import StringIO
@@ -40,7 +39,6 @@ REMINDER_JOB_ENABLED = os.getenv("REMINDER_JOB_ENABLED", "true").lower() == "tru
 REMINDER_JOB_INTERVAL_SECONDS = int(os.getenv("REMINDER_JOB_INTERVAL_SECONDS", "60"))
 TASK_SECRET = os.getenv("TASK_SECRET", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-PASSWORD_RESET_TTL_MINUTES = int(os.getenv("PASSWORD_RESET_TTL_MINUTES", "10"))
 
 _openai_client = None
 _CHAT_SESSIONS: dict = {}  # session_id → {ts, messages}
@@ -78,7 +76,7 @@ def get_conn():
     return conn
 
 
-_ALLOWED_TABLES = {"bookings", "training_enrollments", "payments", "purchases", "messages", "auth_accounts", "password_reset_codes"}
+_ALLOWED_TABLES = {"bookings", "training_enrollments", "payments", "purchases", "messages"}
 _ALLOWED_COLUMNS_RE = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
 
 def ensure_column(conn, table: str, column: str, ddl: str):
@@ -186,45 +184,12 @@ def init_db():
             )
             """
         )
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS auth_accounts (
-                email TEXT PRIMARY KEY,
-                password_hash TEXT NOT NULL,
-                updated_at TEXT NOT NULL
-            )
-            """
-        )
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS password_reset_codes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL DEFAULT 0,
-                email TEXT NOT NULL,
-                phone TEXT NOT NULL,
-                channel TEXT NOT NULL,
-                code_hash TEXT NOT NULL,
-                expires_at TEXT NOT NULL,
-                consumed INTEGER NOT NULL DEFAULT 0,
-                attempts INTEGER NOT NULL DEFAULT 0,
-                created_at TEXT NOT NULL
-            )
-            """
-        )
         ensure_column(conn, "bookings", "reminder_24h_sent", "INTEGER NOT NULL DEFAULT 0")
         ensure_column(conn, "bookings", "reminder_2h_sent", "INTEGER NOT NULL DEFAULT 0")
         ensure_column(conn, "bookings", "reminder_24h_sent_at", "TEXT")
         ensure_column(conn, "bookings", "reminder_2h_sent_at", "TEXT")
         ensure_column(conn, "purchases", "unit_price", "INTEGER NOT NULL DEFAULT 0")
         ensure_column(conn, "purchases", "quantity", "INTEGER NOT NULL DEFAULT 1")
-        ensure_column(conn, "password_reset_codes", "user_id", "INTEGER NOT NULL DEFAULT 0")
-        ensure_column(conn, "password_reset_codes", "email", "TEXT NOT NULL DEFAULT ''")
-        ensure_column(conn, "password_reset_codes", "phone", "TEXT NOT NULL DEFAULT ''")
-        ensure_column(conn, "password_reset_codes", "channel", "TEXT NOT NULL DEFAULT 'sms'")
-        ensure_column(conn, "password_reset_codes", "expires_at", "TEXT NOT NULL DEFAULT ''")
-        ensure_column(conn, "password_reset_codes", "consumed", "INTEGER NOT NULL DEFAULT 0")
-        ensure_column(conn, "password_reset_codes", "attempts", "INTEGER NOT NULL DEFAULT 0")
-        ensure_column(conn, "password_reset_codes", "created_at", "TEXT NOT NULL DEFAULT ''")
         conn.commit()
         ensure_column(conn, "bookings", "status", "TEXT NOT NULL DEFAULT 'confirmed'")
         ensure_column(conn, "bookings", "cancelled_at", "TEXT")
@@ -333,103 +298,6 @@ def validate_phone(phone: str) -> bool:
     if not phone:
         return True
     return bool(re.match(r"^\+?[0-9\-\s\(\)]{7,20}$", phone))
-
-
-def normalize_phone(phone: str) -> str:
-    digits = "".join(ch for ch in (phone or "") if ch.isdigit())
-    if not digits:
-        return ""
-    if len(digits) == 11 and digits.startswith("8"):
-        digits = "7" + digits[1:]
-    if len(digits) == 10:
-        digits = "7" + digits
-    if len(digits) < 11 or len(digits) > 15:
-        return ""
-    return f"+{digits}"
-
-
-def validate_strong_password(password: str) -> bool:
-    if len(password or "") < 8:
-        return False
-    has_letter = bool(re.search(r"[A-Za-zА-Яа-я]", password))
-    has_digit = bool(re.search(r"\d", password))
-    return has_letter and has_digit
-
-
-def hash_user_password(password: str) -> str:
-    secret = app.config.get("SECRET_KEY") or "dev-secret"
-    return hashlib.sha256(f"{secret}:{password}".encode("utf-8")).hexdigest()
-
-
-def hash_reset_code(email: str, code: str) -> str:
-    secret = app.config.get("SECRET_KEY") or "dev-secret"
-    return hashlib.sha256(f"{secret}:{email.lower()}:{code}".encode("utf-8")).hexdigest()
-
-
-def is_local_debug_request() -> bool:
-    host = (request.host or "").lower()
-    debug_env = os.getenv("PASSWORD_RESET_DEBUG", "").strip().lower()
-    if debug_env in {"1", "true", "yes"}:
-        return True
-    return host.startswith("127.0.0.1") or host.startswith("localhost")
-
-
-def send_twilio_message(channel: str, to_phone: str, text: str):
-    account_sid = os.getenv("TWILIO_ACCOUNT_SID", "").strip()
-    auth_token = os.getenv("TWILIO_AUTH_TOKEN", "").strip()
-    from_sms = os.getenv("TWILIO_FROM_SMS", "").strip()
-    from_whatsapp = os.getenv("TWILIO_FROM_WHATSAPP", "").strip()
-
-    if not account_sid or not auth_token:
-        return False, "twilio-not-configured"
-
-    to_value = to_phone
-    from_value = from_sms
-    if channel == "whatsapp":
-        if not from_whatsapp:
-            return False, "twilio-whatsapp-not-configured"
-        from_value = from_whatsapp
-        to_value = f"whatsapp:{to_phone}"
-    elif channel == "sms":
-        if not from_sms:
-            return False, "twilio-sms-not-configured"
-    else:
-        return False, "unsupported-channel"
-
-    url = f"https://api.twilio.com/2010-04-01/Accounts/{account_sid}/Messages.json"
-    payload = {"To": to_value, "From": from_value, "Body": text}
-    try:
-        resp = requests.post(url, data=payload, auth=(account_sid, auth_token), timeout=20)
-        if resp.status_code >= 400:
-            return False, f"twilio-http-{resp.status_code}"
-        return True, "twilio-sent"
-    except requests.RequestException as exc:
-        return False, f"twilio-error: {exc}"
-
-
-def send_password_reset_code(channel: str, to_phone: str, text: str):
-    twilio_result = send_twilio_message(channel, to_phone, text)
-    if twilio_result[0]:
-        return twilio_result
-
-    if channel == "whatsapp":
-        api_url = os.getenv("WHATSAPP_API_URL")
-        api_token = os.getenv("WHATSAPP_API_TOKEN")
-        if not (api_url and api_token):
-            return twilio_result
-        try:
-            resp = requests.post(
-                api_url,
-                json={"message": text, "to": to_phone},
-                headers={"Authorization": f"Bearer {api_token}"},
-                timeout=20,
-            )
-            if resp.status_code >= 400:
-                return False, f"whatsapp-http-{resp.status_code}"
-            return True, "whatsapp-sent"
-        except requests.RequestException as exc:
-            return False, f"whatsapp-error: {exc}"
-    return twilio_result
 
 
 def send_email_notification(subject: str, text: str):
@@ -643,126 +511,6 @@ def contact_form():
 @app.route("/api/health", methods=["GET"])
 def health():
     return jsonify({"ok": True})
-
-
-@app.route("/api/auth/password/forgot", methods=["POST"])
-@limiter.limit("20 per hour")
-def auth_password_forgot():
-    payload = request.get_json(silent=True) or {}
-    email = (payload.get("email") or "").strip().lower()
-    phone = (payload.get("phone") or "").strip()
-    channel = (payload.get("channel") or "").strip().lower()
-
-    if not validate_email(email):
-        return jsonify({"ok": False, "message": "Укажите корректный email"}), 400
-    if channel not in {"sms", "whatsapp"}:
-        return jsonify({"ok": False, "message": "Канал должен быть sms или whatsapp"}), 400
-    if not validate_phone(phone):
-        return jsonify({"ok": False, "message": "Укажите корректный номер телефона"}), 400
-
-    normalized_phone = normalize_phone(phone)
-    if not normalized_phone:
-        return jsonify({"ok": False, "message": "Телефон должен быть в международном формате"}), 400
-
-    code = f"{secrets.randbelow(1000000):06d}"
-    now = datetime.now()
-    expires_at = (now + timedelta(minutes=PASSWORD_RESET_TTL_MINUTES)).isoformat()
-    code_hash = hash_reset_code(email, code)
-
-    with closing(get_conn()) as conn:
-        conn.execute(
-            "UPDATE password_reset_codes SET consumed = 1 WHERE email = ? AND consumed = 0",
-            (email,),
-        )
-        conn.execute(
-            """
-            INSERT INTO password_reset_codes (user_id, email, phone, channel, code_hash, expires_at, consumed, attempts, created_at)
-            VALUES (0, ?, ?, ?, ?, ?, 0, 0, ?)
-            """,
-            (email, normalized_phone, channel, code_hash, expires_at, now.isoformat()),
-        )
-        conn.commit()
-
-    message = (
-        f"Код восстановления пароля: {code}. "
-        f"Срок действия — {PASSWORD_RESET_TTL_MINUTES} минут."
-    )
-    delivery = send_password_reset_code(channel, normalized_phone, message)
-    include_debug_code = is_local_debug_request()
-
-    if not delivery[0] and not include_debug_code:
-        return jsonify({"ok": False, "message": "Не удалось отправить код. Проверьте настройки канала отправки."}), 502
-
-    response = {"ok": True, "message": "Код подтверждения отправлен", "channel": channel, "delivery": delivery[1]}
-    if include_debug_code:
-        response["debugCode"] = code
-        if not delivery[0]:
-            response["message"] = "Канал не настроен. В локальном режиме код возвращен в ответе."
-    return jsonify(response)
-
-
-@app.route("/api/auth/password/reset", methods=["POST"])
-@limiter.limit("30 per hour")
-def auth_password_reset():
-    payload = request.get_json(silent=True) or {}
-    email = (payload.get("email") or "").strip().lower()
-    code = (payload.get("code") or "").strip()
-    new_password = payload.get("newPassword") or ""
-
-    if not validate_email(email):
-        return jsonify({"ok": False, "message": "Укажите корректный email"}), 400
-    if not re.fullmatch(r"\d{6}", code):
-        return jsonify({"ok": False, "message": "Код должен содержать 6 цифр"}), 400
-    if not validate_strong_password(new_password):
-        return jsonify({"ok": False, "message": "Пароль должен быть от 8 символов и содержать буквы и цифры"}), 400
-
-    with closing(get_conn()) as conn:
-        row = conn.execute(
-            """
-            SELECT id, code_hash, expires_at, attempts
-            FROM password_reset_codes
-            WHERE email = ? AND consumed = 0
-            ORDER BY id DESC
-            LIMIT 1
-            """,
-            (email,),
-        ).fetchone()
-        if not row:
-            return jsonify({"ok": False, "message": "Сначала запросите код восстановления"}), 400
-
-        expires_at = parse_iso(row["expires_at"])
-        if not expires_at or expires_at < datetime.now():
-            conn.execute("UPDATE password_reset_codes SET consumed = 1 WHERE id = ?", (row["id"],))
-            conn.commit()
-            return jsonify({"ok": False, "message": "Срок действия кода истёк. Запросите новый код"}), 400
-
-        expected_hash = hash_reset_code(email, code)
-        if expected_hash != row["code_hash"]:
-            attempts = int(row["attempts"] or 0) + 1
-            consumed = 1 if attempts >= 5 else 0
-            conn.execute(
-                "UPDATE password_reset_codes SET attempts = ?, consumed = ? WHERE id = ?",
-                (attempts, consumed, row["id"]),
-            )
-            conn.commit()
-            if consumed:
-                return jsonify({"ok": False, "message": "Превышено число попыток. Запросите новый код"}), 400
-            return jsonify({"ok": False, "message": "Неверный код подтверждения"}), 400
-
-        conn.execute("UPDATE password_reset_codes SET consumed = 1 WHERE id = ?", (row["id"],))
-        conn.execute(
-            """
-            INSERT INTO auth_accounts (email, password_hash, updated_at)
-            VALUES (?, ?, ?)
-            ON CONFLICT(email) DO UPDATE SET
-                password_hash = excluded.password_hash,
-                updated_at = excluded.updated_at
-            """,
-            (email, hash_user_password(new_password), datetime.now().isoformat()),
-        )
-        conn.commit()
-
-    return jsonify({"ok": True, "message": "Пароль успешно обновлён"})
 
 
 @app.route("/api/admin/login", methods=["POST"])

@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260720cosmic-header-1">
+    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-9">
 </head>
 <body>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
@@ -685,26 +685,9 @@
                         <label>Имя клиента</label>
                         <input type="text" id="matrixName" placeholder="Введите имя" class="matrix-input">
                     </div>
-                    <div class="matrix-field matrix-field-date">
+                    <div class="matrix-field">
                         <label>Дата рождения</label>
-                        <div class="matrix-timer-wheels" aria-label="Дата рождения: день, месяц и год">
-                            <div class="matrix-timer-wheel" data-field="day">
-                                <div class="matrix-wheel-track" id="matrixDayTrack"></div>
-                            </div>
-                            <div class="matrix-timer-wheel matrix-timer-sep">:</div>
-                            <div class="matrix-timer-wheel" data-field="month">
-                                <div class="matrix-wheel-track" id="matrixMonthTrack"></div>
-                            </div>
-                            <div class="matrix-timer-wheel matrix-timer-sep">:</div>
-                            <div class="matrix-timer-wheel" data-field="year">
-                                <div class="matrix-wheel-track" id="matrixYearTrack"></div>
-                            </div>
-                        </div>
-                        <input type="hidden" id="matrixDate">
-                        <div class="matrix-date-meta">
-                            <span class="matrix-date-gesture">Свайп вверх/вниз как в таймере</span>
-                            <span id="matrixAgePreview" class="matrix-age-preview">Возраст: —</span>
-                        </div>
+                        <input type="date" id="matrixDate" class="matrix-input">
                     </div>
                     <button class="matrix-calc-btn" onclick="calcMatrix()">Рассчитать ✦</button>
                 </div>
@@ -716,7 +699,6 @@
                 <div class="matrix-person-header">
                     <span id="matrixPersonName" class="matrix-person-name"></span>
                     <span id="matrixPersonDate" class="matrix-person-date"></span>
-                    <span id="matrixPersonAge" class="matrix-person-age"></span>
                 </div>
 
                 <!-- Визуальная матрица (SVG) — Правильная октаграмма -->
@@ -724,7 +706,7 @@
                   <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
 
                     <!-- Шаблон матрицы как фон -->
-                    <image href="matrix-template-clean.png?v=21" x="0" y="0" width="876" height="768"/>
+                    <image href="matrix-template.png" x="0" y="0" width="876" height="768"/>
 
                     <!-- ════ ЧИСЛА ПОВЕРХ ШАБЛОНА (точные координаты по пикселям) ════ -->
 
@@ -824,14 +806,6 @@
 
                 <!-- Таблица значений -->
                 <div class="matrix-values-grid" id="matrixValuesGrid"></div>
-
-                <div class="matrix-health-section" id="matrixHealthSection" style="display:none">
-                    <h3 class="matrix-health-title">Чакровая карта</h3>
-                    <p class="matrix-health-subtitle">Матрица по 7 чакрам: физика, энергия и эмоции.</p>
-                    <div class="matrix-health-layout">
-                        <div id="matrixHealthTableWrap"></div>
-                    </div>
-                </div>
 
                 <!-- Детальные интерпретации -->
                 <div class="matrix-interpretations" id="matrixInterps"></div>
@@ -943,33 +917,6 @@ function setStorageArray(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
 }
 
-function getSessionValue(key) {
-    return localStorage.getItem(key) || sessionStorage.getItem(key) || '';
-}
-
-function setSessionValue(key, value) {
-    localStorage.setItem(key, value);
-    sessionStorage.setItem(key, value);
-}
-
-function clearSessionValue(key) {
-    localStorage.removeItem(key);
-    sessionStorage.removeItem(key);
-}
-
-function getUserDataSnapshot() {
-    try {
-        return JSON.parse(localStorage.getItem('userData') || '{}');
-    } catch {
-        return {};
-    }
-}
-
-function getCurrentUserEmail() {
-    const userData = getUserDataSnapshot();
-    return (userData.email || getSessionValue('userEmail') || '').trim().toLowerCase();
-}
-
 function updateShopQuantity(button, delta) {
     const card = button.closest('.profile-shop-card');
     const valueEl = card ? card.querySelector('[data-qty-value]') : null;
@@ -987,9 +934,9 @@ function addAdminRecord(key, payload) {
 
 // Загрузка данных пользователя
 function loadUser() {
-    const userData = getUserDataSnapshot();
-    const name = userData.name || getSessionValue('userName') || 'Гость';
-    const trainingState = getSessionValue('trainingState') || 'not_paid';
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const name = userData.name || localStorage.getItem('userName') || 'Гость';
+    const trainingState = localStorage.getItem('trainingState') || 'not_paid';
     const trainingLabel = trainingState === 'accepted' ? 'зачислен' : (trainingState === 'waitlist' ? 'лист ожидания' : 'не оплачено');
 
     const initial = name.charAt(0).toUpperCase();
@@ -1093,8 +1040,7 @@ function showPage(pageId, linkEl) {
         booking: ['Новая запись', 'Запишитесь на прием'],
         subscription: ['Обучение', 'Оплата, лимит мест, лист ожидания'],
         messages: ['Сообщения', 'Диалог клиента с администратором'],
-        settings: ['Настройки', 'Параметры аккаунта и уведомлений'],
-        matrix: ['Матрица Судьбы', 'Расчёт и расшифровка по дате рождения']
+        settings: ['Настройки', 'Параметры аккаунта и уведомлений']
     };
     if (titles[pageId]) {
         document.getElementById('topbarTitle').textContent = titles[pageId][0];
@@ -1108,9 +1054,6 @@ function showPage(pageId, linkEl) {
     }
     if (pageId === 'overview') {
         loadOverviewSessions();
-    }
-    if (pageId === 'matrix') {
-        initMatrixDateSelects();
     }
     window.scrollTo(0, 0);
 }
@@ -1303,9 +1246,9 @@ async function confirmPayment(e) {
         return;
     }
 
-    const userData = getUserDataSnapshot();
-    const name = (getSessionValue('userName') || userData.name || holder || 'Ученик').trim();
-    const email = getCurrentUserEmail();
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const name = (localStorage.getItem('userName') || userData.name || holder || 'Ученик').trim();
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim();
     const phone = (userData.phone || '').trim();
 
     if (!email) {
@@ -1423,16 +1366,14 @@ async function confirmPayment(e) {
 function confirmDeleteAccount() {
     if (confirm('Вы уверены? Все данные будут удалены без возможности восстановления.')) {
         localStorage.clear();
-        sessionStorage.clear();
         window.location.href = 'index.html';
     }
 }
 
 // Выход
 function dashLogout() {
-    clearSessionValue('isLoggedIn');
-    clearSessionValue('userName');
-    clearSessionValue('userEmail');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userName');
     window.location.href = 'index.html';
 }
 
@@ -1478,7 +1419,8 @@ async function cancelBooking(bookingId, btn) {
     btn.disabled = true;
     btn.textContent = '...';
     try {
-        const email = getCurrentUserEmail();
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        const email = (userData.email || localStorage.getItem('userEmail') || '').trim();
         const res = await fetch(API_BASE + '/api/bookings/' + bookingId + '/cancel', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1506,7 +1448,8 @@ async function cancelBooking(bookingId, btn) {
 }
 
 async function loadSessions() {
-    const email = getCurrentUserEmail();
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
 
     const upcomingEl = document.getElementById('sessionsUpcomingList');
     const pastEl     = document.getElementById('sessionsPastList');
@@ -1564,7 +1507,8 @@ async function loadSessions() {
 }
 
 async function loadOverviewSessions() {
-    const email = getCurrentUserEmail();
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
     const upEl  = document.getElementById('overviewUpcomingList');
     const pastEl = document.getElementById('overviewPastList');
 
@@ -1602,7 +1546,8 @@ async function loadClientMessages() {
     if (!root) {
         return;
     }
-    const email = getCurrentUserEmail();
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
     if (!email) {
         root.innerHTML = '<div class="empty">Добавьте email в профиле, чтобы пользоваться сообщениями</div>';
         return;
@@ -1646,7 +1591,8 @@ async function loadClientMessages() {
 }
 
 function updateUnreadBadge() {
-    const email = getCurrentUserEmail();
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
     if (!email) return;
 
     fetch(API_BASE + '/api/messages?email=' + encodeURIComponent(email))
@@ -1670,7 +1616,8 @@ function updateUnreadBadge() {
 
 async function sendClientReply(e) {
     e.preventDefault();
-    const email = getCurrentUserEmail();
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const email = (userData.email || localStorage.getItem('userEmail') || '').trim().toLowerCase();
     const text = document.getElementById('clientReplyText').value.trim();
 
     if (!email) {
@@ -1828,7 +1775,7 @@ function updateThemeToggleBtn(mode) {
 
 // Проверка авторизации
 function checkAuth() {
-    const isLoggedIn = getSessionValue('isLoggedIn');
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
     if (!isLoggedIn) {
         showDashboardLoginModal();
     }
@@ -1847,11 +1794,9 @@ function dashLoginSubmit(e) {
     if (!email || !pass) { errEl.textContent = 'Заполните все поля'; return; }
     if (pass.length < 6) { errEl.textContent = 'Пароль минимум 6 символов'; return; }
 
-    setSessionValue('isLoggedIn', 'true');
-    setSessionValue('userEmail', email);
-    if (!getSessionValue('userName')) {
-        setSessionValue('userName', email.split('@')[0]);
-    }
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('userEmail', email);
+    if (!localStorage.getItem('userName')) localStorage.setItem('userName', email.split('@')[0]);
 
     document.getElementById('dashLoginOverlay').style.display = 'none';
     errEl.textContent = '';
@@ -1870,9 +1815,9 @@ function dashRegSubmit(e) {
     if (pass.length < 6) { errEl.textContent = 'Пароль минимум 6 символов'; return; }
     if (pass !== pass2) { errEl.textContent = 'Пароли не совпадают'; return; }
 
-    setSessionValue('isLoggedIn', 'true');
-    setSessionValue('userEmail', email);
-    setSessionValue('userName', name);
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userName', name);
 
     document.getElementById('dashLoginOverlay').style.display = 'none';
     errEl.textContent = '';
@@ -2319,8 +2264,6 @@ const MATRIX_EXTRA_SECTIONS = {
     destiny: 'matrixDestiny',
     karmic: 'matrixKarmicTail'
 };
-let matrixExtraPayload = null;
-let matrixExtraRenderVersion = 0;
 
 function escapeMatrixHtml(value) {
     return String(value ?? '').replace(/[&<>"']/g, ch => ({
@@ -2387,112 +2330,6 @@ function renderMatrixExtraSection(title, subtitle, groups) {
     </div>${groups.map(renderMatrixExtraGroup).join('')}`;
 }
 
-function renderMatrixExtraSectionByKey(sectionKey) {
-    if (!matrixExtraPayload) return;
-    const sectionId = MATRIX_EXTRA_SECTIONS[sectionKey];
-    const section = sectionId ? document.getElementById(sectionId) : null;
-    if (!section) return;
-    if (section.dataset.renderVersion === String(matrixExtraRenderVersion)) return;
-
-    const p = matrixExtraPayload;
-    let html = '';
-
-    if (sectionKey === 'talents') {
-        html = renderMatrixExtraSection(
-            'Таланты',
-            'Таланты собираются из трёх ветвей: верхний канал Б, линия отца и линия матери.',
-            [
-                {
-                    title: 'Небесные таланты',
-                    subtitle: 'Канал Б: Б_in2 → Б_in → Б.',
-                    items: [
-                        { position: 'Б_in2 — божественный вход', meta: 'Внешний дар канала Б', val: p.Bin2, desc: getArcanaPdfText(ARCANA_TALENTS, p.Bin2) },
-                        { position: 'Б_in — раскрытие дара', meta: 'Средняя точка канала Б', val: p.Bin, desc: getArcanaPdfText(ARCANA_TALENTS, p.Bin) },
-                        { position: 'Б — ядро таланта', meta: 'Верхняя опорная энергия', val: p.B, desc: getArcanaPdfText(ARCANA_TALENTS, p.B) }
-                    ]
-                },
-                {
-                    title: 'Таланты по линии отца',
-                    subtitle: 'Левая нижняя диагональ: З → З_in → З_in2.',
-                    items: [
-                        { position: 'З — родовой талант отца', meta: 'Внешняя точка линии отца', val: p.Z, desc: getArcanaPdfText(ARCANA_TALENTS, p.Z) },
-                        { position: 'З_in — внутренний ресурс', meta: 'Средняя точка линии отца', val: p.Zin, desc: getArcanaPdfText(ARCANA_TALENTS, p.Zin) },
-                        { position: 'З_in2 — усилитель таланта', meta: 'Внутренний ключ линии отца', val: p.Zin2, desc: getArcanaPdfText(ARCANA_TALENTS, p.Zin2) }
-                    ]
-                },
-                {
-                    title: 'Таланты по линии матери',
-                    subtitle: 'Левая верхняя диагональ: Е → Е_in → Е_in2.',
-                    items: [
-                        { position: 'Е — родовой талант матери', meta: 'Внешняя точка линии матери', val: p.E, desc: getArcanaPdfText(ARCANA_TALENTS, p.E) },
-                        { position: 'Е_in — внутренний ресурс', meta: 'Средняя точка линии матери', val: p.Ein, desc: getArcanaPdfText(ARCANA_TALENTS, p.Ein) },
-                        { position: 'Е_in2 — усилитель таланта', meta: 'Внутренний ключ линии матери', val: p.Ein2, desc: getArcanaPdfText(ARCANA_TALENTS, p.Ein2) }
-                    ]
-                }
-            ]
-        );
-    } else if (sectionKey === 'money') {
-        html = renderMatrixExtraSection(
-            'Линия денег',
-            'Вертикаль оси В: Л = В_in2, О = точка O, М = точка M.',
-            [{
-                title: 'Денежный канал',
-                subtitle: 'Смотрите, как энергия входит в деньги, удерживается в центре и выходит в результат.',
-                items: [
-                    { position: 'Л — вход денежной линии', meta: 'В_in2 · внешний компаньон на оси В', val: p.Vin2, desc: getArcanaPdfText(ARCANA_MONEY, p.Vin2) },
-                    { position: 'О — центр денежной линии', meta: 'Точка O · энергия профессии и удержания потока', val: p.O, desc: getArcanaPdfText(ARCANA_MONEY, p.O) },
-                    { position: 'М — выход денежной линии', meta: 'Точка M · итог и защита денежного потока', val: p.M, desc: getArcanaPdfText(ARCANA_MONEY, p.M) }
-                ]
-            }]
-        );
-    } else if (sectionKey === 'love') {
-        html = renderMatrixExtraSection(
-            'Линия любви',
-            'Вертикаль оси Б: вход = Б_in2, центр = точка P, выход = точка N.',
-            [{
-                title: 'Канал отношений',
-                subtitle: 'Эта линия показывает, как запускаются знакомства, кто подходит в центр союза и что выводит отношения в результат.',
-                items: [
-                    { position: 'Вход линии любви', meta: 'Б_in2 · энергия старта отношений', val: p.Bin2, desc: getArcanaPdfText(ARCANA_LOVE, p.Bin2) },
-                    { position: 'Центр линии любви', meta: 'Точка P · сердцевина союза и качества партнёра', val: p.P, desc: getArcanaPdfText(ARCANA_LOVE, p.P) },
-                    { position: 'Выход линии любви', meta: 'Точка N · итоговый сценарий отношений', val: p.N, desc: getArcanaPdfText(ARCANA_LOVE, p.N) }
-                ]
-            }]
-        );
-    } else if (sectionKey === 'destiny') {
-        html = renderMatrixExtraSection(
-            'Предназначение',
-            'Нижний канал Г: Г_in2 → Г_in → Г. Эти три точки показывают путь к зрелой реализации.',
-            [{
-                title: 'Канал предназначения',
-                subtitle: 'От внутренней подготовки к итоговой энергии жизненного пути.',
-                items: [
-                    { position: 'Г_in2 — дальний вектор', meta: 'Внешний компаньон на оси Г', val: p.Gin2, desc: buildArcanaContext(p.Gin2, 'Начальный слой предназначения показывает, какой опыт подводит вас к зрелой реализации.') },
-                    { position: 'Г_in — внутренняя реализация', meta: 'Средняя точка оси Г', val: p.Gin, desc: buildArcanaContext(p.Gin, 'Эта энергия раскрывает, каким способом предназначение оформляется внутри характера и решений.') },
-                    { position: 'Г — итоговое предназначение', meta: 'Главная нижняя точка матрицы', val: p.G, desc: buildArcanaContext(p.G, 'Финальная энергия предназначения показывает, к какому жизненному итогу ведёт вся матрица.') }
-                ]
-            }]
-        );
-    } else if (sectionKey === 'karmic') {
-        html = renderMatrixExtraSection(
-            'Кармический хвост',
-            'Правая нижняя диагональ: И_in2 → И_in → И. Здесь видны уроки, принесённые из прошлого опыта.',
-            [{
-                title: 'Канал кармического хвоста',
-                subtitle: 'Три энергии показывают сценарии, которые важно осознать, принять и перевести в плюс.',
-                items: [
-                    { position: 'И_in2 — внешний слой урока', meta: 'Внутренний ключ диагонали И', val: p.Iin2, desc: buildArcanaContext(p.Iin2, 'Этот уровень показывает внешний триггер кармического хвоста — то, через что урок чаще всего проявляется.') },
-                    { position: 'И_in — основной кармический узел', meta: 'Средняя точка диагонали И', val: p.Iin, desc: buildArcanaContext(p.Iin, 'Здесь находится базовый урок, который нужно осознать и экологично проживать в текущей жизни.') },
-                    { position: 'И — итоговый сценарий хвоста', meta: 'Внешняя точка диагонали И', val: p.I, desc: buildArcanaContext(p.I, 'Эта энергия показывает, во что превращается кармический хвост, если уроки не игнорировать, а прорабатывать.') }
-                ]
-            }]
-        );
-    }
-
-    section.innerHTML = html;
-    section.dataset.renderVersion = String(matrixExtraRenderVersion);
-}
-
 function setMatrixExtraSection(sectionKey) {
     document.querySelectorAll('#matrixExtraSections .matrix-section-tab').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.section === sectionKey);
@@ -2501,7 +2338,6 @@ function setMatrixExtraSection(sectionKey) {
         const section = document.getElementById(id);
         if (section) section.classList.toggle('active', key === sectionKey);
     });
-    renderMatrixExtraSectionByKey(sectionKey);
 }
 
 function reduceArcana(n) {
@@ -2512,340 +2348,16 @@ function reduceArcana(n) {
     return n || 22;
 }
 
-function parseMatrixDateValue(value) {
-    if (!value || typeof value !== 'string') return null;
-    const [yearStr, monthStr, dayStr] = value.split('-');
-    const day = Number(dayStr);
-    const month = Number(monthStr);
-    const year = Number(yearStr);
-    if (!day || !month || !year) return null;
-
-    const date = new Date(year, month - 1, day);
-    if (
-        date.getFullYear() !== year ||
-        date.getMonth() !== month - 1 ||
-        date.getDate() !== day
-    ) return null;
-
-    return { day, month, year, date };
-}
-
-function matrixAgeLabel(age) {
-    const absAge = Math.abs(age);
-    const mod10 = absAge % 10;
-    const mod100 = absAge % 100;
-    if (mod10 === 1 && mod100 !== 11) return `${age} год`;
-    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return `${age} года`;
-    return `${age} лет`;
-}
-
-function calculateMatrixAge(birthDate, today = new Date()) {
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDelta = today.getMonth() - birthDate.getMonth();
-    if (monthDelta < 0 || (monthDelta === 0 && today.getDate() < birthDate.getDate())) {
-        age -= 1;
-    }
-    return age;
-}
-
-function updateMatrixAgePreview() {
-    const dateInput = document.getElementById('matrixDate');
-    const agePreview = document.getElementById('matrixAgePreview');
-    if (!dateInput || !agePreview) return;
-
-    const parsed = parseMatrixDateValue(dateInput.value);
-    if (!parsed) {
-        agePreview.textContent = 'Возраст: —';
-        return;
-    }
-
-    const age = calculateMatrixAge(parsed.date);
-    agePreview.textContent = age >= 0 ? `Возраст: ${matrixAgeLabel(age)}` : 'Возраст: —';
-}
-
-function daysInMonth(month, year) {
-    return new Date(year, month, 0).getDate();
-}
-
-const matrixWheelDateState = { day: 1, month: 1, year: 2000 };
-const matrixWheelTouchStart = {};
-const matrixWheelTouchCarry = {};
-const matrixWheelTouchVelocity = {};
-const matrixWheelTouchTimestamp = {};
-const matrixWheelInertiaTimer = {};
-const matrixWheelStepQueue = {};
-const matrixWheelStepRunning = {};
-const matrixWheelRootsByField = {};
-const MATRIX_WHEEL_SWIPE_TRIGGER = 4;
-const MATRIX_WHEEL_SWIPE_STEP = 9;
-const MATRIX_WHEEL_VELOCITY_MIN = 0.22;
-
-function clearMatrixWheelInertia(field) {
-    if (!matrixWheelInertiaTimer[field]) return;
-    clearInterval(matrixWheelInertiaTimer[field]);
-    matrixWheelInertiaTimer[field] = null;
-}
-
-function pulseMatrixWheelStep(field, direction) {
-    const root = matrixWheelRootsByField[field];
-    if (!root) return;
-    const cls = direction > 0 ? 'matrix-wheel-spin-up' : 'matrix-wheel-spin-down';
-    root.classList.remove('matrix-wheel-spin-up', 'matrix-wheel-spin-down');
-    root.offsetHeight;
-    root.classList.add(cls);
-    setTimeout(() => root.classList.remove(cls), 90);
-}
-
-function processMatrixWheelQueue(field) {
-    if ((matrixWheelStepQueue[field] || 0) === 0) {
-        matrixWheelStepRunning[field] = false;
-        return;
-    }
-    matrixWheelStepRunning[field] = true;
-    const direction = matrixWheelStepQueue[field] > 0 ? 1 : -1;
-    matrixWheelStepQueue[field] -= direction;
-    pulseMatrixWheelStep(field, direction);
-    adjustMatrixDateField(field, direction);
-    setTimeout(() => processMatrixWheelQueue(field), 42);
-}
-
-function queueMatrixDateFieldAdjust(field, delta) {
-    if (!delta) return;
-    matrixWheelStepQueue[field] = (matrixWheelStepQueue[field] || 0) + delta;
-    if (matrixWheelStepRunning[field]) return;
-    processMatrixWheelQueue(field);
-}
-
-function startMatrixWheelInertia(field, velocity) {
-    clearMatrixWheelInertia(field);
-    let v = velocity;
-    matrixWheelInertiaTimer[field] = setInterval(() => {
-        if (Math.abs(v) < 0.05) {
-            clearMatrixWheelInertia(field);
-            return;
-        }
-        const direction = v > 0 ? 1 : -1;
-        const speed = Math.min(3, Math.max(1, Math.round(Math.abs(v) * 6)));
-        queueMatrixDateFieldAdjust(field, direction * speed);
-        v *= 0.72;
-    }, 70);
-}
-
-function cycleValue(value, min, max, delta) {
-    const range = max - min + 1;
-    return ((value - min + delta) % range + range) % range + min;
-}
-
-function parseMatrixSelectValues() {
-    const { day, month, year } = matrixWheelDateState;
-    if (!day || !month || !year) return null;
-    return { day, month, year };
-}
-
-function fillMatrixDateSelects(day, month, year) {
-    matrixWheelDateState.day = day;
-    matrixWheelDateState.month = month;
-    matrixWheelDateState.year = year;
-}
-
-function getMatrixFieldValue(field, offset) {
-    const currentYear = new Date().getFullYear();
-    if (field === 'day') {
-        const max = daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year);
-        return cycleValue(matrixWheelDateState.day, 1, max, offset);
-    }
-    if (field === 'month') return cycleValue(matrixWheelDateState.month, 1, 12, offset);
-    return Math.min(Math.max(matrixWheelDateState.year + offset, 1900), currentYear);
-}
-
-function formatMatrixFieldValue(field, value) {
-    return field === 'year' ? String(value) : String(value).padStart(2, '0');
-}
-
-function renderMatrixWheel(field) {
-    const id = field === 'day' ? 'matrixDayTrack' : field === 'month' ? 'matrixMonthTrack' : 'matrixYearTrack';
-    const track = document.getElementById(id);
-    if (!track) return;
-    const offsets = [-2, -1, 0, 1, 2];
-    track.innerHTML = offsets.map((offset) => {
-        const value = getMatrixFieldValue(field, offset);
-        const cls = offset === 0 ? 'is-active' : (Math.abs(offset) === 1 ? 'is-near' : 'is-far');
-        return `<button type="button" class="matrix-wheel-item ${cls}" data-field="${field}" data-value="${value}">${formatMatrixFieldValue(field, value)}</button>`;
-    }).join('');
-}
-
-function renderMatrixWheels() {
-    renderMatrixWheel('day');
-    renderMatrixWheel('month');
-    renderMatrixWheel('year');
-}
-
-function syncMatrixDateFromSelects() {
-    const dateInput = document.getElementById('matrixDate');
-    if (!dateInput) return;
-    const values = parseMatrixSelectValues();
-    if (!values) {
-        dateInput.value = '';
-        updateMatrixAgePreview();
-        return;
-    }
-    const maxYear = new Date().getFullYear();
-    const year = Math.min(Math.max(values.year, 1900), maxYear);
-    const month = Math.min(Math.max(values.month, 1), 12);
-    const day = Math.min(Math.max(values.day, 1), daysInMonth(month, year));
-    fillMatrixDateSelects(day, month, year);
-    dateInput.value = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    updateMatrixAgePreview();
-    renderMatrixWheels();
-}
-
-function adjustMatrixDateField(field, delta) {
-    const currentYear = new Date().getFullYear();
-    if (field === 'day') {
-        const max = daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year);
-        matrixWheelDateState.day = cycleValue(matrixWheelDateState.day, 1, max, delta);
-    } else if (field === 'month') {
-        matrixWheelDateState.month = cycleValue(matrixWheelDateState.month, 1, 12, delta);
-        matrixWheelDateState.day = Math.min(matrixWheelDateState.day, daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year));
-    } else if (field === 'year') {
-        matrixWheelDateState.year = Math.min(Math.max(matrixWheelDateState.year + delta, 1900), currentYear);
-        matrixWheelDateState.day = Math.min(matrixWheelDateState.day, daysInMonth(matrixWheelDateState.month, matrixWheelDateState.year));
-    }
-    syncMatrixDateFromSelects();
-}
-
-function initMatrixDateSelects() {
-    const dateInput = document.getElementById('matrixDate');
-    const wheelRoots = document.querySelectorAll('.matrix-timer-wheel[data-field]');
-    if (!dateInput || wheelRoots.length === 0 || dateInput.dataset.enhanced === '1') return;
-    dateInput.dataset.enhanced = '1';
-
-    const parsed = parseMatrixDateValue(dateInput.value);
-    const now = new Date();
-    fillMatrixDateSelects(
-        parsed ? parsed.day : now.getDate(),
-        parsed ? parsed.month : now.getMonth() + 1,
-        parsed ? parsed.year : now.getFullYear()
-    );
-    syncMatrixDateFromSelects();
-
-    wheelRoots.forEach((root) => {
-        const field = root.dataset.field;
-        matrixWheelRootsByField[field] = root;
-        root.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            queueMatrixDateFieldAdjust(field, e.deltaY < 0 ? 1 : -1);
-        }, { passive: false });
-        root.addEventListener('touchstart', (e) => {
-            if (e.touches.length !== 1) return;
-            clearMatrixWheelInertia(field);
-            matrixWheelTouchStart[field] = e.touches[0].clientY;
-            matrixWheelTouchCarry[field] = 0;
-            matrixWheelTouchVelocity[field] = 0;
-            matrixWheelTouchTimestamp[field] = Date.now();
-        }, { passive: true });
-        root.addEventListener('touchmove', (e) => {
-            if (matrixWheelTouchStart[field] == null) return;
-            const currentY = e.touches[0].clientY;
-            const diff = matrixWheelTouchStart[field] - currentY;
-            const now = Date.now();
-            const elapsed = Math.max(8, now - (matrixWheelTouchTimestamp[field] || now));
-            matrixWheelTouchVelocity[field] = diff / elapsed;
-            matrixWheelTouchTimestamp[field] = now;
-            let carry = (matrixWheelTouchCarry[field] || 0) + diff;
-            if (Math.abs(carry) < MATRIX_WHEEL_SWIPE_TRIGGER) {
-                matrixWheelTouchStart[field] = currentY;
-                return;
-            }
-            e.preventDefault();
-            const steps = Math.trunc(carry / MATRIX_WHEEL_SWIPE_STEP);
-            if (steps !== 0) {
-                queueMatrixDateFieldAdjust(field, steps);
-                carry -= steps * MATRIX_WHEEL_SWIPE_STEP;
-            }
-            matrixWheelTouchCarry[field] = carry;
-            matrixWheelTouchStart[field] = currentY;
-        }, { passive: false });
-        root.addEventListener('touchend', () => {
-            if (Math.abs(matrixWheelTouchVelocity[field] || 0) >= MATRIX_WHEEL_VELOCITY_MIN) {
-                startMatrixWheelInertia(field, matrixWheelTouchVelocity[field]);
-            }
-            matrixWheelTouchStart[field] = null;
-            matrixWheelTouchCarry[field] = 0;
-            matrixWheelTouchVelocity[field] = 0;
-        });
-        root.addEventListener('touchcancel', () => {
-            matrixWheelTouchStart[field] = null;
-            matrixWheelTouchCarry[field] = 0;
-            matrixWheelTouchVelocity[field] = 0;
-        });
-    });
-
-    document.addEventListener('click', (e) => {
-        const item = e.target.closest('.matrix-wheel-item');
-        if (!item) return;
-        const field = item.dataset.field;
-        const value = Number(item.dataset.value);
-        if (!field || !value) return;
-        matrixWheelDateState[field] = value;
-        syncMatrixDateFromSelects();
-    });
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMatrixDateSelects);
-} else {
-    initMatrixDateSelects();
-}
-
-function renderMatrixHealthTable(rows) {
-    const totals = rows.reduce((acc, row) => {
-        acc.physics += row.physics;
-        acc.energy += row.energy;
-        acc.emotions += row.emotions;
-        return acc;
-    }, { physics: 0, energy: 0, emotions: 0 });
-
-    return `
-        <table class="matrix-health-table">
-            <thead>
-                <tr>
-                    <th>Чакра</th>
-                    <th>Физика</th>
-                    <th>Энергия</th>
-                    <th>Эмоции</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${rows.map((row) => `
-                    <tr style="--chakra-color:${row.color}">
-                        <td class="chakra-name">${row.name}</td>
-                        <td>${row.physics}</td>
-                        <td>${row.energy}</td>
-                        <td>${row.emotions}</td>
-                    </tr>
-                `).join('')}
-                <tr class="matrix-health-total">
-                    <td class="chakra-name">ИТОГО</td>
-                    <td>${reduceArcana(totals.physics)}</td>
-                    <td>${reduceArcana(totals.energy)}</td>
-                    <td>${reduceArcana(totals.emotions)}</td>
-                </tr>
-            </tbody>
-        </table>
-    `;
-}
-
 function calcMatrix() {
-    syncMatrixDateFromSelects();
     const name = document.getElementById('matrixName').value.trim() || 'Клиент';
     const dateVal = document.getElementById('matrixDate').value;
     if (!dateVal) { showNotify('Введите дату рождения', 'warn'); return; }
 
-    const birth = parseMatrixDateValue(dateVal);
-    if (!birth) { showNotify('Проверьте корректность даты', 'warn'); return; }
-    const { day, month, year, date: birthDate } = birth;
-    const age = calculateMatrixAge(birthDate);
+    // YYYY-MM-DD from <input type="date">: parse manually to avoid timezone shifts
+    const [yearStr, monthStr, dayStr] = dateVal.split('-');
+    const day   = Number(dayStr);
+    const month = Number(monthStr);
+    const year  = Number(yearStr);
 
     // Главные точки октогона
     const A = reduceArcana(day);                             // левый (0 лет)
@@ -2916,8 +2428,6 @@ function calcMatrix() {
     const dStr = `${String(day).padStart(2,'0')}.${String(month).padStart(2,'0')}.${year}`;
     document.getElementById('matrixPersonName').textContent = name;
     document.getElementById('matrixPersonDate').textContent = dStr;
-    const ageEl = document.getElementById('matrixPersonAge');
-    if (ageEl) ageEl.textContent = age >= 0 ? `· ${matrixAgeLabel(age)}` : '';
 
     // Таблица значений — все позиции
     const allPositions = [
@@ -2962,22 +2472,6 @@ function calcMatrix() {
             <div class="mvc-key">${arc.key}</div>
         </div>`;
     }).join('');
-
-    const chakraRows = [
-        { name: 'Сахасрара', color: '#a86eff', physics: B, energy: Bin, emotions: Bin2 },
-        { name: 'Аджна', color: '#5867ff', physics: E, energy: Ein, emotions: Ein2 },
-        { name: 'Вишудха', color: '#42b7ff', physics: Zh, energy: Zhin, emotions: Zhin2 },
-        { name: 'Анахата', color: '#4fcf8e', physics: D, energy: AinC, emotions: BinC },
-        { name: 'Манипура', color: '#f2c04f', physics: V, energy: Vin, emotions: Vin2 },
-        { name: 'Свадхистана', color: '#ff9b4f', physics: I, energy: Iin, emotions: Iin2 },
-        { name: 'Муладхара', color: '#ff5b5b', physics: G, energy: Gin, emotions: Gin2 }
-    ];
-    const healthWrap = document.getElementById('matrixHealthTableWrap');
-    const healthSection = document.getElementById('matrixHealthSection');
-    if (healthWrap && healthSection) {
-        healthWrap.innerHTML = renderMatrixHealthTable(chakraRows);
-        healthSection.style.display = 'block';
-    }
 
     // Интерпретации для главных точек
     const mainKeys = ['A','B','V','G','D','E','Zh','I','Z'];
@@ -3037,19 +2531,96 @@ function calcMatrix() {
             </div>`;
         }).join('');
 
-    matrixExtraPayload = {
-        B, E, Zh, D, V, I, G, Z,
-        Bin, Ein, Zhin, AinC, BinC, Vin, Iin, Gin,
-        Bin2, Ein2, Zhin2, Vin2, Iin2, Gin2, Zin, Zin2,
-        P, O, M, N
-    };
-    matrixExtraRenderVersion += 1;
-    Object.values(MATRIX_EXTRA_SECTIONS).forEach((id) => {
-        const section = document.getElementById(id);
-        if (!section) return;
-        section.innerHTML = '';
-        section.dataset.renderVersion = '';
-    });
+    document.getElementById('matrixTalents').innerHTML = renderMatrixExtraSection(
+        'Таланты',
+        'Таланты собираются из трёх ветвей: верхний канал Б, линия отца и линия матери.',
+        [
+            {
+                title: 'Небесные таланты',
+                subtitle: 'Канал Б: Б_in2 → Б_in → Б.',
+                items: [
+                    { position: 'Б_in2 — божественный вход', meta: 'Внешний дар канала Б', val: Bin2, desc: getArcanaPdfText(ARCANA_TALENTS, Bin2) },
+                    { position: 'Б_in — раскрытие дара', meta: 'Средняя точка канала Б', val: Bin, desc: getArcanaPdfText(ARCANA_TALENTS, Bin) },
+                    { position: 'Б — ядро таланта', meta: 'Верхняя опорная энергия', val: B, desc: getArcanaPdfText(ARCANA_TALENTS, B) }
+                ]
+            },
+            {
+                title: 'Таланты по линии отца',
+                subtitle: 'Левая нижняя диагональ: З → З_in → З_in2.',
+                items: [
+                    { position: 'З — родовой талант отца', meta: 'Внешняя точка линии отца', val: Z, desc: getArcanaPdfText(ARCANA_TALENTS, Z) },
+                    { position: 'З_in — внутренний ресурс', meta: 'Средняя точка линии отца', val: Zin, desc: getArcanaPdfText(ARCANA_TALENTS, Zin) },
+                    { position: 'З_in2 — усилитель таланта', meta: 'Внутренний ключ линии отца', val: Zin2, desc: getArcanaPdfText(ARCANA_TALENTS, Zin2) }
+                ]
+            },
+            {
+                title: 'Таланты по линии матери',
+                subtitle: 'Левая верхняя диагональ: Е → Е_in → Е_in2.',
+                items: [
+                    { position: 'Е — родовой талант матери', meta: 'Внешняя точка линии матери', val: E, desc: getArcanaPdfText(ARCANA_TALENTS, E) },
+                    { position: 'Е_in — внутренний ресурс', meta: 'Средняя точка линии матери', val: Ein, desc: getArcanaPdfText(ARCANA_TALENTS, Ein) },
+                    { position: 'Е_in2 — усилитель таланта', meta: 'Внутренний ключ линии матери', val: Ein2, desc: getArcanaPdfText(ARCANA_TALENTS, Ein2) }
+                ]
+            }
+        ]
+    );
+
+    document.getElementById('matrixMoneyLine').innerHTML = renderMatrixExtraSection(
+        'Линия денег',
+        'Вертикаль оси В: Л = В_in2, О = точка O, М = точка M.',
+        [{
+            title: 'Денежный канал',
+            subtitle: 'Смотрите, как энергия входит в деньги, удерживается в центре и выходит в результат.',
+            items: [
+                { position: 'Л — вход денежной линии', meta: 'В_in2 · внешний компаньон на оси В', val: Vin2, desc: getArcanaPdfText(ARCANA_MONEY, Vin2) },
+                { position: 'О — центр денежной линии', meta: 'Точка O · энергия профессии и удержания потока', val: O, desc: getArcanaPdfText(ARCANA_MONEY, O) },
+                { position: 'М — выход денежной линии', meta: 'Точка M · итог и защита денежного потока', val: M, desc: getArcanaPdfText(ARCANA_MONEY, M) }
+            ]
+        }]
+    );
+
+    document.getElementById('matrixLoveLine').innerHTML = renderMatrixExtraSection(
+        'Линия любви',
+        'Вертикаль оси Б: вход = Б_in2, центр = точка P, выход = точка N.',
+        [{
+            title: 'Канал отношений',
+            subtitle: 'Эта линия показывает, как запускаются знакомства, кто подходит в центр союза и что выводит отношения в результат.',
+            items: [
+                { position: 'Вход линии любви', meta: 'Б_in2 · энергия старта отношений', val: Bin2, desc: getArcanaPdfText(ARCANA_LOVE, Bin2) },
+                { position: 'Центр линии любви', meta: 'Точка P · сердцевина союза и качества партнёра', val: P, desc: getArcanaPdfText(ARCANA_LOVE, P) },
+                { position: 'Выход линии любви', meta: 'Точка N · итоговый сценарий отношений', val: N, desc: getArcanaPdfText(ARCANA_LOVE, N) }
+            ]
+        }]
+    );
+
+    document.getElementById('matrixDestiny').innerHTML = renderMatrixExtraSection(
+        'Предназначение',
+        'Нижний канал Г: Г_in2 → Г_in → Г. Эти три точки показывают путь к зрелой реализации.',
+        [{
+            title: 'Канал предназначения',
+            subtitle: 'От внутренней подготовки к итоговой энергии жизненного пути.',
+            items: [
+                { position: 'Г_in2 — дальний вектор', meta: 'Внешний компаньон на оси Г', val: Gin2, desc: buildArcanaContext(Gin2, 'Начальный слой предназначения показывает, какой опыт подводит вас к зрелой реализации.') },
+                { position: 'Г_in — внутренняя реализация', meta: 'Средняя точка оси Г', val: Gin, desc: buildArcanaContext(Gin, 'Эта энергия раскрывает, каким способом предназначение оформляется внутри характера и решений.') },
+                { position: 'Г — итоговое предназначение', meta: 'Главная нижняя точка матрицы', val: G, desc: buildArcanaContext(G, 'Финальная энергия предназначения показывает, к какому жизненному итогу ведёт вся матрица.') }
+            ]
+        }]
+    );
+
+    document.getElementById('matrixKarmicTail').innerHTML = renderMatrixExtraSection(
+        'Кармический хвост',
+        'Правая нижняя диагональ: И_in2 → И_in → И. Здесь видны уроки, принесённые из прошлого опыта.',
+        [{
+            title: 'Канал кармического хвоста',
+            subtitle: 'Три энергии показывают сценарии, которые важно осознать, принять и перевести в плюс.',
+            items: [
+                { position: 'И_in2 — внешний слой урока', meta: 'Внутренний ключ диагонали И', val: Iin2, desc: buildArcanaContext(Iin2, 'Этот уровень показывает внешний триггер кармического хвоста — то, через что урок чаще всего проявляется.') },
+                { position: 'И_in — основной кармический узел', meta: 'Средняя точка диагонали И', val: Iin, desc: buildArcanaContext(Iin, 'Здесь находится базовый урок, который нужно осознать и экологично проживать в текущей жизни.') },
+                { position: 'И — итоговый сценарий хвоста', meta: 'Внешняя точка диагонали И', val: I, desc: buildArcanaContext(I, 'Эта энергия показывает, во что превращается кармический хвост, если уроки не игнорировать, а прорабатывать.') }
+            ]
+        }]
+    );
+
     document.getElementById('matrixExtraWrap').style.display = 'block';
     setMatrixExtraSection('talents');
 
