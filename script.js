@@ -2,6 +2,32 @@
    JAVASCRIPT - Интерактивность и Анимации
    ============================================ */
 
+const DASHBOARD_BUILD = '20260723-cabinet-latest';
+
+function getDashboardUrl(hash = '') {
+    const normalizedHash = hash ? '#' + String(hash).replace(/^#/, '') : '';
+    return `dashboard.html?v=${DASHBOARD_BUILD}${normalizedHash}`;
+}
+
+function setAuthState(name, email = '') {
+    const normalizedName = (name || '').trim();
+    const normalizedEmail = (email || '').trim();
+    sessionStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('isLoggedIn', 'true');
+    if (normalizedName) {
+        sessionStorage.setItem('userName', normalizedName);
+        localStorage.setItem('userName', normalizedName);
+    }
+    if (normalizedEmail) {
+        sessionStorage.setItem('userEmail', normalizedEmail);
+        localStorage.setItem('userEmail', normalizedEmail);
+    }
+}
+
+function getAuthValue(key) {
+    return sessionStorage.getItem(key) || localStorage.getItem(key);
+}
+
 // Плавная прокрутка
 function scrollToSection(selector) {
     const element = document.querySelector(selector);
@@ -11,14 +37,14 @@ function scrollToSection(selector) {
 }
 
 function isUserAuthenticated() {
-    const userLogged = sessionStorage.getItem('isLoggedIn') === 'true';
-    const userName = sessionStorage.getItem('userName');
+    const userLogged = getAuthValue('isLoggedIn') === 'true';
+    const userName = getAuthValue('userName');
     return userLogged && Boolean(userName);
 }
 
 function handleHeroMatrixCTA() {
     if (isUserAuthenticated()) {
-        window.location.href = 'dashboard.html#matrix';
+        window.location.href = getDashboardUrl('matrix');
         return;
     }
     openRegistrationModal();
@@ -1063,9 +1089,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Храним только минимальную информацию сессии без email
-            sessionStorage.setItem('isLoggedIn', 'true');
-            sessionStorage.setItem('userName', email.split('@')[0]);
+            // Храним только минимальную информацию сессии
+            setAuthState(email.split('@')[0], email);
             
             if (rememberMe) {
                 localStorage.setItem('rememberMe', 'true');
@@ -1112,9 +1137,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Храним только минимальную информацию сессии без email
-            sessionStorage.setItem('userName', name);
-            sessionStorage.setItem('isLoggedIn', 'true');
+            // Храним только минимальную информацию сессии
+            setAuthState(name, email);
 
             addAdminRecord('registrations', {
                 name,
@@ -1150,14 +1174,14 @@ function simulateLogin(userName) {
     showSuccess(`Добро пожаловать, ${userName}!`);
     
     setTimeout(() => {
-        window.location.href = 'dashboard.html';
+        window.location.href = getDashboardUrl();
     }, 800);
 }
 
 // Функция проверки статуса входа при загрузке страницы
 function checkLoginStatus() {
-    const userLogged = sessionStorage.getItem('isLoggedIn');
-    const userName = sessionStorage.getItem('userName');
+    const userLogged = getAuthValue('isLoggedIn');
+    const userName = getAuthValue('userName');
     
     if (userLogged === 'true' && userName) {
         const loginBtn = document.querySelector('.login-btn');

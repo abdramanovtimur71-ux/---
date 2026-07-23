@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=20260720cosmic-header-1">
+    <link rel="stylesheet" href="dashboard.css?v=20260723-cabinet-latest">
 </head>
 <body>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
@@ -918,6 +918,20 @@
 
 <script>
 /* ─── DASHBOARD JS ──────────────────────────────── */
+
+const DASHBOARD_BUILD = '20260723-cabinet-latest';
+
+function ensureLatestDashboardBuild() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('v') === DASHBOARD_BUILD) {
+        return;
+    }
+    params.set('v', DASHBOARD_BUILD);
+    const next = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
+    window.location.replace(next);
+}
+
+ensureLatestDashboardBuild();
 
 const API_BASE = (() => {
     const params = new URLSearchParams(window.location.search);
