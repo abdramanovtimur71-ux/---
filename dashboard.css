@@ -6233,6 +6233,52 @@ body.dashboard-intro .invoice-ledger .invoice-row {
     z-index: 2;
 }
 
+/* Matrix header restored to screenshot-like cosmic card */
+#page-matrix .page-header {
+    border-radius: 26px !important;
+    padding: 30px 34px 24px !important;
+    border: 2px solid rgba(95, 141, 255, 0.34) !important;
+    background:
+        linear-gradient(135deg, rgba(18, 36, 96, 0.94) 0%, rgba(10, 24, 66, 0.92) 52%, rgba(14, 29, 78, 0.9) 100%),
+        radial-gradient(circle at 88% 18%, rgba(92, 137, 255, 0.22), transparent 52%),
+        radial-gradient(circle at 14% 82%, rgba(160, 108, 250, 0.14), transparent 44%) !important;
+    box-shadow:
+        0 20px 42px rgba(0, 0, 0, 0.44),
+        inset 0 1px 8px rgba(255, 255, 255, 0.08),
+        0 0 36px rgba(95, 141, 255, 0.18) !important;
+}
+
+#page-matrix .page-header h1 {
+    margin: 0 0 8px !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: clamp(46px, 4.4vw, 58px) !important;
+    font-weight: 700 !important;
+    color: #e7d8a5 !important;
+    letter-spacing: 0.2px !important;
+    text-shadow: 0 0 18px rgba(207, 177, 108, 0.25) !important;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+#page-matrix .page-header h1::before {
+    content: "🔑";
+    font-size: 42px;
+    line-height: 1;
+    filter: saturate(0.15) sepia(0.45) hue-rotate(355deg) brightness(1.15);
+}
+
+#page-matrix .page-header p {
+    margin: 0 !important;
+    font-size: 14px;
+    max-width: 100%;
+    font-family: 'Inter', sans-serif;
+    color: rgba(172, 191, 232, 0.93) !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    font-weight: 600 !important;
+}
+
 
 /* ─── MATRIX NUMBERS — BLACK COLOR ─────────────────── */
 #page-matrix .matrix-svg #mvVnum,
