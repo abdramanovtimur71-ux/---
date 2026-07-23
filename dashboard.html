@@ -2058,16 +2058,16 @@ function initMatrixProgressionDots() {
     if (!svg) return;
     // Вершины октагона в порядке возрастания возраста
     const verts = [
-        {x: 95,  y: 350, age: 0},   // А — 0 лет
-        {x: 170, y: 170, age: 10},  // Е — 10 лет
-        {x: 350, y: 95,  age: 20},  // Б — 20 лет
-        {x: 530, y: 170, age: 30},  // Ж — 30 лет
-        {x: 605, y: 350, age: 40},  // В — 40 лет
-        {x: 530, y: 530, age: 50},  // И — 50 лет
-        {x: 350, y: 605, age: 60},  // Г — 60 лет
-        {x: 170, y: 530, age: 70},  // З — 70 лет
+        { x: 118, y: 380, age: 0 },   // А — 0 лет
+        { x: 210, y: 154, age: 10 },  // Е — 10 лет
+        { x: 440, y: 56,  age: 20 },  // Б — 20 лет
+        { x: 670, y: 154, age: 30 },  // Ж — 30 лет
+        { x: 764, y: 380, age: 40 },  // В — 40 лет
+        { x: 670, y: 614, age: 50 },  // И — 50 лет
+        { x: 440, y: 704, age: 60 },  // Г — 60 лет
+        { x: 210, y: 614, age: 70 },  // З — 70 лет
     ];
-    const CX = 350, CY = 350;
+    const CX = 440, CY = 380;
     const ns = 'http://www.w3.org/2000/svg';
     const g = document.createElementNS(ns, 'g');
     g.setAttribute('id', 'progressionDotsGroup');
