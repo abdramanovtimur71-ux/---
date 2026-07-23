@@ -5415,59 +5415,6 @@ body::after,
     gap: 8px;
 }
 
-#page-matrix .matrix-health-cards {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(120px, 1fr));
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-#page-matrix .matrix-health-card {
-    border-radius: 12px;
-    border: 1px solid color-mix(in srgb, var(--chakra-color) 55%, #ffffff 20%);
-    background:
-        radial-gradient(110% 120% at 50% 0%, color-mix(in srgb, var(--chakra-color) 45%, #ffffff 10%), transparent 58%),
-        linear-gradient(180deg, color-mix(in srgb, var(--chakra-color) 26%, #0f1f45 74%), color-mix(in srgb, var(--chakra-color) 18%, #08122b 82%));
-    box-shadow: 0 10px 24px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.08);
-    padding: 9px 8px;
-}
-
-#page-matrix .matrix-health-card-name {
-    font-size: 12px;
-    font-weight: 700;
-    color: #f8fbff;
-    margin-bottom: 8px;
-    line-height: 1.15;
-}
-
-#page-matrix .matrix-health-card-values {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-}
-
-#page-matrix .matrix-health-card-values span {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: rgba(8, 16, 40, 0.42);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 8px;
-    padding: 5px 2px;
-    color: #fff;
-}
-
-#page-matrix .matrix-health-card-values b {
-    font-size: 15px;
-    line-height: 1;
-}
-
-#page-matrix .matrix-health-card-values small {
-    margin-top: 4px;
-    font-size: 10px;
-    opacity: 0.85;
-}
-
 #page-matrix .matrix-health-table {
     width: 100%;
     border-collapse: separate;
@@ -5533,10 +5480,6 @@ body::after,
 }
 
 @media (max-width: 1200px) {
-    #page-matrix .matrix-health-cards {
-        grid-template-columns: repeat(4, minmax(120px, 1fr));
-    }
-
     #page-matrix .matrix-health-table td {
         font-size: 13px;
     }
@@ -5557,10 +5500,6 @@ body::after,
 }
 
 @media (max-width: 600px) {
-    #page-matrix .matrix-health-cards {
-        grid-template-columns: repeat(2, minmax(130px, 1fr));
-    }
-
     #page-matrix .matrix-health-title {
         font-size: 16px;
     }

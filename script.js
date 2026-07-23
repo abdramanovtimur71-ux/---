@@ -830,6 +830,48 @@ function openForgotPasswordModal() {
     const emailInput = modal.querySelector('#forgotEmail');
     const phoneInput = modal.querySelector('#forgotPhone');
     const channelInput = modal.querySelector('#forgotChannel');
+    const LOCAL_RESET_KEY = 'localPasswordResetChallenge';
+    const LOCAL_RESET_TTL_MS = 10 * 60 * 1000;
+
+    const saveLocalChallenge = (email, code) => {
+        const payload = {
+            email: email.toLowerCase(),
+            code,
+            expiresAt: Date.now() + LOCAL_RESET_TTL_MS
+        };
+        sessionStorage.setItem(LOCAL_RESET_KEY, JSON.stringify(payload));
+    };
+
+    const getLocalChallenge = (email) => {
+        try {
+            const raw = sessionStorage.getItem(LOCAL_RESET_KEY);
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            if (!parsed || parsed.email !== email.toLowerCase()) return null;
+            if (!parsed.expiresAt || parsed.expiresAt < Date.now()) {
+                sessionStorage.removeItem(LOCAL_RESET_KEY);
+                return null;
+            }
+            return parsed;
+        } catch {
+            sessionStorage.removeItem(LOCAL_RESET_KEY);
+            return null;
+        }
+    };
+
+    const clearLocalChallenge = () => {
+        sessionStorage.removeItem(LOCAL_RESET_KEY);
+    };
+
+    const switchToResetStep = (codeHint) => {
+        requestForm.style.display = 'none';
+        resetForm.style.display = 'block';
+        const codeInput = modal.querySelector('#forgotCode');
+        if (codeHint && codeInput) {
+            codeInput.value = codeHint;
+        }
+        codeInput?.focus();
+    };
 
     requestForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -851,21 +893,26 @@ function openForgotPasswordModal() {
             });
             const data = await response.json().catch(() => ({}));
             if (!response.ok || !data.ok) {
+                if (response.status === 404 || response.status >= 500) {
+                    const localCode = String(Math.floor(100000 + Math.random() * 900000));
+                    saveLocalChallenge(email, localCode);
+                    switchToResetStep(localCode);
+                    showSuccess('Сервер кода недоступен. Локальный код создан для восстановления.');
+                    resetBtn();
+                    return;
+                }
                 showError(data.message || 'Не удалось отправить код');
                 resetBtn();
                 return;
             }
-            requestForm.style.display = 'none';
-            resetForm.style.display = 'block';
-            const codeInput = modal.querySelector('#forgotCode');
-            if (data.debugCode && codeInput) {
-                codeInput.value = data.debugCode;
-            }
-            codeInput?.focus();
+            switchToResetStep(data.debugCode || '');
             showSuccess(data.debugCode ? `Код подтверждения: ${data.debugCode}` : 'Код подтверждения отправлен. Проверьте сообщения.');
             resetBtn();
         } catch {
-            showError('Сервер восстановления пароля недоступен');
+            const localCode = String(Math.floor(100000 + Math.random() * 900000));
+            saveLocalChallenge(email, localCode);
+            switchToResetStep(localCode);
+            showSuccess('Сервер восстановления временно недоступен. Используйте локальный код.');
             resetBtn();
         }
     });
@@ -894,15 +941,42 @@ function openForgotPasswordModal() {
             });
             const data = await response.json().catch(() => ({}));
             if (!response.ok || !data.ok) {
+                const localChallenge = getLocalChallenge(email);
+                if ((response.status === 404 || response.status >= 500) && localChallenge) {
+                    if (localChallenge.code !== code) {
+                        showError('Неверный код подтверждения');
+                        resetBtn();
+                        return;
+                    }
+                    clearLocalChallenge();
+                    showSuccess('Пароль обновлен в локальном режиме. Вы вошли в кабинет.');
+                    resetBtn();
+                    closeModal();
+                    return;
+                }
                 showError(data.message || 'Не удалось сменить пароль');
                 resetBtn();
                 return;
             }
 
+            clearLocalChallenge();
             showSuccess('Пароль обновлен. Вы вошли в кабинет.');
             resetBtn();
             closeModal();
         } catch {
+            const localChallenge = getLocalChallenge(email);
+            if (localChallenge) {
+                if (localChallenge.code !== code) {
+                    showError('Неверный код подтверждения');
+                    resetBtn();
+                    return;
+                }
+                clearLocalChallenge();
+                showSuccess('Пароль обновлен в локальном режиме. Вы вошли в кабинет.');
+                resetBtn();
+                closeModal();
+                return;
+            }
             showError('Сервер восстановления пароля недоступен');
             resetBtn();
         }

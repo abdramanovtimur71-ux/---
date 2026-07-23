@@ -2807,18 +2807,6 @@ function renderMatrixHealthTable(rows) {
     }, { physics: 0, energy: 0, emotions: 0 });
 
     return `
-        <div class="matrix-health-cards">
-            ${rows.map((row) => `
-                <article class="matrix-health-card" style="--chakra-color:${row.color}">
-                    <div class="matrix-health-card-name">${row.name}</div>
-                    <div class="matrix-health-card-values">
-                        <span><b>${row.physics}</b><small>Физика</small></span>
-                        <span><b>${row.energy}</b><small>Энергия</small></span>
-                        <span><b>${row.emotions}</b><small>Эмоции</small></span>
-                    </div>
-                </article>
-            `).join('')}
-        </div>
         <table class="matrix-health-table">
             <thead>
                 <tr>
