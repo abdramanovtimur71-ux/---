@@ -5149,10 +5149,8 @@ body::after,
 
 
 
-#page-matrix .matrix-svg #progressionDotsGroup text {
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+#page-matrix .matrix-svg #progressionDotsGroup {
+    display: none !important;
 }
 
 
