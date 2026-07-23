@@ -1923,9 +1923,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Восстановление страницы после обновления: хэш → localStorage → 'overview'
     const hash = window.location.hash.replace('#', '');
+    const storedPage = localStorage.getItem('dashboard_page') || 'overview';
+    const isValidStoredPage = !!document.getElementById('page-' + storedPage);
+    const restoredPage = isValidStoredPage ? storedPage : 'overview';
     const savedPage = hash && document.getElementById('page-' + hash)
         ? hash
-        : (localStorage.getItem('dashboard_page') || 'overview');
+        : (restoredPage === 'matrix' ? 'overview' : restoredPage);
     const link = document.querySelector('[onclick*="' + savedPage + '"]');
     showPage(savedPage, link);
 });
