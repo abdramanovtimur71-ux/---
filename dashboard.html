@@ -1834,63 +1834,29 @@ function updateThemeToggleBtn(mode) {
 
 // Проверка авторизации
 function checkAuth() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    if (!isLoggedIn) {
-        showDashboardLoginModal();
-    }
+    return;
 }
 
 function showDashboardLoginModal() {
-    document.getElementById('dashLoginOverlay').style.display = 'flex';
+    return;
 }
 
 function dashLoginSubmit(e) {
-    e.preventDefault();
-    const email = document.getElementById('dashLoginEmail').value.trim();
-    const pass  = document.getElementById('dashLoginPass').value;
-    const errEl = document.getElementById('dashLoginErr');
-
-    if (!email || !pass) { errEl.textContent = 'Заполните все поля'; return; }
-    if (pass.length < 6) { errEl.textContent = 'Пароль минимум 6 символов'; return; }
-
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userEmail', email);
-    if (!localStorage.getItem('userName')) localStorage.setItem('userName', email.split('@')[0]);
-
-    document.getElementById('dashLoginOverlay').style.display = 'none';
-    errEl.textContent = '';
-    initDashboard();
+    if (e) e.preventDefault();
+    return;
 }
 
 function dashRegSubmit(e) {
-    e.preventDefault();
-    const name  = document.getElementById('dashRegName').value.trim();
-    const email = document.getElementById('dashRegEmail').value.trim();
-    const pass  = document.getElementById('dashRegPass').value;
-    const pass2 = document.getElementById('dashRegPass2').value;
-    const errEl = document.getElementById('dashRegErr');
-
-    if (!name || !email || !pass || !pass2) { errEl.textContent = 'Заполните все поля'; return; }
-    if (pass.length < 6) { errEl.textContent = 'Пароль минимум 6 символов'; return; }
-    if (pass !== pass2) { errEl.textContent = 'Пароли не совпадают'; return; }
-
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userName', name);
-
-    document.getElementById('dashLoginOverlay').style.display = 'none';
-    errEl.textContent = '';
-    initDashboard();
+    if (e) e.preventDefault();
+    return;
 }
 
 function dashSwitchToReg() {
-    document.getElementById('dashLoginForm').style.display = 'none';
-    document.getElementById('dashRegForm').style.display = 'block';
+    return;
 }
 
 function dashSwitchToLogin() {
-    document.getElementById('dashRegForm').style.display = 'none';
-    document.getElementById('dashLoginForm').style.display = 'block';
+    return;
 }
 
 const matrixWheelState = {
@@ -2913,79 +2879,6 @@ function bookMatrixSession() {
     showPage('booking', document.querySelector('[onclick*="booking"]'));
 }
 </script>
-
-<!-- ═══ МОДАЛЬНОЕ ОКНО ВХОДА (dashboard) ═══ -->
-<div id="dashLoginOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;font-family:Inter,sans-serif">
-  <div style="background:#0c1018;border:1px solid rgba(155,48,208,0.4);border-radius:16px;padding:36px 32px;width:360px;max-width:94vw;box-shadow:0 0 60px rgba(155,48,208,0.3)">
-
-    <!-- Форма входа -->
-    <div id="dashLoginForm">
-      <div style="text-align:center;margin-bottom:24px">
-        <div style="font-size:32px;margin-bottom:8px">🔮</div>
-        <h2 style="color:#e8d090;font-size:20px;font-weight:700;margin:0">Вход в кабинет</h2>
-        <p style="color:#8892b8;font-size:13px;margin:6px 0 0">Введите данные для доступа</p>
-      </div>
-      <form onsubmit="dashLoginSubmit(event)">
-        <div style="margin-bottom:14px">
-          <label style="color:#a5afca;font-size:13px;display:block;margin-bottom:5px">Email</label>
-          <input id="dashLoginEmail" type="email" placeholder="ваш@email.com" required
-            style="width:100%;padding:11px 14px;background:#151a26;border:1px solid rgba(155,48,208,0.3);border-radius:8px;color:#e8d090;font-size:14px;outline:none;box-sizing:border-box">
-        </div>
-        <div style="margin-bottom:6px">
-          <label style="color:#a5afca;font-size:13px;display:block;margin-bottom:5px">Пароль</label>
-          <input id="dashLoginPass" type="password" placeholder="Ваш пароль" required
-            style="width:100%;padding:11px 14px;background:#151a26;border:1px solid rgba(155,48,208,0.3);border-radius:8px;color:#e8d090;font-size:14px;outline:none;box-sizing:border-box">
-        </div>
-        <div id="dashLoginErr" style="color:#e05050;font-size:12px;min-height:18px;margin-bottom:12px"></div>
-        <button type="submit" style="width:100%;padding:12px;background:linear-gradient(135deg,#9b30d0,#6010a0);border:none;border-radius:8px;color:#fff;font-size:15px;font-weight:600;cursor:pointer">
-          Войти
-        </button>
-      </form>
-      <p style="color:#8892b8;font-size:13px;text-align:center;margin-top:16px">
-        Нет аккаунта? <a href="#" onclick="dashSwitchToReg()" style="color:#9b30d0">Зарегистрироваться</a>
-      </p>
-    </div>
-
-    <!-- Форма регистрации -->
-    <div id="dashRegForm" style="display:none">
-      <div style="text-align:center;margin-bottom:24px">
-        <div style="font-size:32px;margin-bottom:8px">✨</div>
-        <h2 style="color:#e8d090;font-size:20px;font-weight:700;margin:0">Создать аккаунт</h2>
-        <p style="color:#8892b8;font-size:13px;margin:6px 0 0">Присоединитесь к сообществу</p>
-      </div>
-      <form onsubmit="dashRegSubmit(event)">
-        <div style="margin-bottom:12px">
-          <label style="color:#a5afca;font-size:13px;display:block;margin-bottom:5px">Имя</label>
-          <input id="dashRegName" type="text" placeholder="Ваше имя" required
-            style="width:100%;padding:10px 14px;background:#151a26;border:1px solid rgba(155,48,208,0.3);border-radius:8px;color:#e8d090;font-size:14px;outline:none;box-sizing:border-box">
-        </div>
-        <div style="margin-bottom:12px">
-          <label style="color:#a5afca;font-size:13px;display:block;margin-bottom:5px">Email</label>
-          <input id="dashRegEmail" type="email" placeholder="ваш@email.com" required
-            style="width:100%;padding:10px 14px;background:#151a26;border:1px solid rgba(155,48,208,0.3);border-radius:8px;color:#e8d090;font-size:14px;outline:none;box-sizing:border-box">
-        </div>
-        <div style="margin-bottom:12px">
-          <label style="color:#a5afca;font-size:13px;display:block;margin-bottom:5px">Пароль</label>
-          <input id="dashRegPass" type="password" placeholder="Минимум 6 символов" required
-            style="width:100%;padding:10px 14px;background:#151a26;border:1px solid rgba(155,48,208,0.3);border-radius:8px;color:#e8d090;font-size:14px;outline:none;box-sizing:border-box">
-        </div>
-        <div style="margin-bottom:6px">
-          <label style="color:#a5afca;font-size:13px;display:block;margin-bottom:5px">Повторите пароль</label>
-          <input id="dashRegPass2" type="password" placeholder="Повторите пароль" required
-            style="width:100%;padding:10px 14px;background:#151a26;border:1px solid rgba(155,48,208,0.3);border-radius:8px;color:#e8d090;font-size:14px;outline:none;box-sizing:border-box">
-        </div>
-        <div id="dashRegErr" style="color:#e05050;font-size:12px;min-height:18px;margin-bottom:12px"></div>
-        <button type="submit" style="width:100%;padding:12px;background:linear-gradient(135deg,#9b30d0,#6010a0);border:none;border-radius:8px;color:#fff;font-size:15px;font-weight:600;cursor:pointer">
-          Создать аккаунт
-        </button>
-      </form>
-      <p style="color:#8892b8;font-size:13px;text-align:center;margin-top:16px">
-        Уже есть аккаунт? <a href="#" onclick="dashSwitchToLogin()" style="color:#9b30d0">Войти</a>
-      </p>
-    </div>
-
-  </div>
-</div>
 
 <div id="aiChatWidget">
 <button id="aiChatToggle" onclick="aiChatOpen()" aria-label="Открыть ИИ-консультант" title="Спросить ИИ-консультанта">
