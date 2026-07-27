@@ -2987,6 +2987,36 @@ function bookMatrixSession() {
   </div>
 </div>
 
+<div id="aiChatWidget">
+<button id="aiChatToggle" onclick="aiChatOpen()" aria-label="Открыть ИИ-консультант" title="Спросить ИИ-консультанта">
+    <span id="aiChatIcon">🔮</span>
+    <span class="ai-chat-pulse"></span>
+</button>
+<div id="aiChatBox" aria-hidden="true">
+    <div id="aiChatHeader">
+        <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:22px">🔮</span>
+            <div>
+                <div style="font-weight:600;font-size:14px;color:#e8d090">Матрица Судьбы — ИИ консультант</div>
+                <div style="font-size:11px;color:#8a9ab5">Онлайн · отвечает мгновенно</div>
+            </div>
+        </div>
+        <button onclick="aiChatClose()" style="background:none;border:none;cursor:pointer;color:#8a9ab5;font-size:18px;padding:4px" aria-label="Закрыть">✕</button>
+    </div>
+    <div id="aiChatMessages">
+        <div class="ai-msg ai-msg-bot">
+            <span>Здравствуйте 🌙 Я — ИИ-консультант Матрицы Судьбы.<br>Спросите меня о нумерологии, матрице судьбы или услугах. Чем могу помочь?</span>
+        </div>
+    </div>
+    <div id="aiChatInputRow">
+        <input id="aiChatInput" type="text" placeholder="Напишите вопрос..." maxlength="500"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiChatSend()}" autocomplete="off">
+        <button onclick="aiChatSend()" id="aiChatSendBtn" aria-label="Отправить">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+    </div>
+</div>
+</div>
 
 <script>
 /* ── Animated star field ─────────────────────────────────────────── */
@@ -3033,6 +3063,87 @@ function bookMatrixSession() {
   window.addEventListener('resize', ()=>{ resize(); });
   init();
   draw();
+})();
+</script>
+
+<script>
+(function(){
+    const API = (window.API_BASE || 'https://roza-ogly-api.onrender.com');
+    const SID = (sessionStorage.getItem('aiSid') || (() => {
+        const s = Math.random().toString(36).slice(2);
+        sessionStorage.setItem('aiSid', s);
+        return s;
+    })());
+
+    function escapeHtml(text) {
+        return String(text)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    window.aiChatOpen = function() {
+        const box = document.getElementById('aiChatBox');
+        box.classList.add('open');
+        box.setAttribute('aria-hidden', 'false');
+        document.getElementById('aiChatInput').focus();
+    };
+
+    window.aiChatClose = function() {
+        const box = document.getElementById('aiChatBox');
+        box.classList.remove('open');
+        box.setAttribute('aria-hidden', 'true');
+    };
+
+    function addMsg(text, role) {
+        const box = document.getElementById('aiChatMessages');
+        const d = document.createElement('div');
+        d.className = 'ai-msg ai-msg-' + role;
+        d.innerHTML = '<span>' + escapeHtml(text).replace(/\n/g, '<br>') + '</span>';
+        box.appendChild(d);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    function addTyping() {
+        const box = document.getElementById('aiChatMessages');
+        const d = document.createElement('div');
+        d.className = 'ai-msg ai-msg-bot ai-msg-typing';
+        d.id = '_aiTyping';
+        d.innerHTML = '<span><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></span>';
+        box.appendChild(d);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    window.aiChatSend = async function() {
+        const input = document.getElementById('aiChatInput');
+        const btn = document.getElementById('aiChatSendBtn');
+        const msg = (input.value || '').trim();
+        if (!msg) return;
+
+        input.value = '';
+        btn.disabled = true;
+        addMsg(msg, 'user');
+        addTyping();
+
+        try {
+            const r = await fetch(API + '/api/chat', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ message: msg, session_id: SID })
+            });
+            const data = await r.json();
+            document.getElementById('_aiTyping')?.remove();
+            addMsg(data.ok ? data.reply : (data.message || 'Ошибка. Попробуйте позже.'), 'bot');
+        } catch {
+            document.getElementById('_aiTyping')?.remove();
+            addMsg('Нет соединения. Проверьте интернет 🌙', 'bot');
+        } finally {
+            btn.disabled = false;
+            input.focus();
+        }
+    };
 })();
 </script>
 
