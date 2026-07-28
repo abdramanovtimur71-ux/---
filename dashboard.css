@@ -3551,12 +3551,6 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     opacity: 1 !important;
     visibility: visible !important;
 }
-#page-matrix .matrix-svg #mvAinCnum,
-#page-matrix .matrix-svg #mvBinCnum,
-#page-matrix .matrix-svg #mvRnum,
-#page-matrix .matrix-svg #mvSnum {
-    fill: #111 !important;
-}
 #page-matrix .matrix-values-grid .matrix-val-card,
 #page-matrix .matrix-interp-item,
 #page-matrix .matrix-extra-header,
@@ -4471,7 +4465,6 @@ body {
 .profile-service-sheet,
 .profile-shop-card,
 .matrix-form-card,
-.matrix-visual-wrap,
 .matrix-extra-card,
 .session-constellation,
 .lunar-progress {
@@ -4713,10 +4706,19 @@ body {
     background: rgba(5,11,28,0.72);
 }
 
-#page-matrix .matrix-visual-wrap {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 32px;
+@keyframes matrixAuraBreath {
+    0%, 100% { opacity: 0.92; transform: scale(1.00) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.03) rotate(0.4deg); }
+}
+
+@keyframes matrixAuraDrift {
+    from { background-position: 50% 44%, 18% 16%, 82% 18%, 50% 62%, 0 0; }
+    to { background-position: 50% 44%, 20% 18%, 84% 20%, 52% 64%, 100% 100%; }
+}
+
+@keyframes matrixStarTwinkle {
+    0%, 100% { filter: brightness(1) saturate(1.04); }
+    50% { filter: brightness(1.12) saturate(1.12); }
 }
 
 @keyframes constellationFlow {
@@ -4739,6 +4741,9 @@ body[data-motion="soft"] .constellation-line,
 body[data-motion="soft"] .constellation-star.active {
     animation-duration: 9s !important;
 }
+body[data-motion="soft"] #page-matrix .matrix-visual-wrap::after {
+    opacity: 0.42 !important;
+}
 body[data-motion="soft"] .card,
 body[data-motion="soft"] .kpi-card,
 body[data-motion="soft"] .session-item {
@@ -4748,6 +4753,9 @@ body[data-motion="soft"] .session-item {
 body[data-motion="cinema"] .constellation-line,
 body[data-motion="cinema"] .constellation-star.active {
     animation-duration: 3.5s !important;
+}
+body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
+    opacity: 0.9 !important;
 }
 body[data-motion="cinema"] .card:hover,
 body[data-motion="cinema"] .kpi-card:hover,
@@ -4853,6 +4861,14 @@ body[data-motion="cinema"] .session-item:hover {
     -webkit-backdrop-filter: blur(8px);
 }
 
+#page-matrix .matrix-visual-wrap::after {
+    transition: opacity var(--dash-fx-mid) var(--dash-ease-premium), filter var(--dash-fx-mid) var(--dash-ease-premium);
+    filter: saturate(1.08);
+}
+#page-matrix .matrix-visual-wrap:hover::after {
+    opacity: 0.9;
+    filter: saturate(1.22);
+}
 
 body[data-motion="soft"] .topbar-actions .topbar-back:hover,
 body[data-motion="soft"] .topbar-actions .theme-toggle-btn:hover {
@@ -4864,6 +4880,9 @@ body[data-motion="soft"] .card:hover,
 body[data-motion="soft"] .session-item:hover {
     transform: translateY(-2px) !important;
 }
+body[data-motion="soft"] #page-matrix .matrix-visual-wrap::after {
+    opacity: 0.42 !important;
+}
 
 body[data-motion="cinema"] .kpi-card:hover,
 body[data-motion="cinema"] .card:hover,
@@ -4873,6 +4892,9 @@ body[data-motion="cinema"] .session-item:hover {
 }
 body[data-motion="cinema"] .constellation-line.active-route {
     animation-duration: 2.8s !important;
+}
+body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
+    opacity: 0.98 !important;
 }
 
 @media (max-width: 900px) {
@@ -4921,6 +4943,10 @@ body[data-motion="cinema"] .constellation-star.active {
 body[data-motion="cinema"] .constellation-line.active-route {
     stroke-width: 0.78 !important;
 }
+body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
+    opacity: 1 !important;
+    filter: saturate(1.40) brightness(1.10) !important;
+}
 
 /* ═══════════════════════════════════════════════════
    PHASE 11 — TEXT VISIBILITY SAFETY LAYER
@@ -4944,58 +4970,68 @@ body[data-motion="cinema"] .constellation-line.active-route {
     -webkit-text-fill-color: transparent !important;
 }
 
-/* Matrix premium static cosmic style */
-#page-matrix .matrix-visual-wrap {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 32px;
-}
+/* Matrix restore */
 #page-matrix .matrix-svg {
-    display: block;
-    margin: 0 auto;
-    border-radius: 12px;
-    position: relative;
-    z-index: 1;
-    filter: drop-shadow(0 8px 32px rgba(0,0,0,0.18));
-    background: transparent;
+    background: transparent !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+    filter: none !important;
+    overflow: visible !important;
 }
+
 #page-matrix .matrix-svg image {
     filter: none;
+    opacity: 1;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: none;
 }
+
 #page-matrix .matrix-svg text {
     fill: #121b36 !important;
     stroke: none !important;
-    stroke-width: 0;
-    text-shadow: none;
+    text-shadow: none !important;
     font-family: Inter, sans-serif !important;
     letter-spacing: 0.12px;
-    paint-order: fill;
 }
+
 #page-matrix .matrix-svg circle {
     fill: #f7fbff !important;
     stroke: #796841 !important;
     stroke-width: 1.8 !important;
 }
+
 #page-matrix .matrix-svg circle.matrix-green-point {
     fill: #57f27d !important;
     stroke: #0f8f3f !important;
     stroke-width: 2.2 !important;
 }
+
 #page-matrix .matrix-svg #mvAnum,
 #page-matrix .matrix-svg #mvBnum {
     fill: #2f3f9a !important;
 }
+
 #page-matrix .matrix-svg #mvVnum,
 #page-matrix .matrix-svg #mvGnum {
     fill: #8f2f49 !important;
 }
+
 #page-matrix .matrix-svg #mvDnum {
     fill: #7d5b16 !important;
 }
+
 #page-matrix .matrix-svg #progressionDotsGroup text {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
+}
+/* Keep matrix numbers visible without background image */
+#page-matrix .matrix-svg #mvAinCnum,
+#page-matrix .matrix-svg #mvBinCnum,
+#page-matrix .matrix-svg #mvRnum,
+#page-matrix .matrix-svg #mvSnum {
+    fill: #111 !important;
 }
 
 /* Disable all shimmering/blinking glow effects (local tuning) */
@@ -5042,6 +5078,11 @@ body::after,
 }
 
 
+
+
+#page-matrix .matrix-svg #progressionDotsGroup {
+    display: none !important;
+}
 
 
 /* matrix-header-polish:start */
@@ -5531,7 +5572,6 @@ body.dashboard-intro-ready .settings-cockpit-card {
 .profile-service-sheet,
 .profile-shop-card,
 .matrix-form-card,
-.matrix-visual-wrap,
 .matrix-extra-card,
 .session-constellation,
 .lunar-progress,
@@ -5657,7 +5697,6 @@ body.dashboard-intro-ready .settings-cockpit-card {
     .profile-service-sheet,
     .profile-shop-card,
     .matrix-form-card,
-    .matrix-visual-wrap,
     .matrix-extra-card,
     .session-constellation,
     .lunar-progress,
@@ -6152,6 +6191,14 @@ body.dashboard-intro .invoice-ledger .invoice-row {
 }
 
 
+/* ─── MATRIX NUMBERS — BLACK COLOR ─────────────────── */
+#page-matrix .matrix-svg #mvVnum,
+#page-matrix .matrix-svg #mvGnum,
+#page-matrix .matrix-svg #mvAnum,
+#page-matrix .matrix-svg #mvBnum {
+    fill: #000000 !important;
+}
+
 /* ═══════════════════════════════════════════════════════
    PAGE HEADER — BEAUTIFUL & ALIVE WITH SOUL
    ═══════════════════════════════════════════════════════ */
@@ -6315,130 +6362,6 @@ body.dashboard-intro .invoice-ledger .invoice-row {
     z-index: 2 !important;
 }
 
-/* Matrix full classic restore */
-#page-matrix .page-header,
-#page-matrix .matrix-form-card,
-#page-matrix .matrix-person-header,
-#page-matrix .matrix-values-grid .matrix-val-card,
-#page-matrix .matrix-interp-item,
-#page-matrix .matrix-extra-header,
-#page-matrix .matrix-extra-group,
-#page-matrix .matrix-extra-card,
-#page-matrix .matrix-health-section {
-    background: #fff !important;
-    border: 1px solid rgba(0, 0, 0, 0.12) !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    filter: none !important;
-}
-
-#page-matrix .page-header::before,
-#page-matrix .page-header::after,
-#page-matrix .matrix-form-card::after,
-#page-matrix .matrix-visual-wrap::before,
-#page-matrix .matrix-visual-wrap::after {
-    content: none !important;
-    animation: none !important;
-}
-
-#page-matrix .page-header h1,
-#page-matrix .page-header p,
-#page-matrix .matrix-date-gesture,
-#page-matrix .matrix-age-preview {
-    color: #1f2937 !important;
-    text-shadow: none !important;
-}
-
-#page-matrix .matrix-input,
-#page-matrix .matrix-timer-wheels {
-    background: #fff !important;
-    border: 1px solid rgba(0, 0, 0, 0.2) !important;
-    box-shadow: none !important;
-}
-
-#page-matrix .matrix-calc-btn,
-#page-matrix .matrix-save-btn {
-    background: #f3f4f6 !important;
-    color: #111827 !important;
-    border: 1px solid rgba(0, 0, 0, 0.2) !important;
-    box-shadow: none !important;
-    transform: none !important;
-}
-
-#page-matrix .matrix-visual-wrap {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 32px;
-}
-
-#page-matrix .matrix-svg {
-    background: transparent !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    filter: none !important;
-    overflow: visible !important;
-}
-
-#page-matrix .matrix-svg circle {
-    fill: #fff !important;
-    stroke: #7f6b45 !important;
-    stroke-width: 2 !important;
-}
-
-#page-matrix .matrix-svg circle.matrix-green-point {
-    fill: #57f27d !important;
-    stroke: #0f8f3f !important;
-    stroke-width: 2 !important;
-}
-
-#page-matrix .matrix-svg text {
-    font-family: sans-serif !important;
-    text-shadow: none !important;
-    stroke: none !important;
-    letter-spacing: 0 !important;
-}
-
-#page-matrix .matrix-svg #mvAnum,
-#page-matrix .matrix-svg #mvBnum,
-#page-matrix .matrix-svg #mvVnum,
-#page-matrix .matrix-svg #mvGnum,
-#page-matrix .matrix-svg #mvDnum,
-#page-matrix .matrix-svg #mvAinNum,
-#page-matrix .matrix-svg #mvAin2num,
-#page-matrix .matrix-svg #mvBinNum,
-#page-matrix .matrix-svg #mvBin2num,
-#page-matrix .matrix-svg #mvVinNum,
-#page-matrix .matrix-svg #mvGinNum,
-#page-matrix .matrix-svg #mvKnum {
-    fill: #fff !important;
-}
-
-#page-matrix .matrix-svg #mvEnum,
-#page-matrix .matrix-svg #mvZhnum,
-#page-matrix .matrix-svg #mvInum,
-#page-matrix .matrix-svg #mvZnum,
-#page-matrix .matrix-svg #mvVin2num,
-#page-matrix .matrix-svg #mvGin2num,
-#page-matrix .matrix-svg #mvEinNum,
-#page-matrix .matrix-svg #mvEin2num,
-#page-matrix .matrix-svg #mvZhinNum,
-#page-matrix .matrix-svg #mvZhin2num,
-#page-matrix .matrix-svg #mvZinNum,
-#page-matrix .matrix-svg #mvZin2num,
-#page-matrix .matrix-svg #mvIinNum,
-#page-matrix .matrix-svg #mvIin2num,
-#page-matrix .matrix-svg #mvAinCnum,
-#page-matrix .matrix-svg #mvBinCnum,
-#page-matrix .matrix-svg #mvVinCnum,
-#page-matrix .matrix-svg #mvPnum,
-#page-matrix .matrix-svg #mvOnum,
-#page-matrix .matrix-svg #mvMnum,
-#page-matrix .matrix-svg #mvNnum,
-#page-matrix .matrix-svg #progressionDotsGroup text {
-    fill: #333 !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-}
 /* AI assistant widget */
 #aiChatWidget {
     position: fixed;
@@ -6621,5 +6544,3 @@ body.dashboard-intro .invoice-ledger .invoice-row {
     #aiChatBox { width: calc(100vw - 24px); right: 0; bottom: 56px; }
     #aiChatToggle { width: 40px; height: 40px; font-size: 18px; }
 }
-
-
