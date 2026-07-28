@@ -3500,79 +3500,62 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     box-shadow: 0 12px 28px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 #page-matrix .matrix-visual-wrap {
-    position: relative;
-    padding: 14px;
-    border-radius: 24px;
-    overflow: hidden;
-    isolation: isolate;
-    border: 1px solid rgba(176,142,255,0.30);
-    outline: 1px solid rgba(95,141,255,0.12);
-    outline-offset: 5px;
-    background:
-        radial-gradient(circle at 50% 44%, rgba(191,154,255,0.18) 0%, rgba(191,154,255,0.08) 14%, transparent 34%),
-        radial-gradient(circle at 18% 16%, rgba(95,141,255,0.16) 0%, transparent 22%),
-        radial-gradient(circle at 82% 18%, rgba(245,203,104,0.10) 0%, transparent 18%),
-        radial-gradient(circle at 50% 62%, rgba(119,76,255,0.10) 0%, transparent 28%),
-        linear-gradient(160deg, rgba(4,6,14,0.99) 0%, rgba(9,12,24,0.97) 100%);
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.06),
-        0 0 0 1px rgba(95,141,255,0.05),
-        0 22px 48px rgba(0,0,0,0.34),
-        0 0 24px rgba(95,141,255,0.12),
-        0 0 34px rgba(191,154,255,0.12);
-    backdrop-filter: saturate(1.14) blur(1.4px);
-}
-#page-matrix .matrix-visual-wrap::before {
-    content: '';
-    position: absolute;
-    inset: 8px;
-    pointer-events: none;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.08);
-    background:
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 18%, transparent 36%),
-        radial-gradient(circle at var(--mx) var(--my), rgba(191,154,255,0.10) 0%, rgba(191,154,255,0.03) 18%, transparent 46%),
-        radial-gradient(circle at 50% 50%, transparent 54%, rgba(245,203,104,0.10) 55%, transparent 57%),
-        radial-gradient(circle at 26% 26%, rgba(255,255,255,0.10) 0 1px, transparent 1.8px),
-        radial-gradient(circle at 78% 22%, rgba(255,255,255,0.08) 0 1px, transparent 1.8px),
-        radial-gradient(circle at 72% 76%, rgba(255,255,255,0.06) 0 1px, transparent 1.8px),
-        radial-gradient(circle at 15% 80%, rgba(95,141,255,0.08) 0%, transparent 16%),
-        radial-gradient(circle at 84% 14%, rgba(245,203,104,0.06) 0%, transparent 14%),
-        linear-gradient(135deg, rgba(245,203,104,0.04) 0%, transparent 22%, transparent 78%, rgba(95,141,255,0.05) 100%);
-    opacity: 0.32;
-    mix-blend-mode: screen;
-    transform: scale(1.02);
-    animation: matrixAuraBreath 9s ease-in-out infinite, matrixAuraDrift 34s linear infinite;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
 }
 #page-matrix .matrix-svg {
     display: block;
     margin: 0 auto;
-    border-radius: 16px;
+    border-radius: 12px;
     position: relative;
     z-index: 1;
-    filter: drop-shadow(0 2px 12px rgba(0,0,0,0.15));
+    filter: drop-shadow(0 8px 32px rgba(0,0,0,0.18));
+    background: transparent;
+}
+#page-matrix .matrix-svg image {
+    filter: none;
 }
 #page-matrix .matrix-svg text {
-    paint-order: fill;
-    stroke: none;
+    fill: #121b36 !important;
+    stroke: none !important;
     stroke-width: 0;
     text-shadow: none;
+    font-family: Inter, sans-serif !important;
+    letter-spacing: 0.12px;
+    paint-order: fill;
+}
+#page-matrix .matrix-svg circle {
+    fill: #f7fbff !important;
+    stroke: #796841 !important;
+    stroke-width: 1.8 !important;
+}
+#page-matrix .matrix-svg circle.matrix-green-point {
+    fill: #57f27d !important;
+    stroke: #0f8f3f !important;
+    stroke-width: 2.2 !important;
+}
+#page-matrix .matrix-svg #mvAnum,
+#page-matrix .matrix-svg #mvBnum {
+    fill: #2f3f9a !important;
+}
+#page-matrix .matrix-svg #mvVnum,
+#page-matrix .matrix-svg #mvGnum {
+    fill: #8f2f49 !important;
+}
+#page-matrix .matrix-svg #mvDnum {
+    fill: #7d5b16 !important;
 }
 #page-matrix .matrix-svg #progressionDotsGroup text {
-    display: none !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
-#page-matrix .matrix-svg #mvAinNum,
-#page-matrix .matrix-svg #mvBinNum,
 #page-matrix .matrix-svg #mvAinCnum,
 #page-matrix .matrix-svg #mvBinCnum,
 #page-matrix .matrix-svg #mvRnum,
 #page-matrix .matrix-svg #mvSnum {
-    fill: #222 !important;
-    stroke: none !important;
-    stroke-width: 0;
-}
-#page-matrix .matrix-svg image {
-    filter: none;
+    fill: #111 !important;
 }
 #page-matrix .matrix-values-grid .matrix-val-card,
 #page-matrix .matrix-interp-item,
@@ -5048,11 +5031,8 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
 }
 #page-matrix .matrix-svg {
     background: transparent !important;
-    border-radius: 14px !important;
-    border: 1px solid rgba(255, 255, 255, 0.75) !important;
-    box-shadow:
-        inset 0 0 0 1px rgba(94, 122, 191, 0.16),
-        inset 0 24px 42px rgba(255, 255, 255, 0.18) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
     filter: none !important;
     overflow: visible !important;
 }
@@ -5091,9 +5071,6 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
 }
 #page-matrix .matrix-svg #mvDnum {
     fill: #7d5b16 !important;
-}
-#page-matrix .matrix-svg #progressionDotsGroup text {
-    display: none !important;
 }
 /* Keep matrix numbers visible without background image */
 #page-matrix .matrix-svg #mvAinCnum,
@@ -5147,11 +5124,6 @@ body::after,
 }
 
 
-
-
-#page-matrix .matrix-svg #progressionDotsGroup {
-    display: none !important;
-}
 
 
 /* matrix-header-polish:start */
@@ -6435,20 +6407,9 @@ body.dashboard-intro .invoice-ledger .invoice-row {
 
 /* Matrix final restore */
 #page-matrix .matrix-visual-wrap {
-    padding: 18px !important;
-    border: 1px solid rgba(120, 146, 210, 0.4) !important;
-    outline: none !important;
-    border-radius: 22px !important;
-    overflow: hidden !important;
-    background:
-        radial-gradient(circle at 12% 14%, rgba(142, 110, 242, 0.18) 0%, transparent 38%),
-        radial-gradient(circle at 88% 12%, rgba(225, 177, 78, 0.16) 0%, transparent 32%),
-        radial-gradient(circle at 50% 90%, rgba(75, 122, 234, 0.14) 0%, transparent 42%),
-        linear-gradient(160deg, #c8d6f2 0%, #bfd0ef 48%, #b7caec 100%) !important;
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.72),
-        0 18px 36px rgba(8, 18, 44, 0.2),
-        0 0 0 1px rgba(255, 255, 255, 0.42) !important;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
 }
 
 #page-matrix .matrix-visual-wrap::before,
@@ -6459,25 +6420,46 @@ body.dashboard-intro .invoice-ledger .invoice-row {
 
 #page-matrix .matrix-svg {
     background: transparent !important;
-    border-radius: 14px !important;
-    border: 1px solid rgba(255, 255, 255, 0.75) !important;
-    box-shadow:
-        inset 0 0 0 1px rgba(94, 122, 191, 0.16),
-        inset 0 24px 42px rgba(255, 255, 255, 0.18) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
     filter: none !important;
+    overflow: visible !important;
 }
 
 #page-matrix .matrix-svg text {
     fill: #121b36 !important;
     stroke: none !important;
     text-shadow: none !important;
+    font-family: Inter, sans-serif !important;
+    letter-spacing: 0.12px;
+}
+
+#page-matrix .matrix-svg circle {
+    fill: #f7fbff !important;
+    stroke: #796841 !important;
+    stroke-width: 1.8 !important;
+}
+
+#page-matrix .matrix-svg circle.matrix-green-point {
+    fill: #57f27d !important;
+    stroke: #0f8f3f !important;
+    stroke-width: 2.2 !important;
 }
 
 #page-matrix .matrix-svg #mvVnum,
 #page-matrix .matrix-svg #mvGnum,
 #page-matrix .matrix-svg #mvAnum,
 #page-matrix .matrix-svg #mvBnum {
-    fill: #000000 !important;
+    fill: #2f3f9a !important;
+}
+
+#page-matrix .matrix-svg #mvVnum,
+#page-matrix .matrix-svg #mvGnum {
+    fill: #8f2f49 !important;
+}
+
+#page-matrix .matrix-svg #mvDnum {
+    fill: #7d5b16 !important;
 }
 
 #page-matrix .matrix-svg #progressionDotsGroup text {
