@@ -6315,60 +6315,17 @@ body.dashboard-intro .invoice-ledger .invoice-row {
     z-index: 2 !important;
 }
 
-/* Matrix full classic restore */
-#page-matrix .page-header,
-#page-matrix .matrix-form-card,
-#page-matrix .matrix-person-header,
-#page-matrix .matrix-values-grid .matrix-val-card,
-#page-matrix .matrix-interp-item,
-#page-matrix .matrix-extra-header,
-#page-matrix .matrix-extra-group,
-#page-matrix .matrix-extra-card,
-#page-matrix .matrix-health-section {
-    background: #fff !important;
-    border: 1px solid rgba(0, 0, 0, 0.12) !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    filter: none !important;
-}
-
-#page-matrix .page-header::before,
-#page-matrix .page-header::after,
-#page-matrix .matrix-form-card::after,
-#page-matrix .matrix-visual-wrap::before,
-#page-matrix .matrix-visual-wrap::after {
-    content: none !important;
-    animation: none !important;
-}
-
-#page-matrix .page-header h1,
-#page-matrix .page-header p,
-#page-matrix .matrix-date-gesture,
-#page-matrix .matrix-age-preview {
-    color: #1f2937 !important;
-    text-shadow: none !important;
-}
-
-#page-matrix .matrix-input,
-#page-matrix .matrix-timer-wheels {
-    background: #fff !important;
-    border: 1px solid rgba(0, 0, 0, 0.2) !important;
-    box-shadow: none !important;
-}
-
-#page-matrix .matrix-calc-btn,
-#page-matrix .matrix-save-btn {
-    background: #f3f4f6 !important;
-    color: #111827 !important;
-    border: 1px solid rgba(0, 0, 0, 0.2) !important;
-    box-shadow: none !important;
-    transform: none !important;
-}
-
+/* Matrix final restore */
 #page-matrix .matrix-visual-wrap {
     display: flex;
     justify-content: center;
     margin-bottom: 32px;
+}
+
+#page-matrix .matrix-visual-wrap::before,
+#page-matrix .matrix-visual-wrap::after {
+    content: none !important;
+    animation: none !important;
 }
 
 #page-matrix .matrix-svg {
@@ -6382,12 +6339,6 @@ body.dashboard-intro .invoice-ledger .invoice-row {
 #page-matrix .matrix-svg circle {
     fill: #fff !important;
     stroke: #7f6b45 !important;
-    stroke-width: 2 !important;
-}
-
-#page-matrix .matrix-svg circle.matrix-green-point {
-    fill: #57f27d !important;
-    stroke: #0f8f3f !important;
     stroke-width: 2 !important;
 }
 
@@ -6621,5 +6572,4 @@ body.dashboard-intro .invoice-ledger .invoice-row {
     #aiChatBox { width: calc(100vw - 24px); right: 0; bottom: 56px; }
     #aiChatToggle { width: 40px; height: 40px; font-size: 18px; }
 }
-
 
