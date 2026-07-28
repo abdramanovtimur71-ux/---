@@ -6330,54 +6330,66 @@ body.dashboard-intro .invoice-ledger .invoice-row {
 
 #page-matrix .matrix-svg {
     background: transparent !important;
-    border-radius: 12px !important;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
     filter: none !important;
     overflow: visible !important;
 }
 
-#page-matrix .matrix-svg text {
-    fill: #121b36 !important;
-    stroke: none !important;
-    text-shadow: none !important;
-    font-family: Inter, sans-serif !important;
-    letter-spacing: 0.12px;
-}
-
 #page-matrix .matrix-svg circle {
-    fill: #f7fbff !important;
-    stroke: #796841 !important;
-    stroke-width: 1.8 !important;
+    fill: #fff !important;
+    stroke: #7f6b45 !important;
+    stroke-width: 2 !important;
 }
 
-#page-matrix .matrix-svg circle.matrix-green-point {
-    fill: #57f27d !important;
-    stroke: #0f8f3f !important;
-    stroke-width: 2.2 !important;
+#page-matrix .matrix-svg text {
+    font-family: sans-serif !important;
+    text-shadow: none !important;
+    stroke: none !important;
+    letter-spacing: 0 !important;
 }
 
+#page-matrix .matrix-svg #mvAnum,
+#page-matrix .matrix-svg #mvBnum,
 #page-matrix .matrix-svg #mvVnum,
 #page-matrix .matrix-svg #mvGnum,
-#page-matrix .matrix-svg #mvAnum,
-#page-matrix .matrix-svg #mvBnum {
-    fill: #2f3f9a !important;
+#page-matrix .matrix-svg #mvDnum,
+#page-matrix .matrix-svg #mvAinNum,
+#page-matrix .matrix-svg #mvAin2num,
+#page-matrix .matrix-svg #mvBinNum,
+#page-matrix .matrix-svg #mvBin2num,
+#page-matrix .matrix-svg #mvVinNum,
+#page-matrix .matrix-svg #mvGinNum,
+#page-matrix .matrix-svg #mvKnum {
+    fill: #fff !important;
 }
 
-#page-matrix .matrix-svg #mvVnum,
-#page-matrix .matrix-svg #mvGnum {
-    fill: #8f2f49 !important;
-}
-
-#page-matrix .matrix-svg #mvDnum {
-    fill: #7d5b16 !important;
-}
-
+#page-matrix .matrix-svg #mvEnum,
+#page-matrix .matrix-svg #mvZhnum,
+#page-matrix .matrix-svg #mvInum,
+#page-matrix .matrix-svg #mvZnum,
+#page-matrix .matrix-svg #mvVin2num,
+#page-matrix .matrix-svg #mvGin2num,
+#page-matrix .matrix-svg #mvEinNum,
+#page-matrix .matrix-svg #mvEin2num,
+#page-matrix .matrix-svg #mvZhinNum,
+#page-matrix .matrix-svg #mvZhin2num,
+#page-matrix .matrix-svg #mvZinNum,
+#page-matrix .matrix-svg #mvZin2num,
+#page-matrix .matrix-svg #mvIinNum,
+#page-matrix .matrix-svg #mvIin2num,
+#page-matrix .matrix-svg #mvAinCnum,
+#page-matrix .matrix-svg #mvBinCnum,
+#page-matrix .matrix-svg #mvVinCnum,
+#page-matrix .matrix-svg #mvPnum,
+#page-matrix .matrix-svg #mvOnum,
+#page-matrix .matrix-svg #mvMnum,
+#page-matrix .matrix-svg #mvNnum,
 #page-matrix .matrix-svg #progressionDotsGroup text {
-    display: block !important;
+    fill: #333 !important;
     opacity: 1 !important;
     visibility: visible !important;
 }
-
 /* AI assistant widget */
 #aiChatWidget {
     position: fixed;
@@ -6560,3 +6572,4 @@ body.dashboard-intro .invoice-ledger .invoice-row {
     #aiChatBox { width: calc(100vw - 24px); right: 0; bottom: 56px; }
     #aiChatToggle { width: 40px; height: 40px; font-size: 18px; }
 }
+
