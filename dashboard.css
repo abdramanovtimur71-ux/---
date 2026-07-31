@@ -3551,6 +3551,12 @@ input[type="date"].matrix-input::-webkit-calendar-picker-indicator {
     opacity: 1 !important;
     visibility: visible !important;
 }
+#page-matrix .matrix-svg #mvAinCnum,
+#page-matrix .matrix-svg #mvBinCnum,
+#page-matrix .matrix-svg #mvRnum,
+#page-matrix .matrix-svg #mvSnum {
+    fill: #111 !important;
+}
 #page-matrix .matrix-values-grid .matrix-val-card,
 #page-matrix .matrix-interp-item,
 #page-matrix .matrix-extra-header,
@@ -4465,6 +4471,7 @@ body {
 .profile-service-sheet,
 .profile-shop-card,
 .matrix-form-card,
+.matrix-visual-wrap,
 .matrix-extra-card,
 .session-constellation,
 .lunar-progress {
@@ -4706,19 +4713,10 @@ body {
     background: rgba(5,11,28,0.72);
 }
 
-@keyframes matrixAuraBreath {
-    0%, 100% { opacity: 0.92; transform: scale(1.00) rotate(0deg); }
-    50% { opacity: 1; transform: scale(1.03) rotate(0.4deg); }
-}
-
-@keyframes matrixAuraDrift {
-    from { background-position: 50% 44%, 18% 16%, 82% 18%, 50% 62%, 0 0; }
-    to { background-position: 50% 44%, 20% 18%, 84% 20%, 52% 64%, 100% 100%; }
-}
-
-@keyframes matrixStarTwinkle {
-    0%, 100% { filter: brightness(1) saturate(1.04); }
-    50% { filter: brightness(1.12) saturate(1.12); }
+#page-matrix .matrix-visual-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
 }
 
 @keyframes constellationFlow {
@@ -4741,9 +4739,6 @@ body[data-motion="soft"] .constellation-line,
 body[data-motion="soft"] .constellation-star.active {
     animation-duration: 9s !important;
 }
-body[data-motion="soft"] #page-matrix .matrix-visual-wrap::after {
-    opacity: 0.42 !important;
-}
 body[data-motion="soft"] .card,
 body[data-motion="soft"] .kpi-card,
 body[data-motion="soft"] .session-item {
@@ -4753,9 +4748,6 @@ body[data-motion="soft"] .session-item {
 body[data-motion="cinema"] .constellation-line,
 body[data-motion="cinema"] .constellation-star.active {
     animation-duration: 3.5s !important;
-}
-body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
-    opacity: 0.9 !important;
 }
 body[data-motion="cinema"] .card:hover,
 body[data-motion="cinema"] .kpi-card:hover,
@@ -4861,14 +4853,6 @@ body[data-motion="cinema"] .session-item:hover {
     -webkit-backdrop-filter: blur(8px);
 }
 
-#page-matrix .matrix-visual-wrap::after {
-    transition: opacity var(--dash-fx-mid) var(--dash-ease-premium), filter var(--dash-fx-mid) var(--dash-ease-premium);
-    filter: saturate(1.08);
-}
-#page-matrix .matrix-visual-wrap:hover::after {
-    opacity: 0.9;
-    filter: saturate(1.22);
-}
 
 body[data-motion="soft"] .topbar-actions .topbar-back:hover,
 body[data-motion="soft"] .topbar-actions .theme-toggle-btn:hover {
@@ -4880,9 +4864,6 @@ body[data-motion="soft"] .card:hover,
 body[data-motion="soft"] .session-item:hover {
     transform: translateY(-2px) !important;
 }
-body[data-motion="soft"] #page-matrix .matrix-visual-wrap::after {
-    opacity: 0.42 !important;
-}
 
 body[data-motion="cinema"] .kpi-card:hover,
 body[data-motion="cinema"] .card:hover,
@@ -4892,9 +4873,6 @@ body[data-motion="cinema"] .session-item:hover {
 }
 body[data-motion="cinema"] .constellation-line.active-route {
     animation-duration: 2.8s !important;
-}
-body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
-    opacity: 0.98 !important;
 }
 
 @media (max-width: 900px) {
@@ -4943,10 +4921,6 @@ body[data-motion="cinema"] .constellation-star.active {
 body[data-motion="cinema"] .constellation-line.active-route {
     stroke-width: 0.78 !important;
 }
-body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
-    opacity: 1 !important;
-    filter: saturate(1.40) brightness(1.10) !important;
-}
 
 /* ═══════════════════════════════════════════════════
    PHASE 11 — TEXT VISIBILITY SAFETY LAYER
@@ -4970,68 +4944,58 @@ body[data-motion="cinema"] #page-matrix .matrix-visual-wrap::after {
     -webkit-text-fill-color: transparent !important;
 }
 
-/* Matrix restore */
-#page-matrix .matrix-svg {
-    background: transparent !important;
-    border-radius: 12px !important;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
-    filter: none !important;
-    overflow: visible !important;
+/* Matrix premium static cosmic style */
+#page-matrix .matrix-visual-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
 }
-
+#page-matrix .matrix-svg {
+    display: block;
+    margin: 0 auto;
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 8px 32px rgba(0,0,0,0.18));
+    background: transparent;
+}
 #page-matrix .matrix-svg image {
     filter: none;
-    opacity: 1;
-    transform-box: fill-box;
-    transform-origin: center;
-    transform: none;
 }
-
 #page-matrix .matrix-svg text {
     fill: #121b36 !important;
     stroke: none !important;
-    text-shadow: none !important;
+    stroke-width: 0;
+    text-shadow: none;
     font-family: Inter, sans-serif !important;
     letter-spacing: 0.12px;
+    paint-order: fill;
 }
-
 #page-matrix .matrix-svg circle {
     fill: #f7fbff !important;
     stroke: #796841 !important;
     stroke-width: 1.8 !important;
 }
-
 #page-matrix .matrix-svg circle.matrix-green-point {
     fill: #57f27d !important;
     stroke: #0f8f3f !important;
     stroke-width: 2.2 !important;
 }
-
 #page-matrix .matrix-svg #mvAnum,
 #page-matrix .matrix-svg #mvBnum {
     fill: #2f3f9a !important;
 }
-
 #page-matrix .matrix-svg #mvVnum,
 #page-matrix .matrix-svg #mvGnum {
     fill: #8f2f49 !important;
 }
-
 #page-matrix .matrix-svg #mvDnum {
     fill: #7d5b16 !important;
 }
-
 #page-matrix .matrix-svg #progressionDotsGroup text {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
-}
-/* Keep matrix numbers visible without background image */
-#page-matrix .matrix-svg #mvAinCnum,
-#page-matrix .matrix-svg #mvBinCnum,
-#page-matrix .matrix-svg #mvRnum,
-#page-matrix .matrix-svg #mvSnum {
-    fill: #111 !important;
 }
 
 /* Disable all shimmering/blinking glow effects (local tuning) */
@@ -5078,11 +5042,6 @@ body::after,
 }
 
 
-
-
-#page-matrix .matrix-svg #progressionDotsGroup {
-    display: none !important;
-}
 
 
 /* matrix-header-polish:start */
@@ -5572,6 +5531,7 @@ body.dashboard-intro-ready .settings-cockpit-card {
 .profile-service-sheet,
 .profile-shop-card,
 .matrix-form-card,
+.matrix-visual-wrap,
 .matrix-extra-card,
 .session-constellation,
 .lunar-progress,
@@ -5697,6 +5657,7 @@ body.dashboard-intro-ready .settings-cockpit-card {
     .profile-service-sheet,
     .profile-shop-card,
     .matrix-form-card,
+    .matrix-visual-wrap,
     .matrix-extra-card,
     .session-constellation,
     .lunar-progress,
@@ -6191,14 +6152,6 @@ body.dashboard-intro .invoice-ledger .invoice-row {
 }
 
 
-/* ─── MATRIX NUMBERS — BLACK COLOR ─────────────────── */
-#page-matrix .matrix-svg #mvVnum,
-#page-matrix .matrix-svg #mvGnum,
-#page-matrix .matrix-svg #mvAnum,
-#page-matrix .matrix-svg #mvBnum {
-    fill: #000000 !important;
-}
-
 /* ═══════════════════════════════════════════════════════
    PAGE HEADER — BEAUTIFUL & ALIVE WITH SOUL
    ═══════════════════════════════════════════════════════ */
@@ -6362,6 +6315,81 @@ body.dashboard-intro .invoice-ledger .invoice-row {
     z-index: 2 !important;
 }
 
+/* Matrix final restore */
+#page-matrix .matrix-visual-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
+}
+
+#page-matrix .matrix-visual-wrap::before,
+#page-matrix .matrix-visual-wrap::after {
+    content: none !important;
+    animation: none !important;
+}
+
+#page-matrix .matrix-svg {
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    filter: none !important;
+    overflow: visible !important;
+}
+
+#page-matrix .matrix-svg circle {
+    fill: #fff !important;
+    stroke: #7f6b45 !important;
+    stroke-width: 2 !important;
+}
+
+#page-matrix .matrix-svg text {
+    font-family: sans-serif !important;
+    text-shadow: none !important;
+    stroke: none !important;
+    letter-spacing: 0 !important;
+}
+
+#page-matrix .matrix-svg #mvAnum,
+#page-matrix .matrix-svg #mvBnum,
+#page-matrix .matrix-svg #mvVnum,
+#page-matrix .matrix-svg #mvGnum,
+#page-matrix .matrix-svg #mvDnum,
+#page-matrix .matrix-svg #mvAinNum,
+#page-matrix .matrix-svg #mvAin2num,
+#page-matrix .matrix-svg #mvBinNum,
+#page-matrix .matrix-svg #mvBin2num,
+#page-matrix .matrix-svg #mvVinNum,
+#page-matrix .matrix-svg #mvGinNum,
+#page-matrix .matrix-svg #mvKnum {
+    fill: #fff !important;
+}
+
+#page-matrix .matrix-svg #mvEnum,
+#page-matrix .matrix-svg #mvZhnum,
+#page-matrix .matrix-svg #mvInum,
+#page-matrix .matrix-svg #mvZnum,
+#page-matrix .matrix-svg #mvVin2num,
+#page-matrix .matrix-svg #mvGin2num,
+#page-matrix .matrix-svg #mvEinNum,
+#page-matrix .matrix-svg #mvEin2num,
+#page-matrix .matrix-svg #mvZhinNum,
+#page-matrix .matrix-svg #mvZhin2num,
+#page-matrix .matrix-svg #mvZinNum,
+#page-matrix .matrix-svg #mvZin2num,
+#page-matrix .matrix-svg #mvIinNum,
+#page-matrix .matrix-svg #mvIin2num,
+#page-matrix .matrix-svg #mvAinCnum,
+#page-matrix .matrix-svg #mvBinCnum,
+#page-matrix .matrix-svg #mvVinCnum,
+#page-matrix .matrix-svg #mvPnum,
+#page-matrix .matrix-svg #mvOnum,
+#page-matrix .matrix-svg #mvMnum,
+#page-matrix .matrix-svg #mvNnum,
+#page-matrix .matrix-svg #progressionDotsGroup text {
+    fill: #333 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
 /* AI assistant widget */
 #aiChatWidget {
     position: fixed;
@@ -6545,128 +6573,3 @@ body.dashboard-intro .invoice-ledger .invoice-row {
     #aiChatToggle { width: 40px; height: 40px; font-size: 18px; }
 }
 
-/* ═══════════════════════════════════════════════════════
-   FINAL POLISH — MATRIX PAGE PERFECTION (космический формат)
-   Финальная шлифовка страницы матрицы
-   ═══════════════════════════════════════════════════════ */
-
-/* ── Изящная космическая рамка вокруг матрицы ── */
-#page-matrix .matrix-visual-wrap {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    margin: 8px auto 40px !important;
-    padding: 26px !important;
-    max-width: 720px !important;
-    border-radius: 32px !important;
-    position: relative !important;
-    background:
-        radial-gradient(120% 100% at 50% 0%, rgba(95,141,255,0.16) 0%, transparent 60%),
-        linear-gradient(160deg, rgba(22,32,66,0.92) 0%, rgba(12,18,40,0.96) 55%, rgba(24,16,52,0.94) 100%) !important;
-    border: 1.5px solid rgba(130,180,255,0.34) !important;
-    box-shadow:
-        0 40px 90px rgba(0,0,0,0.55),
-        0 0 70px rgba(95,141,255,0.20),
-        inset 0 1px 0 rgba(255,255,255,0.10),
-        inset 0 0 60px rgba(95,141,255,0.06) !important;
-    overflow: visible !important;
-}
-
-/* Тонкая золотая внутренняя окантовка-ореол */
-#page-matrix .matrix-visual-wrap::before {
-    content: '' !important;
-    position: absolute !important;
-    inset: 10px !important;
-    border-radius: 24px !important;
-    border: 1px solid rgba(212,174,92,0.24) !important;
-    pointer-events: none !important;
-    z-index: 0 !important;
-    display: block !important;
-}
-
-/* Мягкое сияние-подсветка под матрицей */
-#page-matrix .matrix-visual-wrap::after {
-    content: '' !important;
-    position: absolute !important;
-    left: 50% !important;
-    top: 50% !important;
-    width: 78% !important;
-    height: 78% !important;
-    transform: translate(-50%, -50%) !important;
-    border-radius: 50% !important;
-    background: radial-gradient(circle, rgba(120,170,255,0.14) 0%, rgba(180,130,255,0.08) 45%, transparent 72%) !important;
-    filter: blur(24px) !important;
-    pointer-events: none !important;
-    z-index: 0 !important;
-    display: block !important;
-}
-
-/* Сама матрица — белый шаблон с округлыми краями поверх рамки */
-#page-matrix .matrix-svg {
-    display: block !important;
-    margin: 0 auto !important;
-    width: 100% !important;
-    height: auto !important;
-    max-width: 640px !important;
-    position: relative !important;
-    z-index: 2 !important;
-    border-radius: 18px !important;
-    background: #ffffff !important;
-    box-shadow:
-        0 18px 48px rgba(0,0,0,0.42),
-        0 0 0 6px rgba(255,255,255,0.9),
-        0 0 0 7px rgba(212,174,92,0.35) !important;
-    overflow: hidden !important;
-    filter: none !important;
-}
-
-/* Скруглить сам фоновый PNG внутри svg */
-#page-matrix .matrix-svg image {
-    filter: saturate(1.03) contrast(1.02) !important;
-}
-
-/* ── Плашка имени/даты — премиум ── */
-#page-matrix .matrix-person-header {
-    max-width: 720px !important;
-    margin: 0 auto 4px !important;
-    border-radius: 20px 20px 4px 4px !important;
-    border: 1px solid rgba(212,174,92,0.30) !important;
-    border-bottom: none !important;
-}
-
-/* ── Карточки значений — ровнее и премиальнее ── */
-#page-matrix .matrix-values-grid .matrix-val-card {
-    border-radius: 16px !important;
-    transition: transform .2s cubic-bezier(0.22,1,0.36,1), border-color .2s ease, box-shadow .2s ease !important;
-}
-#page-matrix .matrix-values-grid .matrix-val-card:hover {
-    transform: translateY(-3px) !important;
-    border-color: rgba(212,174,92,0.5) !important;
-    box-shadow: 0 16px 34px rgba(0,0,0,0.34), 0 0 22px rgba(95,141,255,0.14) !important;
-}
-
-/* Число в карточке — акцентное */
-#page-matrix .matrix-val-card .mvc-num {
-    text-shadow: 0 0 18px rgba(120,170,255,0.35) !important;
-}
-
-/* ── Табы разделов (Таланты/Деньги/Любовь…) — аккуратнее ── */
-#page-matrix .matrix-section-tab {
-    transition: all .2s cubic-bezier(0.22,1,0.36,1) !important;
-}
-#page-matrix .matrix-section-tab.active {
-    box-shadow: 0 8px 22px rgba(95,141,255,0.22), inset 0 1px 0 rgba(255,255,255,0.12) !important;
-}
-
-/* ── Адаптив: рамка компактнее на телефоне ── */
-@media (max-width: 600px) {
-    #page-matrix .matrix-visual-wrap {
-        padding: 14px !important;
-        border-radius: 22px !important;
-        margin-bottom: 28px !important;
-    }
-    #page-matrix .matrix-svg {
-        max-width: 100% !important;
-        box-shadow: 0 10px 28px rgba(0,0,0,0.4), 0 0 0 4px rgba(255,255,255,0.9), 0 0 0 5px rgba(212,174,92,0.35) !important;
-    }
-}
