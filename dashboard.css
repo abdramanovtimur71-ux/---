@@ -6544,3 +6544,129 @@ body.dashboard-intro .invoice-ledger .invoice-row {
     #aiChatBox { width: calc(100vw - 24px); right: 0; bottom: 56px; }
     #aiChatToggle { width: 40px; height: 40px; font-size: 18px; }
 }
+
+/* ═══════════════════════════════════════════════════════
+   FINAL POLISH — MATRIX PAGE PERFECTION (космический формат)
+   Финальная шлифовка страницы матрицы
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Изящная космическая рамка вокруг матрицы ── */
+#page-matrix .matrix-visual-wrap {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 8px auto 40px !important;
+    padding: 26px !important;
+    max-width: 720px !important;
+    border-radius: 32px !important;
+    position: relative !important;
+    background:
+        radial-gradient(120% 100% at 50% 0%, rgba(95,141,255,0.16) 0%, transparent 60%),
+        linear-gradient(160deg, rgba(22,32,66,0.92) 0%, rgba(12,18,40,0.96) 55%, rgba(24,16,52,0.94) 100%) !important;
+    border: 1.5px solid rgba(130,180,255,0.34) !important;
+    box-shadow:
+        0 40px 90px rgba(0,0,0,0.55),
+        0 0 70px rgba(95,141,255,0.20),
+        inset 0 1px 0 rgba(255,255,255,0.10),
+        inset 0 0 60px rgba(95,141,255,0.06) !important;
+    overflow: visible !important;
+}
+
+/* Тонкая золотая внутренняя окантовка-ореол */
+#page-matrix .matrix-visual-wrap::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 10px !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(212,174,92,0.24) !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+    display: block !important;
+}
+
+/* Мягкое сияние-подсветка под матрицей */
+#page-matrix .matrix-visual-wrap::after {
+    content: '' !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    width: 78% !important;
+    height: 78% !important;
+    transform: translate(-50%, -50%) !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(120,170,255,0.14) 0%, rgba(180,130,255,0.08) 45%, transparent 72%) !important;
+    filter: blur(24px) !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+    display: block !important;
+}
+
+/* Сама матрица — белый шаблон с округлыми краями поверх рамки */
+#page-matrix .matrix-svg {
+    display: block !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 640px !important;
+    position: relative !important;
+    z-index: 2 !important;
+    border-radius: 18px !important;
+    background: #ffffff !important;
+    box-shadow:
+        0 18px 48px rgba(0,0,0,0.42),
+        0 0 0 6px rgba(255,255,255,0.9),
+        0 0 0 7px rgba(212,174,92,0.35) !important;
+    overflow: hidden !important;
+    filter: none !important;
+}
+
+/* Скруглить сам фоновый PNG внутри svg */
+#page-matrix .matrix-svg image {
+    filter: saturate(1.03) contrast(1.02) !important;
+}
+
+/* ── Плашка имени/даты — премиум ── */
+#page-matrix .matrix-person-header {
+    max-width: 720px !important;
+    margin: 0 auto 4px !important;
+    border-radius: 20px 20px 4px 4px !important;
+    border: 1px solid rgba(212,174,92,0.30) !important;
+    border-bottom: none !important;
+}
+
+/* ── Карточки значений — ровнее и премиальнее ── */
+#page-matrix .matrix-values-grid .matrix-val-card {
+    border-radius: 16px !important;
+    transition: transform .2s cubic-bezier(0.22,1,0.36,1), border-color .2s ease, box-shadow .2s ease !important;
+}
+#page-matrix .matrix-values-grid .matrix-val-card:hover {
+    transform: translateY(-3px) !important;
+    border-color: rgba(212,174,92,0.5) !important;
+    box-shadow: 0 16px 34px rgba(0,0,0,0.34), 0 0 22px rgba(95,141,255,0.14) !important;
+}
+
+/* Число в карточке — акцентное */
+#page-matrix .matrix-val-card .mvc-num {
+    text-shadow: 0 0 18px rgba(120,170,255,0.35) !important;
+}
+
+/* ── Табы разделов (Таланты/Деньги/Любовь…) — аккуратнее ── */
+#page-matrix .matrix-section-tab {
+    transition: all .2s cubic-bezier(0.22,1,0.36,1) !important;
+}
+#page-matrix .matrix-section-tab.active {
+    box-shadow: 0 8px 22px rgba(95,141,255,0.22), inset 0 1px 0 rgba(255,255,255,0.12) !important;
+}
+
+/* ── Адаптив: рамка компактнее на телефоне ── */
+@media (max-width: 600px) {
+    #page-matrix .matrix-visual-wrap {
+        padding: 14px !important;
+        border-radius: 22px !important;
+        margin-bottom: 28px !important;
+    }
+    #page-matrix .matrix-svg {
+        max-width: 100% !important;
+        box-shadow: 0 10px 28px rgba(0,0,0,0.4), 0 0 0 4px rgba(255,255,255,0.9), 0 0 0 5px rgba(212,174,92,0.35) !important;
+    }
+}
