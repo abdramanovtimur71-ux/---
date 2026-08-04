@@ -6668,3 +6668,48 @@ body.dashboard-intro .invoice-ledger .invoice-row {
     #aiChatBox { width: calc(100vw - 24px); right: 0; bottom: 56px; }
     #aiChatToggle { width: 40px; height: 40px; font-size: 18px; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   ОКТАГРАММА «МАТРИЦА СУДЬБЫ» — единый блок стилей (эталон)
+   Отдельные классы, чтобы легаси-правила .matrix-visual-wrap
+   и .matrix-svg не переопределяли внешний вид.
+   ═══════════════════════════════════════════════════════════ */
+#page-matrix .matrix-octagram-wrap {
+    width: 100%;
+    max-width: 766px;
+    margin: 24px auto 32px;
+    padding: 0;
+    background: #ffffff;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+}
+#page-matrix .matrix-octagram-wrap::before,
+#page-matrix .matrix-octagram-wrap::after { content: none !important; display: none !important; }
+
+#page-matrix .matrix-octagram-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 766px;
+    margin: 0 auto;
+    background: #ffffff;
+    filter: none;
+    overflow: visible;
+}
+#page-matrix .matrix-octagram-svg text {
+    paint-order: stroke fill;
+    user-select: none;
+}
+#page-matrix .matrix-octagram-svg circle,
+#page-matrix .matrix-octagram-svg rect,
+#page-matrix .matrix-octagram-svg polygon,
+#page-matrix .matrix-octagram-svg line,
+#page-matrix .matrix-octagram-svg path {
+    transition: none;
+}
+
+@media print {
+    #page-matrix .matrix-octagram-wrap { background: #fff; }
+}

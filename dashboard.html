@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет — Матрицы Судьбы</title>
-    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-restored-state-20260728-ai-widget-fixed">
+    <link rel="stylesheet" href="dashboard.css?v=cosmic-neo-20260804-octagram">
 </head>
 <body>
   <!-- ── Звёздный фон ─────────────────────────────────── -->
@@ -740,106 +740,14 @@
                     <span id="matrixPersonDate" class="matrix-person-date"></span>
                 </div>
 
-                <!-- Визуальная матрица (SVG) — Правильная октаграмма -->
-                <div class="matrix-visual-wrap">
-                  <svg id="matrixSvg" viewBox="0 0 876 768" xmlns="http://www.w3.org/2000/svg" class="matrix-svg">
-
-                    <!-- Шаблон матрицы как фон -->
-                    <image href="matrix-template.png" x="0" y="0" width="876" height="768"/>
-
-                    <!-- ════ ЧИСЛА ПОВЕРХ ШАБЛОНА (точные координаты по пикселям) ════ -->
-
-                    <!-- А (0 лет) — фиолетовый, лево (118,380) -->
-                    <text id="mvAnum" x="118" y="380" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="28" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Б (20 лет) — фиолетовый, верх (440,56) -->
-                    <text id="mvBnum" x="440" y="56" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="28" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- В (40 лет) — красный, право (764,380) -->
-                    <text id="mvVnum" x="764" y="380" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="28" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Г (60 лет) — красный, низ (440,704) -->
-                    <text id="mvGnum" x="440" y="704" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="28" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Д — золотой, ЦЕНТР (440,384) -->
-                    <text id="mvDnum" x="440" y="384" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="32" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Е (10 лет) — серый, верх-лево (210,154) -->
-                    <text id="mvEnum" x="210" y="154" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Ж (30 лет) — серый, верх-право (670,154) -->
-                    <text id="mvZhnum" x="670" y="154" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- И (50 лет) — серый, низ-право (670,614) -->
-                    <text id="mvInum" x="670" y="614" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- З (70 лет) — серый, низ-лево (210,614) -->
-                    <text id="mvZnum" x="210" y="614" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="22" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- А_in — пустой соседний круг -->
-                    <text id="mvAinNum" x="223" y="381" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- А_in2 — синий круг -->
-                    <text id="mvAin2num" x="179" y="380" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Б_in — пустой соседний круг -->
-                    <text id="mvBinNum" x="441" y="163" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Б_in2 — синий круг -->
-                    <text id="mvBin2num" x="440" y="119" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- В_in / Л — оранжевый (658,380) -->
-                    <text id="mvVinNum" x="658" y="380" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="16" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- В_in2 — серый (711,380) -->
-                    <text id="mvVin2num" x="711" y="380" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Г_in — нижний оранжевый круг (на оси x=440, между К и Г) -->
-                    <text id="mvGinNum" x="440" y="644" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Г_in2 — серый (ближе к Г) -->
-                    <text id="mvGin2num" x="440" y="674" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Е_in — диаг верх-лево внутренний (254,198) -->
-                    <text id="mvEinNum" x="254" y="198" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Е_in2 — ближе к Е (232,176) -->
-                    <text id="mvEin2num" x="232" y="176" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Ж_in — диаг верх-право внутренний (44px от Ж к центру) -->
-                    <text id="mvZhinNum" x="626" y="198" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Ж_in2 — ближе к Ж (22px от Ж) -->
-                    <text id="mvZhin2num" x="648" y="176" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- З_in — диаг низ-лево внутренний (254,570) -->
-                    <text id="mvZinNum" x="254" y="570" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- З_in2 — ближе к З (232,592) -->
-                    <text id="mvZin2num" x="232" y="592" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- И_in — диаг низ-право внутренний (44px от И к центру) -->
-                    <text id="mvIinNum" x="626" y="570" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="14" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- И_in2 — ближе к И (22px от И) -->
-                    <text id="mvIin2num" x="648" y="592" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- Точки ближе к центру -->
-                    <circle cx="367" cy="380" r="18" fill="#fff" stroke="#7f6b45" stroke-width="2"/>
-                    <text id="mvAinCnum" x="367" y="380" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <circle cx="441" cy="308" r="18" fill="#fff" stroke="#7f6b45" stroke-width="2"/>
-                    <text id="mvBinCnum" x="441" y="308" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <text id="mvVinCnum" x="511" y="345" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <text id="mvKnum" x="440" y="598" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- П — подпись на денежной оси -->
-                    <text id="mvPnum" x="595" y="227" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="12" font-weight="bold" font-family="sans-serif">?</text>
-
-                    <!-- О, М, Н — три внутренних круга на пунктирной диагонали -->
-                    <text id="mvOnum" x="523" y="427" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <text id="mvMnum" x="470" y="469" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-                    <text id="mvNnum" x="479" y="553" text-anchor="middle" dominant-baseline="middle" fill="#333" font-size="13" font-weight="bold" font-family="sans-serif">?</text>
-
+                <!-- Визуальная матрица (SVG) — октаграмма «Матрица Судьбы» -->
+                <div class="matrix-octagram-wrap">
+                  <svg id="matrixSvg" class="matrix-octagram-svg" viewBox="0 0 766 802"
+                       xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Матрица Судьбы">
+                    <rect x="0" y="0" width="766" height="802" fill="#ffffff"/>
+                    <g id="mxSkeleton"></g>
+                    <g id="mxAgeScale"></g>
+                    <g id="mxNodes"></g>
                   </svg>
                 </div>
 
@@ -2053,73 +1961,305 @@ function initMatrixDateWheels() {
 
 // Инициализация
 // ═══ ПРОГРЕССИОННЫЕ ТОЧКИ НА РЁБРАХ ОКТАГОНА ═══
-function initMatrixProgressionDots() {
-    const svg = document.getElementById('matrixSvg');
-    if (!svg) return;
-    // Вершины октагона в порядке возрастания возраста
-    const verts = [
-        { x: 118, y: 380, age: 0 },   // А — 0 лет
-        { x: 210, y: 154, age: 10 },  // Е — 10 лет
-        { x: 440, y: 56,  age: 20 },  // Б — 20 лет
-        { x: 670, y: 154, age: 30 },  // Ж — 30 лет
-        { x: 764, y: 380, age: 40 },  // В — 40 лет
-        { x: 670, y: 614, age: 50 },  // И — 50 лет
-        { x: 440, y: 704, age: 60 },  // Г — 60 лет
-        { x: 210, y: 614, age: 70 },  // З — 70 лет
+// ═══ ОКТАГРАММА «МАТРИЦА СУДЬБЫ» — ПОЛНАЯ ОТРИСОВКА В SVG ═══
+const MX_NS  = 'http://www.w3.org/2000/svg';
+const MX_INK = '#211701';
+const MX_EDGE = '#000000';
+const MX_FONT = 'Arial, Helvetica, sans-serif';
+const MX_GEO = {
+    cx: 377.2, cy: 377.2,   // центр сетки кружков
+    fx: 380,   fy: 379.4,   // центр рамки (звезда, оси, шкала)
+    R: 320,        // вершины октаграммы
+    P2: 260,     // второй круг на каждой из 8 осей
+    P2DX: 1.55, P2DY: 0.9,  // кольцо P2 в оригинале смещено
+    P3: 215.5,     // третий круг на каждой из 8 осей
+    P3DX: 1.79, P3DY: 0.49,  // кольцо P3 в оригинале смещено
+    STAR: 300.5,     // радиус звезды (квадрат + ромб)
+    INNER: 196,    // внутренняя окружность
+    GREEN: 113,    // зелёные точки на осях А и Б
+    SPIRIT: 102.8, // духовное предназначение (справа от центра)
+    PLANET: 57.8,    // планетарное предназначение (справа от центра)
+    RING_APO: 328, // апофема восьмиугольника возрастной шкалы
+    RING_V: 328 / Math.cos(Math.PI / 8),  // радиус его вершин
+    RING_STEP: 25,  // шаг меток вдоль ребра шкалы
+    IT_OFF_MID: 8.8,   // отступ подписи «NN-NN» от ребра (пологие рёбра, якорь middle)
+    IT_OFF_SIDE: 5.77  // то же для крутых рёбер (якорь start/end)
+};
+const MX_COLOR = {
+    purple: '#ae309a', red: '#eb4b41', blue: '#0067d2', cyan: '#00b8f4',
+    green:  '#63b062', yellow: '#ffde68', orange: '#e98c46',
+    male:   '#5a66a8', female: '#d24c45', money: '#9bff68'
+};
+
+function mxPoint(angleDeg, r) {
+    const a = angleDeg * Math.PI / 180;
+    let dx = 0, dy = 0;
+    if (Math.abs(r - MX_GEO.P2) < 0.01)      { dx = MX_GEO.P2DX; dy = MX_GEO.P2DY; }
+    else if (Math.abs(r - MX_GEO.P3) < 0.01) { dx = MX_GEO.P3DX; dy = MX_GEO.P3DY; }
+    return [MX_GEO.cx + dx + r * Math.cos(a), MX_GEO.cy + dy + r * Math.sin(a)];
+}
+
+function mxFPoint(angleDeg, r) {
+    const a = angleDeg * Math.PI / 180;
+    return [MX_GEO.fx + r * Math.cos(a), MX_GEO.fy + r * Math.sin(a)];
+}
+
+function mxEl(tag, attrs, text) {
+    const el = document.createElementNS(MX_NS, tag);
+    for (const k in attrs) el.setAttribute(k, attrs[k]);
+    if (text !== undefined && text !== null) el.textContent = text;
+    return el;
+}
+
+function mxArrow(g, angleDeg, rStart, rEnd, color) {
+    const a  = angleDeg * Math.PI / 180;
+    const headLen = 22, headW = 8.6;
+    const [x1, y1] = mxFPoint(angleDeg, rStart);
+    const [x2, y2] = mxFPoint(angleDeg, rEnd);
+    const [bx, by] = mxFPoint(angleDeg, rEnd - headLen);
+    const nx = -Math.sin(a), ny = Math.cos(a);
+    g.appendChild(mxEl('line', {
+        x1: x1.toFixed(1), y1: y1.toFixed(1), x2: bx.toFixed(1), y2: by.toFixed(1),
+        stroke: color, 'stroke-width': 2.6
+    }));
+    g.appendChild(mxEl('polygon', {
+        points: `${x2.toFixed(1)},${y2.toFixed(1)} ` +
+                `${(bx + nx * headW).toFixed(1)},${(by + ny * headW).toFixed(1)} ` +
+                `${(bx - nx * headW).toFixed(1)},${(by - ny * headW).toFixed(1)}`,
+        fill: color
+    }));
+}
+
+// Геометрия: кольцо возрастов, звезда, оси, родовые линии, зона комфорта
+function mxBuildSkeleton() {
+    const g = document.getElementById('mxSkeleton');
+    if (!g) return;
+    while (g.firstChild) g.removeChild(g.firstChild);
+
+    const { fx: cx, fy: cy, R, STAR, INNER, RING_V } = MX_GEO;
+    const half = STAR / Math.SQRT2;
+
+    const ring = [];
+    for (let e = 0; e < 8; e++) {
+        const [x, y] = mxFPoint(180 + e * 45, RING_V);
+        ring.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+    }
+    g.appendChild(mxEl('polygon', { points: ring.join(' '), fill: 'none', stroke: MX_INK, 'stroke-width': 1.4 }));
+    g.appendChild(mxEl('circle', { cx, cy, r: INNER, fill: 'none', stroke: MX_INK, 'stroke-width': 1.4 }));
+    g.appendChild(mxEl('line', { x1: cx - R, y1: cy, x2: cx + R, y2: cy, stroke: MX_INK, 'stroke-width': 1.2 }));
+    g.appendChild(mxEl('line', { x1: cx, y1: cy - R, x2: cx, y2: cy + R, stroke: MX_INK, 'stroke-width': 1.2 }));
+    g.appendChild(mxEl('rect', {
+        x: cx - half, y: cy - half, width: half * 2, height: half * 2,
+        fill: 'none', stroke: MX_INK, 'stroke-width': 2.7
+    }));
+    g.appendChild(mxEl('polygon', {
+        points: `${cx - STAR},${cy} ${cx},${cy - STAR} ${cx + STAR},${cy} ${cx},${cy + STAR}`,
+        fill: 'none', stroke: MX_INK, 'stroke-width': 2.7
+    }));
+
+    // Пунктирная линия денежного канала
+    const d0 = mxFPoint(45, 140), s2 = Math.SQRT1_2, reach = 139;
+    g.appendChild(mxEl('line', {
+        x1: (d0[0] - reach * s2).toFixed(1), y1: (d0[1] + reach * s2).toFixed(1),
+        x2: (d0[0] + reach * s2).toFixed(1), y2: (d0[1] - reach * s2).toFixed(1),
+        stroke: '#9a958b', 'stroke-width': 1.4, 'stroke-dasharray': '9 7'
+    }));
+
+    // Родовые линии
+    mxArrow(g, 225, 34, 196, MX_COLOR.male);    // мужская — вверх-влево
+    mxArrow(g,  45, 34, 196, MX_COLOR.male);    // мужская — вниз-вправо
+    mxArrow(g, 315, 34, 196, MX_COLOR.female);  // женская — вверх-вправо
+    mxArrow(g, 135, 34, 196, MX_COLOR.female);  // женская — вниз-влево
+
+    const male = mxEl('text', {
+        x: 0, y: 0, 'text-anchor': 'middle', fill: '#2e2e2e',
+        'font-size': 12.5, 'font-family': 'Arial, Helvetica, sans-serif',
+        transform: `translate(${mxFPoint(225, 101)[0].toFixed(1)},${mxFPoint(225, 101)[1].toFixed(1)}) rotate(45) translate(0,-3.5)`
+    }, 'линия мужского рода');
+    g.appendChild(male);
+    const female = mxEl('text', {
+        x: 0, y: 0, 'text-anchor': 'middle', fill: '#2e2e2e',
+        'font-size': 12.5, 'font-family': 'Arial, Helvetica, sans-serif',
+        transform: `translate(${mxFPoint(315, 101)[0].toFixed(1)},${mxFPoint(315, 101)[1].toFixed(1)}) rotate(-45) translate(0,-3.5)`
+    }, 'линия женского рода');
+    g.appendChild(female);
+
+    // Зона комфорта
+    g.appendChild(mxEl('text', {
+        x: 379, y: 456.5, 'text-anchor': 'middle', fill: '#454341',
+        'font-size': 11, 'font-weight': '500', 'letter-spacing': 0.7,
+        'font-family': 'Arial, Helvetica, sans-serif'
+    }, 'ЗОНА КОМФОРТА'));
+
+    // Сердце (линия любви) и доллар (линия денег)
+    g.appendChild(mxEl('path', {
+        d: 'M0,-7 C-4.4,-17.5 -20,-15.5 -20,-2.5 C-20,8.5 -6,14.5 0,20.5 ' +
+           'C6,14.5 20,8.5 20,-2.5 C20,-15.5 4.4,-17.5 0,-7 Z',
+        fill: '#ff0000', transform: 'translate(421,479.7) scale(1.04,0.93)'
+    }));
+    g.appendChild(mxEl('text', {
+        x: 497.5, y: 420, 'text-anchor': 'middle', 'dominant-baseline': 'central',
+        fill: MX_COLOR.money, 'font-size': 46, 'font-weight': 'bold',
+        'font-family': 'Arial, Helvetica, sans-serif'
+    }, '$'));
+}
+
+// Кружок с числом. Цветные: диск + тонкое белое кольцо у самого края.
+function mxNode(g, x, y, r, fill, stroke, sw, textFill, fontSize, value, weight) {
+    const cx = x.toFixed(1), cy = y.toFixed(1);
+    if (stroke === '#ffffff') {
+        g.appendChild(mxEl('circle', { cx, cy, r, fill }));
+        g.appendChild(mxEl('circle', {
+            cx, cy, r: (r - 3.2).toFixed(1),
+            fill: 'none', stroke: '#ffffff', 'stroke-width': 2
+        }));
+    } else {
+        g.appendChild(mxEl('circle', { cx, cy, r, fill, stroke, 'stroke-width': sw }));
+    }
+    g.appendChild(mxEl('text', {
+        x: cx, y: cy,
+        'text-anchor': 'middle', 'dominant-baseline': 'central',
+        fill: textFill, 'font-size': fontSize, 'font-weight': weight || 'bold',
+        'font-family': MX_FONT
+    }, value));
+}
+
+// Все круги с арканами
+function mxRenderNodes(v) {
+    const g = document.getElementById('mxNodes');
+    if (!g) return;
+    while (g.firstChild) g.removeChild(g.firstChild);
+    const P = MX_GEO, C = MX_COLOR, W = '#ffffff', K = MX_EDGE;
+
+    const onAxis = [
+        // угол, радиус, r, заливка, обводка, толщина, цвет текста, кегль, значение
+        [180, P.R, 32.7, C.purple, W, 0, W, 41, v.A, 'normal'],
+        [270, P.R, 32.7, C.purple, W, 0, W, 41, v.B, 'normal'],
+        [0,   P.R, 32.7, C.red,    W, 0, W, 41, v.V, 'normal'],
+        [90,  P.R, 32.7, C.red,    W, 0, W, 41, v.G, 'normal'],
+        [225, P.R, 31.5, W, K, 3, K, 41, v.E, 'normal'],
+        [315, P.R, 31.5, W, K, 3, K, 41, v.Zh, 'normal'],
+        [45,  P.R, 31.5, W, K, 3, K, 41, v.I, 'normal'],
+        [135, P.R, 31.5, W, K, 3, K, 41, v.Z, 'normal'],
+
+        [180, P.P2, 20.8, C.blue, W, 0, W, 25, v.Ain2, 'normal'],
+        [270, P.P2, 20.8, C.blue, W, 0, W, 25, v.Bin2, 'normal'],
+        [180, P.P3, 15.9, C.cyan, W, 0, W, 19, v.Ain, 'normal'],
+        [270, P.P3, 15.9, C.cyan, W, 0, W, 19, v.Bin, 'normal'],
+        [180, P.GREEN, 15.3, C.green, W, 0, W, 20, v.AinC, 'normal'],
+        [270, P.GREEN, 15.3, C.green, W, 0, W, 20, v.BinC, 'normal'],
+
+        [0,  P.P2, 19.5, W, K, 2, K, 25, v.Vin2, 'normal'],
+        [90, P.P2, 19.5, W, K, 2, K, 25, v.Gin2, 'normal'],
+        [0,  P.P3, 15.9, C.orange, W, 0, W, 19, v.Vin, 'normal'],
+        [90, P.P3, 15.9, C.orange, W, 0, W, 19, v.Gin, 'normal'],
+
+        [225, P.P2, 19.5, W, K, 2, K, 25, v.Ein2, 'normal'],
+        [315, P.P2, 19.5, W, K, 2, K, 25, v.Zhin2, 'normal'],
+        [45,  P.P2, 19.5, W, K, 2, K, 25, v.Iin2, 'normal'],
+        [135, P.P2, 19.5, W, K, 2, K, 25, v.Zin2, 'normal'],
+        [225, P.P3, 15.5, W, K, 2, K, 19, v.Ein, 'normal'],
+        [315, P.P3, 15.5, W, K, 2, K, 19, v.Zhin, 'normal'],
+        [45,  P.P3, 15.5, W, K, 2, K, 19, v.Iin, 'normal'],
+        [135, P.P3, 15.5, W, K, 2, K, 19, v.Zin, 'normal']
     ];
-    const CX = 440, CY = 380;
-    const ns = 'http://www.w3.org/2000/svg';
-    const g = document.createElementNS(ns, 'g');
-    g.setAttribute('id', 'progressionDotsGroup');
-    g.setAttribute('pointer-events', 'none');
+    onAxis.forEach(s => {
+        const [x, y] = mxPoint(s[0], s[1]);
+        mxNode(g, x, y, s[2], s[3], s[4], s[5], s[6], s[7], s[8], s[9]);
+    });
 
-    for (let i = 0; i < 8; i++) {
-        const v1 = verts[i];
-        const v2 = verts[(i + 1) % 8];
-        const dx = v2.x - v1.x, dy = v2.y - v1.y;
-        // Направление наружу от центра через середину ребра
-        const mx = (v1.x + v2.x) / 2 - CX;
-        const my = (v1.y + v2.y) / 2 - CY;
-        const mlen = Math.sqrt(mx * mx + my * my);
-        const px = mx / mlen, py = my / mlen;
+    // Духовное и планетарное предназначение (в шаблоне чуть ниже оси В)
+    mxNode(g, P.cx + P.SPIRIT, P.cy + 2.3, 19, W, K, 2, K, 25, v.Spirit, 'normal');
+    mxNode(g, P.cx + P.PLANET, P.cy - 0.2, 22.5, W, K, 2, K, 30, v.Planet, 'normal');
 
-        for (let j = 1; j <= 9; j++) {
-            const t = j / 10;
-            const x = v1.x + dx * t;
-            const y = v1.y + dy * t;
-            const year = v1.age + j;
-            const isMid = (j === 5);
+    // Денежный канал между осями В и Г
+    [[144, 85, v.MoneyV], [99.5, 97.5, v.MoneyMid], [85, 144, v.MoneyG]]
+        .forEach(m => mxNode(g, P.cx + m[0], P.cy + m[1], 15.3, W, K, 2, K, 19, m[2], 'normal'));
 
-            const circ = document.createElementNS(ns, 'circle');
-            circ.setAttribute('cx', x.toFixed(1));
-            circ.setAttribute('cy', y.toFixed(1));
-            circ.setAttribute('r', isMid ? '4.5' : '2.8');
-            circ.setAttribute('fill', isMid ? 'none' : '#c0c0c0');
-            circ.setAttribute('stroke', '#999');
-            circ.setAttribute('stroke-width', isMid ? '1.2' : '0.6');
-            g.appendChild(circ);
+    // Центр — зона комфорта
+    mxNode(g, P.cx - 1.2, P.cy + 1.3, 33.5, C.yellow, W, 0, '#111111', 38, v.D);
+}
 
-            // Метка года снаружи октагона (только не на средней точке — там уже есть текст)
-            if (!isMid) {
-                const lx = (x + px * 14).toFixed(1);
-                const ly = (y + py * 14).toFixed(1);
-                const txt = document.createElementNS(ns, 'text');
-                txt.setAttribute('x', lx);
-                txt.setAttribute('y', ly);
-                txt.setAttribute('text-anchor', 'middle');
-                txt.setAttribute('dominant-baseline', 'middle');
-                txt.setAttribute('fill', '#999');
-                txt.setAttribute('font-size', '6.5');
-                txt.setAttribute('font-family', 'sans-serif');
-                txt.textContent = `${year}-${year + 1}`;
-                g.appendChild(txt);
+// Значения на ребре возрастной шкалы (двоичное деление)
+function mxEdgeValues(s, t) {
+    const v4 = reduceArcana(s + t);
+    const v2 = reduceArcana(s + v4);
+    const v6 = reduceArcana(v4 + t);
+    return [
+        reduceArcana(s + v2), v2, reduceArcana(v2 + v4), v4,
+        reduceArcana(v4 + v6), v6, reduceArcana(v6 + t)
+    ];
+}
+
+// Возрастная шкала: метки, подписи лет и арканы по годам
+function mxRenderAgeScale(v) {
+    const g = document.getElementById('mxAgeScale');
+    if (!g) return;
+    while (g.firstChild) g.removeChild(g.firstChild);
+    const order = ['A', 'E', 'B', 'Zh', 'V', 'I', 'G', 'Z'];
+    const { fx: cx, fy: cy, RING_V, RING_STEP } = MX_GEO;
+
+    for (let e = 0; e < 8; e++) {
+        const a0 = 180 + e * 45;
+        const baseAge = e * 10;
+        const vals = mxEdgeValues(v[order[e]], v[order[(e + 1) % 8]]);
+
+        const [ax, ay] = mxFPoint(a0, RING_V);
+        const [bx, by] = mxFPoint(a0 + 45, RING_V);
+        const L  = Math.hypot(bx - ax, by - ay);
+        const ux = (bx - ax) / L, uy = (by - ay) / L;
+        let ox = -uy, oy = ux;
+        const mxc = (ax + bx) / 2 - cx, myc = (ay + by) / 2 - cy;
+        if (ox * mxc + oy * myc < 0) { ox = -ox; oy = -oy; }
+
+        for (let k = 0; k < 7; k++) {
+            const s = L / 2 + (k - 3) * RING_STEP;
+            const px = ax + ux * s, py = ay + uy * s;
+            const isMid = (k === 3);
+
+            if (isMid) {
+                g.appendChild(mxEl('circle', { cx: px.toFixed(1), cy: py.toFixed(1), r: 4.2, fill: '#fff', stroke: MX_INK, 'stroke-width': 1.1 }));
+                g.appendChild(mxEl('circle', { cx: px.toFixed(1), cy: py.toFixed(1), r: 1.5, fill: MX_INK }));
+            } else {
+                g.appendChild(mxEl('circle', { cx: px.toFixed(1), cy: py.toFixed(1), r: 1.7, fill: MX_INK }));
+            }
+
+            g.appendChild(mxEl('text', {
+                x: (px + ox * 13.5).toFixed(1), y: (py + oy * 13.5).toFixed(1),
+                'text-anchor': 'middle', 'dominant-baseline': 'central',
+                fill: '#1d1a12', 'font-size': 15, 'font-family': 'Georgia, "Times New Roman", serif'
+            }, vals[k]));
+
+            if (isMid) {
+                const anchor = (mxc < 0) ? 'start' : 'end';
+                g.appendChild(mxEl('text', {
+                    x: (px - ux * 0.62 - ox * 13).toFixed(1), y: (py - uy * 0.62 - oy * 13).toFixed(1),
+                    'text-anchor': anchor, 'dominant-baseline': 'central',
+                    fill: '#111', 'font-size': 13, 'font-weight': 'bold',
+                    'font-family': 'Arial, Helvetica, sans-serif'
+                }, `${baseAge + 5} лет`));
+            } else {
+                const from = baseAge + (k < 3 ? k + 1 : k + 2);
+                const inX = -ox;
+                const la = inX > 0.7 ? 'start' : (inX < -0.7 ? 'end' : 'middle');
+                // На пологих рёбрах текст стоит по центру и линия проходила бы сквозь него,
+                // поэтому там отступ по нормали больше — как в оригинале.
+                const off = (la === 'middle') ? MX_GEO.IT_OFF_MID : MX_GEO.IT_OFF_SIDE;
+                g.appendChild(mxEl('text', {
+                    x: (px - ux * 2.05 - ox * off).toFixed(1), y: (py - uy * 2.05 - oy * off).toFixed(1),
+                    'text-anchor': la, 'dominant-baseline': 'central',
+                    fill: '#2f2a1d', 'font-size': 8, 'font-style': 'italic',
+                    'font-family': 'Arial, Helvetica, sans-serif'
+                }, `${from}-${from + 1}`));
             }
         }
     }
-    // Вставить после фонового прямоугольника
-    const bgRect = svg.querySelector('rect');
-    if (bgRect) svg.insertBefore(g, bgRect.nextSibling);
-    else svg.appendChild(g);
+}
+
+function renderMatrixOctagram(v) {
+    mxBuildSkeleton();
+    mxRenderAgeScale(v);
+    mxRenderNodes(v);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -2137,7 +2277,7 @@ window.addEventListener('DOMContentLoaded', () => {
     updateUnreadBadge();
     setInterval(updateUnreadBadge, 60000); // проверять каждую минуту
     initMatrixDateWheels();
-    initMatrixProgressionDots();
+    mxBuildSkeleton();
 
     // Старт кабинета: по умолчанию всегда "Обзор"
     const hash = window.location.hash.replace('#', '');
@@ -2617,28 +2757,29 @@ function calcMatrix() {
     const N = reduceArcana(Gin + Ain);  // Н — низ-лево (286,414)
 
     // Компаньоны на осях ближе к центру: reduce(Xin + D)
-    const AinC = reduceArcana(Ain + D); // AinC — ось А (290,350)
-    const BinC = reduceArcana(Bin + D); // BinC — ось Б (350,290)
-    const VinC = reduceArcana(Vin + D); // VinC — ось В (410,350)
-    const K    = reduceArcana(Gin + D); // К — ось Г (350,410), оранжевый
+    const AinC = reduceArcana(Ain + D); // зелёная точка на оси А
+    const BinC = reduceArcana(Bin + D); // зелёная точка на оси Б
+    const VinC = reduceArcana(Vin + D); // ось В
+    const K    = reduceArcana(Gin + D); // ось Г
+
+    // Предназначение (два круга справа от центра)
+    const Lichnoe   = reduceArcana(E + I);
+    const Socialnoe = reduceArcana(Zh + Z);
+    const Spirit    = reduceArcana(Lichnoe + Socialnoe); // духовное
+    const Planet    = reduceArcana(Spirit + D);          // планетарное
+
+    // Денежный канал между осями В и Г (двоичное деление)
+    const MoneyMid = reduceArcana(Vin + Gin);
+    const MoneyV   = reduceArcana(Vin + MoneyMid);
+    const MoneyG   = reduceArcana(MoneyMid + Gin);
 
     // Обновляем SVG
-    const svgMap = {
-        Anum: A, Bnum: B, Vnum: V, Gnum: G, Dnum: D,
-        Enum: E, Zhnum: Zh, Inum: I, Znum: Z,
-        AinNum: Ain, BinNum: Bin, VinNum: Vin, GinNum: Gin,
-        Ain2num: Ain2, Bin2num: Bin2, Vin2num: Vin2, Gin2num: Gin2,
-        EinNum: Ein, Ein2num: Ein2,
-        ZhinNum: Zhin, Zhin2num: Zhin2,
-        ZinNum: Zin, Zin2num: Zin2,
-        IinNum: Iin, Iin2num: Iin2,
-        Pnum: P, Onum: O, Mnum: M, Nnum: N,
-        AinCnum: AinC, BinCnum: BinC, VinCnum: VinC, Knum: K
-    };
-    for (const [id, v] of Object.entries(svgMap)) {
-        const el = document.getElementById(`mv${id}`);
-        if (el) el.textContent = v;
-    }
+    renderMatrixOctagram({
+        A, B, V, G, D, E, Zh, I, Z,
+        Ain, Bin, Vin, Gin, Ein, Zhin, Iin, Zin,
+        Ain2, Bin2, Vin2, Gin2, Ein2, Zhin2, Iin2, Zin2,
+        AinC, BinC, Spirit, Planet, MoneyMid, MoneyV, MoneyG
+    });
 
     // Заголовок
     const dStr = `${String(day).padStart(2,'0')}.${String(month).padStart(2,'0')}.${year}`;
