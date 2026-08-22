@@ -640,6 +640,26 @@ async def cancel(call: CallbackQuery, state: FSMContext):
     await call.message.answer("❌ Отменено.")
     await call.answer()
 
+# ─────────────────────────── Приветствие ──────────────────────────────────────
+
+GREETING_WORDS = {"привет", "хай", "здравствуй", "здравствуйте", "добрый", "доброе", "hi", "hello", "салам"}
+
+def _is_greeting(msg: Message) -> bool:
+    words = (msg.text or "").lower().strip().split()
+    return bool(words) and words[0] in GREETING_WORDS
+
+
+@router.message(F.text, _is_greeting)
+async def handle_greeting(msg: Message, state: FSMContext):
+    if await state.get_state() is not None:
+        return
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="🔮 Каталог курсов", callback_data="show_menu")],
+        [InlineKeyboardButton(text="✨ Бесплатная диагностика", callback_data="diagnostics")],
+        [InlineKeyboardButton(text="⭐ Отзывы клиентов", callback_data="reviews")],
+    ])
+    await msg.answer("Привет! Как я могу помочь вам сегодня?", reply_markup=kb)
+
 # ─────────────────────────── Воронка (фоновая задача) ─────────────────────────
 
 async def funnel_worker(bot: Bot):
